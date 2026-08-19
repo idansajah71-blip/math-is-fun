@@ -16,6 +16,7 @@ import { getAllTopics } from "@/lib/mathData";
 import { getProfile, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel } from "@/lib/gamification";
 import { staggerContainer, staggerItem, springGentle } from "@/lib/animations";
 import { Play, Trophy, Target, Zap, Flame, BookOpen, Star, Clock, Gift, ChevronRight } from "lucide-react";
+import { renderIcon } from "@/lib/iconMap";
 import type { Topic, Level } from "@/lib/types";
 
 function HomeContent() {
@@ -111,10 +112,10 @@ function HomeContent() {
             className="mb-8"
           >
             <div className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] border-2 border-[var(--duo-border)] p-6 shadow-sm">
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-5 min-h-[88px]">
                 {/* Avatar */}
                 <motion.div
-                  className="relative"
+                  className="relative shrink-0"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -144,7 +145,7 @@ function HomeContent() {
                 </div>
 
                 {/* Stats */}
-                <div className="flex gap-3">
+                <div className="flex gap-3 shrink-0">
                   {[
                     { icon: Zap, value: xp, label: "XP", color: "text-[var(--duo-xp)]", bg: "bg-yellow-50 dark:bg-yellow-950/30" },
                     { icon: BookOpen, value: completedCount, label: "Materi", color: "text-[var(--duo-green)]", bg: "bg-[var(--duo-green-bg)]" },
@@ -152,7 +153,7 @@ function HomeContent() {
                   ].map((stat) => (
                     <motion.div
                       key={stat.label}
-                      className={`px-4 py-3 rounded-2xl ${stat.bg} text-center min-w-[70px]`}
+                      className={`px-4 py-3 rounded-2xl ${stat.bg} text-center w-[76px]`}
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -190,11 +191,11 @@ function HomeContent() {
 
                   <div className="relative flex items-center gap-5">
                     <motion.div
-                      className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-3xl"
+                      className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center"
                       animate={{ rotate: [0, -5, 5, 0] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      {nextTopic.icon}
+                      {renderIcon(nextTopic.icon, 28, "text-white")}
                     </motion.div>
                     <div className="flex-1">
                       <p className="text-white/80 text-xs font-bold uppercase mb-1">Materi Selanjutnya</p>
