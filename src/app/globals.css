@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f9fafb;
+  --foreground: #111827;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #e2e8f0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+}
+
+::selection { background-color: #1a73e8; color: white; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+.dark ::-webkit-scrollbar-thumb { background: #374151; }
+
+.katex { font-size: 1.05em !important; }
+.katex-display { margin: 1em 0 !important; overflow-x: auto; padding: 0.5em 0; }
+.katex-inline { display: inline; background: none !important; padding: 0 !important; }
+.katex-block { text-align: center; margin: 1em 0; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes bounceIn { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.05); } 70% { transform: scale(0.9); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes stagger { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+.animate-fade-in { animation: fadeIn 0.3s ease-out; }
+.animate-slide-down { animation: slideDown 0.3s ease-out; }
+.animate-scale-in { animation: scaleIn 0.2s ease-out; }
+.animate-bounce-in { animation: bounceIn 0.5s ease-out; }
+
+.stagger > * { animation: stagger 0.3s ease-out both; }
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 50ms; }
+.stagger > *:nth-child(3) { animation-delay: 100ms; }
+.stagger > *:nth-child(4) { animation-delay: 150ms; }
+.stagger > *:nth-child(5) { animation-delay: 200ms; }
+.stagger > *:nth-child(n+6) { animation-delay: 250ms; }
+
+/* Dark mode prose */
+article h2 { font-size: 1.25rem; font-weight: 700; margin: 1.5rem 0 0.75rem; color: var(--foreground); }
+article h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: var(--foreground); }
+article p { line-height: 1.7; margin-bottom: 0.5rem; color: #374151; font-size: 0.9rem; }
+.dark article p { color: #94a3b8; }
+article ul { list-style: disc; padding-left: 1.25rem; margin: 0.5rem 0; }
+article li { margin-bottom: 0.25rem; line-height: 1.6; font-size: 0.9rem; color: #374151; }
+.dark article li { color: #94a3b8; }
+article strong { font-weight: 600; color: var(--foreground); }
+article hr { margin: 1.5rem 0; border-color: #e5e7eb; }
+.dark article hr { border-color: #1e293b; }
