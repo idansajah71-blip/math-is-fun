@@ -1,65 +1,151 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
-/* ===== DUOLINGO COLOR PALETTE ===== */
+/* ===== SEMANTIC THEME TOKENS ===== */
 :root {
-  /* Primary Colors */
-  --duo-green: #58CC02;
-  --duo-green-dark: #46A302;
-  --duo-green-light: #89E219;
-  --duo-green-bg: #E5F8D0;
+  /* Surface Hierarchy */
+  --bg: #F7F7F7;
+  --surface: #FFFFFF;
+  --surface-elevated: #FFFFFF;
+  --surface-overlay: rgba(255, 255, 255, 0.95);
 
-  /* Accent Colors */
-  --duo-xp: #FFD900;
-  --duo-xp-dark: #E5A100;
-  --duo-danger: #FF4B4B;
-  --duo-danger-dark: #EA2B2B;
-  --duo-info: #1CB0F6;
-  --duo-info-dark: #1899D6;
-  --duo-purple: #CE82FF;
-  --duo-purple-dark: #A855F7;
-  --duo-orange: #FF9600;
-  --duo-pink: #FF86D0;
+  /* Text Hierarchy */
+  --fg: #3C3C3C;
+  --fg-secondary: #777777;
+  --fg-muted: #AFAFAF;
+  --fg-disabled: #D1D5DB;
 
-  /* UI Colors */
-  --duo-bg: #F7F7F7;
-  --duo-card: #FFFFFF;
-  --duo-border: #E5E5E5;
-  --duo-text: #3C3C3C;
-  --duo-text-light: #777777;
-  --duo-text-muted: #AFAFAF;
+  /* Border Hierarchy */
+  --border-subtle: #F0F0F0;
+  --border: #E5E5E5;
+  --border-strong: #D1D5DB;
+
+  /* Primary (Green) */
+  --primary: #58CC02;
+  --primary-hover: #46A302;
+  --primary-light: #89E219;
+  --primary-bg: #E5F8D0;
+  --primary-fg: #FFFFFF;
+
+  /* Accent: XP */
+  --accent-xp: #FFD900;
+  --accent-xp-dark: #E5A100;
+  --accent-xp-fg: #8B6914;
+
+  /* Status: Danger */
+  --danger: #FF4B4B;
+  --danger-hover: #EA2B2B;
+  --danger-bg: rgba(255, 75, 75, 0.1);
+
+  /* Status: Success */
+  --success: #58CC02;
+  --success-bg: rgba(88, 204, 2, 0.1);
+
+  /* Status: Warning */
+  --warning: #FF9600;
+  --warning-bg: rgba(255, 150, 0, 0.1);
+
+  /* Status: Info */
+  --info: #1CB0F6;
+  --info-hover: #1899D6;
+  --info-bg: rgba(28, 176, 246, 0.1);
+
+  /* Semantic: Purple */
+  --purple: #CE82FF;
+  --purple-dark: #A855F7;
+  --purple-bg: rgba(206, 130, 255, 0.1);
+
+  /* Semantic: Pink */
+  --pink: #FF86D0;
+
+  /* Semantic: Orange */
+  --orange: #FF9600;
 
   /* Shadows */
-  --shadow-card: 0 2px 0 #E5E5E5;
-  --shadow-card-hover: 0 4px 0 #E5E5E5;
-  --shadow-button: 0 4px 0 var(--duo-green-dark);
-  --shadow-button-danger: 0 4px 0 var(--duo-danger-dark);
-  --shadow-button-info: 0 4px 0 var(--duo-info-dark);
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
-  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 2px 0 var(--border);
+  --shadow-md: 0 4px 0 var(--border);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 8px 30px rgba(0, 0, 0, 0.08);
 
-  /* Border Radius */
-  --radius-card: 20px;
-  --radius-button: 16px;
-  --radius-input: 14px;
-  --radius-full: 9999px;
+  /* Radius */
   --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Legacy aliases */
+  --duo-green: var(--primary);
+  --duo-green-dark: var(--primary-hover);
+  --duo-green-light: var(--primary-light);
+  --duo-green-bg: var(--primary-bg);
+  --duo-xp: var(--accent-xp);
+  --duo-xp-dark: var(--accent-xp-dark);
+  --duo-danger: var(--danger);
+  --duo-danger-dark: var(--danger-hover);
+  --duo-info: var(--info);
+  --duo-info-dark: var(--info-hover);
+  --duo-purple: var(--purple);
+  --duo-purple-dark: var(--purple-dark);
+  --duo-orange: var(--orange);
+  --duo-pink: var(--pink);
+  --duo-bg: var(--bg);
+  --duo-card: var(--surface);
+  --duo-border: var(--border);
+  --duo-text: var(--fg);
+  --duo-text-light: var(--fg-secondary);
+  --duo-text-muted: var(--fg-muted);
+  --shadow-card: var(--shadow-sm);
+  --shadow-card-hover: var(--shadow-md);
+  --shadow-button: 0 4px 0 var(--primary-hover);
+  --shadow-button-danger: 0 4px 0 var(--danger-hover);
+  --shadow-button-info: 0 4px 0 var(--info-hover);
+  --shadow-soft: var(--shadow-lg);
+  --shadow-medium: var(--shadow-xl);
+  --radius-card: var(--radius-lg);
+  --radius-button: var(--radius-md);
+  --radius-input: var(--radius-sm);
 }
 
 /* ===== DARK MODE ===== */
 .dark {
-  --duo-bg: #111827;
-  --duo-card: #1F2937;
-  --duo-border: #374151;
-  --duo-text: #F9FAFB;
-  --duo-text-light: #D1D5DB;
-  --duo-text-muted: #6B7280;
-  --duo-green-bg: rgba(88, 204, 2, 0.15);
+  --bg: #0F1117;
+  --surface: #1A1D27;
+  --surface-elevated: #222636;
+  --surface-overlay: rgba(26, 29, 39, 0.95);
 
-  --shadow-card: 0 2px 0 #374151;
-  --shadow-card-hover: 0 4px 0 #374151;
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.2);
-  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.3);
+  --fg: #F0F1F3;
+  --fg-secondary: #B0B3BC;
+  --fg-muted: #6B7080;
+  --fg-disabled: #4A4E5A;
+
+  --border-subtle: #252830;
+  --border: #2E3240;
+  --border-strong: #3D4150;
+
+  --primary-bg: rgba(88, 204, 2, 0.15);
+  --danger-bg: rgba(255, 75, 75, 0.15);
+  --success-bg: rgba(88, 204, 2, 0.15);
+  --warning-bg: rgba(255, 150, 0, 0.15);
+  --info-bg: rgba(28, 176, 246, 0.15);
+  --purple-bg: rgba(206, 130, 255, 0.15);
+
+  --shadow-sm: 0 2px 0 var(--border);
+  --shadow-md: 0 4px 0 var(--border);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 8px 30px rgba(0, 0, 0, 0.4);
+
+  --duo-green-bg: var(--primary-bg);
+  --duo-bg: var(--bg);
+  --duo-card: var(--surface);
+  --duo-border: var(--border);
+  --duo-text: var(--fg);
+  --duo-text-light: var(--fg-secondary);
+  --duo-text-muted: var(--fg-muted);
+  --shadow-card: var(--shadow-sm);
+  --shadow-card-hover: var(--shadow-md);
+  --shadow-soft: var(--shadow-lg);
+  --shadow-medium: var(--shadow-xl);
 }
 
 @theme inline {
