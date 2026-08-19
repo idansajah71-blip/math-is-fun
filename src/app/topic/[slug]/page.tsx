@@ -4,10 +4,12 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import MathContent from "@/components/MathContent";
-import QuizModal from "@/components/QuizModal";
-import XpPopup from "@/components/XpPopup";
+import LessonClient from "@/components/lesson/LessonClient";
+import XpPopup from "@/components/ui/XpPopup";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 import { getTopicBySlug, getTopicsByLevel } from "@/lib/mathData";
 import { completeTopic, toggleBookmark, getProfile } from "@/lib/gamification";
+import { motion } from "framer-motion";
 import { ArrowLeft, Bookmark, CheckCircle2, Play, ChevronRight, StickyNote, Save } from "lucide-react";
 import type { Topic } from "@/lib/types";
 
@@ -17,9 +19,8 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
   const [related, setRelated] = useState<Topic[]>([]);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [showQuiz, setShowQuiz] = useState(false);
+  const [showLesson, setShowLesson] = useState(false);
   const [showXp, setShowXp] = useState(false);
-  const [xpAmount, setXpAmount] = useState(0);
   const [notes, setNotes] = useState("");
   const [savedNotes, setSavedNotes] = useState(false);
 
@@ -39,7 +40,6 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
   const handleComplete = () => {
     completeTopic(slug);
     setIsCompleted(true);
-    setXpAmount(25);
     setShowXp(true);
   };
 
@@ -50,65 +50,82 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
 
   if (!topic) {
     return (
-      <div className="flex min-h-screen bg-gray-50">
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
         <main className="flex-1 ml-[260px] flex items-center justify-center">
           <div className="text-center">
-            <p className="text-sm text-gray-500 mb-4">Topik tidak ditemukan</p>
-            <Link href="/" className="text-sm text-[#1a73e8] hover:underline">Kembali ke beranda</Link>
+            <p className="text-sm text-[var(--duo-text-muted)] mb-4">Topik tidak ditemukan</p>
+            <Link href="/" className="text-sm text-[var(--duo-green)] hover:underline">Kembali ke beranda</Link>
           </div>
         </main>
       </div>
     );
   }
 
+  // Show lesson flow
+  if (showLesson) {
+    return <LessonClient topic={topic} related={related} />;
+  }
+
   const levelLabel = { smp: "SMP", sma: "SMA", kuliah: "Universitas" }[topic.level];
-  const levelDot = { smp: "bg-emerald-500", sma: "bg-[#1a73e8]", kuliah: "bg-purple-500" }[topic.level];
+  const levelDot = { smp: "bg-emerald-500", sma: "bg-[var(--duo-info)]", kuliah: "bg-[var(--duo-purple)]" }[topic.level];
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
-      <XpPopup amount={xpAmount} show={showXp} onComplete={() => setShowXp(false)} />
+      <XpPopup amount={25} show={showXp} onComplete={() => setShowXp(false)} />
 
       <main className="flex-1 ml-[260px]">
         {/* Header */}
-        <div className="bg-white border-b border-gray-200">
+        <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
           <div className="max-w-4xl mx-auto px-8 py-6">
-            <nav className="flex items-center gap-2 text-xs text-gray-400 mb-4">
-              <Link href="/" className="hover:text-gray-600">Beranda</Link>
+            <nav className="flex items-center gap-2 text-xs text-[var(--duo-text-muted)] mb-4">
+              <Link href="/" className="hover:text-[var(--duo-text)]">Beranda</Link>
               <ChevronRight size={12} />
-              <Link href={`/?level=${topic.level}`} className="hover:text-gray-600">{levelLabel}</Link>
+              <Link href={`/?level=${topic.level}`} className="hover:text-[var(--duo-text)]">{levelLabel}</Link>
               <ChevronRight size={12} />
-              <span className="text-gray-600">{topic.title}</span>
+              <span className="text-[var(--duo-text)]">{topic.title}</span>
             </nav>
 
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <div className={`w-2 h-2 rounded-full ${levelDot}`} />
-                  <span className="text-xs text-gray-500">{levelLabel}</span>
+                  <div className={`w-2.5 h-2.5 rounded-full ${levelDot}`} />
+                  <span className="text-xs font-bold text-[var(--duo-text-muted)]">{levelLabel}</span>
                 </div>
-                <h1 className="text-xl font-bold text-gray-900">{topic.title}</h1>
+                <h1 className="text-2xl font-black text-[var(--duo-text)]">{topic.title}</h1>
               </div>
 
               <div className="flex items-center gap-2">
-                <button onClick={handleBookmark} className={`p-2 rounded-lg border transition-colors ${isBookmarked ? "border-amber-300 bg-amber-50 text-amber-600" : "border-gray-200 text-gray-400 hover:text-amber-500"}`}>
-                  <Bookmark size={16} fill={isBookmarked ? "currentColor" : "none"} />
-                </button>
-                <button onClick={() => setShowQuiz(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-                  <Play size={14} />
-                  Quiz
-                </button>
-                {!isCompleted ? (
-                  <button onClick={handleComplete} className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1a73e8] text-white text-sm font-medium hover:bg-[#1557b0] transition-colors">
-                    <CheckCircle2 size={14} />
-                    Selesai (+25 XP)
-                  </button>
-                ) : (
-                  <div className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-50 text-emerald-700 text-sm font-medium border border-emerald-200">
-                    <CheckCircle2 size={14} />
+                <motion.button
+                  onClick={handleBookmark}
+                  className={`p-2.5 rounded-xl border-2 transition-colors ${
+                    isBookmarked
+                      ? "border-[var(--duo-xp)] bg-yellow-50 dark:bg-yellow-950/30 text-[var(--duo-xp)]"
+                      : "border-[var(--duo-border)] text-[var(--duo-text-muted)] hover:text-[var(--duo-xp)]"
+                  }`}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Bookmark size={18} fill={isBookmarked ? "currentColor" : "none"} />
+                </motion.button>
+                <AnimatedButton
+                  onClick={() => setShowLesson(true)}
+                  variant="primary"
+                  size="md"
+                  icon={<Play size={16} fill="currentColor" />}
+                >
+                  Mulai Lesson
+                </AnimatedButton>
+                {!isCompleted && (
+                  <AnimatedButton
+                    onClick={handleComplete}
+                    variant="ghost"
+                    size="md"
+                    icon={<CheckCircle2 size={16} />}
+                  >
                     Selesai
-                  </div>
+                  </AnimatedButton>
                 )}
               </div>
             </div>
@@ -117,21 +134,35 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
 
         {/* Content */}
         <div className="max-w-4xl mx-auto px-8 py-8">
-          <article className="bg-white rounded-xl border border-gray-200 p-8">
+          {/* Article */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] border-2 border-[var(--duo-border)] p-8 mb-6"
+          >
             <MathContent content={topic.content} />
-          </article>
+          </motion.div>
 
+          {/* Related Topics */}
           {related.length > 0 && (
-            <div className="mt-10">
-              <h2 className="text-sm font-semibold text-gray-900 mb-3">Topik Terkait</h2>
-              <div className="space-y-1.5">
+            <div className="mb-6">
+              <h2 className="text-sm font-bold text-[var(--duo-text-muted)] uppercase tracking-wider mb-3">
+                Topik Terkait
+              </h2>
+              <div className="space-y-2">
                 {related.map((rt) => (
-                  <Link key={rt.id} href={`/topic/${rt.slug}`} className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white border border-gray-200 hover:border-[#1a73e8]/30 hover:shadow-sm transition-all group">
-                    <div className={`w-2 h-2 rounded-full ${levelDot}`} />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 group-hover:text-[#1a73e8] truncate">{rt.title}</p>
-                    </div>
-                    <ChevronRight size={14} className="text-gray-300 group-hover:text-[#1a73e8]" />
+                  <Link key={rt.id} href={`/topic/${rt.slug}`}>
+                    <motion.div
+                      className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white dark:bg-[var(--duo-card)] border-2 border-[var(--duo-border)] hover:border-[var(--duo-green)]/50 hover:shadow-md transition-all cursor-pointer"
+                      whileHover={{ x: 4, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span className="text-xl">{rt.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-[var(--duo-text)] truncate">{rt.title}</p>
+                      </div>
+                      <ChevronRight size={16} className="text-[var(--duo-text-muted)]" />
+                    </motion.div>
                   </Link>
                 ))}
               </div>
@@ -139,34 +170,36 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
           )}
 
           {/* Notes */}
-          <div className="mt-10">
+          <div>
             <div className="flex items-center gap-2 mb-3">
-              <StickyNote size={16} className="text-gray-400" />
-              <h2 className="text-sm font-semibold text-gray-900">Catatan Pribadi</h2>
+              <StickyNote size={16} className="text-[var(--duo-text-muted)]" />
+              <h2 className="text-sm font-bold text-[var(--duo-text-muted)] uppercase tracking-wider">
+                Catatan Pribadi
+              </h2>
             </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
+            <div className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] border-2 border-[var(--duo-border)] p-4">
               <textarea
                 value={notes}
                 onChange={(e) => { setNotes(e.target.value); setSavedNotes(false); }}
                 placeholder="Tulis catatan belajarmu di sini..."
                 rows={4}
-                className="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none resize-none"
+                className="w-full text-sm text-[var(--duo-text)] placeholder-gray-400 focus:outline-none resize-none"
               />
-              <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-100">
-                <span className="text-[10px] text-gray-400">{notes.length} karakter</span>
-                <button
+              <div className="flex items-center justify-between mt-2 pt-2 border-t border-[var(--duo-border)]">
+                <span className="text-[10px] font-bold text-[var(--duo-text-muted)]">{notes.length} karakter</span>
+                <AnimatedButton
                   onClick={() => { localStorage.setItem(`note-${slug}`, notes); setSavedNotes(true); }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1a73e8] text-white text-xs font-medium rounded-lg hover:bg-[#1557b0] transition-colors"
+                  size="sm"
+                  variant="primary"
+                  icon={<Save size={12} />}
                 >
-                  <Save size={12} /> {savedNotes ? "Tersimpan!" : "Simpan"}
-                </button>
+                  {savedNotes ? "Tersimpan!" : "Simpan"}
+                </AnimatedButton>
               </div>
             </div>
           </div>
         </div>
       </main>
-
-      <QuizModal topicSlug={slug} isOpen={showQuiz} onClose={() => setShowQuiz(false)} />
     </div>
   );
 }
