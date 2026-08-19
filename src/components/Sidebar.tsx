@@ -9,6 +9,7 @@ import { Home, Trophy, Award, User, Zap, Flame, Target, FileText, Moon, Sun, Vol
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
 import ThemeToggle from "./ui/ThemeToggle";
+import AccentColorPicker from "./ui/AccentColorPicker";
 import { useSoundManager } from "@/hooks/useSoundManager";
 
 const NAV = [
@@ -140,6 +141,7 @@ export default function Sidebar() {
           </span>
           <ThemeToggle />
         </div>
+        <AccentColorPicker />
         <motion.button
           onClick={toggleSound}
           className="flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] font-bold text-[var(--duo-text-muted)] hover:bg-gray-50 dark:hover:bg-gray-800 w-full transition-colors"

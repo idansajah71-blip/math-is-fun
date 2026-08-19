@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
+import AccentInit from "@/components/AccentInit";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen bg-[var(--duo-bg)] text-[var(--duo-text)] antialiased font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AccentInit />
           {children}
         </ThemeProvider>
       </body>
