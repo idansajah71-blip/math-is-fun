@@ -5,6 +5,7 @@ import { quizzes } from "@/lib/quizzes";
 import { saveQuizScore } from "@/lib/gamification";
 import XpPopup from "./XpPopup";
 import { CheckCircle2, XCircle, ChevronRight, Trophy } from "lucide-react";
+import AnimatedButton from "./ui/AnimatedButton";
 
 export default function QuizModal({ topicSlug, isOpen, onClose }: {
   topicSlug: string; isOpen: boolean; onClose: () => void;
@@ -110,10 +111,10 @@ export default function QuizModal({ topicSlug, isOpen, onClose }: {
 
             {selected !== null && (
               <div className="px-6 pb-6">
-                <button onClick={handleNext}
-                  className="w-full py-2.5 bg-[#1a73e8] text-white rounded-lg text-sm font-semibold hover:bg-[#1557b0] transition-colors flex items-center justify-center gap-1">
-                  {currentQ < total - 1 ? <>{Selanjutnya} <ChevronRight size={14} /></> : "Lihat Hasil"}
-                </button>
+                <AnimatedButton onClick={handleNext} fullWidth variant="primary" size="lg"
+                  icon={currentQ < total - 1 ? <ChevronRight size={16} /> : undefined}>
+                  {currentQ < total - 1 ? "Selanjutnya" : "Lihat Hasil"}
+                </AnimatedButton>
               </div>
             )}
           </>
@@ -140,10 +141,9 @@ export default function QuizModal({ topicSlug, isOpen, onClose }: {
               </div>
             </div>
 
-            <button onClick={onClose}
-              className="w-full py-2.5 bg-[#1a73e8] text-white rounded-lg text-sm font-semibold hover:bg-[#1557b0] transition-colors">
+            <AnimatedButton onClick={onClose} fullWidth variant="primary" size="lg">
               Selesai
-            </button>
+            </AnimatedButton>
           </div>
         )}
       </div>

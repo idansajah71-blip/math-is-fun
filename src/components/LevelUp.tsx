@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Trophy, Zap, Star, ArrowUp } from "lucide-react";
+import AnimatedButton from "./ui/AnimatedButton";
 
 export default function LevelUp({ show, level, levelName, onClose }: {
   show: boolean; level: number; levelName: string; onClose: () => void;
@@ -37,9 +38,9 @@ export default function LevelUp({ show, level, levelName, onClose }: {
               <Star key={i} size={16} fill="currentColor" />
             ))}
           </div>
-          <button onClick={onClose} className="w-full py-2 bg-[#1a73e8] text-white rounded-lg text-sm font-semibold hover:bg-[#1557b0] transition-colors">
+          <AnimatedButton onClick={onClose} fullWidth variant="primary" size="lg">
             Lanjutkan
-          </button>
+          </AnimatedButton>
         </div>
       </div>
     </div>

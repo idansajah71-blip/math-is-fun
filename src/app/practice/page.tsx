@@ -10,6 +10,7 @@ import { getAllTopics } from "@/lib/mathData";
 import { saveQuizScore, getProfile, addXp } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import { CheckCircle2, XCircle, ChevronRight, Timer, RotateCcw, Settings2 } from "lucide-react";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 
 export default function PracticePage() {
   const [step, setStep] = useState<"config" | "quiz" | "result">("config");
@@ -147,10 +148,9 @@ export default function PracticePage() {
                 </button>
               </div>
 
-              <button onClick={startQuiz}
-                className="w-full py-3 bg-[#1a73e8] text-white rounded-lg text-sm font-semibold hover:bg-[#1557b0] transition-colors">
+              <AnimatedButton onClick={startQuiz} fullWidth variant="primary" size="lg" icon={<Settings2 size={16} />}>
                 Mulai Latihan
-              </button>
+              </AnimatedButton>
             </div>
           </div>
         </main>
@@ -225,10 +225,10 @@ export default function PracticePage() {
             )}
 
             {selected !== null && (
-              <button onClick={handleNext}
-                className="w-full py-3 bg-[#1a73e8] text-white rounded-lg text-sm font-semibold hover:bg-[#1557b0] transition-colors flex items-center justify-center gap-1">
-                {currentQ < questions.length - 1 ? <>Selanjutnya <ChevronRight size={14} /></> : "Lihat Hasil"}
-              </button>
+              <AnimatedButton onClick={handleNext} fullWidth variant="primary" size="lg"
+                icon={currentQ < questions.length - 1 ? <ChevronRight size={16} /> : undefined}>
+                {currentQ < questions.length - 1 ? "Selanjutnya" : "Lihat Hasil"}
+              </AnimatedButton>
             )}
           </div>
         </main>
@@ -240,7 +240,7 @@ export default function PracticePage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      <Confetti show={pct >= 80} onComplete={() => {}} />
+      <Confetti show={pct >= 80} />
       <main className="flex-1 ml-[260px] p-8">
         <div className="max-w-lg mx-auto text-center">
           <div className="bg-white rounded-xl border border-gray-200 p-8">
@@ -268,14 +268,12 @@ export default function PracticePage() {
             </div>
 
             <div className="flex gap-3">
-              <button onClick={() => setStep("config")}
-                className="flex-1 py-2.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center justify-center gap-1">
-                <RotateCcw size={14} /> Ulangi
-              </button>
-              <button onClick={() => window.location.href = "/"}
-                className="flex-1 py-2.5 bg-[#1a73e8] text-white rounded-lg text-sm font-semibold hover:bg-[#1557b0]">
+              <AnimatedButton onClick={() => setStep("config")} fullWidth variant="outline" size="lg" icon={<RotateCcw size={14} />}>
+                Ulangi
+              </AnimatedButton>
+              <AnimatedButton onClick={() => window.location.href = "/"} fullWidth variant="primary" size="lg">
                 Ke Beranda
-              </button>
+              </AnimatedButton>
             </div>
           </div>
         </div>

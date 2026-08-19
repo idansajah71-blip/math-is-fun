@@ -6,6 +6,7 @@ import { getProfile, BADGES, UserProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
 import { Award, Star, Sparkles, Lock, CheckCircle2, ChevronRight } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 
 export default function BadgesPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -200,12 +201,9 @@ export default function BadgesPage() {
                 </p>
               </div>
 
-              <button
-                onClick={() => setSelectedBadge(null)}
-                className="w-full mt-4 py-3 rounded-2xl bg-[var(--duo-green)] text-white font-black text-sm hover:brightness-110 transition-all"
-              >
+              <AnimatedButton onClick={() => setSelectedBadge(null)} fullWidth variant="primary" size="lg">
                 Tutup
-              </button>
+              </AnimatedButton>
             </motion.div>
           </motion.div>
         )}
