@@ -20,7 +20,7 @@ export default function XpPopup({ amount, show, onComplete }: {
 
   return (
     <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-slide-down">
-      <div className="flex items-center gap-2 px-5 py-2.5 bg-[#1a73e8] rounded-lg shadow-lg shadow-[#1a73e8]/30 text-white">
+      <div className="flex items-center gap-2 px-5 py-2.5 bg-[var(--primary)] rounded-lg shadow-lg shadow-[var(--primary)]/30 text-white">
         <Zap size={16} fill="currentColor" />
         <span className="font-semibold text-sm">+{amount} XP</span>
       </div>

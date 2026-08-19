@@ -59,20 +59,20 @@ export default function QuizModal({ topicSlug, isOpen, onClose }: {
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <XpPopup amount={pct >= 80 ? 50 : pct >= 50 ? 30 : 10} show={showXp} />
 
-      <div className={`relative bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden ${shaking ? "animate-[shake_0.4s]" : ""}`}>
+      <div className={`relative bg-[var(--surface)] rounded-[28px] shadow-2xl w-full max-w-md overflow-hidden ${shaking ? "animate-[shake_0.4s]" : ""}`}>
         {!finished ? (
           <>
-            <div className="h-1.5 bg-gray-100">
-              <div className="h-full bg-[#1a73e8] transition-all duration-500" style={{ width: `${progress}%` }} />
+            <div className="h-1.5 bg-[var(--surface-elevated)]">
+              <div className="h-full bg-[var(--primary)] transition-all duration-500" style={{ width: `${progress}%` }} />
             </div>
 
             <div className="p-6">
-              <p className="text-xs text-gray-400 mb-3">Soal {currentQ + 1} dari {total}</p>
-              <h3 className="text-[15px] font-semibold text-gray-900 mb-6 leading-relaxed">{q.question}</h3>
+              <p className="text-xs text-[var(--fg-muted)] mb-3">Soal {currentQ + 1} dari {total}</p>
+              <h3 className="text-[15px] font-semibold text-[var(--fg)] mb-6 leading-relaxed">{q.question}</h3>
 
               <div className="space-y-2">
                 {q.options.map((opt, i) => {
-                  let style = "border-2 border-gray-200 bg-white hover:border-[#1a73e8]/40";
+                  let style = "border-2 border-gray-200 bg-white hover:border-[var(--primary)]/40";
                   if (showResult) {
                     if (i === q.correctIndex) style = "border-2 border-emerald-500 bg-emerald-50";
                     else if (i === selected) style = "border-2 border-red-500 bg-red-50";
@@ -85,9 +85,9 @@ export default function QuizModal({ topicSlug, isOpen, onClose }: {
                         <span className={`w-7 h-7 rounded-md flex items-center justify-center text-xs font-bold ${
                           showResult && i === q.correctIndex ? "bg-emerald-500 text-white" :
                           showResult && i === selected ? "bg-red-500 text-white" :
-                          "bg-gray-100 text-gray-500"
+                          "bg-[var(--surface-elevated)] text-[var(--fg-muted)]"
                         }`}>{String.fromCharCode(65 + i)}</span>
-                        <span className="text-gray-900">{opt}</span>
+                        <span className="text-[var(--fg)]">{opt}</span>
                       </div>
                     </button>
                   );
@@ -120,24 +120,24 @@ export default function QuizModal({ topicSlug, isOpen, onClose }: {
           </>
         ) : (
           <div className="p-8 text-center">
-            <div className="w-16 h-16 bg-[#e8f0fe] rounded-full flex items-center justify-center mx-auto mb-4">
-              <Trophy size={28} className="text-[#1a73e8]" />
+            <div className="w-16 h-16 bg-[var(--primary-bg)] rounded-full flex items-center justify-center mx-auto mb-4">
+              <Trophy size={28} className="text-[var(--primary)]" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-1">
+            <h3 className="text-lg font-bold text-[var(--fg)] mb-1">
               {pct >= 80 ? "Luar Biasa!" : pct >= 50 ? "Bagus!" : "Terus Belajar!"}
             </h3>
-            <p className="text-xs text-gray-500 mb-6">Skor quiz kamu</p>
+            <p className="text-xs text-[var(--fg-muted)] mb-6">Skor quiz kamu</p>
 
             <div className="relative w-28 h-28 mx-auto mb-6">
               <svg className="w-full h-full transform -rotate-90">
                 <circle cx="56" cy="56" r="48" fill="none" stroke="#e5e7eb" strokeWidth="6" />
-                <circle cx="56" cy="56" r="48" fill="none" stroke={pct >= 80 ? "#22c55e" : pct >= 50 ? "#1a73e8" : "#ef4444"}
+                <circle cx="56" cy="56" r="48" fill="none" stroke={pct >= 80 ? "#22c55e" : pct >= 50 ? "var(--primary)" : "#ef4444"}
                   strokeWidth="6" strokeDasharray={301.6} strokeDashoffset={301.6 - (pct / 100) * 301.6}
                   strokeLinecap="round" className="transition-all duration-1000" />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-2xl font-bold text-gray-900">{pct}%</span>
-                <span className="text-[10px] text-gray-400">{score}/{total}</span>
+                <span className="text-2xl font-bold text-[var(--fg)]">{pct}%</span>
+                <span className="text-[10px] text-[var(--fg-muted)]">{score}/{total}</span>
               </div>
             </div>
 
