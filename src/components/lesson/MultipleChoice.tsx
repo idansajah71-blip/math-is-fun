@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, ChevronRight } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { staggerContainer, staggerItem, springBounce } from "@/lib/animations";
+import { playCorrectSound, playWrongSound, playClickSound } from "@/lib/sounds";
 
 interface MultipleChoiceProps {
   question: string;
@@ -31,13 +32,16 @@ export default function MultipleChoice({
 
   const handleAnswer = (i: number) => {
     if (selected !== null) return;
+    playClickSound();
     setSelected(i);
     setShowResult(true);
 
     if (i === correctIndex) {
+      playCorrectSound();
       onCorrect();
     } else {
       setShaking(true);
+      playWrongSound();
       setTimeout(() => setShaking(false), 400);
       onWrong();
     }

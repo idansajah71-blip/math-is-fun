@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, ChevronRight, Pencil } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import { playCorrectSound, playWrongSound } from "@/lib/sounds";
 
 interface FillBlankProps {
   question: string;
@@ -35,9 +36,11 @@ export default function FillBlank({
     setShowResult(true);
 
     if (correct) {
+      playCorrectSound();
       onCorrect();
     } else {
       setShaking(true);
+      playWrongSound();
       setTimeout(() => setShaking(false), 400);
       onWrong();
     }

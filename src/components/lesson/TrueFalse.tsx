@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, ChevronRight, ThumbsUp, ThumbsDown } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import { playCorrectSound, playWrongSound, playClickSound } from "@/lib/sounds";
 
 interface TrueFalseProps {
   question: string;
@@ -28,13 +29,16 @@ export default function TrueFalse({
 
   const handleAnswer = (answer: boolean) => {
     if (selected !== null) return;
+    playClickSound();
     setSelected(answer);
     setShowResult(true);
 
     if (answer === isCorrect) {
+      playCorrectSound();
       onCorrect();
     } else {
       setShaking(true);
+      playWrongSound();
       setTimeout(() => setShaking(false), 400);
       onWrong();
     }
