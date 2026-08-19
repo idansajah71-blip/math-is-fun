@@ -13,6 +13,7 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -22,11 +23,22 @@ export default function ProfilePage() {
   }, []);
 
   const handleSave = () => {
-    if (profile && name.trim()) {
-      const updated = setProfileName(name.trim());
-      setProfile(updated);
-      setEditMode(false);
+    if (!name.trim()) {
+      setNameError("Nama tidak boleh kosong");
+      return;
     }
+    if (name.trim().length < 2) {
+      setNameError("Nama minimal 2 karakter");
+      return;
+    }
+    if (name.trim().length > 20) {
+      setNameError("Nama maksimal 20 karakter");
+      return;
+    }
+    setNameError("");
+    const updated = setProfileName(name.trim());
+    setProfile(updated);
+    setEditMode(false);
   };
 
   if (!profile) return null;
@@ -95,13 +107,24 @@ export default function ProfilePage() {
               <div className="flex-1">
                 {editMode ? (
                   <div className="flex items-center gap-2">
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="flex-1 px-4 py-2 rounded-xl border-2 border-[var(--duo-border)] text-sm font-bold focus:outline-none focus:border-[var(--duo-green)]"
-                      autoFocus
-                    />
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => { setName(e.target.value); setNameError(""); }}
+                        onKeyDown={(e) => e.key === "Enter" && handleSave()}
+                        className={`w-full px-4 py-2 rounded-xl border-2 text-sm font-bold focus:outline-none ${
+                          nameError
+                            ? "border-[var(--duo-danger)] focus:border-[var(--duo-danger)]"
+                            : "border-[var(--duo-border)] focus:border-[var(--duo-green)]"
+                        }`}
+                        autoFocus
+                        maxLength={20}
+                      />
+                      {nameError && (
+                        <p className="text-[10px] text-[var(--duo-danger)] mt-1 font-bold">{nameError}</p>
+                      )}
+                    </div>
                     <motion.button
                       onClick={handleSave}
                       className="px-4 py-2 bg-[var(--duo-green)] text-white text-xs font-black rounded-xl hover:brightness-110"
