@@ -17,6 +17,7 @@ import { getProfile, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel } from
 import { staggerContainer, staggerItem, springGentle } from "@/lib/animations";
 import { Play, Trophy, Target, Zap, Flame, BookOpen, Star, Clock, Gift, ChevronRight } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
+import Onboarding from "@/components/Onboarding";
 import type { Topic, Level } from "@/lib/types";
 
 function HomeContent() {
@@ -24,12 +25,17 @@ function HomeContent() {
   const [profile, setProfile] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
   const [showXp, setShowXp] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const searchParams = useSearchParams();
 
   useEffect(() => {
     setTopics(getAllTopics());
     setProfile(getProfile());
     setMounted(true);
+    const onboardingDone = localStorage.getItem("belajar-mtk-onboarding");
+    if (!onboardingDone) {
+      setShowOnboarding(true);
+    }
   }, []);
 
   if (!mounted || !profile) {
@@ -100,6 +106,7 @@ function HomeContent() {
   return (
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
+      {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
       <XpPopup amount={25} show={showXp} onComplete={() => setShowXp(false)} />
 
       <main className="flex-1 ml-[260px] p-6 pb-24">
