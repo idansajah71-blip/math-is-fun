@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getProfile, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel } from "@/lib/gamification";
-import { Home, Trophy, Award, User, Zap, Flame, Target, FileText, Moon, Sun, Volume2, VolumeX, ShoppingBag, Menu, X, ChevronRight } from "lucide-react";
+import { Home, Trophy, Award, User, Zap, Flame, Target, FileText, Moon, Sun, Volume2, VolumeX, ShoppingBag, Menu, X, ChevronRight, Gem } from "lucide-react";
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
 import ThemeToggle from "./ui/ThemeToggle";
@@ -95,7 +95,7 @@ export default function Sidebar() {
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs font-bold text-[var(--duo-xp)]">{xp} XP</span>
-            <span className="text-xs font-bold text-[var(--duo-purple)]">{profile?.gems || 0} 💎</span>
+            <span className="text-xs font-bold text-[var(--duo-purple)]">{profile?.gems || 0} <Gem size={12} className="inline text-[var(--duo-purple)]" /></span>
           </div>
         </div>
       </div>

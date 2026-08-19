@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { getProfile, BADGES, UserProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
 import { Award, Star, Sparkles, Lock, CheckCircle2, ChevronRight } from "lucide-react";
+import { renderIcon } from "@/lib/iconMap";
 
 export default function BadgesPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -130,11 +131,11 @@ export default function BadgesPage() {
                   )}
 
                   <motion.div
-                    className="text-4xl mb-3 mt-2"
+                    className="mb-3 mt-2 flex items-center justify-center"
                     animate={unlocked ? { scale: [1, 1.1, 1] } : {}}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    {badge.icon}
+                    {renderIcon(badge.icon, 32, unlocked ? "" : "text-gray-400")}
                   </motion.div>
 
                   <h4 className="text-sm font-black text-[var(--duo-text)] mb-1">{badge.name}</h4>
@@ -169,11 +170,11 @@ export default function BadgesPage() {
               onClick={e => e.stopPropagation()}
             >
               <motion.div
-                className="text-6xl mb-4 text-center"
+                className="mb-4 text-center flex items-center justify-center"
                 animate={{ scale: [1, 1.2, 1], rotate: [0, -5, 5, 0] }}
                 transition={{ duration: 0.5 }}
               >
-                {selectedBadge.icon}
+                {renderIcon(selectedBadge.icon, 48, "text-[var(--duo-text)]")}
               </motion.div>
 
               <h2 className="text-xl font-black text-[var(--duo-text)] text-center mb-2">{selectedBadge.name}</h2>
@@ -190,8 +191,12 @@ export default function BadgesPage() {
                   ? "bg-[var(--duo-green-bg)] border border-[var(--duo-green)]/30"
                   : "bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
               }`}>
-                <p className="text-xs font-bold text-center text-[var(--duo-text-muted)]">
-                  {profile.badges.includes(selectedBadge.id) ? "✅ Badge Terbuka!" : "🔒 Belum Terbuka"}
+                <p className="text-xs font-bold text-center text-[var(--duo-text-muted)] flex items-center justify-center gap-1.5">
+                  {profile.badges.includes(selectedBadge.id) ? (
+                    <><CheckCircle2 size={14} className="text-[var(--duo-green)]" /> Badge Terbuka!</>
+                  ) : (
+                    <><Lock size={14} className="text-gray-400" /> Belum Terbuka</>
+                  )}
                 </p>
               </div>
 

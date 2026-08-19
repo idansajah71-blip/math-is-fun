@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import { getProfile, purchaseItem, SHOP_ITEMS } from "@/lib/gamification";
 import { motion, AnimatePresence } from "framer-motion";
-import { Gem, ShoppingBag, Zap, Star, X, CheckCircle2 } from "lucide-react";
+import { Gem, ShoppingBag, Zap, Star, X, CheckCircle2, Info, Sparkles } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import { renderIcon } from "@/lib/iconMap";
 
 export default function ShopPage() {
   const [profile, setProfile] = useState<any>(null);
@@ -75,7 +76,7 @@ export default function ShopPage() {
               { key: "all", label: "Semua", icon: <ShoppingBag size={14} /> },
               { key: "powerup", label: "Power-up", icon: <Zap size={14} /> },
               { key: "avatar", label: "Avatar", icon: <Star size={14} /> },
-              { key: "effect", label: "Efek", icon: <span className="text-xs">✨</span> },
+              { key: "effect", label: "Efek", icon: <Sparkles size={14} /> },
             ].map(f => (
               <button
                 key={f.key}
@@ -120,10 +121,10 @@ export default function ShopPage() {
                   )}
 
                   <motion.div
-                    className="text-4xl mb-3"
+                    className="mb-3 flex items-center justify-center"
                     animate={isBought ? { scale: [1, 1.3, 1], rotate: [0, -10, 10, 0] } : {}}
                   >
-                    {item.icon}
+                    {renderIcon(item.icon, 32, "text-[var(--duo-text)]")}
                   </motion.div>
 
                   <h3 className="text-sm font-black text-[var(--duo-text)] mb-1">{item.name}</h3>
@@ -175,8 +176,9 @@ export default function ShopPage() {
 
           {/* Info */}
           <div className="mt-8 p-4 bg-purple-50 dark:bg-purple-950/30 rounded-2xl border border-[var(--duo-purple)]/20">
-            <p className="text-xs text-[var(--duo-purple)] font-bold">
-              💡 Dapatkan gems dengan menyelesaikan materi, quiz harian, dan naik level!
+            <p className="text-xs text-[var(--duo-purple)] font-bold flex items-start gap-2">
+              <Info size={14} className="shrink-0 mt-0.5" />
+              <span>Dapatkan gems dengan menyelesaikan materi, quiz harian, dan naik level!</span>
             </p>
           </div>
         </div>

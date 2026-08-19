@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { getProfile, LEVEL_NAMES, UserProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
-import { Trophy, Medal, Crown, TrendingUp, Flame, Zap, ChevronRight } from "lucide-react";
+import { Trophy, Medal, Crown, TrendingUp, Flame, Zap, ChevronRight, Info, Award } from "lucide-react";
 
 interface LeaderboardEntry {
   rank: number;
@@ -100,7 +100,11 @@ export default function LeaderboardPage() {
               const user = MOCK_USERS[idx];
               const heights = ["h-28", "h-36", "h-24"];
               const widths = ["w-24", "w-28", "w-24"];
-              const medals = ["🥈", "🥇", "🥉"];
+              const medalIcons = [
+                <Medal size={24} className="text-gray-400" />,
+                <Crown size={24} className="text-[var(--duo-xp)]" />,
+                <Award size={24} className="text-orange-400" />
+              ];
               const medalColors = ["bg-gray-400", "bg-[var(--duo-xp)]", "bg-orange-400"];
               const isTop3 = idx === 0;
 
@@ -123,7 +127,7 @@ export default function LeaderboardPage() {
                   <p className="text-sm font-black text-[var(--duo-text)] mb-0.5">{user.name.split(" ")[0]}</p>
                   <p className="text-[10px] font-bold text-[var(--duo-text-muted)] mb-2">{user.xp} XP</p>
                   <div className={`${widths[idx]} ${heights[idx]} bg-white dark:bg-[var(--duo-card)] border-2 border-[var(--duo-border)] rounded-t-2xl flex items-start justify-center pt-4 relative`}>
-                    <span className="text-2xl">{medals[idx]}</span>
+                    {medalIcons[idx]}
                     <div className={`absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 ${medalColors[idx]} rounded-full flex items-center justify-center text-xs font-black text-white shadow-md`}>
                       #{user.rank}
                     </div>
@@ -178,7 +182,7 @@ export default function LeaderboardPage() {
                 <span className={`w-7 text-center text-sm font-black ${
                   user.rank === 1 ? "text-[var(--duo-xp)]" : user.rank === 2 ? "text-gray-400" : user.rank === 3 ? "text-orange-400" : "text-[var(--duo-text-muted)]"
                 }`}>
-                  {user.rank <= 3 ? ["🥇","🥈","🥉"][user.rank-1] : `#${user.rank}`}
+                  {user.rank <= 3 ? <Medal size={16} className="inline" /> : `#${user.rank}`}
                 </span>
 
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--duo-info)] to-[var(--duo-purple)] flex items-center justify-center text-white font-bold text-xs">
@@ -200,8 +204,9 @@ export default function LeaderboardPage() {
 
           {/* Info */}
           <div className="mt-6 p-4 bg-purple-50 dark:bg-purple-950/30 rounded-2xl border border-[var(--duo-purple)]/20">
-            <p className="text-xs text-[var(--duo-purple)] font-bold">
-              💡 Peringkat diperbarui setiap minggu. Selesaikan lebih banyak materi untuk naik ke peringkat atas!
+            <p className="text-xs text-[var(--duo-purple)] font-bold flex items-start gap-2">
+              <Info size={14} className="shrink-0 mt-0.5" />
+              <span>Peringkat diperbarui setiap minggu. Selesaikan lebih banyak materi untuk naik ke peringkat atas!</span>
             </p>
           </div>
         </div>

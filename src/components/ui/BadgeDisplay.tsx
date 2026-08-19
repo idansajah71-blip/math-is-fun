@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Star } from "lucide-react";
+import { renderIcon } from "@/lib/iconMap";
 
 interface BadgeProps {
   icon: string;
@@ -41,7 +43,7 @@ export default function Badge({ icon, name, rarity, unlocked = false, size = "md
       whileTap={{ scale: 0.95 }}
     >
       <div className={`${sizes[size]} rounded-2xl border-2 ${colors.border} ${unlocked ? colors.bg : "bg-gray-100 dark:bg-gray-800 opacity-40"} flex items-center justify-center ${unlocked ? `shadow-lg ${glow}` : ""}`}>
-        <span className={unlocked ? "" : "grayscale"}>{icon}</span>
+        <span className={unlocked ? "" : "grayscale"}>{renderIcon(icon, size === "lg" ? 28 : size === "md" ? 22 : 16)}</span>
       </div>
       <span className={`text-[10px] font-bold ${unlocked ? colors.text : "text-gray-400"} text-center leading-tight max-w-[60px] truncate`}>
         {name}
@@ -52,7 +54,7 @@ export default function Badge({ icon, name, rarity, unlocked = false, size = "md
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 1, repeat: Infinity }}
         >
-          <span className="text-[8px]">⭐</span>
+          <Star size={8} className="text-white" fill="currentColor" />
         </motion.div>
       )}
     </motion.div>

@@ -8,6 +8,7 @@ import { getProfile, setProfileName, LEVEL_NAMES, getXpForCurrentLevel, getXpFor
 import { getAllTopics } from "@/lib/mathData";
 import { motion } from "framer-motion";
 import { User, Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, TrendingUp, Share2, Copy, Check } from "lucide-react";
+import { renderIcon } from "@/lib/iconMap";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -61,7 +62,7 @@ export default function ProfilePage() {
     { icon: Clock, label: "Waktu Belajar", value: `${Math.round(profile.totalStudyTime / 60)}j`, color: "text-[var(--duo-orange)]", bg: "bg-orange-50 dark:bg-orange-950/30" },
   ];
 
-  const shareText = `🎓 BelajarMTK Progress\n\n📊 Level: ${LEVEL_NAMES[profile.level]}\n⭐ XP: ${profile.xp}\n🔥 Streak: ${profile.streak} hari\n📚 Materi: ${completed}/${total}\n🏆 Badge: ${badges.length}/${BADGES.length}\n\nAyo belajar matematika bareng!`;
+  const shareText = `MTK Progress\n\nLevel: ${LEVEL_NAMES[profile.level]}\nXP: ${profile.xp}\nStreak: ${profile.streak} hari\nMateri: ${completed}/${total}\nBadge: ${badges.length}/${BADGES.length}\n\nAyo belajar matematika bareng!`;
 
   const handleShare = () => {
     if (navigator.share) {
@@ -169,7 +170,7 @@ export default function ProfilePage() {
                     {LEVEL_NAMES[profile.level] || "Pemula"}
                   </span>
                   <span className="text-xs font-bold text-[var(--duo-xp)]">{profile.xp} XP</span>
-                  <span className="text-xs font-bold text-[var(--duo-purple)]">{profile.gems} 💎</span>
+                  <span className="text-xs font-bold text-[var(--duo-purple)] flex items-center gap-1">{profile.gems} <Gem size={12} /></span>
                 </div>
               </div>
             </div>
@@ -220,7 +221,7 @@ export default function ProfilePage() {
               <div className="flex flex-wrap gap-2">
                 {badges.slice(0, 6).map(b => (
                   <div key={b.id} className="flex items-center gap-1.5 px-3 py-2 bg-[var(--duo-xp)]/10 rounded-xl">
-                    <span className="text-lg">{b.icon}</span>
+                    {renderIcon(b.icon, 16, "text-[var(--duo-xp)]")}
                     <span className="text-xs font-bold text-[var(--duo-xp)]">{b.name}</span>
                   </div>
                 ))}
@@ -239,7 +240,7 @@ export default function ProfilePage() {
               <div className="flex flex-wrap gap-2">
                 {ownedItems.map(item => (
                   <div key={item.id} className="flex items-center gap-1.5 px-3 py-2 bg-[var(--duo-purple)]/10 rounded-xl">
-                    <span className="text-lg">{item.icon}</span>
+                    {renderIcon(item.icon, 16, "text-[var(--duo-purple)]")}
                     <span className="text-xs font-bold text-[var(--duo-purple)]">{item.name}</span>
                   </div>
                 ))}
