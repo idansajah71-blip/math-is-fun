@@ -9,6 +9,7 @@ import { Home, Trophy, Award, User, Zap, Flame, Target, FileText, Moon, Sun, Vol
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
 import ThemeToggle from "./ui/ThemeToggle";
+import { useSoundManager } from "@/hooks/useSoundManager";
 
 const NAV = [
   { href: "/", label: "Beranda", icon: Home, color: "text-[var(--duo-green)]" },
@@ -28,6 +29,7 @@ export default function Sidebar() {
   const [mounted, setMounted] = useState(false);
   const [muted, setMuted] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { enabled: soundEnabled, toggle: toggleSound } = useSoundManager();
 
   useEffect(() => {
     setProfile(getProfile());
@@ -137,13 +139,13 @@ export default function Sidebar() {
           <ThemeToggle />
         </div>
         <motion.button
-          onClick={() => setMuted(!muted)}
+          onClick={toggleSound}
           className="flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] font-bold text-[var(--duo-text-muted)] hover:bg-gray-50 dark:hover:bg-gray-800 w-full transition-colors"
           whileHover={{ x: 4 }}
           whileTap={{ scale: 0.97 }}
         >
-          {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-          {muted ? "Unmute" : "Mute"}
+          {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+          {soundEnabled ? "Sound On" : "Sound Off"}
         </motion.button>
       </div>
 
