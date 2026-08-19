@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, ChevronRight } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
@@ -30,13 +30,22 @@ export default function MultipleChoice({
   const [showResult, setShowResult] = useState(false);
   const [shaking, setShaking] = useState(false);
 
+  const shuffled = useMemo(() => {
+    const idx = options.map((_, i) => i);
+    for (let i = idx.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [idx[i], idx[j]] = [idx[j], idx[i]];
+    }
+    return { options: idx.map(i => options[i]), correctIndex: idx.indexOf(correctIndex) };
+  }, [question]);
+
   const handleAnswer = (i: number) => {
     if (selected !== null) return;
     playClickSound();
     setSelected(i);
     setShowResult(true);
 
-    if (i === correctIndex) {
+    if (i === shuffled.correctIndex) {
       playCorrectSound();
       onCorrect();
     } else {
@@ -67,10 +76,10 @@ export default function MultipleChoice({
         animate="visible"
         className="space-y-3 mb-6"
       >
-        {options.map((opt, i) => {
+        {shuffled.options.map((opt, i) => {
           let style = "bg-white dark:bg-[var(--duo-card)] border-2 border-[var(--duo-border)] hover:border-[var(--duo-green)]/50 hover:shadow-md cursor-pointer";
           if (showResult) {
-            if (i === correctIndex) {
+            if (i === shuffled.correctIndex) {
               style = "bg-[var(--duo-green-bg)] border-2 border-[var(--duo-green)]";
             } else if (i === selected) {
               style = "bg-red-50 dark:bg-red-950/30 border-2 border-[var(--duo-danger)]";
@@ -91,13 +100,13 @@ export default function MultipleChoice({
             >
               <div className="flex items-center gap-3">
                 <span className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-black shrink-0 ${
-                  showResult && i === correctIndex
+                  showResult && i === shuffled.correctIndex
                     ? "bg-[var(--duo-green)] text-white"
                     : showResult && i === selected
                     ? "bg-[var(--duo-danger)] text-white"
                     : "bg-gray-100 dark:bg-gray-800 text-[var(--duo-text-muted)]"
                 }`}>
-                  {showResult && i === correctIndex ? (
+                  {showResult && i === shuffled.correctIndex ? (
                     <CheckCircle2 size={18} />
                   ) : showResult && i === selected ? (
                     <XCircle size={18} />
@@ -119,27 +128,27 @@ export default function MultipleChoice({
           animate={{ opacity: 1, y: 0 }}
         >
           <div className={`p-4 rounded-2xl mb-4 flex items-start gap-3 ${
-            selected === correctIndex
+            selected === shuffled.correctIndex
               ? "bg-[var(--duo-green-bg)] border border-[var(--duo-green)]/30"
               : "bg-red-50 dark:bg-red-950/30 border border-[var(--duo-danger)]/30"
           }`}>
-            {selected === correctIndex ? (
+            {selected === shuffled.correctIndex ? (
               <CheckCircle2 size={20} className="text-[var(--duo-green)] mt-0.5 shrink-0" />
             ) : (
               <XCircle size={20} className="text-[var(--duo-danger)] mt-0.5 shrink-0" />
             )}
             <div>
               <p className={`text-sm font-bold mb-1 ${
-                selected === correctIndex ? "text-[var(--duo-green)]" : "text-[var(--duo-danger)]"
+                selected === shuffled.correctIndex ? "text-[var(--duo-green)]" : "text-[var(--duo-danger)]"
               }`}>
-                {selected === correctIndex ? "Benar! +10 XP" : "Salah!"}
+                {selected === shuffled.correctIndex ? "Benar! +10 XP" : "Salah!"}
               </p>
               <p className="text-xs text-[var(--duo-text-muted)]">{explanation}</p>
             </div>
           </div>
 
           <AnimatedButton onClick={onNext} fullWidth size="lg" iconRight={<ChevronRight size={18} />}>
-            {selected === correctIndex ? "Lanjut" : "Mengerti"}
+            {selected === shuffled.correctIndex ? "Lanjut" : "Mengerti"}
           </AnimatedButton>
         </motion.div>
       )}

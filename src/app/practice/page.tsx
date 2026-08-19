@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Sidebar from "@/components/Sidebar";
 import Confetti from "@/components/Confetti";
 import Hearts from "@/components/Hearts";
@@ -30,6 +30,17 @@ export default function PracticePage() {
   const [soundOn, setSoundOn] = useState(true);
 
   const topics = getAllTopics();
+
+  const shuffled = useMemo(() => {
+    if (questions.length === 0) return null;
+    const q = questions[currentQ];
+    const idx = q.options.map((_: string, i: number) => i);
+    for (let i = idx.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [idx[i], idx[j]] = [idx[j], idx[i]];
+    }
+    return { options: idx.map((i: number) => q.options[i]), correctIndex: idx.indexOf(q.correctIndex) };
+  }, [currentQ, questions]);
 
   const startQuiz = useCallback(() => {
     let pool = selectedTopic === "all" ? quizzes : quizzes.filter((q) => q.topicSlug === selectedTopic);
@@ -61,7 +72,7 @@ export default function PracticePage() {
     if (selected !== null) return;
     setSelected(i);
     setShowResult(true);
-    const correct = i === questions[currentQ].correctIndex;
+    const correct = !!shuffled && i === shuffled.correctIndex;
     setAnswers([...answers, correct]);
     if (correct) {
       setScore((s) => s + 1);
@@ -193,10 +204,10 @@ export default function PracticePage() {
 
             {/* Options */}
             <div className="space-y-2 mb-6">
-              {q.options.map((opt, i) => {
+              {shuffled && shuffled.options.map((opt, i) => {
                 let style = "border-2 border-[var(--border)] bg-[var(--surface)] hover:border-[var(--primary)]/40";
                 if (showResult) {
-                  if (i === q.correctIndex) style = "border-2 border-emerald-500 bg-emerald-50";
+                  if (i === shuffled.correctIndex) style = "border-2 border-emerald-500 bg-emerald-50";
                   else if (i === selected) style = "border-2 border-red-500 bg-red-50";
                   else style = "border-2 border-[var(--border)] opacity-40";
                 }
@@ -205,7 +216,7 @@ export default function PracticePage() {
                     className={`w-full p-3.5 text-left rounded-lg transition-all text-sm font-medium ${style}`}>
                     <div className="flex items-center gap-3">
                       <span className={`w-7 h-7 rounded-md flex items-center justify-center text-xs font-bold shrink-0 ${
-                        showResult && i === q.correctIndex ? "bg-emerald-500 text-white" :
+                        showResult && i === shuffled.correctIndex ? "bg-emerald-500 text-white" :
                         showResult && i === selected ? "bg-red-500 text-white" : "bg-[var(--surface-elevated)] text-[var(--fg-muted)]"
                       }`}>{String.fromCharCode(65 + i)}</span>
                       <span className="text-[var(--fg)]">{opt}</span>
@@ -215,11 +226,11 @@ export default function PracticePage() {
               })}
             </div>
 
-            {showResult && (
+            {showResult && shuffled && (
               <div className={`p-3 rounded-lg mb-4 flex items-start gap-2 ${
-                selected === q.correctIndex ? "bg-emerald-50 border border-emerald-200" : "bg-red-50 border border-red-200"
+                selected === shuffled.correctIndex ? "bg-emerald-50 border border-emerald-200" : "bg-red-50 border border-red-200"
               }`}>
-                {selected === q.correctIndex ? <CheckCircle2 size={16} className="text-emerald-600 mt-0.5" /> : <XCircle size={16} className="text-red-600 mt-0.5" />}
+                {selected === shuffled.correctIndex ? <CheckCircle2 size={16} className="text-emerald-600 mt-0.5" /> : <XCircle size={16} className="text-red-600 mt-0.5" />}
                 <p className="text-xs text-[var(--fg-secondary)]">{q.explanation}</p>
               </div>
             )}
