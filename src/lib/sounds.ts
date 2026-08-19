@@ -1,7 +1,30 @@
 "use client";
 
-export function playCorrectSound() {
+let soundEnabled = true;
+
+export function setSoundEnabled(enabled: boolean) {
+  soundEnabled = enabled;
+  if (typeof window !== "undefined") {
+    localStorage.setItem("belajar-mtk-sound", enabled ? "1" : "0");
+  }
+}
+
+export function isSoundEnabled(): boolean {
+  if (typeof window === "undefined") return true;
+  const stored = localStorage.getItem("belajar-mtk-sound");
+  return stored !== "0";
+}
+
+function haptic(ms: number = 10) {
   if (typeof window === "undefined") return;
+  if (navigator.vibrate) {
+    navigator.vibrate(ms);
+  }
+}
+
+export function playCorrectSound() {
+  if (!soundEnabled || typeof window === "undefined") return;
+  haptic(10);
   const ctx = new AudioContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
@@ -18,7 +41,8 @@ export function playCorrectSound() {
 }
 
 export function playWrongSound() {
-  if (typeof window === "undefined") return;
+  if (!soundEnabled || typeof window === "undefined") return;
+  haptic(30);
   const ctx = new AudioContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
@@ -34,7 +58,8 @@ export function playWrongSound() {
 }
 
 export function playLevelUpSound() {
-  if (typeof window === "undefined") return;
+  if (!soundEnabled || typeof window === "undefined") return;
+  haptic(20);
   const ctx = new AudioContext();
   const notes = [523, 659, 784, 1047];
   notes.forEach((freq, i) => {
@@ -52,7 +77,8 @@ export function playLevelUpSound() {
 }
 
 export function playCompleteSound() {
-  if (typeof window === "undefined") return;
+  if (!soundEnabled || typeof window === "undefined") return;
+  haptic(15);
   const ctx = new AudioContext();
   const notes = [392, 440, 523, 659, 784];
   notes.forEach((freq, i) => {
@@ -67,4 +93,93 @@ export function playCompleteSound() {
     osc.start(ctx.currentTime + i * 0.1);
     osc.stop(ctx.currentTime + i * 0.1 + 0.4);
   });
+}
+
+export function playClickSound() {
+  if (!soundEnabled || typeof window === "undefined") return;
+  haptic(5);
+  const ctx = new AudioContext();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(800, ctx.currentTime);
+  gain.gain.setValueAtTime(0.1, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.05);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.05);
+}
+
+export function playAchievementSound() {
+  if (!soundEnabled || typeof window === "undefined") return;
+  haptic(25);
+  const ctx = new AudioContext();
+  const notes = [659, 784, 988, 1319];
+  notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.15);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.15);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.15 + 0.5);
+    osc.start(ctx.currentTime + i * 0.15);
+    osc.stop(ctx.currentTime + i * 0.15 + 0.5);
+  });
+}
+
+export function playStreakSound() {
+  if (!soundEnabled || typeof window === "undefined") return;
+  haptic(15);
+  const ctx = new AudioContext();
+  const notes = [440, 554, 659];
+  notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.08);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.08 + 0.2);
+    osc.start(ctx.currentTime + i * 0.08);
+    osc.stop(ctx.currentTime + i * 0.08 + 0.2);
+  });
+}
+
+export function playGemSound() {
+  if (!soundEnabled || typeof window === "undefined") return;
+  haptic(10);
+  const ctx = new AudioContext();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(1200, ctx.currentTime);
+  osc.frequency.setValueAtTime(1600, ctx.currentTime + 0.05);
+  gain.gain.setValueAtTime(0.15, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.15);
+}
+
+export function playHeartSound() {
+  if (!soundEnabled || typeof window === "undefined") return;
+  haptic(10);
+  const ctx = new AudioContext();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(600, ctx.currentTime);
+  osc.frequency.setValueAtTime(800, ctx.currentTime + 0.05);
+  osc.frequency.setValueAtTime(600, ctx.currentTime + 0.1);
+  gain.gain.setValueAtTime(0.2, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.2);
 }
