@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { getProfile, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel } from "@/lib/gamification";
-import { Home, Trophy, Award, User, Zap, Flame, Target, FileText, Moon, Sun, Volume2, VolumeX, ShoppingBag } from "lucide-react";
+import { Home, Trophy, Award, User, Zap, Flame, Target, FileText, Moon, Sun, Volume2, VolumeX, ShoppingBag, Menu, X, ChevronRight } from "lucide-react";
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
 
@@ -26,18 +26,23 @@ export default function Sidebar() {
   const [profile, setProfile] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     setProfile(getProfile());
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
   const xp = profile?.xp || 0;
   const level = profile?.level || 0;
   const streak = profile?.streak || 0;
 
-  return (
-    <aside className="w-[260px] h-screen bg-white dark:bg-[var(--duo-card)] border-r-2 border-[var(--duo-border)] flex flex-col fixed left-0 top-0 z-40">
+  const SidebarContent = () => (
+    <>
       {/* Logo */}
       <div className="px-5 h-16 flex items-center border-b border-[var(--duo-border)]">
         <Link href="/" className="flex items-center gap-2.5">
@@ -148,6 +153,77 @@ export default function Sidebar() {
       <div className="px-5 py-3 border-t border-[var(--duo-border)]">
         <p className="text-[10px] font-bold text-[var(--duo-text-muted)]">BelajarMTK v2.0</p>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:flex w-[260px] h-screen bg-white dark:bg-[var(--duo-card)] border-r-2 border-[var(--duo-border)] flex-col fixed left-0 top-0 z-40">
+        <SidebarContent />
+      </aside>
+
+      {/* Mobile Hamburger */}
+      <motion.button
+        className="lg:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-white dark:bg-[var(--duo-card)] rounded-xl border-2 border-[var(--duo-border)] flex items-center justify-center shadow-md"
+        onClick={() => setMobileOpen(!mobileOpen)}
+        whileTap={{ scale: 0.9 }}
+      >
+        {mobileOpen ? <X size={18} className="text-[var(--duo-text)]" /> : <Menu size={18} className="text-[var(--duo-text)]" />}
+      </motion.button>
+
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.aside
+              initial={{ x: -280 }}
+              animate={{ x: 0 }}
+              exit={{ x: -280 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="lg:hidden fixed left-0 top-0 w-[280px] h-screen bg-white dark:bg-[var(--duo-card)] border-r-2 border-[var(--duo-border)] flex flex-col z-50 overflow-y-auto"
+            >
+              <SidebarContent />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Bottom Nav */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-[var(--duo-card)] border-t-2 border-[var(--duo-border)] px-2 py-1 safe-area-bottom">
+        <div className="flex items-center justify-around">
+          {NAV.slice(0, 5).map((item) => {
+            const active = pathname === item.href;
+            const Icon = item.icon;
+            return (
+              <Link key={item.href} href={item.href}>
+                <motion.div
+                  className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all ${
+                    active ? "text-[var(--duo-green)]" : "text-[var(--duo-text-muted)]"
+                  }`}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+                  <span className="text-[9px] font-bold">{item.label}</span>
+                  {active && (
+                    <motion.div
+                      className="w-1 h-1 bg-[var(--duo-green)] rounded-full"
+                      layoutId="mobileNav"
+                    />
+                  )}
+                </motion.div>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+    </>
   );
 }
