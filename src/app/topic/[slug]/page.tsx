@@ -117,16 +117,6 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
                 >
                   Mulai Lesson
                 </AnimatedButton>
-                {!isCompleted && (
-                  <AnimatedButton
-                    onClick={handleComplete}
-                    variant="ghost"
-                    size="md"
-                    icon={<CheckCircle2 size={16} />}
-                  >
-                    Selesai
-                  </AnimatedButton>
-                )}
               </div>
             </div>
           </div>
