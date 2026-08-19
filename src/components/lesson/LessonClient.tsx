@@ -10,7 +10,7 @@ import Confetti from "@/components/ui/Confetti";
 import Mascot from "@/components/game/Mascot";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { playCorrectSound, playWrongSound, playLevelUpSound, playCompleteSound } from "@/lib/sounds";
-import { completeTopic, addXp, saveQuizScore, getProfile } from "@/lib/gamification";
+import { completeTopic, saveQuizScore, getProfile } from "@/lib/gamification";
 import { quizzes } from "@/lib/quizzes";
 import { springBounce, staggerContainer, staggerItem } from "@/lib/animations";
 import {
@@ -38,6 +38,7 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
   const [showXp, setShowXp] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [breaking, setBreaking] = useState(false);
+  const [xpGained, setXpGained] = useState(0);
 
   const topicQuizzes = quizzes.filter((q) => q.topicSlug === topic.slug);
   const totalQuestions = Math.min(topicQuizzes.length, 5);
@@ -71,14 +72,14 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
     } else {
       setStep("complete");
       const pct = Math.round((score / totalQuestions) * 100);
-      saveQuizScore(topic.slug, pct);
+      saveQuizScore(topic.slug, pct, false);
       if (pct >= 80) {
         completeTopic(topic.slug);
         setShowConfetti(true);
         playCompleteSound();
-        addXp(100);
+        setXpGained(25);
       } else {
-        addXp(score * 10);
+        setXpGained(score * 10);
       }
       setTimeout(() => setShowXp(true), 300);
     }
@@ -311,13 +312,11 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
 
   // ===== COMPLETE SCREEN =====
   const pct = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
-  const xpEarned = pct >= 80 ? 100 : score * 10;
-
   return (
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
       <Confetti show={pct >= 80} />
-      <XpPopup amount={xpEarned} show={showXp} onComplete={() => setShowXp(false)} />
+      <XpPopup amount={xpGained} show={showXp} onComplete={() => setShowXp(false)} />
 
       <main className="flex-1 ml-[260px] flex items-center justify-center p-6 pb-24 lg:pb-0">
         <motion.div
@@ -374,7 +373,7 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
               {[
                 { label: "Benar", value: score, color: "text-[var(--duo-green)]", bg: "bg-[var(--duo-green-bg)]" },
                 { label: "Salah", value: totalQuestions - score, color: "text-[var(--duo-danger)]", bg: "bg-red-50 dark:bg-red-950/30" },
-                { label: "XP", value: xpEarned, color: "text-[var(--duo-xp)]", bg: "bg-yellow-50 dark:bg-yellow-950/30" },
+                { label: "XP", value: xpGained, color: "text-[var(--duo-xp)]", bg: "bg-yellow-50 dark:bg-yellow-950/30" },
               ].map((stat) => (
                 <div key={stat.label} className={`p-3 rounded-xl ${stat.bg}`}>
                   <p className={`text-2xl font-black ${stat.color}`}>{stat.value}</p>

@@ -256,20 +256,23 @@ export function toggleBookmark(slug: string): UserProfile {
   return profile;
 }
 
-export function saveQuizScore(slug: string, score: number): UserProfile {
+export function saveQuizScore(slug: string, score: number, withReward = true): UserProfile {
   const profile = getProfile();
   profile.quizScores[slug] = Math.max(profile.quizScores[slug] || 0, score);
 
-  let xpGain = 10;
-  if (score >= 80) xpGain = 50;
-  else if (score >= 60) xpGain = 30;
+  if (withReward) {
+    let xpGain = 10;
+    if (score >= 80) xpGain = 50;
+    else if (score >= 60) xpGain = 30;
 
-  // Gem bonus for high scores
-  if (score >= 90) profile.gems += 10;
-  else if (score >= 70) profile.gems += 5;
+    // Gem bonus for high scores
+    if (score >= 90) profile.gems += 10;
+    else if (score >= 70) profile.gems += 5;
 
-  profile.xp += xpGain;
-  profile.level = getLevelForXp(profile.xp);
+    profile.xp += xpGain;
+    profile.level = getLevelForXp(profile.xp);
+  }
+
   checkBadges(profile);
   saveProfile(profile);
   return profile;
