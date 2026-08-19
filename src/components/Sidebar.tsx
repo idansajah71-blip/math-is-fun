@@ -101,12 +101,12 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-3 space-y-1 overflow-y-auto">
+      <nav className="flex-1 px-3 py-3 space-y-1 overflow-y-auto" aria-label="Main navigation">
         {NAV.map((item) => {
           const active = pathname === item.href;
           const Icon = item.icon;
           return (
-            <Link key={item.href} href={item.href}>
+            <Link key={item.href} href={item.href} aria-label={item.label}>
               <motion.div
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-bold transition-all ${
                   active
@@ -115,13 +115,15 @@ export default function Sidebar() {
                 }`}
                 whileHover={{ x: 4 }}
                 whileTap={{ scale: 0.97 }}
+                aria-current={active ? "page" : undefined}
               >
-                <Icon size={18} className={active ? item.color : ""} />
+                <Icon size={18} className={active ? item.color : ""} aria-hidden="true" />
                 {item.label}
                 {active && (
                   <motion.div
                     className="ml-auto w-1.5 h-1.5 bg-[var(--duo-green)] rounded-full"
                     layoutId="activeNav"
+                    aria-hidden="true"
                   />
                 )}
               </motion.div>
@@ -143,6 +145,7 @@ export default function Sidebar() {
           className="flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] font-bold text-[var(--duo-text-muted)] hover:bg-gray-50 dark:hover:bg-gray-800 w-full transition-colors"
           whileHover={{ x: 4 }}
           whileTap={{ scale: 0.97 }}
+          aria-label={soundEnabled ? "Matikan suara" : "Nyalakan suara"}
         >
           {soundEnabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
           {soundEnabled ? "Sound On" : "Sound Off"}
@@ -197,25 +200,27 @@ export default function Sidebar() {
       </AnimatePresence>
 
       {/* Mobile Bottom Nav */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-[var(--duo-card)] border-t-2 border-[var(--duo-border)] px-2 py-1 safe-area-bottom">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-[var(--duo-card)] border-t-2 border-[var(--duo-border)] px-2 py-1 safe-area-bottom" aria-label="Mobile navigation">
         <div className="flex items-center justify-around">
           {NAV.slice(0, 5).map((item) => {
             const active = pathname === item.href;
             const Icon = item.icon;
             return (
-              <Link key={item.href} href={item.href}>
+              <Link key={item.href} href={item.href} aria-label={item.label}>
                 <motion.div
                   className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all ${
                     active ? "text-[var(--duo-green)]" : "text-[var(--duo-text-muted)]"
                   }`}
                   whileTap={{ scale: 0.9 }}
+                  aria-current={active ? "page" : undefined}
                 >
-                  <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+                  <Icon size={20} strokeWidth={active ? 2.5 : 2} aria-hidden="true" />
                   <span className="text-[9px] font-bold">{item.label}</span>
                   {active && (
                     <motion.div
                       className="w-1 h-1 bg-[var(--duo-green)] rounded-full"
                       layoutId="mobileNav"
+                      aria-hidden="true"
                     />
                   )}
                 </motion.div>
