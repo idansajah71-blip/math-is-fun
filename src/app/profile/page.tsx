@@ -2,16 +2,18 @@
 
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
-import ProgressRing from "@/components/ProgressRing";
-import XpBar from "@/components/XpBar";
-import { getProfile, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel, BADGES, UserProfile } from "@/lib/gamification";
+import ProgressRing from "@/components/ui/ProgressRing";
+import XPBar from "@/components/ui/XPBar";
+import { getProfile, setProfileName, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel, BADGES, UserProfile, SHOP_ITEMS } from "@/lib/gamification";
 import { getAllTopics } from "@/lib/mathData";
-import { User, Zap, BookOpen, Flame, Award, Edit3 } from "lucide-react";
+import { motion } from "framer-motion";
+import { User, Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, TrendingUp, Share2, Copy, Check } from "lucide-react";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState("");
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const p = getProfile();
@@ -21,9 +23,8 @@ export default function ProfilePage() {
 
   const handleSave = () => {
     if (profile && name.trim()) {
-      profile.name = name.trim();
-      localStorage.setItem("belajar-mtk-profile", JSON.stringify(profile));
-      setProfile({ ...profile });
+      const updated = setProfileName(name.trim());
+      setProfile(updated);
       setEditMode(false);
     }
   };
@@ -34,25 +35,59 @@ export default function ProfilePage() {
   const completed = profile.completedTopics.length;
   const total = topics.length;
   const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
-  const badges = BADGES.filter((b) => profile.badges.includes(b.id));
+  const badges = BADGES.filter(b => profile.badges.includes(b.id));
+  const ownedItems = SHOP_ITEMS.filter(i => profile.purchasedItems.includes(i.id));
+
+  const stats = [
+    { icon: Zap, label: "Total XP", value: profile.xp, color: "text-[var(--duo-xp)]", bg: "bg-[var(--duo-xp)]/10" },
+    { icon: Gem, label: "Gems", value: profile.gems, color: "text-[var(--duo-purple)]", bg: "bg-[var(--duo-purple)]/10" },
+    { icon: Heart, label: "Hearts", value: `${profile.hearts}/${profile.maxHearts}`, color: "text-[var(--duo-danger)]", bg: "bg-red-50 dark:bg-red-950/30" },
+    { icon: BookOpen, label: "Materi", value: `${completed}/${total}`, color: "text-[var(--duo-green)]", bg: "bg-[var(--duo-green-bg)]" },
+    { icon: Flame, label: "Streak", value: `${profile.streak} hari`, color: "text-orange-500", bg: "bg-orange-50 dark:bg-orange-950/30" },
+    { icon: Award, label: "Badge", value: `${badges.length}/${BADGES.length}`, color: "text-[var(--duo-pink)]", bg: "bg-pink-50 dark:bg-pink-950/30" },
+    { icon: Target, label: "Quiz Score", value: `${Object.values(profile.quizScores).length > 0 ? Math.round(Object.values(profile.quizScores).reduce((a: number, b: number) => a + b, 0) / Object.values(profile.quizScores).length) : 0}%`, color: "text-[var(--duo-info)]", bg: "bg-[var(--duo-info)]/10" },
+    { icon: Clock, label: "Waktu Belajar", value: `${Math.round(profile.totalStudyTime / 60)}j`, color: "text-[var(--duo-orange)]", bg: "bg-orange-50 dark:bg-orange-950/30" },
+  ];
+
+  const shareText = `🎓 BelajarMTK Progress\n\n📊 Level: ${LEVEL_NAMES[profile.level]}\n⭐ XP: ${profile.xp}\n🔥 Streak: ${profile.streak} hari\n📚 Materi: ${completed}/${total}\n🏆 Badge: ${badges.length}/${BADGES.length}\n\nAyo belajar matematika bareng!`;
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({ title: "BelajarMTK Progress", text: shareText });
+    } else {
+      navigator.clipboard.writeText(shareText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
-      <main className="flex-1 ml-[260px] p-8">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-xl font-bold text-gray-900 mb-6">Profil</h1>
 
+      <main className="flex-1 ml-[260px]">
+        {/* Header */}
+        <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
+          <div className="max-w-2xl mx-auto px-8 py-6">
+            <h1 className="text-2xl font-black text-[var(--duo-text)]">Profil</h1>
+          </div>
+        </div>
+
+        <div className="max-w-2xl mx-auto px-8 py-6 space-y-6">
           {/* Profile Card */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white dark:bg-[var(--duo-card)] rounded-[28px] border-2 border-[var(--duo-border)] p-6"
+          >
             <div className="flex items-start gap-5">
               <div className="relative">
-                <ProgressRing progress={pct} size={88} strokeWidth={6}>
-                  <div className="w-16 h-16 bg-[#1a73e8] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                <ProgressRing progress={pct} size={100} strokeWidth={6}>
+                  <div className="w-[80px] h-[80px] rounded-full bg-gradient-to-br from-[var(--duo-green)] to-[var(--duo-green-dark)] flex items-center justify-center text-white font-black text-2xl shadow-lg">
                     {profile.name.charAt(0)}
                   </div>
                 </ProgressRing>
-                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#1a73e8] rounded-full flex items-center justify-center text-white text-[10px] font-bold border-2 border-white">
+                <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-[var(--duo-green)] rounded-full flex items-center justify-center text-white text-[10px] font-black border-2 border-white shadow-md">
                   {pct}%
                 </div>
               </div>
@@ -60,64 +95,165 @@ export default function ProfilePage() {
               <div className="flex-1">
                 {editMode ? (
                   <div className="flex items-center gap-2">
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                      className="flex-1 px-3 py-1.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10"
-                      autoFocus />
-                    <button onClick={handleSave} className="px-3 py-1.5 bg-[#1a73e8] text-white text-xs font-medium rounded-lg hover:bg-[#1557b0]">Simpan</button>
-                    <button onClick={() => setEditMode(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-lg hover:bg-gray-200">Batal</button>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="flex-1 px-4 py-2 rounded-xl border-2 border-[var(--duo-border)] text-sm font-bold focus:outline-none focus:border-[var(--duo-green)]"
+                      autoFocus
+                    />
+                    <motion.button
+                      onClick={handleSave}
+                      className="px-4 py-2 bg-[var(--duo-green)] text-white text-xs font-black rounded-xl hover:brightness-110"
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Simpan
+                    </motion.button>
+                    <motion.button
+                      onClick={() => setEditMode(false)}
+                      className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-[var(--duo-text-muted)] text-xs font-bold rounded-xl"
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Batal
+                    </motion.button>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-bold text-gray-900">{profile.name}</h2>
-                    <button onClick={() => setEditMode(true)} className="p-1 text-gray-400 hover:text-[#1a73e8]">
+                    <h2 className="text-xl font-black text-[var(--duo-text)]">{profile.name}</h2>
+                    <motion.button
+                      onClick={() => setEditMode(true)}
+                      className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[var(--duo-text-muted)]"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
                       <Edit3 size={14} />
-                    </button>
+                    </motion.button>
                   </div>
                 )}
+
                 <div className="mt-3">
-                  <XpBar currentXp={profile.xp} levelXp={getXpForCurrentLevel(profile.level)}
-                    nextLevelXp={getXpForNextLevel(profile.level)} level={profile.level}
-                    levelName={LEVEL_NAMES[profile.level] || "Pemula"} />
+                  <XPBar
+                    currentXp={profile.xp}
+                    levelXp={getXpForCurrentLevel(profile.level)}
+                    nextLevelXp={getXpForNextLevel(profile.level)}
+                    level={profile.level}
+                    levelName={LEVEL_NAMES[profile.level] || "Pemula"}
+                  />
+                </div>
+
+                <div className="flex items-center gap-4 mt-3">
+                  <span className="text-xs font-bold text-[var(--duo-text-muted)]">
+                    {LEVEL_NAMES[profile.level] || "Pemula"}
+                  </span>
+                  <span className="text-xs font-bold text-[var(--duo-xp)]">{profile.xp} XP</span>
+                  <span className="text-xs font-bold text-[var(--duo-purple)]">{profile.gems} 💎</span>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-4 gap-3 mb-6">
-            {[
-              { icon: Zap, label: "XP", value: profile.xp, color: "text-[#1a73e8] bg-[#e8f0fe]" },
-              { icon: BookOpen, label: "Materi", value: completed, color: "text-emerald-600 bg-emerald-50" },
-              { icon: Flame, label: "Streak", value: profile.streak, color: "text-orange-600 bg-orange-50" },
-              { icon: Award, label: "Badge", value: badges.length, color: "text-purple-600 bg-purple-50" },
-            ].map((s) => {
+            {/* Share Button */}
+            <motion.button
+              onClick={handleShare}
+              className="mt-4 w-full py-3 rounded-2xl bg-gray-100 dark:bg-gray-800 text-[var(--duo-text)] font-bold text-sm flex items-center justify-center gap-2 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {copied ? <Check size={16} className="text-[var(--duo-green)]" /> : <Share2 size={16} />}
+              {copied ? "Tersalin!" : "Bagikan Progress"}
+            </motion.button>
+          </motion.div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-4 gap-3">
+            {stats.map((s, i) => {
               const Icon = s.icon;
               return (
-                <div key={s.label} className="bg-white rounded-xl border border-gray-200 p-4 text-center">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-2 ${s.color}`}>
-                    <Icon size={16} />
+                <motion.div
+                  key={s.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-4 text-center"
+                  whileHover={{ y: -4 }}
+                >
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2 ${s.bg}`}>
+                    <Icon size={18} className={s.color} />
                   </div>
-                  <p className="text-lg font-bold text-gray-900">{s.value}</p>
-                  <p className="text-[10px] text-gray-500">{s.label}</p>
-                </div>
+                  <p className="text-lg font-black text-[var(--duo-text)]">{s.value}</p>
+                  <p className="text-[10px] font-bold text-[var(--duo-text-muted)]">{s.label}</p>
+                </motion.div>
               );
             })}
           </div>
 
           {/* Badges */}
           {badges.length > 0 && (
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">Badge Terbaru</h3>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] border-2 border-[var(--duo-border)] p-5"
+            >
+              <h3 className="text-sm font-black text-[var(--duo-text)] mb-3">Badge Terbaru</h3>
               <div className="flex flex-wrap gap-2">
-                {badges.map((b) => (
-                  <div key={b.id} className="flex items-center gap-1.5 px-2.5 py-1.5 bg-[#e8f0fe] rounded-lg">
-                    <Award size={12} className="text-[#1a73e8]" />
-                    <span className="text-xs font-medium text-[#1a73e8]">{b.name}</span>
+                {badges.slice(0, 6).map(b => (
+                  <div key={b.id} className="flex items-center gap-1.5 px-3 py-2 bg-[var(--duo-xp)]/10 rounded-xl">
+                    <span className="text-lg">{b.icon}</span>
+                    <span className="text-xs font-bold text-[var(--duo-xp)]">{b.name}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
+
+          {/* Owned Items */}
+          {ownedItems.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] border-2 border-[var(--duo-border)] p-5"
+            >
+              <h3 className="text-sm font-black text-[var(--duo-text)] mb-3">Item Dimiliki</h3>
+              <div className="flex flex-wrap gap-2">
+                {ownedItems.map(item => (
+                  <div key={item.id} className="flex items-center gap-1.5 px-3 py-2 bg-[var(--duo-purple)]/10 rounded-xl">
+                    <span className="text-lg">{item.icon}</span>
+                    <span className="text-xs font-bold text-[var(--duo-purple)]">{item.name}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Weekly Activity */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] border-2 border-[var(--duo-border)] p-5"
+          >
+            <h3 className="text-sm font-black text-[var(--duo-text)] mb-3">Aktivitas Mingguan</h3>
+            <div className="flex items-end gap-2 h-24">
+              {profile.weeklyXp.map((xp, i) => {
+                const max = Math.max(...profile.weeklyXp, 1);
+                const height = Math.max((xp / max) * 100, 8);
+                const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+                const today = new Date().getDay();
+
+                return (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                    <motion.div
+                      className={`w-full rounded-t-lg ${i === today ? "bg-[var(--duo-green)]" : "bg-[var(--duo-green)]/30"}`}
+                      initial={{ height: 0 }}
+                      animate={{ height: `${height}%` }}
+                      transition={{ delay: i * 0.1, duration: 0.5 }}
+                    />
+                    <span className={`text-[9px] font-bold ${i === today ? "text-[var(--duo-green)]" : "text-[var(--duo-text-muted)]"}`}>
+                      {dayNames[i]}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
         </div>
       </main>
     </div>
