@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getProfile, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel } from "@/lib/gamification";
-import { Home, Trophy, Award, User, Zap, Flame, Target, FileText, Moon, Sun, Volume2, VolumeX } from "lucide-react";
+import { Home, Trophy, Award, User, Zap, Flame, Target, FileText, Moon, Sun, Volume2, VolumeX, ShoppingBag } from "lucide-react";
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
 
@@ -15,6 +15,7 @@ const NAV = [
   { href: "/tryout", label: "Try Out", icon: Trophy, color: "text-[var(--duo-xp)]" },
   { href: "/formulas", label: "Rumus", icon: FileText, color: "text-[var(--duo-purple)]" },
   { href: "/leaderboard", label: "Peringkat", icon: Trophy, color: "text-[var(--duo-orange)]" },
+  { href: "/shop", label: "Toko", icon: ShoppingBag, color: "text-[var(--duo-purple)]" },
   { href: "/badges", label: "Pencapaian", icon: Award, color: "text-[var(--duo-pink)]" },
   { href: "/profile", label: "Profil", icon: User, color: "text-[var(--duo-green)]" },
 ];
@@ -84,7 +85,10 @@ export default function Sidebar() {
               {streak} hari
             </span>
           </div>
-          <span className="text-xs font-bold text-[var(--duo-xp)]">{xp} XP</span>
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-bold text-[var(--duo-xp)]">{xp} XP</span>
+            <span className="text-xs font-bold text-[var(--duo-purple)]">{profile?.gems || 0} 💎</span>
+          </div>
         </div>
       </div>
 
