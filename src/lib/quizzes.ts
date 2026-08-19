@@ -14,7 +14,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-bilangan-2",
     topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
-    question: "FPB dari 12 dan 18 adalah...",
+    question: "FPB dari 12 dan 18 adalah ____",
     options: ["6", "3", "36", "12"],
     correctIndex: 0,
     explanation: "Faktor 12: 1,2,3,4,6,12. Faktor 18: 1,2,3,6,9,18. FPB = 6",
@@ -22,7 +22,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-bilangan-3",
     topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
-    question: "Jika 40% dari sebuah bilangan adalah 20, maka bilangan tersebut adalah...",
+    question: "Jika 40% dari sebuah bilangan adalah 20, maka bilangan tersebut adalah ____",
     options: ["50", "80", "60", "45"],
     correctIndex: 0,
     explanation: "40% × x = 20, maka x = 20 ÷ 0.4 = 50",
@@ -40,7 +40,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-himpunan-2",
     topicSlug: "2-himpunan",
-    question: "Himpunan bagian dari himpunan {a,b,c} berapa banyak?",
+    question: "Himpunan bagian dari himpunan {a,b,c} berapa banyak? ____",
     options: ["8", "6", "9", "7"],
     correctIndex: 0,
     explanation: "Banyak himpunan bagian = 2^n = 2³ = 8",
@@ -60,7 +60,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-linear-1",
     topicSlug: "4-persamaan-linear-satu-variabel-plsv",
-    question: "Penyelesaian 2x + 5 = 13 adalah...",
+    question: "Penyelesaian 2x + 5 = 13 adalah x = ____",
     options: ["x = 4", "x = 5", "x = 3", "x = 6"],
     correctIndex: 0,
     explanation: "2x = 13 - 5 = 8, x = 8/2 = 4",
@@ -98,7 +98,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-garis-1",
     topicSlug: "10-persamaan-garis-lurus",
-    question: "Gradien garis melalui (2,3) dan (4,7) adalah...",
+    question: "Gradien garis melalui (2,3) dan (4,7) adalah ____",
     options: ["2", "3", "1", "4"],
     correctIndex: 0,
     explanation: "m = (7-3)/(4-2) = 4/2 = 2",
@@ -163,7 +163,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-eksponen-2",
     topicSlug: "1-eksponen-dan-bentuk-akar",
-    question: "Nilai dari (3²)³ adalah...",
+    question: "Nilai dari (3²)³ adalah ____",
     options: ["729", "216", "54", "18"],
     correctIndex: 0,
     explanation: "(a^m)^n = a^(mn) = 3^(2×3) = 3⁶ = 729",
@@ -173,7 +173,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-logaritma-1",
     topicSlug: "2-logaritma",
-    question: "Nilai log₂ 32 adalah...",
+    question: "Nilai log₂ 32 adalah ____",
     options: ["5", "4", "6", "3"],
     correctIndex: 0,
     explanation: "2⁵ = 32, maka log₂ 32 = 5",
@@ -209,7 +209,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-matriks-1",
     topicSlug: "6-matriks",
-    question: "Determinan matriks [[2,1],[5,3]] adalah...",
+    question: "Determinan matriks [[2,1],[5,3]] adalah ____",
     options: ["1", "11", "-1", "6"],
     correctIndex: 0,
     explanation: "det = ad-bc = (2)(3)-(1)(5) = 6-5 = 1",
@@ -219,7 +219,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-vektor-1",
     topicSlug: "7-vektor",
-    question: "Besar vektor (3, 4) adalah...",
+    question: "Besar vektor (3, 4) adalah ____",
     options: ["5", "7", "12", "25"],
     correctIndex: 0,
     explanation: "|v| = √(3²+4²) = √(9+16) = √25 = 5",
@@ -275,7 +275,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-integral-1",
     topicSlug: "16-integral",
-    question: "∫ 2x dx = ...",
+    question: "∫ 2x dx = ____",
     options: ["x² + C", "2x² + C", "x + C", "2x + C"],
     correctIndex: 0,
     explanation: "∫ 2x dx = 2 × (x²/2) + C = x² + C",
@@ -353,7 +353,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-kaidah-1",
     topicSlug: "19-kaidah-pencacahan-permutasi-kombinasi",
-    question: "C(10,3) = ...",
+    question: "C(10,3) = ____",
     options: ["120", "720", "210", "30"],
     correctIndex: 0,
     explanation: "C(10,3) = 10!/(3!×7!) = (10×9×8)/(3×2×1) = 120",
@@ -384,7 +384,7 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-calculus-1",
     topicSlug: "a-calculus-kalkulus-iiii",
-    question: "Nilai lim(x→0) sin(x)/x adalah...",
+    question: "Nilai lim(x→0) sin(x)/x adalah ____",
     options: ["1", "0", "∞", "Tidak ada"],
     correctIndex: 0,
     explanation: "Ini adalah limit fundamental: lim(x→0) sin(x)/x = 1",

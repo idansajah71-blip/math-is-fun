@@ -8,7 +8,7 @@ import { playCorrectSound, playWrongSound } from "@/lib/sounds";
 
 interface FillBlankProps {
   question: string;
-  correctAnswer: string;
+  correctAnswer: string | string[];
   explanation: string;
   onCorrect: () => void;
   onWrong: () => void;
@@ -31,7 +31,11 @@ export default function FillBlank({
   const handleSubmit = () => {
     if (!answer.trim()) return;
 
-    const correct = answer.trim().toLowerCase() === correctAnswer.trim().toLowerCase();
+    const normalized = answer.trim().toLowerCase().replace(/\s+/g, " ");
+    const alternatives = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
+    const correct = alternatives.some(
+      (a) => a.trim().toLowerCase().replace(/\s+/g, " ") === normalized
+    );
     setIsCorrect(correct);
     setShowResult(true);
 
@@ -64,7 +68,7 @@ export default function FillBlank({
             <>
               {parts[0]}
               <span className="inline-block min-w-[100px] mx-2 px-3 py-1 bg-[var(--duo-info)]/10 border-b-2 border-[var(--duo-info)] text-center text-[var(--duo-info)] font-black">
-                {showResult ? correctAnswer : "..."}
+                {showResult ? (Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer) : "..."}
               </span>
               {parts[1]}
             </>
@@ -107,7 +111,7 @@ export default function FillBlank({
             )}
             <div>
               <p className={`text-sm font-bold mb-1 ${isCorrect ? "text-[var(--duo-green)]" : "text-[var(--duo-danger)]"}`}>
-                {isCorrect ? "Benar! +10 XP" : `Salah! Jawaban: ${correctAnswer}`}
+                {isCorrect ? "Benar! +10 XP" : `Salah! Jawaban: ${Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer}`}
               </p>
               <p className="text-xs text-[var(--duo-text-muted)]">{explanation}</p>
             </div>
