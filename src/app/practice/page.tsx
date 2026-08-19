@@ -97,7 +97,7 @@ export default function PracticePage() {
     return (
       <div className="flex min-h-screen bg-gray-50">
         <Sidebar />
-        <main className="flex-1 ml-[260px] p-8">
+        <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-lg mx-auto">
             <h1 className="text-xl font-bold text-gray-900 mb-1">Latihan Bebas</h1>
             <p className="text-sm text-gray-500 mb-8">Pilih topik dan jumlah soal sesuai keinginanmu</p>
@@ -167,7 +167,7 @@ export default function PracticePage() {
         <Sidebar />
         <Confetti show={showConfetti} onComplete={() => setShowConfetti(false)} />
         <XpPopup amount={score * 5} show={showXp} onComplete={() => setShowXp(false)} />
-        <main className="flex-1 ml-[260px] p-8">
+        <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-lg mx-auto">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
@@ -241,7 +241,7 @@ export default function PracticePage() {
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
       <Confetti show={pct >= 80} />
-      <main className="flex-1 ml-[260px] p-8">
+      <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
         <div className="max-w-lg mx-auto text-center">
           <div className="bg-white rounded-xl border border-gray-200 p-8">
             <div className="w-20 h-20 bg-[#e8f0fe] rounded-full flex items-center justify-center mx-auto mb-4">

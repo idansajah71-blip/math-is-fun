@@ -77,7 +77,7 @@ export default function TryOutPage() {
     return (
       <div className="flex min-h-screen bg-gray-50">
         <Sidebar />
-        <main className="flex-1 ml-[260px] p-8">
+        <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-lg mx-auto">
             <h1 className="text-xl font-bold text-gray-900 mb-1">Try Out</h1>
             <p className="text-sm text-gray-500 mb-8">Simulasi ujian - 20 soal campur, 30 menit, 3 nyawa</p>
@@ -122,7 +122,7 @@ export default function TryOutPage() {
     return (
       <div className="flex min-h-screen bg-gray-50">
         <Sidebar />
-        <main className="flex-1 ml-[260px] p-8">
+        <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-lg mx-auto">
             <div className="flex items-center justify-between mb-4">
               <Hearts lives={lives} maxLives={3} />
@@ -189,7 +189,7 @@ export default function TryOutPage() {
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
       <Confetti show={pct >= 75} />
-      <main className="flex-1 ml-[260px] p-8">
+      <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
         <div className="max-w-lg mx-auto text-center">
           <div className="bg-white rounded-xl border border-gray-200 p-8">
             <Trophy size={40} className={`mx-auto mb-4 ${pct >= 75 ? "text-yellow-500" : "text-gray-400"}`} />

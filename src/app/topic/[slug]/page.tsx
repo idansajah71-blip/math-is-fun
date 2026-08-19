@@ -75,7 +75,7 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
       <Sidebar />
       <XpPopup amount={25} show={showXp} onComplete={() => setShowXp(false)} />
 
-      <main className="flex-1 ml-[260px]">
+      <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
         {/* Header */}
         <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
           <div className="max-w-4xl mx-auto px-8 py-6">

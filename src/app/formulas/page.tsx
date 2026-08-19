@@ -39,7 +39,7 @@ export default function FormulasPage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      <main className="flex-1 ml-[260px] p-8">
+      <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-xl font-bold text-gray-900 mb-1">Rumus Sheet</h1>
           <p className="text-sm text-gray-500 mb-6">Koleksi rumus penting dari setiap topik. Klik untuk copy.</p>
@@ -51,7 +51,7 @@ export default function FormulasPage() {
                 placeholder="Cari rumus..."
                 className="w-full pl-9 pr-3 py-2 rounded-lg bg-white border border-gray-200 text-sm focus:outline-none focus:border-[#1a73e8]" />
             </div>
-            <div className="flex gap-1.5">
+            <div className="flex flex-wrap gap-1.5">
               {(["all", "smp", "sma", "kuliah"] as const).map((l) => (
                 <button key={l} onClick={() => setActiveLevel(l)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${

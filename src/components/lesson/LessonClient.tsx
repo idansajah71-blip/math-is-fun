@@ -99,7 +99,7 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
-        <main className="flex-1 ml-[260px] flex items-center justify-center p-6">
+        <main className="flex-1 ml-[260px] flex items-center justify-center p-6 pb-24 lg:pb-0">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -298,7 +298,7 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
         </main>
 
         {/* Mascot */}
-        <div className="fixed bottom-6 right-6 z-40">
+        <div className="fixed bottom-20 right-6 lg:bottom-6 z-40">
           <Mascot
             mood={lives <= 2 ? "sad" : "thinking"}
             size={70}
@@ -319,7 +319,7 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
       <Confetti show={pct >= 80} />
       <XpPopup amount={xpEarned} show={showXp} onComplete={() => setShowXp(false)} />
 
-      <main className="flex-1 ml-[260px] flex items-center justify-center p-6">
+      <main className="flex-1 ml-[260px] flex items-center justify-center p-6 pb-24 lg:pb-0">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}

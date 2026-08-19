@@ -247,7 +247,7 @@ function HomeContent() {
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
-              className="grid grid-cols-3 gap-3"
+              className="grid grid-cols-2 sm:grid-cols-3 gap-3"
             >
               {dailyQuests.map((quest, i) => (
                 <motion.div key={i} variants={staggerItem}>
@@ -315,7 +315,7 @@ function HomeContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="fixed bottom-6 right-6 z-40"
+            className="fixed bottom-20 right-6 lg:bottom-6 z-40"
           >
             <Mascot
               mood={streak >= 7 ? "celebrate" : completedCount > 0 ? "happy" : "idle"}
