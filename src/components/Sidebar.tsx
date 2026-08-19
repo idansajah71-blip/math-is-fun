@@ -8,6 +8,7 @@ import { getProfile, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel } from
 import { Home, Trophy, Award, User, Zap, Flame, Target, FileText, Moon, Sun, Volume2, VolumeX, ShoppingBag, Menu, X, ChevronRight } from "lucide-react";
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
+import ThemeToggle from "./ui/ThemeToggle";
 
 const NAV = [
   { href: "/", label: "Beranda", icon: Home, color: "text-[var(--duo-green)]" },
@@ -129,15 +130,12 @@ export default function Sidebar() {
 
       {/* Bottom Actions */}
       <div className="px-3 pb-3 space-y-1 border-t border-[var(--duo-border)] pt-3">
-        <motion.button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] font-bold text-[var(--duo-text-muted)] hover:bg-gray-50 dark:hover:bg-gray-800 w-full transition-colors"
-          whileHover={{ x: 4 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-          {theme === "dark" ? "Mode Terang" : "Mode Gelap"}
-        </motion.button>
+        <div className="flex items-center justify-between px-3 py-2">
+          <span className="text-[13px] font-bold text-[var(--duo-text-muted)]">
+            {theme === "dark" ? "Mode Gelap" : "Mode Terang"}
+          </span>
+          <ThemeToggle />
+        </div>
         <motion.button
           onClick={() => setMuted(!muted)}
           className="flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] font-bold text-[var(--duo-text-muted)] hover:bg-gray-50 dark:hover:bg-gray-800 w-full transition-colors"
