@@ -152,5 +152,3 @@ export default function QuizModal({ topicSlug, isOpen, onClose }: {
     </div>
   );
 }
-
-const Selanjutnya = () => <>Selanjutnya</>;

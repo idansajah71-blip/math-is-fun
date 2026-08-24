@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Trophy, Zap, Star, ArrowUp } from "lucide-react";
+import { Trophy, Star, ArrowUp } from "lucide-react";
 import AnimatedButton from "./ui/AnimatedButton";
 
 export default function LevelUp({ show, level, levelName, onClose }: {

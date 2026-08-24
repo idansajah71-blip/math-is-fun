@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, ChevronRight } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
-import { staggerContainer, staggerItem, springBounce } from "@/lib/animations";
+import { staggerContainer, staggerItem } from "@/lib/animations";
 import { playCorrectSound, playWrongSound, playClickSound } from "@/lib/sounds";
 
 interface MultipleChoiceProps {

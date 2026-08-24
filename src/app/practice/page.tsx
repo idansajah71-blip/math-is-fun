@@ -7,7 +7,7 @@ import Hearts from "@/components/Hearts";
 import XpPopup from "@/components/XpPopup";
 import { quizzes } from "@/lib/quizzes";
 import { getAllTopics } from "@/lib/mathData";
-import { saveQuizScore, getProfile, addXp } from "@/lib/gamification";
+import { saveQuizScore, addXp } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import { CheckCircle2, XCircle, ChevronRight, Timer, RotateCcw, Settings2 } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";

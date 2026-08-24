@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { getProfile, saveProfile } from "@/lib/gamification";
+import { getProfile } from "@/lib/gamification";
 
 export function useStreak() {
   const [streak, setStreak] = useState(() => getProfile().streak);

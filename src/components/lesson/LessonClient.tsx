@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 import MathContent from "@/components/MathContent";
@@ -9,13 +9,12 @@ import XpPopup from "@/components/ui/XpPopup";
 import Confetti from "@/components/ui/Confetti";
 import Mascot from "@/components/game/Mascot";
 import AnimatedButton from "@/components/ui/AnimatedButton";
-import { playCorrectSound, playWrongSound, playLevelUpSound, playCompleteSound } from "@/lib/sounds";
-import { completeTopic, saveQuizScore, getProfile } from "@/lib/gamification";
+import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
+import { completeTopic, saveQuizScore, getProfile, trackWrongAnswer } from "@/lib/gamification";
 import { quizzes } from "@/lib/quizzes";
-import { springBounce, staggerContainer, staggerItem } from "@/lib/animations";
 import {
-  ArrowLeft, ArrowRight, CheckCircle2, XCircle, RotateCcw,
-  Home, Star, Zap, Trophy, ChevronRight, BookOpen,
+  ArrowLeft, ArrowRight, CheckCircle2, RotateCcw,
+  Home, Star, Zap, Trophy, BookOpen,
 } from "lucide-react";
 import Link from "next/link";
 import type { Topic } from "@/lib/types";
@@ -27,10 +26,10 @@ type LessonStep = "intro" | "content" | "quiz" | "complete";
 
 interface LessonClientProps {
   topic: Topic;
-  related: Topic[];
+  related?: Topic[];
 }
 
-export default function LessonClient({ topic, related }: LessonClientProps) {
+export default function LessonClient({ topic }: LessonClientProps) {
   const [step, setStep] = useState<LessonStep>("intro");
   const [lives, setLives] = useState(5);
   const [score, setScore] = useState(0);
@@ -55,6 +54,7 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
 
   const handleWrong = useCallback(() => {
     playWrongSound();
+    trackWrongAnswer(topic.slug);
     setBreaking(true);
     setTimeout(() => setBreaking(false), 500);
     setLives((l) => {
@@ -64,7 +64,7 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
       }
       return l - 1;
     });
-  }, []);
+  }, [topic.slug]);
 
   const handleNextQuestion = useCallback(() => {
     if (currentQ < totalQuestions - 1) {
@@ -74,12 +74,12 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
       const pct = Math.round((score / totalQuestions) * 100);
       saveQuizScore(topic.slug, pct, false);
       if (pct >= 80) {
-        completeTopic(topic.slug);
+        const reward = completeTopic(topic.slug);
         setShowConfetti(true);
         playCompleteSound();
-        setXpGained(25);
+        setXpGained(reward.xp);
       } else {
-        setXpGained(score * 10);
+        setXpGained(0);
       }
       setTimeout(() => setShowXp(true), 300);
     }
@@ -130,7 +130,7 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
                 {[
                   { icon: BookOpen, label: "Materi", value: "1" },
                   { icon: CheckCircle2, label: "Soal", value: `${totalQuestions}` },
-                  { icon: Zap, label: "XP", value: "+100" },
+                  { icon: Zap, label: "XP", value: isCompleted ? "Selesai" : "+25" },
                 ].map((info) => (
                   <div key={info.label} className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800">
                     <info.icon size={16} className="text-[var(--duo-green)] mx-auto mb-1" />
@@ -267,7 +267,11 @@ export default function LessonClient({ topic, related }: LessonClientProps) {
                 {quizType === "fill" ? (
                   <FillBlank
                     question={q.question}
-                    correctAnswer={q.options[q.correctIndex]}
+                    correctAnswer={
+                      q.alternatives && q.alternatives.length > 0
+                        ? [q.options[q.correctIndex], ...q.alternatives]
+                        : q.options[q.correctIndex]
+                    }
                     explanation={q.explanation}
                     onCorrect={handleCorrect}
                     onWrong={handleWrong}

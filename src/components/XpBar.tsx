@@ -1,7 +1,5 @@
 "use client";
 
-import { Zap } from "lucide-react";
-
 export default function XpBar({ currentXp, levelXp, nextLevelXp, level, levelName }: {
   currentXp: number; levelXp: number; nextLevelXp: number; level: number; levelName: string;
 }) {

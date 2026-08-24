@@ -7,7 +7,7 @@ import XPBar from "@/components/ui/XPBar";
 import { getProfile, setProfileName, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel, BADGES, UserProfile, SHOP_ITEMS } from "@/lib/gamification";
 import { getAllTopics } from "@/lib/mathData";
 import { motion } from "framer-motion";
-import { User, Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, TrendingUp, Share2, Copy, Check } from "lucide-react";
+import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 
 export default function ProfilePage() {

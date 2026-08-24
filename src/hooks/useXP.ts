@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { getProfile, addXp as addXpUtil, completeTopic as completeTopicUtil } from "@/lib/gamification";
+import { getProfile, addXp as addXpUtil } from "@/lib/gamification";
 
 export function useXP() {
   const [xp, setXp] = useState(() => getProfile().xp);

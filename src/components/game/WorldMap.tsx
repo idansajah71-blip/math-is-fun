@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { staggerContainer, staggerItem, springBounce } from "@/lib/animations";
-import { CheckCircle2, Lock, Crown, ChevronRight, BookOpen, Zap, Trophy, X, Star } from "lucide-react";
+import { staggerContainer, staggerItem } from "@/lib/animations";
+import { CheckCircle2, Lock, Crown, ChevronRight, BookOpen, Zap, X, Star } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import Link from "next/link";
@@ -277,7 +277,7 @@ function WorldMapNodeItem({
   );
 }
 
-export default function WorldMap({ nodes, completedSlugs = [], currentSlug }: WorldMapProps) {
+export default function WorldMap({ nodes }: WorldMapProps) {
   const [selectedNode, setSelectedNode] = useState<WorldMapNode | null>(null);
 
   const sections: { name: string; level: "smp" | "sma" | "kuliah"; items: WorldMapNode[] }[] = [];
@@ -299,7 +299,7 @@ export default function WorldMap({ nodes, completedSlugs = [], currentSlug }: Wo
         <div className="w-full h-full bg-gradient-to-b from-[var(--primary)]/20 via-[var(--info)]/20 to-[var(--purple)]/20 rounded-full" />
       </div>
 
-      {sections.map((section, sIdx) => {
+      {sections.map((section) => {
         const lc = levelConfig[section.level];
         return (
           <div key={section.name} className="mb-10 sm:mb-12">
