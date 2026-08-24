@@ -10,7 +10,7 @@ import Confetti from "@/components/ui/Confetti";
 import Mascot from "@/components/game/Mascot";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
-import { completeTopic, saveQuizScore, getProfile, trackWrongAnswer } from "@/lib/gamification";
+import { completeTopic, saveQuizScore, getProfile, trackWrongAnswer, useHeart, refillHearts, consumeDoubleXp, addXp } from "@/lib/gamification";
 import { quizzes } from "@/lib/quizzes";
 import {
   ArrowLeft, ArrowRight, CheckCircle2, RotateCcw,
@@ -31,7 +31,8 @@ interface LessonClientProps {
 
 export default function LessonClient({ topic }: LessonClientProps) {
   const [step, setStep] = useState<LessonStep>("intro");
-  const [lives, setLives] = useState(5);
+  const profile = getProfile();
+  const [lives, setLives] = useState(profile.hearts);
   const [score, setScore] = useState(0);
   const [currentQ, setCurrentQ] = useState(0);
   const [showXp, setShowXp] = useState(false);
@@ -44,7 +45,6 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const questions = topicQuizzes.slice(0, totalQuestions);
   const progress = totalQuestions > 0 ? ((currentQ) / totalQuestions) * 100 : 0;
 
-  const profile = getProfile();
   const isCompleted = profile.completedTopics?.includes(topic.slug);
 
   const handleCorrect = useCallback(() => {
@@ -57,6 +57,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
     trackWrongAnswer(topic.slug);
     setBreaking(true);
     setTimeout(() => setBreaking(false), 500);
+    const heartUsed = useHeart();
     setLives((l) => {
       if (l <= 1) {
         setTimeout(() => setStep("complete"), 500);
@@ -75,9 +76,13 @@ export default function LessonClient({ topic }: LessonClientProps) {
       saveQuizScore(topic.slug, pct, false);
       if (pct >= 80) {
         const reward = completeTopic(topic.slug);
+        const isDoubleXp = consumeDoubleXp();
+        if (isDoubleXp) {
+          addXp(reward.xp);
+        }
         setShowConfetti(true);
         playCompleteSound();
-        setXpGained(reward.xp);
+        setXpGained(isDoubleXp ? reward.xp * 2 : reward.xp);
       } else {
         setXpGained(0);
       }
@@ -87,7 +92,8 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
   const restart = () => {
     setStep("intro");
-    setLives(5);
+    const p = getProfile();
+    setLives(p.hearts);
     setScore(0);
     setCurrentQ(0);
   };
@@ -225,7 +231,6 @@ export default function LessonClient({ topic }: LessonClientProps) {
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
-        <XpPopup amount={score * 10} show={showXp} onComplete={() => setShowXp(false)} />
         <Confetti show={showConfetti} onComplete={() => setShowConfetti(false)} />
 
         <main className="flex-1 ml-[260px] p-6 pb-24">

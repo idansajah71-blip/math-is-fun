@@ -20,6 +20,8 @@ export interface UserProfile {
   weeklyXp: number[];
   weeklyAccuracy: number[];
   dailyRewardClaimed: string | null;
+  dailyRewardStreak: number;
+  doubleXpNextLesson: boolean;
   _lastHeartTime?: number;
 }
 
@@ -57,19 +59,14 @@ export const BADGES = [
   { id: "xp-1000", name: "Seribu XP", icon: "Award", desc: "Kumpulkan 1000 XP", rarity: "epic" as const, condition: (p: UserProfile) => p.xp >= 1000 },
   { id: "quiz-master", name: "Quiz Master", icon: "Brain", desc: "Skor quiz 100% di 5 topik", rarity: "rare" as const, condition: (p: UserProfile) => Object.values(p.quizScores).filter(s => s === 100).length >= 5 },
   { id: "gem-collector", name: "Gem Collector", icon: "Diamond", desc: "Kumpulkan 500 gems", rarity: "rare" as const, condition: (p: UserProfile) => p.gems >= 500 },
-  { id: "speed-demon", name: "Speed Demon", icon: "Zap", desc: "Selesaikan quiz dalam 60 detik", rarity: "epic" as const, condition: () => false },
-  { id: "perfect-week", name: "Perfect Week", icon: "Sparkles", desc: "Selesaikan 1 topik setiap hari selama seminggu", rarity: "legendary" as const, condition: () => false },
+  { id: "speed-demon", name: "Speed Demon", icon: "Zap", desc: "Selesaikan quiz dengan skor 100%", rarity: "epic" as const, condition: (p: UserProfile) => Object.values(p.quizScores).some(s => s === 100) },
+  { id: "perfect-week", name: "Perfect Week", icon: "Sparkles", desc: "Streak 7 hari dan selesaikan 7+ materi", rarity: "legendary" as const, condition: (p: UserProfile) => p.streak >= 7 && p.completedTopics.length >= 7 },
 ];
 
 export const SHOP_ITEMS = [
   { id: "streak-freeze", name: "Streak Freeze", icon: "Snowflake", description: "Lindungi streak saat tidak belajar", price: 100, category: "powerup" as const },
   { id: "extra-heart", name: "Extra Heart", icon: "Heart", description: "+1 max heart", price: 200, category: "powerup" as const },
-  { id: "double-xp", name: "Double XP", icon: "Sparkles", description: "2x XP untuk 1 lesson", price: 150, category: "powerup" as const },
-  { id: "avatar-robot", name: "Robot Avatar", icon: "Bot", description: "Avatar robot lucu", price: 300, category: "avatar" as const },
-  { id: "avatar-cat", name: "Kucing Avatar", icon: "Rabbit", description: "Avatar kucing imut", price: 300, category: "avatar" as const },
-  { id: "avatar-panda", name: "Panda Avatar", icon: "Smile", description: "Avatar panda menggemaskan", price: 300, category: "avatar" as const },
-  { id: "avatar-fox", name: "Rubah Avatar", icon: "Wind", description: "Avatar rubah lucu", price: 300, category: "avatar" as const },
-  { id: "confetti-effect", name: "Confetti Effect", icon: "PartyPopper", description: "Confetti ekstra saat jawaban benar", price: 500, category: "effect" as const },
+  { id: "double-xp", name: "Double XP", icon: "Sparkles", description: "2x XP untuk 1 lesson berikutnya", price: 150, category: "powerup" as const },
 ];
 
 export const DAILY_REWARDS = [
@@ -125,6 +122,8 @@ export function getDefaultProfile(): UserProfile {
     weeklyXp: [0, 0, 0, 0, 0, 0, 0],
     weeklyAccuracy: [0, 0, 0, 0, 0, 0, 0],
     dailyRewardClaimed: null,
+    dailyRewardStreak: 0,
+    doubleXpNextLesson: false,
   };
 }
 
@@ -209,20 +208,15 @@ export function claimDailyReward(): { profile: UserProfile; reward: typeof DAILY
 
   if (profile.dailyRewardClaimed === today) return null;
 
-  // Calculate consecutive days
   const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
-  let dayIndex = 0;
 
   if (profile.dailyRewardClaimed === yesterday) {
-    // Check which day of streak we're on
-    const lastReward = DAILY_REWARDS.find(() => {
-      const d = new Date();
-      d.setDate(d.getDate() - 1);
-      return profile.dailyRewardClaimed === d.toISOString().split("T")[0];
-    });
-    dayIndex = lastReward ? Math.min(lastReward.day, 6) : 0;
+    profile.dailyRewardStreak = Math.min(profile.dailyRewardStreak + 1, 6);
+  } else if (profile.dailyRewardClaimed !== today) {
+    profile.dailyRewardStreak = 0;
   }
 
+  const dayIndex = profile.dailyRewardStreak;
   const reward = DAILY_REWARDS[dayIndex];
   profile.xp += reward.xp;
   profile.gems += reward.gems;
@@ -316,6 +310,8 @@ export function purchaseItem(itemId: string): UserProfile {
   } else if (itemId === "extra-heart") {
     profile.maxHearts += 1;
     profile.hearts = profile.maxHearts;
+  } else if (itemId === "double-xp") {
+    profile.doubleXpNextLesson = true;
   }
 
   saveProfile(profile);
@@ -327,6 +323,16 @@ export function setProfileName(name: string): UserProfile {
   profile.name = name;
   saveProfile(profile);
   return profile;
+}
+
+export function consumeDoubleXp(): boolean {
+  const profile = getProfile();
+  if (profile.doubleXpNextLesson) {
+    profile.doubleXpNextLesson = false;
+    saveProfile(profile);
+    return true;
+  }
+  return false;
 }
 
 export function getLevelForXp(xp: number): number {
