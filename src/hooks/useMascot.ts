@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { getProfile, getWeakTopics, LEVEL_NAMES, UserProfile } from "@/lib/gamification";
 import { getAllTopics } from "@/lib/mathData";
 
-type MascotMood = "happy" | "thinking" | "celebrate" | "sad" | "idle" | "wink";
+type MascotMood = "happy" | "thinking" | "celebrate" | "sad" | "idle" | "wink" | "love" | "surprised";
 
 interface MascotState {
   mood: MascotMood;

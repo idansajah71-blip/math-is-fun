@@ -8,6 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { Trophy, Medal, Crown, Flame, Info, Award, LogIn } from "lucide-react";
 import Link from "next/link";
+import { renderIcon } from "@/lib/iconMap";
 
 interface LeaderboardEntry {
   rank: number;
@@ -141,7 +142,7 @@ export default function LeaderboardPage() {
           ) : entries.length === 0 ? (
             /* Empty state */
             <div className="text-center py-12">
-              <div className="text-4xl mb-3">🏆</div>
+              <div className="mb-3 flex justify-center">{renderIcon("🏆", 48)}</div>
               <p className="text-sm font-bold text-[var(--duo-text)]">Belum ada peringkat</p>
               <p className="text-xs text-[var(--duo-text-muted)] mt-1">
                 {user ? "Jadi yang pertama! Selesaikan materi untuk masuk peringkat." : "Masuk untuk mulai berkompetisi."}
