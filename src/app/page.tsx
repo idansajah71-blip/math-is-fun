@@ -207,12 +207,10 @@ function DailyRewardModal({
                           H{reward.day}
                         </span>
 
-                        <motion.div
+                        <div
                           className={`w-9 h-9 rounded-xl flex items-center justify-center mb-1 ${
-                            isClaimed ? "bg-[var(--primary)]" : isToday ? "bg-[var(--duo-xp)]" : "bg-[var(--border-subtle)]"
+                            isClaimed ? "bg-[var(--primary)]" : isToday ? "bg-[var(--duo-xp)] animate-pulse" : "bg-[var(--border-subtle)]"
                           }`}
-                          animate={isToday ? { scale: [1, 1.1, 1] } : {}}
-                          transition={{ duration: 1.5, repeat: Infinity }}
                         >
                           {isClaimed ? (
                             <CheckCircle2 size={18} className="text-white" />
@@ -221,7 +219,7 @@ function DailyRewardModal({
                           ) : (
                             <Zap size={16} className={isToday ? "text-[#8B6914]" : "text-[var(--fg-muted)]"} />
                           )}
-                        </motion.div>
+                        </div>
 
                         <div className="text-center leading-tight">
                           <p
@@ -381,6 +379,16 @@ function HomeContent() {
   const [claimedDay, setClaimedDay] = useState<number | null>(null);
   const mascotState = useMascot();
 
+  const checkDailyReward = (prof: UserProfile) => {
+    const today = new Date().toISOString().split("T")[0];
+    if (prof.dailyRewardClaimed !== today) {
+      const timer = setTimeout(() => setShowDailyReward(true), 800);
+      return () => clearTimeout(timer);
+    } else {
+      setClaimedDay(prof.dailyRewardStreak);
+    }
+  };
+
   useEffect(() => {
     setTopics(getAllTopics());
     const prof = getProfile();
@@ -390,15 +398,9 @@ function HomeContent() {
     const onboardingDone = localStorage.getItem("belajar-mtk-onboarding");
     if (!onboardingDone) {
       setShowOnboarding(true);
-    }
-
-    const today = new Date().toISOString().split("T")[0];
-    if (prof.dailyRewardClaimed !== today) {
-      const timer = setTimeout(() => setShowDailyReward(true), 800);
-      return () => clearTimeout(timer);
     } else {
-      const lastStreak = prof.dailyRewardStreak;
-      setClaimedDay(lastStreak);
+      const cleanup = checkDailyReward(prof);
+      return cleanup;
     }
   }, []);
 
@@ -485,7 +487,16 @@ function HomeContent() {
   return (
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
-      {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
+      {showOnboarding && (
+        <Onboarding
+          onComplete={() => {
+            setShowOnboarding(false);
+            const prof = getProfile();
+            setProfile(prof);
+            checkDailyReward(prof);
+          }}
+        />
+      )}
       <XpPopup amount={xpAmount} show={showXp} onComplete={() => setShowXp(false)} />
 
       <DailyRewardModal
@@ -518,13 +529,9 @@ function HomeContent() {
                     <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" />
                     <span className="relative z-10">{profile.name?.charAt(0) || "P"}</span>
                   </div>
-                  <motion.div
-                    className="absolute -bottom-2 -right-2 w-9 h-9 rounded-2xl bg-gradient-to-br from-[var(--duo-xp)] to-[var(--duo-orange)] flex items-center justify-center text-xs font-black text-[#8B6914] border-2 border-white dark:border-[var(--surface)] shadow-lg"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
+                  <div className="absolute -bottom-2 -right-2 w-9 h-9 rounded-2xl bg-gradient-to-br from-[var(--duo-xp)] to-[var(--duo-orange)] flex items-center justify-center text-xs font-black text-[#8B6914] border-2 border-white dark:border-[var(--surface)] shadow-lg">
                     {level}
-                  </motion.div>
+                  </div>
                 </motion.div>
 
                 <div className="flex-1 min-w-0">
@@ -642,13 +649,9 @@ function HomeContent() {
                     <div className="absolute left-4 top-4 text-5xl opacity-10">📚</div>
 
                     <div className="relative flex items-center gap-5">
-                      <motion.div
-                        className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center border-2 border-white/30 shrink-0"
-                        animate={{ rotate: [0, -6, 6, 0] }}
-                        transition={{ duration: 2.5, repeat: Infinity }}
-                      >
+                      <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center border-2 border-white/30 shrink-0 transition-transform duration-200 hover:rotate-[-6deg] hover:scale-105">
                         {renderIcon(nextTopic.icon, 36, "text-white")}
-                      </motion.div>
+                      </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-white/80 text-xs font-black uppercase tracking-wider mb-1.5">
                           🚀 Materi Selanjutnya
@@ -670,13 +673,9 @@ function HomeContent() {
                           </div>
                         </div>
                       </div>
-                      <motion.div
-                        className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl shrink-0"
-                        animate={{ scale: [1, 1.12, 1] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                      >
+                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl shrink-0 transition-transform duration-200 hover:scale-110 active:scale-95">
                         <Play size={28} className="text-[var(--primary)] ml-1.5" fill="currentColor" />
-                      </motion.div>
+                      </div>
                     </div>
 
                     <div className="mt-5">
@@ -751,13 +750,9 @@ function HomeContent() {
 
                 <div className="relative">
                   <div className="flex items-start justify-between mb-4">
-                    <motion.div
-                      className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--duo-xp)] to-[var(--duo-orange)] flex items-center justify-center shadow-lg"
-                      animate={{ rotate: [0, 10, -10, 0] }}
-                      transition={{ duration: 2.5, repeat: Infinity }}
-                    >
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--duo-xp)] to-[var(--duo-orange)] flex items-center justify-center shadow-lg transition-transform duration-200 hover:rotate-[10deg] hover:scale-105">
                       <Trophy size={26} className="text-[#8B6914]" fill="#fff8" />
-                    </motion.div>
+                    </div>
                     <div className="text-right">
                       <div className="flex items-center gap-1 text-gradient-xp mb-1">
                         <Zap size={14} />

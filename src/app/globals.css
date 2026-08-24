@@ -992,6 +992,167 @@
 .animate-streak { animation: streak 0.65s ease-out; }
 .animate-ripple { animation: ripplePop 0.9s ease-out; }
 
+/* ===== Mascot Animations (CSS-powered, GPU-composited) ===== */
+@keyframes mascotBreathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.015); }
+}
+@keyframes mascotHappy {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-4px) rotate(-1deg); }
+  75% { transform: translateY(-4px) rotate(1deg); }
+}
+@keyframes mascotThink {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-3px) rotate(-3deg); }
+  66% { transform: translateY(-3px) rotate(3deg); }
+}
+@keyframes mascotCelebrate {
+  0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+  20% { transform: translateY(-15px) scale(1.08) rotate(-5deg); }
+  40% { transform: translateY(0) scale(1) rotate(0deg); }
+  60% { transform: translateY(-10px) scale(1.04) rotate(5deg); }
+  80% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+@keyframes mascotSad {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(3px) rotate(2deg); }
+}
+@keyframes mascotIdle {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.015); }
+}
+@keyframes mascotWink {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-2deg); }
+}
+@keyframes mascotLove {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.03); }
+}
+@keyframes mascotSurprised {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.05); }
+}
+@keyframes mascotPupil {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(1.5px); }
+  75% { transform: translateX(-1.5px); }
+}
+@keyframes mascotBlush {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.15); opacity: 0.4; }
+}
+@keyframes mascotMouth {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.02); }
+}
+@keyframes mascotWingL {
+  0%, 100% { transform: rotate(-5deg) translateX(0); }
+  50% { transform: rotate(5deg) translateX(-2px); }
+}
+@keyframes mascotWingR {
+  0%, 100% { transform: rotate(5deg) translateX(0); }
+  50% { transform: rotate(-5deg) translateX(2px); }
+}
+@keyframes mascotCape {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.015); }
+}
+@keyframes mascotScarf {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes mascotLeaf {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+@keyframes mascotCrownGem {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+@keyframes mascotSteam {
+  0%, 100% { transform: translateY(0); opacity: 0.3; }
+  50% { transform: translateY(-8px); opacity: 1; }
+}
+@keyframes mascotZzz {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
+  50% { transform: translateY(-10px) translateX(5px); opacity: 1; }
+}
+@keyframes mascotWaveHand {
+  0%, 100% { transform: rotate(-20deg); }
+  25% { transform: rotate(25deg); }
+  50% { transform: rotate(-20deg); }
+  75% { transform: rotate(10deg); }
+}
+@keyframes mascotSparkle {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
+  50% { transform: translateY(-8px) scale(1.1); opacity: 1; }
+}
+@keyframes mascotHintBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.45; }
+  50% { transform: translateY(-2px); opacity: 1; }
+}
+@keyframes mascotGraduation {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+@keyframes mascotLegendaryScale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+@keyframes mascotLegendaryGem {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+.mascot-breathe { animation: mascotBreathe 3.2s ease-in-out infinite; will-change: transform; }
+.mascot-happy { animation: mascotHappy 2.5s ease-in-out infinite; will-change: transform; }
+.mascot-thinking { animation: mascotThink 3s ease-in-out infinite; will-change: transform; }
+.mascot-celebrate { animation: mascotCelebrate 0.6s ease-in-out infinite; will-change: transform; }
+.mascot-sad { animation: mascotSad 2.5s ease-in-out infinite; will-change: transform; }
+.mascot-idle { animation: mascotIdle 2.8s ease-in-out infinite; will-change: transform; }
+.mascot-wink { animation: mascotWink 2.5s ease-in-out infinite; will-change: transform; }
+.mascot-love { animation: mascotLove 2.5s ease-in-out infinite; will-change: transform; }
+.mascot-surprised { animation: mascotSurprised 2.5s ease-in-out infinite; will-change: transform; }
+.mascot-concentrate { animation: mascotBreathe 3.5s ease-in-out infinite; will-change: transform; }
+.mascot-sleepy { animation: mascotSad 3s ease-in-out infinite; will-change: transform; }
+.mascot-angry { animation: mascotThink 2s ease-in-out infinite; will-change: transform; }
+.mascot-proud { animation: mascotLove 2.5s ease-in-out infinite; will-change: transform; }
+.mascot-wave { animation: mascotHappy 2.5s ease-in-out infinite; will-change: transform; }
+
+.mascot-pupil { animation: mascotPupil 4s ease-in-out infinite; }
+.mascot-blush { animation: mascotBlush 2s ease-in-out infinite; }
+.mascot-mouth { animation: mascotMouth 2s ease-in-out infinite; transform-origin: 110px 150px; }
+.mascot-wing-l { animation: mascotWingL 2s ease-in-out infinite; transform-origin: 50px 120px; }
+.mascot-wing-r { animation: mascotWingR 2s ease-in-out infinite; transform-origin: 170px 120px; }
+.mascot-cape { animation: mascotCape 3s ease-in-out infinite; transform-origin: 110px 90px; }
+.mascot-scarf { animation: mascotScarf 2.5s ease-in-out infinite; transform-origin: 76px 92px; }
+.mascot-leaf { animation: mascotLeaf 2.5s ease-in-out infinite; transform-origin: 110px 40px; }
+.mascot-crown-gem { animation: mascotCrownGem 1.5s ease-in-out infinite; }
+.mascot-steam { animation: mascotSteam 1.4s ease-in-out infinite; }
+.mascot-steam-r { animation: mascotSteam 1.2s ease-in-out infinite 0.3s; }
+.mascot-zzz { animation: mascotZzz 2.2s ease-in-out infinite; }
+.mascot-zzz-s { animation: mascotZzz 1.8s ease-in-out infinite 0.5s; }
+.mascot-wave-hand { animation: mascotWaveHand 1.1s ease-in-out infinite; transform-origin: 185px 145px; }
+.mascot-sparkle { animation: mascotSparkle 1s ease-in-out infinite; }
+.mascot-sparkle-d1 { animation: mascotSparkle 1.2s ease-in-out infinite 0.2s; }
+.mascot-sparkle-d2 { animation: mascotSparkle 0.9s ease-in-out infinite 0.4s; }
+.mascot-sparkle-d3 { animation: mascotSparkle 1.3s ease-in-out infinite 0.3s; }
+.mascot-sparkle-d4 { animation: mascotSparkle 1.05s ease-in-out infinite 0.55s; }
+.mascot-hint { animation: mascotHintBounce 2s ease-in-out infinite; }
+.mascot-graduation { animation: mascotGraduation 1.8s ease-in-out infinite; transform-origin: 162px 60px; }
+.mascot-legendary-scale { animation: mascotLegendaryScale 2s ease-in-out infinite; }
+.mascot-legendary-gem { animation: mascotLegendaryGem 1s ease-in-out infinite; }
+.mascot-legendary-gem-d1 { animation: mascotLegendaryGem 1s ease-in-out infinite 0.15s; }
+.mascot-legendary-gem-d2 { animation: mascotLegendaryGem 1s ease-in-out infinite 0.3s; }
+.mascot-legendary-gem-d3 { animation: mascotLegendaryGem 1s ease-in-out infinite 0.45s; }
+.mascot-legendary-gem-d4 { animation: mascotLegendaryGem 1s ease-in-out infinite 0.6s; }
+.mascot-heart { animation: mascotSparkle 1.25s ease-in-out infinite; }
+.mascot-heart-d1 { animation: mascotSparkle 1.45s ease-in-out infinite 0.15s; }
+.mascot-heart-d2 { animation: mascotSparkle 1.1s ease-in-out infinite 0.3s; }
+.mascot-love-sparkle { animation: mascotSparkle 1.25s ease-in-out infinite 0.15s; }
+
 .animate-shimmer {
   background: linear-gradient(90deg, var(--border) 25%, var(--surface-sunken) 50%, var(--border) 75%);
   background-size: 200% 100%;

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { FlameIcon } from "@/components/icons/CustomIcons";
 
 interface StreakHeatmapProps {
@@ -56,11 +55,8 @@ export default function StreakHeatmap({
   })();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 320, damping: 26 }}
-      className={`relative rounded-[24px] border-2 border-[var(--border)] bg-white dark:bg-[var(--surface)] shadow-[var(--shadow-md)] overflow-hidden ${className}`}
+    <div
+      className={`relative rounded-[24px] border-2 border-[var(--border)] bg-white dark:bg-[var(--surface)] shadow-[var(--shadow-md)] overflow-hidden animate-fade-in ${className}`}
     >
       <div className="bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 dark:from-orange-950/30 dark:via-amber-950/20 dark:to-rose-950/20 p-4 border-b border-[var(--border-subtle)]">
         <div className="flex items-center justify-between mb-2">
@@ -99,18 +95,9 @@ export default function StreakHeatmap({
         </div>
         <div className="grid grid-cols-7 gap-1.5">
           {cells.map((c, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 28,
-                delay: i * 0.006,
-              }}
-              whileHover={{ scale: 1.3, y: -3, zIndex: 10 }}
-              className={`heatmap-cell heatmap-${c.intensity} relative aspect-square rounded-[6px] shadow-sm`}
+              className={`heatmap-cell heatmap-${c.intensity} relative aspect-square rounded-[6px] shadow-sm transition-transform duration-150 hover:scale-[1.3] hover:-translate-y-[3px] hover:z-10 cursor-default`}
               title={`${c.dayLabel}: ${c.xp} XP`}
             >
               {c.xp >= 220 && (
@@ -118,7 +105,7 @@ export default function StreakHeatmap({
                   <div className="w-1 h-1 rounded-full bg-white/80" />
                 </div>
               )}
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -135,6 +122,6 @@ export default function StreakHeatmap({
           </p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

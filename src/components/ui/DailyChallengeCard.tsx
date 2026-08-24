@@ -112,7 +112,7 @@ export default function DailyChallengeCard({
         <AnimatedButton
           size="md"
           fullWidth
-          variant={claimed ? "default" : done ? "gold" : "primary"}
+          variant={claimed ? "ghost" : done ? "gold" : "primary"}
           glow={!claimed && done}
           disabled={claimed || !done}
           onClick={onClaim}
