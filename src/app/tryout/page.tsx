@@ -86,14 +86,14 @@ export default function TryOutPage() {
 
   if (step === "start") {
     return (
-      <div className="flex min-h-screen bg-[var(--bg)]">
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
         <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-lg mx-auto">
-            <h1 className="text-xl font-bold text-[var(--fg)] mb-1">Try Out</h1>
-            <p className="text-sm text-[var(--fg-muted)] mb-8">Simulasi ujian - 20 soal campur, 30 menit, 3 nyawa</p>
+            <h1 className="text-xl font-bold text-[var(--duo-text)] mb-1">Try Out</h1>
+            <p className="text-sm text-[var(--duo-text-muted)] mb-8">Simulasi ujian - 20 soal campur, 30 menit, 3 nyawa</p>
 
-            <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-6">
+            <div className="bg-[var(--duo-card)] rounded-xl border border-[var(--duo-border)] p-6">
               <div className="space-y-3 mb-6">
                 {[
                   { label: "Jumlah Soal", value: "20 soal" },
@@ -102,17 +102,17 @@ export default function TryOutPage() {
                   { label: "Skor", value: "Campur semua topik" },
                 ].map((item) => (
                   <div key={item.label} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                    <span className="text-sm text-[var(--fg-muted)]">{item.label}</span>
-                    <span className="text-sm font-semibold text-[var(--fg)]">{item.value}</span>
+                    <span className="text-sm text-[var(--duo-text-muted)]">{item.label}</span>
+                    <span className="text-sm font-semibold text-[var(--duo-text)]">{item.value}</span>
                   </div>
                 ))}
               </div>
 
               <div className="flex items-center justify-between mb-4">
-                <span className="text-xs text-[var(--fg-muted)]">Suara</span>
+                <span className="text-xs text-[var(--duo-text-muted)]">Suara</span>
                 <button onClick={() => setSoundOn(!soundOn)}
                   className={`w-10 h-5 rounded-full transition-colors ${soundOn ? "bg-[var(--primary)]" : "bg-gray-300"} relative`}>
-                  <div className={`w-4 h-4 bg-[var(--surface)] rounded-full absolute top-0.5 transition-all ${soundOn ? "left-5" : "left-0.5"}`} />
+                  <div className={`w-4 h-4 bg-[var(--duo-card)] rounded-full absolute top-0.5 transition-all ${soundOn ? "left-5" : "left-0.5"}`} />
                 </button>
               </div>
 
@@ -131,7 +131,7 @@ export default function TryOutPage() {
     const progress = ((currentQ + 1) / questions.length) * 100;
 
     return (
-      <div className="flex min-h-screen bg-[var(--bg)]">
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
         <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-lg mx-auto">
@@ -141,7 +141,7 @@ export default function TryOutPage() {
                 <span className={`text-sm font-mono font-semibold ${timeLeft < 300 ? "text-red-500" : "text-gray-600"}`}>
                   <Timer size={14} className="inline mr-1" />{formatTime(timeLeft)}
                 </span>
-                <span className="text-sm text-[var(--fg-muted)]">{currentQ + 1}/{questions.length}</span>
+                <span className="text-sm text-[var(--duo-text-muted)]">{currentQ + 1}/{questions.length}</span>
               </div>
             </div>
 
@@ -149,15 +149,15 @@ export default function TryOutPage() {
               <div className="h-full bg-[var(--primary)] rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
             </div>
 
-            <h3 className="text-lg font-semibold text-[var(--fg)] mb-6">{q.question}</h3>
+            <h3 className="text-lg font-semibold text-[var(--duo-text)] mb-6">{q.question}</h3>
 
             <div className="space-y-2 mb-6">
               {shuffled && shuffled.options.map((opt, i) => {
-                let style = "border-2 border-[var(--border)] bg-[var(--surface)] hover:border-[var(--primary)]/40";
+                let style = "border-2 border-[var(--duo-border)] bg-[var(--duo-card)] hover:border-[var(--primary)]/40";
                 if (showResult) {
                   if (i === shuffled.correctIndex) style = "border-2 border-emerald-500 bg-emerald-50";
                   else if (i === selected) style = "border-2 border-red-500 bg-red-50";
-                  else style = "border-2 border-[var(--border)] opacity-40";
+                  else style = "border-2 border-[var(--duo-border)] opacity-40";
                 }
                 return (
                   <button key={i} onClick={() => handleAnswer(i)} disabled={selected !== null}
@@ -165,9 +165,9 @@ export default function TryOutPage() {
                     <div className="flex items-center gap-3">
                       <span className={`w-7 h-7 rounded-md flex items-center justify-center text-xs font-bold shrink-0 ${
                         showResult && i === shuffled.correctIndex ? "bg-emerald-500 text-white" :
-                        showResult && i === selected ? "bg-red-500 text-white" : "bg-[var(--surface-elevated)] text-[var(--fg-muted)]"
+                        showResult && i === selected ? "bg-red-500 text-white" : "bg-[var(--surface-elevated)] text-[var(--duo-text-muted)]"
                       }`}>{String.fromCharCode(65 + i)}</span>
-                      <span className="text-[var(--fg)]">{opt}</span>
+                      <span className="text-[var(--duo-text)]">{opt}</span>
                     </div>
                   </button>
                 );
@@ -179,7 +179,7 @@ export default function TryOutPage() {
                 selected === shuffled.correctIndex ? "bg-emerald-50 border border-emerald-200" : "bg-red-50 border border-red-200"
               }`}>
                 {selected === shuffled.correctIndex ? <CheckCircle2 size={16} className="text-emerald-600 mt-0.5" /> : <XCircle size={16} className="text-red-600 mt-0.5" />}
-                <p className="text-xs text-[var(--fg-secondary)]">{q.explanation}</p>
+                <p className="text-xs text-[var(--duo-text-muted)]">{q.explanation}</p>
               </div>
             )}
 
@@ -197,15 +197,15 @@ export default function TryOutPage() {
 
   // Result
   return (
-    <div className="flex min-h-screen bg-[var(--bg)]">
+    <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
       <Confetti show={pct >= 75} />
       <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
         <div className="max-w-lg mx-auto text-center">
-          <div className="bg-[var(--surface)] rounded-[24px] border border-[var(--border)] p-8">
+          <div className="bg-[var(--duo-card)] rounded-[24px] border border-[var(--duo-border)] p-8">
             <Trophy size={40} className={`mx-auto mb-4 ${pct >= 75 ? "text-yellow-500" : "text-gray-400"}`} />
-            <h2 className="text-xl font-bold text-[var(--fg)] mb-1">Try Out Selesai!</h2>
-            <p className="text-sm text-[var(--fg-muted)] mb-6">Skor akhir</p>
+            <h2 className="text-xl font-bold text-[var(--duo-text)] mb-1">Try Out Selesai!</h2>
+            <p className="text-sm text-[var(--duo-text-muted)] mb-6">Skor akhir</p>
 
             <div className="relative w-32 h-32 mx-auto mb-6">
               <svg className="w-full h-full transform -rotate-90">
@@ -216,7 +216,7 @@ export default function TryOutPage() {
                   strokeLinecap="round" className="transition-all duration-1000" />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-2xl font-bold text-[var(--fg)]">{pct}%</span>
+                <span className="text-2xl font-bold text-[var(--duo-text)]">{pct}%</span>
                 <span className="text-[10px] text-gray-400">{score}/{questions.length}</span>
               </div>
             </div>

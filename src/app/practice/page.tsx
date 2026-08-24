@@ -94,8 +94,8 @@ export default function PracticePage() {
     } else {
       const pct = Math.round((score / questions.length) * 100);
       saveQuizScore("practice", pct);
+      addXp(score * 5);
       if (pct >= 80) { setShowConfetti(true); if (soundOn) playCompleteSound(); }
-      else { addXp(score * 5); }
       setShowXp(true);
       setStep("result");
     }
@@ -106,19 +106,19 @@ export default function PracticePage() {
 
   if (step === "config") {
     return (
-      <div className="flex min-h-screen bg-[var(--bg)]">
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
         <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-lg mx-auto">
-            <h1 className="text-xl font-bold text-[var(--fg)] mb-1">Latihan Bebas</h1>
-            <p className="text-sm text-[var(--fg-muted)] mb-8">Pilih topik dan jumlah soal sesuai keinginanmu</p>
+            <h1 className="text-xl font-bold text-[var(--duo-text)] mb-1">Latihan Bebas</h1>
+            <p className="text-sm text-[var(--duo-text-muted)] mb-8">Pilih topik dan jumlah soal sesuai keinginanmu</p>
 
-            <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-6 space-y-5">
+            <div className="bg-[var(--duo-card)] rounded-xl border border-[var(--duo-border)] p-6 space-y-5">
               {/* Topic */}
               <div>
-                <label className="text-xs font-semibold text-[var(--fg-secondary)] mb-2 block">Topik</label>
+                <label className="text-xs font-semibold text-[var(--duo-text-muted)] mb-2 block">Topik</label>
                 <select value={selectedTopic} onChange={(e) => setSelectedTopic(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-[var(--border)] text-sm focus:outline-none focus:border-[var(--primary)]">
+                  className="w-full px-3 py-2 rounded-lg border border-[var(--duo-border)] text-sm focus:outline-none focus:border-[var(--primary)]">
                   <option value="all">Semua Topik (Campur)</option>
                   {topics.map((t) => <option key={t.slug} value={t.slug}>{t.title}</option>)}
                 </select>
@@ -126,12 +126,12 @@ export default function PracticePage() {
 
               {/* Jumlah Soal */}
               <div>
-                <label className="text-xs font-semibold text-[var(--fg-secondary)] mb-2 block">Jumlah Soal</label>
+                <label className="text-xs font-semibold text-[var(--duo-text-muted)] mb-2 block">Jumlah Soal</label>
                 <div className="flex gap-2">
                   {[5, 10, 15, 20].map((n) => (
                     <button key={n} onClick={() => setNumQuestions(n)}
                       className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${
-                        numQuestions === n ? "bg-[var(--primary)] text-white border-[var(--primary)]" : "border-[var(--border)] text-gray-600 hover:bg-[var(--bg)]"
+                        numQuestions === n ? "bg-[var(--primary)] text-white border-[var(--primary)]" : "border-[var(--duo-border)] text-gray-600 hover:bg-[var(--duo-bg)]"
                       }`}>{n}</button>
                   ))}
                 </div>
@@ -139,12 +139,12 @@ export default function PracticePage() {
 
               {/* Timer */}
               <div>
-                <label className="text-xs font-semibold text-[var(--fg-secondary)] mb-2 block">Batas Waktu</label>
+                <label className="text-xs font-semibold text-[var(--duo-text-muted)] mb-2 block">Batas Waktu</label>
                 <div className="flex gap-2">
                   {[{ v: 0, l: "Tanpa" }, { v: 5, l: "5 min" }, { v: 10, l: "10 min" }, { v: 15, l: "15 min" }].map((t) => (
                     <button key={t.v} onClick={() => setTimeLimit(t.v)}
                       className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${
-                        timeLimit === t.v ? "bg-[var(--primary)] text-white border-[var(--primary)]" : "border-[var(--border)] text-gray-600 hover:bg-[var(--bg)]"
+                        timeLimit === t.v ? "bg-[var(--primary)] text-white border-[var(--primary)]" : "border-[var(--duo-border)] text-gray-600 hover:bg-[var(--duo-bg)]"
                       }`}>{t.l}</button>
                   ))}
                 </div>
@@ -152,10 +152,10 @@ export default function PracticePage() {
 
               {/* Sound */}
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-[var(--fg-secondary)]">Suara</span>
+                <span className="text-xs font-semibold text-[var(--duo-text-muted)]">Suara</span>
                 <button onClick={() => setSoundOn(!soundOn)}
                   className={`w-10 h-5 rounded-full transition-colors ${soundOn ? "bg-[var(--primary)]" : "bg-gray-300"} relative`}>
-                  <div className={`w-4 h-4 bg-[var(--surface)] rounded-full absolute top-0.5 transition-all ${soundOn ? "left-5" : "left-0.5"}`} />
+                  <div className={`w-4 h-4 bg-[var(--duo-card)] rounded-full absolute top-0.5 transition-all ${soundOn ? "left-5" : "left-0.5"}`} />
                 </button>
               </div>
 
@@ -174,7 +174,7 @@ export default function PracticePage() {
     const progress = ((currentQ + 1) / questions.length) * 100;
 
     return (
-      <div className="flex min-h-screen bg-[var(--bg)]">
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
         <Confetti show={showConfetti} onComplete={() => setShowConfetti(false)} />
         <XpPopup amount={score * 5} show={showXp} onComplete={() => setShowXp(false)} />
@@ -190,7 +190,7 @@ export default function PracticePage() {
                     {formatTime(timeLeft)}
                   </span>
                 )}
-                <span className="text-sm text-[var(--fg-muted)]">{currentQ + 1}/{questions.length}</span>
+                <span className="text-sm text-[var(--duo-text-muted)]">{currentQ + 1}/{questions.length}</span>
               </div>
             </div>
 
@@ -200,16 +200,16 @@ export default function PracticePage() {
             </div>
 
             {/* Question */}
-            <h3 className="text-lg font-semibold text-[var(--fg)] mb-6">{q.question}</h3>
+            <h3 className="text-lg font-semibold text-[var(--duo-text)] mb-6">{q.question}</h3>
 
             {/* Options */}
             <div className="space-y-2 mb-6">
               {shuffled && shuffled.options.map((opt, i) => {
-                let style = "border-2 border-[var(--border)] bg-[var(--surface)] hover:border-[var(--primary)]/40";
+                let style = "border-2 border-[var(--duo-border)] bg-[var(--duo-card)] hover:border-[var(--primary)]/40";
                 if (showResult) {
                   if (i === shuffled.correctIndex) style = "border-2 border-emerald-500 bg-emerald-50";
                   else if (i === selected) style = "border-2 border-red-500 bg-red-50";
-                  else style = "border-2 border-[var(--border)] opacity-40";
+                  else style = "border-2 border-[var(--duo-border)] opacity-40";
                 }
                 return (
                   <button key={i} onClick={() => handleAnswer(i)} disabled={selected !== null}
@@ -217,9 +217,9 @@ export default function PracticePage() {
                     <div className="flex items-center gap-3">
                       <span className={`w-7 h-7 rounded-md flex items-center justify-center text-xs font-bold shrink-0 ${
                         showResult && i === shuffled.correctIndex ? "bg-emerald-500 text-white" :
-                        showResult && i === selected ? "bg-red-500 text-white" : "bg-[var(--surface-elevated)] text-[var(--fg-muted)]"
+                        showResult && i === selected ? "bg-red-500 text-white" : "bg-[var(--surface-elevated)] text-[var(--duo-text-muted)]"
                       }`}>{String.fromCharCode(65 + i)}</span>
-                      <span className="text-[var(--fg)]">{opt}</span>
+                      <span className="text-[var(--duo-text)]">{opt}</span>
                     </div>
                   </button>
                 );
@@ -231,7 +231,7 @@ export default function PracticePage() {
                 selected === shuffled.correctIndex ? "bg-emerald-50 border border-emerald-200" : "bg-red-50 border border-red-200"
               }`}>
                 {selected === shuffled.correctIndex ? <CheckCircle2 size={16} className="text-emerald-600 mt-0.5" /> : <XCircle size={16} className="text-red-600 mt-0.5" />}
-                <p className="text-xs text-[var(--fg-secondary)]">{q.explanation}</p>
+                <p className="text-xs text-[var(--duo-text-muted)]">{q.explanation}</p>
               </div>
             )}
 
@@ -249,32 +249,32 @@ export default function PracticePage() {
 
   // Result
   return (
-    <div className="flex min-h-screen bg-[var(--bg)]">
+    <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
       <Confetti show={pct >= 80} />
       <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
         <div className="max-w-lg mx-auto text-center">
-          <div className="bg-[var(--surface)] rounded-[24px] border border-[var(--border)] p-8">
+          <div className="bg-[var(--duo-card)] rounded-[24px] border border-[var(--duo-border)] p-8">
             <div className="w-20 h-20 bg-[var(--primary-bg)] rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-3xl font-bold text-[var(--primary)]">{pct}%</span>
             </div>
-            <h2 className="text-xl font-bold text-[var(--fg)] mb-1">
+            <h2 className="text-xl font-bold text-[var(--duo-text)] mb-1">
               {pct >= 80 ? "Luar Biasa!" : pct >= 50 ? "Bagus!" : "Terus Belajar!"}
             </h2>
-            <p className="text-sm text-[var(--fg-muted)] mb-6">{score}/{questions.length} soal benar</p>
+            <p className="text-sm text-[var(--duo-text-muted)] mb-6">{score}/{questions.length} soal benar</p>
 
             <div className="grid grid-cols-3 gap-3 mb-6">
               <div className="p-3 bg-emerald-50 rounded-lg">
                 <p className="text-lg font-bold text-emerald-600">{score}</p>
-                <p className="text-[10px] text-[var(--fg-muted)]">Benar</p>
+                <p className="text-[10px] text-[var(--duo-text-muted)]">Benar</p>
               </div>
               <div className="p-3 bg-red-50 rounded-lg">
                 <p className="text-lg font-bold text-red-600">{questions.length - score}</p>
-                <p className="text-[10px] text-[var(--fg-muted)]">Salah</p>
+                <p className="text-[10px] text-[var(--duo-text-muted)]">Salah</p>
               </div>
               <div className="p-3 bg-blue-50 rounded-lg">
                 <p className="text-lg font-bold text-[var(--primary)]">{score * 5}</p>
-                <p className="text-[10px] text-[var(--fg-muted)]">XP</p>
+                <p className="text-[10px] text-[var(--duo-text-muted)]">XP</p>
               </div>
             </div>
 

@@ -29,7 +29,6 @@ const MOCK_USERS: LeaderboardEntry[] = [
 
 export default function LeaderboardPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [activeTab, setActiveTab] = useState<"weekly" | "alltime">("weekly");
 
   useEffect(() => {
     setProfile(getProfile());
@@ -67,25 +66,14 @@ export default function LeaderboardPage() {
               </div>
             </div>
 
-            {/* Tabs */}
-            <div className="flex gap-2">
-              {([
-                { key: "weekly", label: "Mingguan" },
-                { key: "alltime", label: "Semua Waktu" },
-              ] as const).map(tab => (
-                <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key)}
-                  className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
-                    activeTab === tab.key
-                      ? "bg-[var(--duo-green)] text-white shadow-md"
-                      : "bg-gray-100 dark:bg-gray-800 text-[var(--duo-text-muted)] hover:text-[var(--duo-text)]"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+            {/* Preview Banner */}
+            <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-950/30 rounded-2xl border border-yellow-300 dark:border-yellow-700">
+              <p className="text-xs font-bold text-yellow-700 dark:text-yellow-400 flex items-center gap-1.5">
+                <Info size={14} className="shrink-0" />
+                <span>Mode Preview — Peringkat ini hanya contoh. Fitur peringkat nyata akan segera hadir!</span>
+              </p>
             </div>
+
           </div>
         </div>
 
