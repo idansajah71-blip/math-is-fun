@@ -18,6 +18,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6", "3", "36", "12"],
     correctIndex: 0,
     explanation: "Faktor 12: 1,2,3,4,6,12. Faktor 18: 1,2,3,6,9,18. FPB = 6",
+    alternatives: ["enam"],
   },
   {
     id: "q-bilangan-3",
@@ -26,6 +27,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["50", "80", "60", "45"],
     correctIndex: 0,
     explanation: "40% × x = 20, maka x = 20 ÷ 0.4 = 50",
+    alternatives: ["50"],
   },
 
   // Himpunan
@@ -44,6 +46,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["8", "6", "9", "7"],
     correctIndex: 0,
     explanation: "Banyak himpunan bagian = 2^n = 2³ = 8",
+    alternatives: ["delapan"],
   },
 
   // Bentuk Aljabar
@@ -64,14 +67,16 @@ export const quizzes: QuizQuestion[] = [
     options: ["x = 4", "x = 5", "x = 3", "x = 6"],
     correctIndex: 0,
     explanation: "2x = 13 - 5 = 8, x = 8/2 = 4",
+    alternatives: ["4"],
   },
   {
     id: "q-linear-2",
     topicSlug: "4-persamaan-linear-satu-variabel-plsv",
-    question: "Jika 3x - 7 = 8, maka x = ...",
+    question: "Jika 3x - 7 = 8, maka x = ____",
     options: ["5", "4", "6", "3"],
     correctIndex: 0,
     explanation: "3x = 8 + 7 = 15, x = 15/3 = 5",
+    alternatives: ["x = 5"],
   },
 
   // Perbandingan
@@ -88,10 +93,11 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-pola-1",
     topicSlug: "8-pola-bilangan-dan-barisan",
-    question: "Suku ke-10 dari barisan 2, 5, 8, 11, ... adalah...",
+    question: "Suku ke-10 dari barisan 2, 5, 8, 11, ... adalah ____",
     options: ["29", "32", "26", "35"],
     correctIndex: 0,
     explanation: "Beda b=3. U₁₀ = 2 + (10-1)(3) = 2 + 27 = 29",
+    alternatives: ["29"],
   },
 
   // Garis Lurus
@@ -102,6 +108,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "3", "1", "4"],
     correctIndex: 0,
     explanation: "m = (7-3)/(4-2) = 4/2 = 2",
+    alternatives: ["2"],
   },
 
   // Pythagoras
@@ -120,6 +127,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(5,12,13)", "(4,6,8)", "(3,5,7)", "(6,8,12)"],
     correctIndex: 0,
     explanation: "5² + 12² = 25 + 144 = 169 = 13²",
+    alternatives: ["(5,12,13)"],
   },
 
   // Lingkaran
@@ -138,6 +146,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["44 cm", "88 cm", "22 cm", "154 cm"],
     correctIndex: 0,
     explanation: "K = πd = (22/7) × 14 = 44 cm",
+    alternatives: ["44"],
   },
 
   // Segitiga
@@ -148,6 +157,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["40 cm²", "50 cm²", "30 cm²", "45 cm²"],
     correctIndex: 0,
     explanation: "L = ½(a+b)×t = ½(10+6)×5 = ½×16×5 = 40 cm²",
+    alternatives: ["40 cm²","40"],
   },
 
   // ==================== SMA ====================
@@ -167,6 +177,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["729", "216", "54", "18"],
     correctIndex: 0,
     explanation: "(a^m)^n = a^(mn) = 3^(2×3) = 3⁶ = 729",
+    alternatives: ["729"],
   },
 
   // Logaritma
@@ -177,14 +188,16 @@ export const quizzes: QuizQuestion[] = [
     options: ["5", "4", "6", "3"],
     correctIndex: 0,
     explanation: "2⁵ = 32, maka log₂ 32 = 5",
+    alternatives: ["5"],
   },
   {
     id: "q-logaritma-2",
     topicSlug: "2-logaritma",
-    question: "Nilai log 100 adalah...",
+    question: "Nilai log 100 adalah ____",
     options: ["2", "3", "1", "10"],
     correctIndex: 0,
     explanation: "log 100 = log 10² = 2 (log basis 10)",
+    alternatives: ["2"],
   },
 
   // Kuadrat
@@ -203,6 +216,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0", "16", "8", "-16"],
     correctIndex: 0,
     explanation: "D = b²-4ac = (-4)²-4(1)(4) = 16-16 = 0",
+    alternatives: ["0"],
   },
 
   // Matriks
@@ -213,6 +227,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1", "11", "-1", "6"],
     correctIndex: 0,
     explanation: "det = ad-bc = (2)(3)-(1)(5) = 6-5 = 1",
+    alternatives: ["1"],
   },
 
   // Vektor
@@ -223,16 +238,18 @@ export const quizzes: QuizQuestion[] = [
     options: ["5", "7", "12", "25"],
     correctIndex: 0,
     explanation: "|v| = √(3²+4²) = √(9+16) = √25 = 5",
+    alternatives: ["5"],
   },
 
   // Trigonometri
   {
     id: "q-trigo-1",
     topicSlug: "8-trigonometri-dasar",
-    question: "Nilai sin 30° adalah...",
+    question: "Nilai sin 30° adalah ____",
     options: ["1/2", "√3/2", "√2/2", "1"],
     correctIndex: 0,
     explanation: "sin 30° = 1/2 (nilai khusus trigonometri)",
+    alternatives: ["1/2","0.5"],
   },
   {
     id: "q-trigo-2",
@@ -241,6 +258,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["4/5", "3/5", "5/3", "5/4"],
     correctIndex: 0,
     explanation: "sin²θ + cos²θ = 1 → cos²θ = 1 - 9/25 = 16/25 → cos θ = 4/5",
+    alternatives: ["4/5","0.8"],
   },
 
   // Limit
@@ -251,24 +269,27 @@ export const quizzes: QuizQuestion[] = [
     options: ["4", "0", "2", "∞"],
     correctIndex: 0,
     explanation: "Faktorkan: (x²-4)/(x-2) = (x+2)(x-2)/(x-2) = x+2. lim(x→2) = 4",
+    alternatives: ["4"],
   },
 
   // Turunan
   {
     id: "q-turunan-1",
     topicSlug: "14-turunan-diferensial",
-    question: "Turunan dari f(x) = x³ + 2x adalah...",
+    question: "Turunan dari f(x) = x³ + 2x adalah ____",
     options: ["3x² + 2", "3x² + x", "x² + 2", "3x + 2"],
     correctIndex: 0,
     explanation: "f'(x) = 3x² + 2",
+    alternatives: ["3x² + 2"],
   },
   {
     id: "q-turunan-2",
     topicSlug: "14-turunan-diferensial",
-    question: "Turunan dari f(x) = sin x adalah...",
+    question: "Turunan dari f(x) = sin x adalah ____",
     options: ["cos x", "-cos x", "sin x", "-sin x"],
     correctIndex: 0,
     explanation: "(sin x)' = cos x",
+    alternatives: ["cos x","cosx"],
   },
 
   // Integral
@@ -279,6 +300,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x² + C", "2x² + C", "x + C", "2x + C"],
     correctIndex: 0,
     explanation: "∫ 2x dx = 2 × (x²/2) + C = x² + C",
+    alternatives: ["x² + C","x^2 + C"],
   },
   {
     id: "q-integral-2",
@@ -287,6 +309,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1", "3", "0", "2"],
     correctIndex: 0,
     explanation: "∫ 3x² dx = x³. Evaluasi: 1³ - 0³ = 1",
+    alternatives: ["1"],
   },
 
   // Barisan Aritmetika
@@ -297,6 +320,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["19", "23", "17", "21"],
     correctIndex: 0,
     explanation: "a=3, b=4. U₅ = 3 + (5-1)(4) = 3 + 16 = 19",
+    alternatives: ["19"],
   },
 
   // Barisan Geometri
@@ -307,6 +331,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["242", "121", "486", "162"],
     correctIndex: 0,
     explanation: "a=2, r=3. S₅ = 2(3⁵-1)/(3-1) = 2(243-1)/2 = 242",
+    alternatives: ["242"],
   },
 
   // Statistika
@@ -317,6 +342,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["8", "7", "9", "10"],
     correctIndex: 0,
     explanation: "Mean = (4+6+8+10+12)/5 = 40/5 = 8",
+    alternatives: ["8"],
   },
 
   // Peluang
@@ -327,6 +353,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/2", "1/3", "1/6", "2/3"],
     correctIndex: 0,
     explanation: "Angka genap: {2,4,6} = 3 buah. P = 3/6 = 1/2",
+    alternatives: ["1/2","0.5","50%"],
   },
 
   // Aplikasi Turunan
@@ -337,6 +364,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "4", "-2", "3"],
     correctIndex: 0,
     explanation: "f'(x) = 2x-4 = 0 → x = 2. f''(2) = 2 > 0 (minimum)",
+    alternatives: ["2"],
   },
 
   // Aplikasi Integral
@@ -347,6 +375,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["8/3", "4", "2", "16/3"],
     correctIndex: 0,
     explanation: "∫₀² x² dx = [x³/3]₀² = 8/3 - 0 = 8/3",
+    alternatives: ["8/3"],
   },
 
   // Kaidah Pencacahan
@@ -357,6 +386,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["120", "720", "210", "30"],
     correctIndex: 0,
     explanation: "C(10,3) = 10!/(3!×7!) = (10×9×8)/(3×2×1) = 120",
+    alternatives: ["120"],
   },
 
   // Identitas Trigonometri
@@ -367,6 +397,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(√6+√2)/4", "(√6-√2)/4", "(√3+1)/4", "√2/2"],
     correctIndex: 0,
     explanation: "sin(45°+30°) = sin45°cos30° + cos45°sin30° = (√2/2)(√3/2) + (√2/2)(1/2) = (√6+√2)/4",
+    alternatives: ["(√6+√2)/4"],
   },
 
   // Aturan Sinus Cosinus
@@ -377,6 +408,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["39", "74", "25", "49"],
     correctIndex: 0,
     explanation: "c² = a²+b²-2ab·cosC = 25+49-2(5)(7)cos60° = 74-35 = 39",
+    alternatives: ["39"],
   },
 
   // ==================== KULIAH ====================
@@ -388,6 +420,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1", "0", "∞", "Tidak ada"],
     correctIndex: 0,
     explanation: "Ini adalah limit fundamental: lim(x→0) sin(x)/x = 1",
+    alternatives: ["1"],
   },
   {
     id: "q-calculus-2",
@@ -396,6 +429,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["e^x", "xe^(x-1)", "e^(x-1)", "ln(x)·e^x"],
     correctIndex: 0,
     explanation: "(e^x)' = e^x (turunannya sendiri)",
+    alternatives: ["e^x","ex"],
   },
 
   // Linear Algebra
@@ -406,6 +440,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["nilai eigen", "vektor eigen", "determinan", "rank"],
     correctIndex: 0,
     explanation: "λ adalah nilai eigen (eigenvalue) dari matriks A",
+    alternatives: ["nilai eigen"],
   },
 
   // Persamaan Diferensial
@@ -416,6 +451,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["y = Ce^(kx)", "y = Ckx", "y = C/x", "y = C + kx"],
     correctIndex: 0,
     explanation: "dy/y = k dx → ln|y| = kx + C → y = Ce^(kx)",
+    alternatives: ["y = Ce^(kx)"],
   },
 
   // ==================== TAMBAHAN ====================
@@ -427,6 +463,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x=6, y=4", "x=5, y=5", "x=8, y=2", "x=7, y=3"],
     correctIndex: 0,
     explanation: "Jumlahkan: 2x=12 → x=6, maka y=4",
+    alternatives: ["x=6, y=4"],
   },
   {
     id: "q-spldv-2",
@@ -435,6 +472,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "2", "4", "5"],
     correctIndex: 0,
     explanation: "Eliminasi: 3x=9 → x=3",
+    alternatives: ["x = 3"],
   },
 
   // SMP - Statistika
@@ -445,6 +483,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["7", "8", "6", "5"],
     correctIndex: 0,
     explanation: "Data sudah terurut, nilai tengah = 7",
+    alternatives: ["7"],
   },
   {
     id: "q-stat-3",
@@ -453,6 +492,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "4", "2", "5"],
     correctIndex: 0,
     explanation: "3 muncul paling sering (3 kali)",
+    alternatives: ["3"],
   },
 
   // SMP - Peluang
@@ -463,6 +503,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/2", "1/3", "1/6", "2/3"],
     correctIndex: 0,
     explanation: "Angka ganjil: {1,3,5} = 3 buah. P = 3/6 = 1/2",
+    alternatives: ["1/2","0.5","50%"],
   },
 
   // SMP - Transformasi
@@ -473,6 +514,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(5,3)", "(6,4)", "(1,5)", "(5,5)"],
     correctIndex: 0,
     explanation: "(3+2, 4-1) = (5,3)",
+    alternatives: ["(5,3)"],
   },
 
   // SMA - Pertidaksamaan
@@ -483,6 +525,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["-2 < x < 8", "x < 8", "x > -2", "-8 < x < 2"],
     correctIndex: 0,
     explanation: "-5 < x-3 < 5 → -2 < x < 8",
+    alternatives: ["-2 < x < 8"],
   },
 
   // SMA - SPLTV
@@ -493,6 +536,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Titik pojok DPR", "Titik tengah", "Semua titik", "Tidak ada"],
     correctIndex: 0,
     explanation: "Optimum selalu pada titik pojok daerah penyelesaian",
+    alternatives: ["titik pojok DPR"],
   },
 
   // SMA - Identitas Trigonometri
@@ -503,6 +547,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1", "0", "2", "1/2"],
     correctIndex: 0,
     explanation: "Identitas fundamental: sin²θ + cos²θ = 1",
+    alternatives: ["1"],
   },
 
   // SMA - Aturan Sinus Cosinus
@@ -513,6 +558,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["10/sin30°", "10/sin45°", "10/tan30°", "10/cos45°"],
     correctIndex: 0,
     explanation: "Aturan sinus: a/sinA = b/sinB = c/sinC",
+    alternatives: ["20"],
   },
 
   // SMA - Limit
@@ -523,6 +569,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/2", "0", "1", "∞"],
     correctIndex: 0,
     explanation: "Gunakan identitas: (1-cosx)/x² = 2sin²(x/2)/x² → 1/2",
+    alternatives: ["1/2","0.5"],
   },
 
   // SMA - Aplikasi Turunan
@@ -533,6 +580,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6", "9", "3", "12"],
     correctIndex: 0,
     explanation: "f'(x)=2x, f'(2)=6",
+    alternatives: ["6"],
   },
 
   // SMA - Aplikasi Integral
@@ -543,6 +591,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["36π", "108π", "27π", "48π"],
     correctIndex: 0,
     explanation: "V = (4/3)πr³ = (4/3)π(27) = 36π",
+    alternatives: ["36π","36pi"],
   },
 
   // SMA - Barisan Aritmetika
@@ -553,6 +602,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["155", "145", "165", "135"],
     correctIndex: 0,
     explanation: "S₁₀ = 10/2(2·2 + 9·3) = 5(4+27) = 5·31 = 155",
+    alternatives: ["155"],
   },
 
   // SMA - Barisan Geometri
@@ -563,6 +613,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["24", "48", "18", "36"],
     correctIndex: 0,
     explanation: "a=3, r=2. U₄ = 3·2³ = 24",
+    alternatives: ["24"],
   },
 
   // SMA - Kaidah Pencacahan
@@ -573,6 +624,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["120", "25", "60", "720"],
     correctIndex: 0,
     explanation: "P(5,5) = 5! = 120",
+    alternatives: ["120"],
   },
 
   // SMA - Statistika Lanjut
@@ -583,6 +635,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "-2", "1", "3"],
     correctIndex: 0,
     explanation: "z = (x-mean)/s = (70-50)/10 = 2",
+    alternatives: ["2"],
   },
 
   // Kuliah - Linear Algebra
@@ -593,6 +646,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1", "0", "3", "6"],
     correctIndex: 0,
     explanation: "det(I) = 1 untuk matriks identitas berapa pun",
+    alternatives: ["1"],
   },
 
   // Kuliah - Calculus
@@ -603,6 +657,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "0", "1", "π"],
     correctIndex: 0,
     explanation: "[-cos x]₀^π = -(-1)-(-1) = 1+1 = 2",
+    alternatives: ["2"],
   },
   {
     id: "q-calculus-4",
@@ -611,6 +666,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2x/(x²+1)", "1/(x²+1)", "2x", "ln(2x)"],
     correctIndex: 0,
     explanation: "Aturan rantai: f'(x) = 1/(x²+1) · 2x = 2x/(x²+1)",
+    alternatives: ["2x/(x²+1)"],
   },
 
   // ==================== SOAL BARU P1-1 ====================
@@ -622,6 +678,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x > 2", "x < 2", "x > 5", "x < 5"],
     correctIndex: 0,
     explanation: "2x + 3 > 7 → 2x > 4 → x > 2",
+    alternatives: ["x > 2"],
   },
   {
     id: "q-ptlsv-2",
@@ -630,6 +687,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5", "3", "15", "4"],
     correctIndex: 0,
     explanation: "3x - 5 ≤ 10 → 3x ≤ 15 → x ≤ 5",
+    alternatives: ["5"],
   },
   {
     id: "q-ptlsv-3",
@@ -638,6 +696,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x > -2", "x < -2", "x > 2", "x < 2"],
     correctIndex: 0,
     explanation: "-2x + 1 < 5 → -2x < 4 → x > -2 (tanda berubah karena dibagi negatif)",
+    alternatives: ["x > -2"],
   },
   {
     id: "q-ptlsv-4",
@@ -646,6 +705,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1, 2, 3, 4, 5, 6, 7", "1, 2, 3, 4, 5, 6", "5, 6, 7", "1, 2, 3"],
     correctIndex: 0,
     explanation: "x - 3 < 5 → x < 8. Bilangan bulat positif: 1, 2, 3, 4, 5, 6, 7",
+    alternatives: ["1, 2, 3, 4, 5, 6, 7"],
   },
 
   // 7-aritmetika-sosial (SMP)
@@ -656,6 +716,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Rp100.000", "Rp95.000", "Rp105.000", "Rp120.000"],
     correctIndex: 0,
     explanation: "Harga jual = Rp80.000 × 125% = Rp100.000",
+    alternatives: ["Rp100.000","100000"],
   },
   {
     id: "q-sosial-2",
@@ -664,6 +725,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Rp1.020.000", "Rp1.080.000", "Rp1.050.000", "Rp960.000"],
     correctIndex: 0,
     explanation: "Harga setelah diskon = Rp1.200.000 × 85% = Rp1.020.000",
+    alternatives: ["Rp1.020.000","1020000"],
   },
   {
     id: "q-sosial-3",
@@ -672,6 +734,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["25%", "20%", "15%", "30%"],
     correctIndex: 0,
     explanation: "Keuntungan = (125.000/500.000) × 100% = 25%",
+    alternatives: ["25%"],
   },
   {
     id: "q-sosial-4",
@@ -680,6 +743,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Rp4.050.000", "Rp4.100.000", "Rp4.000.000", "Rp4.200.000"],
     correctIndex: 0,
     explanation: "Pajak = Rp4.500.000 × 10% = Rp450.000. Gaji bersih = Rp4.500.000 - Rp450.000 = Rp4.050.000",
+    alternatives: ["Rp4.050.000","4050000"],
   },
 
   // 9-relasi-dan-fungsi (SMP)
@@ -690,6 +754,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["7", "5", "6", "9"],
     correctIndex: 0,
     explanation: "f(3) = 2(3) + 1 = 7",
+    alternatives: ["7"],
   },
   {
     id: "q-relasi-2",
@@ -698,6 +763,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x >= 2", "x > 2", "x >= 0", "Semua bilangan"],
     correctIndex: 0,
     explanation: "Akar real: x - 2 >= 0 maka x >= 2",
+    alternatives: ["x >= 2","x≥2","[2,∞)"],
   },
   {
     id: "q-relasi-3",
@@ -706,6 +772,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3 atau -3", "3", "-3", "5"],
     correctIndex: 0,
     explanation: "x^2 - 4 = 5, x^2 = 9, x = 3 atau x = -3",
+    alternatives: ["3 atau -3","±3"],
   },
   {
     id: "q-relasi-4",
@@ -714,6 +781,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(x+2)/3", "(x-2)/3", "3x+2", "3x-2"],
     correctIndex: 0,
     explanation: "y = 3x - 2, x = 3y - 2, y = (x+2)/3",
+    alternatives: ["(x+2)/3"],
   },
 
   // 12-garis-dan-sudut (SMP)
@@ -724,6 +792,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["180 derajat", "360 derajat", "270 derajat", "90 derajat"],
     correctIndex: 0,
     explanation: "Jumlah sudut dalam segitiga = 180 derajat",
+    alternatives: ["180 derajat","180°"],
   },
   {
     id: "q-sudut-2",
@@ -732,6 +801,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Sama besar", "Berbeda", "Tumpul dan lancip", "Saling melengkapi"],
     correctIndex: 0,
     explanation: "Sudut dalam sehadap pada garis sejajar selalu sama besar.",
+    alternatives: ["sama besar"],
   },
   {
     id: "q-sudut-3",
@@ -740,6 +810,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["120 derajat", "30 derajat", "240 derajat", "180 derajat"],
     correctIndex: 0,
     explanation: "Pelurus sudut = 180 - 60 = 120 derajat",
+    alternatives: ["120 derajat","120°"],
   },
   {
     id: "q-sudut-4",
@@ -748,6 +819,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Sama besar", "Bersudut siku-siku", "Berjumlah 180 derajat", "Tidak tentu"],
     correctIndex: 0,
     explanation: "Sudut yang bertolak belakang selalu sama besar.",
+    alternatives: ["sama besar"],
   },
 
   // 16-bangun-ruang-sisi-datar (SMP)
@@ -758,6 +830,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6, 12, 8", "6, 8, 12", "8, 12, 6", "6, 6, 8"],
     correctIndex: 0,
     explanation: "Kubus: 6 sisi, 12 rusuk, 8 titik sudut",
+    alternatives: ["6, 12, 8"],
   },
   {
     id: "q-sisidatar-2",
@@ -766,6 +839,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["120 cm3", "150 cm3", "80 cm3", "100 cm3"],
     correctIndex: 0,
     explanation: "V = p x l x t = 8 x 5 x 3 = 120 cm3",
+    alternatives: ["120 cm3","120"],
   },
   {
     id: "q-sisidatar-3",
@@ -774,6 +848,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["96 cm2", "64 cm2", "48 cm2", "128 cm2"],
     correctIndex: 0,
     explanation: "LP = 6 x r^2 = 6 x 16 = 96 cm2",
+    alternatives: ["96 cm2","96"],
   },
   {
     id: "q-sisidatar-4",
@@ -782,6 +857,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5", "4", "6", "3"],
     correctIndex: 0,
     explanation: "Prisma segitiga: 2 sisi alas + 3 sisi tegak = 5 sisi",
+    alternatives: ["5"],
   },
 
   // 17-bangun-ruang-sisi-lengkung (SMP)
@@ -792,6 +868,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1540 cm3", "1440 cm3", "1500 cm3", "1600 cm3"],
     correctIndex: 0,
     explanation: "V = pi*r^2*t = (22/7) x 49 x 10 = 1540 cm3",
+    alternatives: ["1540 cm3","1540"],
   },
   {
     id: "q-sisilengkung-2",
@@ -800,6 +877,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["440 cm2", "1540 cm2", "308 cm2", "220 cm2"],
     correctIndex: 0,
     explanation: "L selimut = 2*pi*r*t = 2 x (22/7) x 7 x 10 = 440 cm2",
+    alternatives: ["440 cm2","440"],
   },
   {
     id: "q-sisilengkung-3",
@@ -808,6 +886,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["376,8 cm3", "1130,4 cm3", "565,2 cm3", "188,4 cm3"],
     correctIndex: 0,
     explanation: "V = (1/3)*pi*r^2*t = (1/3) x 3,14 x 36 x 10 = 376,8 cm3",
+    alternatives: ["376,8 cm3","376.8 cm3"],
   },
   {
     id: "q-sisilengkung-4",
@@ -816,6 +895,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1437,33 cm3", "308 cm3", "616 cm3", "1540 cm3"],
     correctIndex: 0,
     explanation: "V = (4/3)*pi*r^3 = (4/3) x (22/7) x 343 = 1437,33 cm3",
+    alternatives: ["1437,33 cm3","1437.33 cm3"],
   },
 
   // 21-persamaan-lingkaran-dan-irisan-kerucut (SMA)
@@ -826,6 +906,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(0,0) dan 5", "(0,0) dan 25", "(5,5) dan 5", "(25,25) dan 5"],
     correctIndex: 0,
     explanation: "Persamaan x^2 + y^2 = r^2, maka pusat (0,0) dan r = 5",
+    alternatives: ["(0,0) dan 5"],
   },
   {
     id: "q-lingkaran-4",
@@ -834,6 +915,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(x-2)^2 + (y-3)^2 = 16", "(x+2)^2 + (y+3)^2 = 16", "(x-2)^2 + (y-3)^2 = 4", "x^2 + y^2 = 16"],
     correctIndex: 0,
     explanation: "(x-a)^2 + (y-b)^2 = r^2, maka (x-2)^2 + (y-3)^2 = 16",
+    alternatives: ["(x-2)^2 + (y-3)^2 = 16"],
   },
   {
     id: "q-lingkaran-5",
@@ -842,6 +924,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x + 3y = 10", "x + 3y = 20", "3x + y = 10", "x - 3y = 10"],
     correctIndex: 0,
     explanation: "Persamaan tangent di (x1,y1): x1*x + y1*y = r^2, maka x + 3y = 10",
+    alternatives: ["x + 3y = 10"],
   },
   {
     id: "q-lingkaran-6",
@@ -850,6 +933,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Di dalam lingkaran", "Di atas lingkaran", "Di luar lingkaran", "Tepat di lingkaran"],
     correctIndex: 0,
     explanation: "1^2 + 2^2 = 5 < 9, maka titik di dalam lingkaran",
+    alternatives: ["di dalam lingkaran"],
   },
 
   // 22-bilangan-kompleks (SMA)
@@ -860,6 +944,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["4 - 2i", "4 + 2i", "2 - 2i", "2 + 6i"],
     correctIndex: 0,
     explanation: "(3+1) + (2-4)i = 4 - 2i",
+    alternatives: ["4 - 2i"],
   },
   {
     id: "q-kompleks-2",
@@ -868,6 +953,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5 + i", "5 - i", "-1 + 5i", "2 + 3i"],
     correctIndex: 0,
     explanation: "2*1 + 2*(-i) + 3i*1 + 3i*(-i) = 2 - 2i + 3i + 3 = 5 + i",
+    alternatives: ["5 + i"],
   },
   {
     id: "q-kompleks-3",
@@ -876,6 +962,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5", "7", "25", "12"],
     correctIndex: 0,
     explanation: "|z| = sqrt(3^2 + 4^2) = sqrt(25) = 5",
+    alternatives: ["5"],
   },
   {
     id: "q-kompleks-4",
@@ -884,6 +971,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5 + 2i", "-5 - 2i", "5 - 2i", "-5 + 2i"],
     correctIndex: 0,
     explanation: "Konjugat dari a + bi adalah a - bi, maka konjugat dari 5 - 2i = 5 + 2i",
+    alternatives: ["5 + 2i"],
   },
 
   // d-real-analysis-analisis-real (Kuliah)
@@ -894,6 +982,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0", "1", "Tak hingga", "Tidak ada"],
     correctIndex: 0,
     explanation: "lim(n->inf) 1/n = 0 karena penyebut makin besar tanpa batas",
+    alternatives: ["0"],
   },
   {
     id: "q-real-2",
@@ -902,6 +991,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Untuk e>0, pilih N > 3/e", "Untuk e>0, pilih N > e/3", "Untuk e>0, pilih N > 3", "Untuk e>0, pilih N > e"],
     correctIndex: 0,
     explanation: "|3/n - 0| = 3/n < e jika n > 3/e. Maka N = 3/e.",
+    alternatives: ["Untuk e>0, pilih N > 3/e"],
   },
   {
     id: "q-real-3",
@@ -910,6 +1000,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Ada bilangan real M sehingga s <= M untuk semua s di S", "S hanya berisi bilangan bulat", "S kosong", "S berisi bilangan negatif"],
     correctIndex: 0,
     explanation: "Definisi terbatas dari atas: ada M real sehingga semua elemen S <= M.",
+    alternatives: ["ada bilangan real M sehingga s <= M untuk semua s di S"],
   },
   {
     id: "q-real-4",
@@ -918,6 +1009,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Untuk setiap x > 0, ada n bilangan bulat sehingga n > x", "Setiap bilangan real adalah rasional", "Setiap himpunan terbatas punya batas", "Setiap barisan konvergen"],
     correctIndex: 0,
     explanation: "Sifat Archimedes: untuk x > 0 apapun, selalu ada bilangan bulat n yang lebih besar dari x.",
+    alternatives: ["untuk setiap x > 0, ada n bilangan bulat sehingga n > x"],
   },
 
   // e-abstract-algebra-aljabar-abstrak (Kuliah)
@@ -928,6 +1020,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Grup abelian", "Grup tidak abelian", "Semigrup saja", "Monoid saja"],
     correctIndex: 0,
     explanation: "Z4 dengan + mod 4 memenuhi semua aksioma grup dan komutatif, sehingga grup abelian.",
+    alternatives: ["grup abelian"],
   },
   {
     id: "q-abstract-2",
@@ -936,6 +1029,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["e*a = a*e = a untuk semua a", "a*a = a untuk semua a", "a*ainv = 0", "a + 0 = 0"],
     correctIndex: 0,
     explanation: "Unsur identitas e memenuhi e*a = a*e = a untuk setiap a dalam grup.",
+    alternatives: ["e*a = a*e = a untuk semua a"],
   },
   {
     id: "q-abstract-3",
@@ -944,6 +1038,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Grup orde 2", "Grup orde 4", "Hanya monoid", "Tidak ada"],
     correctIndex: 0,
     explanation: "1*1=1, 1*(-1)=-1, (-1)*1=-1, (-1)*(-1)=1. Grup orde 2.",
+    alternatives: ["grup orde 2"],
   },
   {
     id: "q-abstract-4",
@@ -952,6 +1047,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(a*b)*c = a*(b*c) untuk semua a,b,c", "a*b = b*a untuk semua a,b", "a*e = a untuk semua a", "a*ainv = e untuk semua a"],
     correctIndex: 0,
     explanation: "Asosiatif: pengelompokan tidak mempengaruhi hasil operasi.",
+    alternatives: ["(a*b)*c = a*(b*c) untuk semua a,b,c"],
   },
 
   // f-discrete-mathematics-matematika-diskrit (Kuliah)
@@ -962,6 +1058,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["32", "25", "10", "5"],
     correctIndex: 0,
     explanation: "Banyak subset = 2^n = 2^5 = 32",
+    alternatives: ["32"],
   },
   {
     id: "q-diskrit-2",
@@ -970,6 +1067,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["120", "720", "360", "20"],
     correctIndex: 0,
     explanation: "P(6,3) = 6!/(6-3)! = 720/6 = 120",
+    alternatives: ["120"],
   },
   {
     id: "q-diskrit-3",
@@ -978,6 +1076,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["p benar dan q salah", "p salah dan q benar", "p benar dan q benar", "p salah dan q salah"],
     correctIndex: 0,
     explanation: "Implikasi p -> q hanya salah jika p benar dan q salah.",
+    alternatives: ["p benar dan q salah"],
   },
   {
     id: "q-diskrit-4",
@@ -986,6 +1085,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Lintasan Euler", "Lintasan Hamilton", "Pohon", "Graf bipartit"],
     correctIndex: 0,
     explanation: "Lintasan Euler melewati setiap tepi tepat satu kali.",
+    alternatives: ["lintasan Euler"],
   },
 
   // g-probability-statistics-probabilitas-statistika-lanjut (Kuliah)
@@ -996,6 +1096,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0,15", "0,8", "0,3", "0,5"],
     correctIndex: 0,
     explanation: "A,B saling bebas: P(A dan B) = P(A) x P(B) = 0,3 x 0,5 = 0,15",
+    alternatives: ["0,15","0.15"],
   },
   {
     id: "q-prob-2",
@@ -1004,6 +1105,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "7", "0,3", "10"],
     correctIndex: 0,
     explanation: "E(X) = n x p = 10 x 0,3 = 3",
+    alternatives: ["3"],
   },
   {
     id: "q-prob-3",
@@ -1012,6 +1114,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0,1587", "0,8413", "0,5", "0,3413"],
     correctIndex: 0,
     explanation: "Z = (60-50)/10 = 1. P(Z > 1) = 1 - 0,8413 = 0,1587",
+    alternatives: ["0,1587","0.1587"],
   },
   {
     id: "q-prob-4",
@@ -1020,6 +1123,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["4", "2", "16", "8"],
     correctIndex: 0,
     explanation: "Pada distribusi Poisson: Var(X) = lambda = 4",
+    alternatives: ["4"],
   },
 
   // h-topik-lanjutan (Kuliah)
@@ -1030,6 +1134,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "2", "4", "Tak hingga"],
     correctIndex: 0,
     explanation: "R3 memiliki basis {(1,0,0),(0,1,0),(0,0,1)} sehingga dimensinya 3.",
+    alternatives: ["3"],
   },
   {
     id: "q-lanjutan-2",
@@ -1038,6 +1143,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["ad - bc", "ac - bd", "ab - cd", "ad + bc"],
     correctIndex: 0,
     explanation: "det([[a,b],[c,d]]) = ad - bc",
+    alternatives: ["ad - bc","ad-bc"],
   },
   {
     id: "q-lanjutan-3",
@@ -1046,6 +1152,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["y = Ce^x", "y = Cx", "y = C + x", "y = C/x"],
     correctIndex: 0,
     explanation: "dy/y = dx, ln|y| = x + C, y = Ce^x",
+    alternatives: ["y = Ce^x"],
   },
   {
     id: "q-lanjutan-4",
@@ -1054,5 +1161,6 @@ export const quizzes: QuizQuestion[] = [
     options: ["P(B|A)*P(A) / P(B)", "P(A)*P(B)", "P(A dan B) + P(B)", "P(A) / P(B)"],
     correctIndex: 0,
     explanation: "P(A|B) = P(B|A)*P(A) / P(B) menurut teorema Bayes.",
+    alternatives: ["P(B|A)*P(A) / P(B)"],
   },
 ];

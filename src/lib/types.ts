@@ -50,6 +50,7 @@ export interface QuizQuestion {
   options: string[];
   correctIndex: number;
   explanation: string;
+  alternatives?: string[];
 }
 
 export interface UserProgress {

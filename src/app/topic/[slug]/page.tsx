@@ -5,12 +5,11 @@ import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import MathContent from "@/components/MathContent";
 import LessonClient from "@/components/lesson/LessonClient";
-import XpPopup from "@/components/ui/XpPopup";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { getTopicBySlug, getTopicsByLevel } from "@/lib/mathData";
-import { completeTopic, toggleBookmark, getProfile } from "@/lib/gamification";
+import { toggleBookmark, getProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
-import { ArrowLeft, Bookmark, CheckCircle2, Play, ChevronRight, StickyNote, Save } from "lucide-react";
+import { Bookmark, Play, ChevronRight, StickyNote, Save } from "lucide-react";
 import type { Topic } from "@/lib/types";
 
 export default function TopicPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -18,9 +17,7 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
   const [topic, setTopic] = useState<Topic | null>(null);
   const [related, setRelated] = useState<Topic[]>([]);
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
   const [showLesson, setShowLesson] = useState(false);
-  const [showXp, setShowXp] = useState(false);
   const [notes, setNotes] = useState("");
   const [savedNotes, setSavedNotes] = useState(false);
 
@@ -31,17 +28,10 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
       setRelated(getTopicsByLevel(found.level).filter((t) => t.slug !== slug).slice(0, 5));
       const p = getProfile();
       setIsBookmarked(p.bookmarkedTopics.includes(slug));
-      setIsCompleted(p.completedTopics.includes(slug));
       const savedNotes = localStorage.getItem(`note-${slug}`) || "";
       setNotes(savedNotes);
     }
   }, [slug]);
-
-  const handleComplete = () => {
-    completeTopic(slug);
-    setIsCompleted(true);
-    setShowXp(true);
-  };
 
   const handleBookmark = () => {
     toggleBookmark(slug);
@@ -73,7 +63,6 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
   return (
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
-      <XpPopup amount={25} show={showXp} onComplete={() => setShowXp(false)} />
 
       <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
         {/* Header */}

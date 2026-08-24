@@ -31,11 +31,19 @@ export default function FillBlank({
   const handleSubmit = () => {
     if (!answer.trim()) return;
 
-    const normalized = answer.trim().toLowerCase().replace(/\s+/g, " ");
+    const normalize = (s: string) =>
+      s.trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ")
+        .replace(/[×·]/g, "*")
+        .replace(/\s*\*\s*/g, "*")
+        .replace(/,(\d)/g, ".$1")
+        .replace(/\s*(cm|m|mm|kg|g|hari|menit|detik|tahun|persen|%|rp|ribu|juta)\b/gi, "")
+        .replace(/^\(([^()]+)\)$/, "$1");
+
+    const normalized = normalize(answer);
     const alternatives = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
-    const correct = alternatives.some(
-      (a) => a.trim().toLowerCase().replace(/\s+/g, " ") === normalized
-    );
+    const correct = alternatives.some((a) => normalize(a) === normalized);
     setIsCorrect(correct);
     setShowResult(true);
 
