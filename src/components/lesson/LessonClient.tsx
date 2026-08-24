@@ -8,6 +8,9 @@ import HeartBar from "@/components/ui/HeartBar";
 import XpPopup from "@/components/ui/XpPopup";
 import Confetti from "@/components/ui/Confetti";
 import Mascot from "@/components/game/Mascot";
+import NumberLineDrag from "@/components/lesson/NumberLineDrag";
+import SortingQuestion from "@/components/lesson/SortingQuestion";
+import EquationBuilder from "@/components/lesson/EquationBuilder";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import { completeTopic, saveQuizScore, getProfile, trackWrongAnswer, useHeart, refillHearts, consumeDoubleXp, addXp } from "@/lib/gamification";
@@ -269,7 +272,48 @@ export default function LessonClient({ topic }: LessonClientProps) {
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
-                {quizType === "fill" ? (
+                {q.type === "numberline" && q.numberLine ? (
+                  <div className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] p-6 border-2 border-[var(--duo-border)] shadow-lg">
+                    <h3 className="text-lg font-black text-[var(--duo-text)] mb-4 text-center">{q.question}</h3>
+                    <NumberLineDrag
+                      min={q.numberLine.min}
+                      max={q.numberLine.max}
+                      correctValue={q.numberLine.correctValue}
+                      step={q.numberLine.step}
+                      tolerance={q.numberLine.tolerance}
+                      onCorrect={handleCorrect}
+                      onWrong={handleWrong}
+                    />
+                    <button onClick={handleNextQuestion} className="w-full mt-4 py-3 rounded-xl bg-[var(--duo-green)] text-white font-bold shadow-[0_4px_0_var(--duo-green-dark)] active:translate-y-[2px] active:shadow-none transition-all">
+                      Lanjut →
+                    </button>
+                  </div>
+                ) : q.type === "sorting" && q.sorting ? (
+                  <div className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] p-6 border-2 border-[var(--duo-border)] shadow-lg">
+                    <h3 className="text-lg font-black text-[var(--duo-text)] mb-4 text-center">{q.question}</h3>
+                    <SortingQuestion
+                      items={q.sorting.items}
+                      correctOrder={q.sorting.correctOrder}
+                      label={q.sorting.label}
+                      onCorrect={handleCorrect}
+                      onWrong={handleWrong}
+                    />
+                    <button onClick={handleNextQuestion} className="w-full mt-4 py-3 rounded-xl bg-[var(--duo-green)] text-white font-bold shadow-[0_4px_0_var(--duo-green-dark)] active:translate-y-[2px] active:shadow-none transition-all">
+                      Lanjut →
+                    </button>
+                  </div>
+                ) : q.type === "equation" && q.equation ? (
+                  <div className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] p-6 border-2 border-[var(--duo-border)] shadow-lg">
+                    <h3 className="text-lg font-black text-[var(--duo-text)] mb-4 text-center">{q.question}</h3>
+                    <EquationBuilder
+                      steps={q.equation.steps}
+                      onComplete={(ok) => ok ? handleCorrect() : handleWrong()}
+                    />
+                    <button onClick={handleNextQuestion} className="w-full mt-4 py-3 rounded-xl bg-[var(--duo-green)] text-white font-bold shadow-[0_4px_0_var(--duo-green-dark)] active:translate-y-[2px] active:shadow-none transition-all">
+                      Lanjut →
+                    </button>
+                  </div>
+                ) : quizType === "fill" ? (
                   <FillBlank
                     question={q.question}
                     correctAnswer={

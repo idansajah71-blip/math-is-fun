@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 import WorldMap from "@/components/game/WorldMap";
 import Mascot from "@/components/game/Mascot";
+import { useMascot } from "@/hooks/useMascot";
 import QuestCard from "@/components/game/QuestCard";
 import XPBar from "@/components/ui/XPBar";
 import StreakBar from "@/components/ui/StreakBar";
@@ -25,6 +26,7 @@ function HomeContent() {
   const [mounted, setMounted] = useState(false);
   const [showXp, setShowXp] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const mascotState = useMascot();
 
   useEffect(() => {
     setTopics(getAllTopics());
@@ -323,15 +325,10 @@ function HomeContent() {
             className="fixed bottom-20 right-6 lg:bottom-6 z-40"
           >
             <Mascot
-              mood={streak >= 7 ? "celebrate" : completedCount > 0 ? "happy" : "idle"}
+              mood={mascotState.mood}
               size={80}
-              message={
-                streak >= 7
-                  ? "Streak mantap!"
-                  : completedCount === 0
-                  ? "Yuk mulai belajar!"
-                  : undefined
-              }
+              message={mascotState.message}
+              level={profile?.level ?? 0}
             />
           </motion.div>
         </div>

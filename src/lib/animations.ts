@@ -1,5 +1,18 @@
 import type { Variants, Transition } from "framer-motion";
 
+// ═══════════════════════════════════════════════════════════════════
+// UNIFIED MOTION SYSTEM — BelajarMTK
+//
+// Use ONLY these tokens for animations. Do not inline custom values.
+// This ensures visual consistency across all pages.
+//
+// Usage:
+//   import { springGentle, staggerContainer, staggerItem } from "@/lib/animations";
+//   <motion.div variants={staggerContainer} initial="hidden" animate="visible">
+//     {items.map(i => <motion.div key={i} variants={staggerItem} />)}
+//   </motion.div>
+// ═══════════════════════════════════════════════════════════════════
+
 // ===== SPRING TRANSITIONS =====
 export const springBounce: Transition = {
   type: "spring",
@@ -291,3 +304,90 @@ export function getStaggerList(itemCount: number) {
     },
   };
 }
+
+// ===== CORRECT / WRONG ANSWER =====
+export const correctFlash: Variants = {
+  idle: { borderColor: "var(--duo-border)" },
+  correct: {
+    borderColor: ["var(--duo-border)", "#22c55e", "#22c55e", "var(--duo-border)"],
+    transition: { duration: 0.6 },
+  },
+};
+
+export const wrongShake: Variants = {
+  idle: { x: 0 },
+  wrong: {
+    x: [0, -8, 8, -6, 6, -3, 3, 0],
+    transition: { duration: 0.4 },
+  },
+};
+
+// ===== SCREEN TRANSITIONS =====
+export const screenSlideUp: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: springGentle },
+  exit: { opacity: 0, y: -20, transition: tweenFast },
+};
+
+export const screenFadeScale: Variants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: springSnappy },
+  exit: { opacity: 0, scale: 1.05, transition: tweenFast },
+};
+
+// ===== ACHIEVEMENT / BADGE =====
+export const badgeReveal: Variants = {
+  hidden: { opacity: 0, scale: 0, rotate: -180 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 15,
+      delay: 0.2,
+    },
+  },
+};
+
+// ===== STAGGER WITH CONTAINER =====
+export const staggeredList: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.06,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+export const staggeredItem: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: springGentle,
+  },
+};
+
+// ===== HOVER / TAP FOR INTERACTIVE ELEMENTS =====
+export const interactiveScale: Variants = {
+  rest: { scale: 1 },
+  hover: { scale: 1.03 },
+  tap: { scale: 0.97 },
+};
+
+// ===== PROGRESS RING FILL =====
+export const ringFill: Variants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: {
+      pathLength: { type: "spring", stiffness: 100, damping: 20, delay: 0.3 },
+      opacity: { duration: 0.01, delay: 0.3 },
+    },
+  },
+};

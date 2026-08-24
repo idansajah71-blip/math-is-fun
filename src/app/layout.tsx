@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { ThemeProvider } from "next-themes";
-import AccentInit from "@/components/AccentInit";
+import ClientProviders from "@/components/ClientProviders";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -44,10 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" href="/icon-192.png" />
       </head>
       <body className="min-h-screen bg-[var(--duo-bg)] text-[var(--duo-text)] antialiased font-sans">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <AccentInit />
-          {children}
-        </ThemeProvider>
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );

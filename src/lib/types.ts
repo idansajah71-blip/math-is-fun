@@ -51,6 +51,13 @@ export interface QuizQuestion {
   correctIndex: number;
   explanation: string;
   alternatives?: string[];
+  type?: "choice" | "fill" | "numberline" | "sorting" | "equation";
+  // For numberline type
+  numberLine?: { min: number; max: number; correctValue: number; step?: number; tolerance?: number };
+  // For sorting type
+  sorting?: { items: string[]; correctOrder: number[]; label?: string };
+  // For equation type
+  equation?: { steps: { prompt: string; options: string[]; correctIndex: number; explanation?: string }[] };
 }
 
 export interface UserProgress {

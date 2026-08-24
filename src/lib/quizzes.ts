@@ -30,6 +30,30 @@ export const quizzes: QuizQuestion[] = [
     alternatives: ["50"],
   },
 
+  // Interactive: Number line for fractions
+  {
+    id: "q-bilangan-interactive-1",
+    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    question: "Geser ke posisi 3/4 di garis bilangan",
+    options: [],
+    correctIndex: 0,
+    explanation: "3/4 = 0.75, posisi di antara 0 dan 1",
+    type: "numberline",
+    numberLine: { min: 0, max: 1, correctValue: 0.75, step: 0.25, tolerance: 0.15 },
+  },
+
+  // Interactive: Sorting fractions
+  {
+    id: "q-bilangan-interactive-2",
+    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    question: "Susun pecahan ini dari terkecil ke terbesar",
+    options: [],
+    correctIndex: 0,
+    explanation: "1/2 = 0.5, 3/4 = 0.75, 2/3 ≈ 0.67. Urutan: 1/2 < 2/3 < 3/4",
+    type: "sorting",
+    sorting: { items: ["1/2", "3/4", "2/3"], correctOrder: [0, 2, 1], label: "Dari terkecil ke terbesar" },
+  },
+
   // Himpunan
   {
     id: "q-himpunan-1",
@@ -77,6 +101,24 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "3x = 8 + 7 = 15, x = 15/3 = 5",
     alternatives: ["x = 5"],
+  },
+
+  // Interactive: Equation builder for PLSV
+  {
+    id: "q-linear-interactive-1",
+    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    question: "Selesaikan langkah demi langkah: 2x + 5 = 13",
+    options: [],
+    correctIndex: 0,
+    explanation: "2x + 5 = 13 → 2x = 8 → x = 4",
+    type: "equation",
+    equation: {
+      steps: [
+        { prompt: "Langkah 1: Pindahkan 5 ke ruas kanan", options: ["2x = 13 - 5", "2x = 13 + 5", "2x = 5 - 13", "2x = 13 × 5"], correctIndex: 0, explanation: "Kurangkan 5 dari kedua ruas" },
+        { prompt: "Langkah 2: Hitung hasilnya", options: ["2x = 8", "2x = 18", "2x = 6", "2x = 10"], correctIndex: 0, explanation: "13 - 5 = 8" },
+        { prompt: "Langkah 3: Bagi kedua ruas dengan 2", options: ["x = 4", "x = 6", "x = 3", "x = 5"], correctIndex: 0, explanation: "8 ÷ 2 = 4" },
+      ],
+    },
   },
 
   // Perbandingan
