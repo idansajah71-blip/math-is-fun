@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BelajarMTK
+
+Matematika seru seperti game — dari SMP hingga Universitas.
+
+> "Brilliant-nya matematika Indonesia, dengan maskot & habit-loop sekelas Duolingo."
+
+## Features
+
+- **50+ topik** matematika Indonesia (SMP, SMA, Kuliah) dengan konten LaTeX
+- **Soal interaktif** — multiple choice, fill-in-the-blank, drag number line, sorting, equation builder
+- **Gamifikasi lengkap** — XP, level, streak, hearts, badges, shop, daily rewards
+- **Maskot reaktif** — berubah mood & pesan berdasarkan progres, streak, dan topik lemah
+- **Leaderboard** real-time via Supabase
+- **Dark mode** & accent color themes
+- **Sound effects** (Web Audio API)
+- **120+ soal quiz** dengan pembahasan
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| UI | React 19, Tailwind CSS 4, Framer Motion |
+| Backend | Supabase (PostgreSQL + Auth + Realtime) |
+| State | localStorage + Supabase sync |
+| Math | KaTeX |
+| Icons | Lucide React |
+| Testing | Vitest |
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.local.example .env.local
+# Edit .env.local with your Supabase keys
+
+# Run dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Supabase Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create a project at [app.supabase.com](https://app.supabase.com)
+2. Go to **SQL Editor** and run `supabase/migration.sql`
+3. Copy your **Project URL** and **Anon Key** to `.env.local`:
 
-## Learn More
+```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Command | Description |
+|---------|------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run test` | Run tests |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run lint` | Run ESLint |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+src/
+├── app/              # Next.js App Router pages
+├── components/       # React components
+│   ├── game/         # Mascot, WorldMap, QuestCard
+│   ├── lesson/       # LessonClient, FillBlank, MultipleChoice, etc.
+│   └── ui/           # XPBar, HeartBar, StreakBar, etc.
+├── contexts/         # AuthContext
+├── hooks/            # useMascot
+├── lib/              # Core logic
+│   ├── gamification.ts   # XP, hearts, streak, badges, shop
+│   ├── supabase/         # Client, server, sync, middleware
+│   ├── animations.ts     # Unified motion tokens
+│   └── quizzes.ts        # 120+ quiz questions
+tests/                # Vitest tests
+supabase/             # SQL migrations
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Roadmap
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [x] Phase 0 — Foundation fixes (XP bug, hearts, dead code)
+- [x] Phase 1 — Supabase backend (auth, DB, real leaderboard)
+- [x] Phase 2 — Smart mascot (reactive mood, adaptive learning)
+- [x] Phase 3 — Interactive questions (drag, sort, equation builder)
+- [x] Phase 4 — Unified motion system
+- [x] Phase 5 — Tests, CI, README
+
+## License
+
+MIT
