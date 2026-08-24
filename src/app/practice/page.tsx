@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Sidebar from "@/components/Sidebar";
-import Confetti from "@/components/Confetti";
+import Confetti from "@/components/ui/Confetti";
 import Hearts from "@/components/Hearts";
-import XpPopup from "@/components/XpPopup";
+import XpPopup from "@/components/ui/XpPopup";
 import { quizzes } from "@/lib/quizzes";
 import { getAllTopics } from "@/lib/mathData";
 import { saveQuizScore, addXp } from "@/lib/gamification";

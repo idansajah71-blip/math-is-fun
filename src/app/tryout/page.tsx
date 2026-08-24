@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Sidebar from "@/components/Sidebar";
-import Confetti from "@/components/Confetti";
+import Confetti from "@/components/ui/Confetti";
 import Hearts from "@/components/Hearts";
 import { quizzes } from "@/lib/quizzes";
 import { saveQuizScore, addXp } from "@/lib/gamification";

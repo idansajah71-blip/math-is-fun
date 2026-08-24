@@ -54,6 +54,30 @@ export const quizzes: QuizQuestion[] = [
     sorting: { items: ["1/2", "3/4", "2/3"], correctOrder: [0, 2, 1], label: "Dari terkecil ke terbesar" },
   },
 
+  // Interactive: Number line for integers
+  {
+    id: "q-bilangan-interactive-3",
+    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    question: "Geser ke posisi -3 di garis bilangan",
+    options: [],
+    correctIndex: 0,
+    explanation: "-3 terletak di kiri nol pada garis bilangan",
+    type: "numberline",
+    numberLine: { min: -5, max: 5, correctValue: -3, step: 1, tolerance: 0.5 },
+  },
+
+  // Interactive: Sorting decimals
+  {
+    id: "q-bilangan-interactive-4",
+    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    question: "Susun desimal ini dari terbesar ke terkecil",
+    options: [],
+    correctIndex: 0,
+    explanation: "0.8 > 0.45 > 0.4 > 0.09",
+    type: "sorting",
+    sorting: { items: ["0.45", "0.8", "0.09", "0.4"], correctOrder: [1, 0, 3, 2], label: "Dari terbesar ke terkecil" },
+  },
+
   // Himpunan
   {
     id: "q-himpunan-1",
@@ -119,6 +143,36 @@ export const quizzes: QuizQuestion[] = [
         { prompt: "Langkah 3: Bagi kedua ruas dengan 2", options: ["x = 4", "x = 6", "x = 3", "x = 5"], correctIndex: 0, explanation: "8 ÷ 2 = 4" },
       ],
     },
+  },
+
+  // Interactive: Equation builder for PLSV (harder)
+  {
+    id: "q-linear-interactive-2",
+    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    question: "Selesaikan: 4x - 3 = 2x + 9",
+    options: [],
+    correctIndex: 0,
+    explanation: "4x - 2x = 9 + 3 → 2x = 12 → x = 6",
+    type: "equation",
+    equation: {
+      steps: [
+        { prompt: "Langkah 1: Pindahkan 2x ke ruas kiri", options: ["4x - 2x = 9 + 3", "4x + 2x = 9 + 3", "4x - 2x = 9 - 3", "4x = 2x + 12"], correctIndex: 0, explanation: "Kurangkan 2x dari kedua ruas" },
+        { prompt: "Langkah 2: Pindahkan -3 ke ruas kanan", options: ["2x = 9 + 3", "2x = 9 - 3", "2x = 12 - 3", "2x = 3 - 9"], correctIndex: 0, explanation: "Tambah 3 ke kedua ruas" },
+        { prompt: "Langkah 3: Hasil dan bagi", options: ["x = 6", "x = 3", "x = 12", "x = 4"], correctIndex: 0, explanation: "2x = 12, x = 12/2 = 6" },
+      ],
+    },
+  },
+
+  // Interactive: Sorting integers
+  {
+    id: "q-bilangan-interactive-5",
+    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    question: "Susun bilangan ini dari terkecil ke terbesar",
+    options: [],
+    correctIndex: 0,
+    explanation: "-5 < -2 < 0 < 3 < 7",
+    type: "sorting",
+    sorting: { items: ["3", "-5", "0", "7", "-2"], correctOrder: [1, 4, 2, 0, 3], label: "Dari terkecil ke terbesar" },
   },
 
   // Perbandingan

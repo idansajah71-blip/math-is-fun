@@ -228,7 +228,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
   // ===== QUIZ SCREEN =====
   if (step === "quiz" && questions.length > 0) {
     const q = questions[currentQ];
-    const quizTypes = ["choice", "fill"];
+    const quizTypes = ["choice", "fill", "truefalse"];
     const quizType = quizTypes[currentQ % quizTypes.length];
 
     return (

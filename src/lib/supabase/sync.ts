@@ -29,6 +29,7 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     dailyRewardClaimed: (row.daily_reward_claimed as string) ?? null,
     dailyRewardStreak: (row.daily_reward_streak as number) ?? 0,
     doubleXpNextLesson: (row.double_xp_next_lesson as boolean) ?? false,
+    lastSeenLevel: (row.last_seen_level as number) ?? 0,
   };
 }
 
@@ -56,6 +57,7 @@ function profileToRow(profile: UserProfile) {
     daily_reward_claimed: profile.dailyRewardClaimed,
     daily_reward_streak: profile.dailyRewardStreak,
     double_xp_next_lesson: profile.doubleXpNextLesson,
+    last_seen_level: profile.lastSeenLevel,
   };
 }
 

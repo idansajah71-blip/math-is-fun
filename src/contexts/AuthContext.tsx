@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
+import { pullProfile } from "@/lib/supabase/sync";
 
 interface AuthContextType {
   user: User | null;
@@ -17,13 +18,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const supabase = createClient();
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(async ({ data }) => {
       setUser(data.user);
+      if (data.user) {
+        // Pull remote profile and merge with localStorage
+        await pullProfile();
+      }
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setUser(session?.user ?? null);
+      if (event === "SIGNED_IN" && session?.user) {
+        await pullProfile();
+      }
+      if (event === "SIGNED_OUT") {
+        // Optional: clear localStorage on sign out
+        // localStorage.removeItem(STORAGE_KEY);
+      }
     });
 
     return () => subscription.unsubscribe();

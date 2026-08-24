@@ -62,11 +62,12 @@ function getMascotState(profile: UserProfile): MascotState {
   const today = new Date().toISOString().split("T")[0];
   const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
 
-  // Level up check
-  const oldLevel = LEVEL_NAMES[Math.max(0, profile.level - 1)];
-  const newLevel = LEVEL_NAMES[profile.level];
-  if (oldLevel !== newLevel && profile.level > 0) {
+  // Level up check — only triggers when level > lastSeenLevel
+  if (profile.level > profile.lastSeenLevel && profile.level > 0) {
+    const newLevel = LEVEL_NAMES[profile.level];
     const msg = pickRandom(LEVEL_UP_MESSAGES).replace("{level}", newLevel);
+    // Mark as seen so it doesn't trigger again on next mount
+    profile.lastSeenLevel = profile.level;
     return { mood: "celebrate", message: msg };
   }
 

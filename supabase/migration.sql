@@ -28,6 +28,7 @@ create table public.profiles (
   daily_reward_claimed date,
   daily_reward_streak integer not null default 0,
   double_xp_next_lesson boolean not null default false,
+  last_seen_level integer not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -84,7 +85,8 @@ create trigger profiles_updated_at
   for each row execute procedure public.update_updated_at();
 
 -- 7. Leaderboard view (top users by weekly XP)
-create or replace view public.leaderboard_weekly as
+-- SECURITY DEFINER: view runs as owner, bypassing RLS so all users can see the leaderboard
+create or replace view public.leaderboard_weekly with (security_invoker = false) as
 select
   id,
   name,
@@ -98,7 +100,7 @@ from public.profiles
 order by (select sum(x) from unnest(weekly_xp) x) desc;
 
 -- 8. All-time leaderboard view
-create or replace view public.leaderboard_alltime as
+create or replace view public.leaderboard_alltime with (security_invoker = false) as
 select
   id,
   name,

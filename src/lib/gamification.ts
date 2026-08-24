@@ -22,10 +22,11 @@ export interface UserProfile {
   dailyRewardClaimed: string | null;
   dailyRewardStreak: number;
   doubleXpNextLesson: boolean;
+  lastSeenLevel: number;
   _lastHeartTime?: number;
 }
 
-const STORAGE_KEY = "belajar-mtk-profile";
+export const STORAGE_KEY = "belajar-mtk-profile";
 
 export const LEVEL_THRESHOLDS = [
   0, 50, 150, 300, 500, 750, 1000, 1500, 2000, 3000, 5000,
@@ -99,6 +100,8 @@ export function getProfile(): UserProfile {
 export function saveProfile(profile: UserProfile) {
   if (typeof window === "undefined") return;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+  // Background sync to Supabase (fire-and-forget)
+  import("@/lib/supabase/sync").then(({ pushProfile }) => pushProfile(profile)).catch(() => {});
 }
 
 export function getDefaultProfile(): UserProfile {
@@ -124,6 +127,7 @@ export function getDefaultProfile(): UserProfile {
     dailyRewardClaimed: null,
     dailyRewardStreak: 0,
     doubleXpNextLesson: false,
+    lastSeenLevel: 0,
   };
 }
 
@@ -171,8 +175,9 @@ export function addXp(amount: number): UserProfile {
   saveProfile(profile);
 
   if (profile.level > oldLevel) {
-    // Level up! Award gems
+    // Level up! Award gems + update lastSeenLevel
     profile.gems += 25;
+    profile.lastSeenLevel = profile.level;
     saveProfile(profile);
   }
 
