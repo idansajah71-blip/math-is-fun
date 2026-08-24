@@ -5,12 +5,13 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getProfile, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel } from "@/lib/gamification";
-import { Home, Trophy, Award, User, Zap, Flame, Target, FileText, Moon, Sun, Volume2, VolumeX, ShoppingBag, Menu, X, ChevronRight, Gem } from "lucide-react";
+import { Home, Trophy, Award, User, Flame, Target, FileText, Volume2, VolumeX, ShoppingBag, Menu, X, Gem } from "lucide-react";
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
 import ThemeToggle from "./ui/ThemeToggle";
 import AccentColorPicker from "./ui/AccentColorPicker";
 import { useSoundManager } from "@/hooks/useSoundManager";
+import type { UserProfile } from "@/lib/gamification";
 
 const NAV = [
   { href: "/", label: "Beranda", icon: Home, color: "text-[var(--duo-green)]" },
@@ -25,16 +26,13 @@ const NAV = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
-  const [profile, setProfile] = useState<any>(null);
-  const [mounted, setMounted] = useState(false);
-  const [muted, setMuted] = useState(false);
+  const { theme } = useTheme();
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { enabled: soundEnabled, toggle: toggleSound } = useSoundManager();
 
   useEffect(() => {
     setProfile(getProfile());
-    setMounted(true);
   }, []);
 
   useEffect(() => {

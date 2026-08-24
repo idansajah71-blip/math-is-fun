@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { getProfile, LEVEL_NAMES, UserProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
-import { Trophy, Medal, Crown, TrendingUp, Flame, Zap, ChevronRight, Info, Award } from "lucide-react";
+import { Trophy, Medal, Crown, Flame, Info, Award } from "lucide-react";
 
 interface LeaderboardEntry {
   rank: number;
@@ -69,13 +69,13 @@ export default function LeaderboardPage() {
 
             {/* Tabs */}
             <div className="flex gap-2">
-              {[
+              {([
                 { key: "weekly", label: "Mingguan" },
                 { key: "alltime", label: "Semua Waktu" },
-              ].map(tab => (
+              ] as const).map(tab => (
                 <button
                   key={tab.key}
-                  onClick={() => setActiveTab(tab.key as any)}
+                  onClick={() => setActiveTab(tab.key)}
                   className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
                     activeTab === tab.key
                       ? "bg-[var(--duo-green)] text-white shadow-md"

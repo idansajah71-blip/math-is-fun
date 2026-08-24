@@ -13,12 +13,14 @@ export interface UserProfile {
   completedTopics: string[];
   bookmarkedTopics: string[];
   quizScores: Record<string, number>;
+  wrongAnswers: Record<string, number>;
   streakFreeze: number;
   purchasedItems: string[];
   totalStudyTime: number;
   weeklyXp: number[];
   weeklyAccuracy: number[];
   dailyRewardClaimed: string | null;
+  _lastHeartTime?: number;
 }
 
 const STORAGE_KEY = "belajar-mtk-profile";
@@ -116,6 +118,7 @@ export function getDefaultProfile(): UserProfile {
     completedTopics: [],
     bookmarkedTopics: [],
     quizScores: {},
+    wrongAnswers: {},
     streakFreeze: 1,
     purchasedItems: [],
     totalStudyTime: 0,
@@ -144,14 +147,14 @@ function updateStreak(profile: UserProfile) {
 
 function regenerateHearts(profile: UserProfile) {
   const now = Date.now();
-  const lastHeartTime = (profile as any)._lastHeartTime || now;
+  const lastHeartTime = profile._lastHeartTime || now;
   const elapsed = now - lastHeartTime;
   const heartRegenTime = 30 * 60 * 1000; // 30 minutes per heart
 
   if (profile.hearts < profile.maxHearts && elapsed > heartRegenTime) {
     const heartsToRegen = Math.floor(elapsed / heartRegenTime);
     profile.hearts = Math.min(profile.hearts + heartsToRegen, profile.maxHearts);
-    (profile as any)._lastHeartTime = now;
+    profile._lastHeartTime = now;
   }
 }
 
@@ -212,7 +215,7 @@ export function claimDailyReward(): { profile: UserProfile; reward: typeof DAILY
 
   if (profile.dailyRewardClaimed === yesterday) {
     // Check which day of streak we're on
-    const lastReward = DAILY_REWARDS.find(r => {
+    const lastReward = DAILY_REWARDS.find(() => {
       const d = new Date();
       d.setDate(d.getDate() - 1);
       return profile.dailyRewardClaimed === d.toISOString().split("T")[0];
@@ -231,17 +234,21 @@ export function claimDailyReward(): { profile: UserProfile; reward: typeof DAILY
   return { profile, reward };
 }
 
-export function completeTopic(slug: string): UserProfile {
+export function completeTopic(slug: string): { xp: number; gems: number; profile: UserProfile } {
   const profile = getProfile();
+  let xp = 0;
+  let gems = 0;
   if (!profile.completedTopics.includes(slug)) {
     profile.completedTopics.push(slug);
-    profile.xp += 25;
-    profile.gems += 5;
+    xp = 25;
+    gems = 5;
+    profile.xp += xp;
+    profile.gems += gems;
     profile.level = getLevelForXp(profile.xp);
   }
   checkBadges(profile);
   saveProfile(profile);
-  return profile;
+  return { xp, gems, profile };
 }
 
 export function toggleBookmark(slug: string): UserProfile {
@@ -276,6 +283,21 @@ export function saveQuizScore(slug: string, score: number, withReward = true): U
   checkBadges(profile);
   saveProfile(profile);
   return profile;
+}
+
+export function trackWrongAnswer(slug: string): void {
+  const profile = getProfile();
+  profile.wrongAnswers[slug] = (profile.wrongAnswers[slug] || 0) + 1;
+  saveProfile(profile);
+}
+
+export function getWeakTopics(limit = 5): string[] {
+  const profile = getProfile();
+  return Object.entries(profile.wrongAnswers)
+    .filter(([slug]) => !profile.completedTopics.includes(slug))
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([slug]) => slug);
 }
 
 export function purchaseItem(itemId: string): UserProfile {

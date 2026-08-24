@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { getProfile, BADGES, UserProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
-import { Award, Star, Sparkles, Lock, CheckCircle2, ChevronRight } from "lucide-react";
+import { Award, Sparkles, Lock, CheckCircle2 } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 
@@ -73,14 +73,14 @@ export default function BadgesPage() {
 
             {/* Filters */}
             <div className="flex gap-2">
-              {[
+              {([
                 { key: "all", label: "Semua", count: totalCount },
                 { key: "unlocked", label: "Terbuka", count: unlockedCount },
                 { key: "locked", label: "Terkunci", count: totalCount - unlockedCount },
-              ].map(f => (
+              ] as const).map(f => (
                 <button
                   key={f.key}
-                  onClick={() => setFilter(f.key as any)}
+                  onClick={() => setFilter(f.key)}
                   className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
                     filter === f.key
                       ? "bg-[var(--duo-green)] text-white shadow-md"

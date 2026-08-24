@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import { getProfile, purchaseItem, SHOP_ITEMS } from "@/lib/gamification";
-import { motion, AnimatePresence } from "framer-motion";
-import { Gem, ShoppingBag, Zap, Star, X, CheckCircle2, Info, Sparkles } from "lucide-react";
-import AnimatedButton from "@/components/ui/AnimatedButton";
+import { motion } from "framer-motion";
+import { Gem, ShoppingBag, Zap, Star, CheckCircle2, Info, Sparkles } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
+import type { UserProfile } from "@/lib/gamification";
 
 export default function ShopPage() {
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [filter, setFilter] = useState<"all" | "powerup" | "avatar" | "effect">("all");
   const [buying, setBuying] = useState<string | null>(null);
   const [bought, setBought] = useState<string | null>(null);
@@ -72,15 +72,15 @@ export default function ShopPage() {
         {/* Filters */}
         <div className="max-w-4xl mx-auto px-8 py-6">
           <div className="flex flex-wrap gap-2 mb-6">
-            {[
+            {([
               { key: "all", label: "Semua", icon: <ShoppingBag size={14} /> },
               { key: "powerup", label: "Power-up", icon: <Zap size={14} /> },
               { key: "avatar", label: "Avatar", icon: <Star size={14} /> },
               { key: "effect", label: "Efek", icon: <Sparkles size={14} /> },
-            ].map(f => (
+            ] as const).map(f => (
               <button
                 key={f.key}
-                onClick={() => setFilter(f.key as any)}
+                onClick={() => setFilter(f.key)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
                   filter === f.key
                     ? "bg-[var(--duo-green)] text-white shadow-md"
