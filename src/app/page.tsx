@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
@@ -10,23 +9,22 @@ import Mascot from "@/components/game/Mascot";
 import QuestCard from "@/components/game/QuestCard";
 import XPBar from "@/components/ui/XPBar";
 import StreakBar from "@/components/ui/StreakBar";
-import AnimatedButton from "@/components/ui/AnimatedButton";
 import XpPopup from "@/components/ui/XpPopup";
 import { getAllTopics } from "@/lib/mathData";
 import { getProfile, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel } from "@/lib/gamification";
 import { staggerContainer, staggerItem, springGentle } from "@/lib/animations";
-import { Play, Trophy, Target, Zap, Flame, BookOpen, Star, Clock, Gift, ChevronRight } from "lucide-react";
+import { Play, Trophy, Zap, BookOpen, Star, Clock, Gift } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 import Onboarding from "@/components/Onboarding";
-import type { Topic, Level } from "@/lib/types";
+import type { Topic } from "@/lib/types";
+import type { UserProfile } from "@/lib/gamification";
 
 function HomeContent() {
   const [topics, setTopics] = useState<Topic[]>([]);
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [mounted, setMounted] = useState(false);
   const [showXp, setShowXp] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     setTopics(getAllTopics());
@@ -76,7 +74,7 @@ function HomeContent() {
   const dailyQuests = [
     {
       title: "Selesaikan 3 Soal",
-      description: "Latihan今天 hari ini",
+      description: "Latihan hari ini",
       progress: Math.min(completedCount, 3),
       total: 3,
       xpReward: 30,

@@ -1,6 +1,17 @@
 "use client";
 
 let soundEnabled = true;
+let audioCtx: AudioContext | null = null;
+
+function getAudioContext(): AudioContext {
+  if (!audioCtx || audioCtx.state === "closed") {
+    audioCtx = new AudioContext();
+  }
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
 
 export function setSoundEnabled(enabled: boolean) {
   soundEnabled = enabled;
@@ -25,7 +36,7 @@ function haptic(ms: number = 10) {
 export function playCorrectSound() {
   if (!soundEnabled || typeof window === "undefined") return;
   haptic(10);
-  const ctx = new AudioContext();
+  const ctx = getAudioContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.connect(gain);
@@ -43,7 +54,7 @@ export function playCorrectSound() {
 export function playWrongSound() {
   if (!soundEnabled || typeof window === "undefined") return;
   haptic(30);
-  const ctx = new AudioContext();
+  const ctx = getAudioContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.connect(gain);
@@ -60,7 +71,7 @@ export function playWrongSound() {
 export function playLevelUpSound() {
   if (!soundEnabled || typeof window === "undefined") return;
   haptic(20);
-  const ctx = new AudioContext();
+  const ctx = getAudioContext();
   const notes = [523, 659, 784, 1047];
   notes.forEach((freq, i) => {
     const osc = ctx.createOscillator();
@@ -79,7 +90,7 @@ export function playLevelUpSound() {
 export function playCompleteSound() {
   if (!soundEnabled || typeof window === "undefined") return;
   haptic(15);
-  const ctx = new AudioContext();
+  const ctx = getAudioContext();
   const notes = [392, 440, 523, 659, 784];
   notes.forEach((freq, i) => {
     const osc = ctx.createOscillator();
@@ -98,7 +109,7 @@ export function playCompleteSound() {
 export function playClickSound() {
   if (!soundEnabled || typeof window === "undefined") return;
   haptic(5);
-  const ctx = new AudioContext();
+  const ctx = getAudioContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.connect(gain);
@@ -114,7 +125,7 @@ export function playClickSound() {
 export function playAchievementSound() {
   if (!soundEnabled || typeof window === "undefined") return;
   haptic(25);
-  const ctx = new AudioContext();
+  const ctx = getAudioContext();
   const notes = [659, 784, 988, 1319];
   notes.forEach((freq, i) => {
     const osc = ctx.createOscillator();
@@ -133,7 +144,7 @@ export function playAchievementSound() {
 export function playStreakSound() {
   if (!soundEnabled || typeof window === "undefined") return;
   haptic(15);
-  const ctx = new AudioContext();
+  const ctx = getAudioContext();
   const notes = [440, 554, 659];
   notes.forEach((freq, i) => {
     const osc = ctx.createOscillator();
@@ -152,7 +163,7 @@ export function playStreakSound() {
 export function playGemSound() {
   if (!soundEnabled || typeof window === "undefined") return;
   haptic(10);
-  const ctx = new AudioContext();
+  const ctx = getAudioContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.connect(gain);
@@ -169,7 +180,7 @@ export function playGemSound() {
 export function playHeartSound() {
   if (!soundEnabled || typeof window === "undefined") return;
   haptic(10);
-  const ctx = new AudioContext();
+  const ctx = getAudioContext();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.connect(gain);
