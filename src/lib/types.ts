@@ -51,13 +51,21 @@ export interface QuizQuestion {
   correctIndex: number;
   explanation: string;
   alternatives?: string[];
-  type?: "choice" | "fill" | "numberline" | "sorting" | "equation";
+  type?: "choice" | "fill" | "numberline" | "sorting" | "equation" | "graph" | "geometry" | "venn";
+  difficulty?: "easy" | "medium" | "hard";
+  hints?: string[];
   // For numberline type
   numberLine?: { min: number; max: number; correctValue: number; step?: number; tolerance?: number };
   // For sorting type
   sorting?: { items: string[]; correctOrder: number[]; label?: string };
   // For equation type
   equation?: { steps: { prompt: string; options: string[]; correctIndex: number; explanation?: string }[] };
+  // For graph type
+  graph?: { expression: string; xMin?: number; xMax?: number; yMin?: number; yMax?: number; correctPoint?: { x: number; y: number } };
+  // For geometry type
+  geometry?: { shapes: { type: string; points?: { x: number; y: number }[]; radius?: number; center?: { x: number; y: number }; showMeasurements?: boolean }[]; question: string };
+  // For venn type
+  venn?: { setLabels: [string, string]; regionValues: [number, number, number, number]; universe?: number };
 }
 
 export interface UserProgress {

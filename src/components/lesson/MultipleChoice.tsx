@@ -92,6 +92,7 @@ export default function MultipleChoice({
             <motion.button
               key={i}
               variants={staggerItem}
+              data-mc-option={i}
               onClick={() => handleAnswer(i)}
               disabled={selected !== null}
               className={`w-full p-4 rounded-2xl text-left transition-all ${style}`}

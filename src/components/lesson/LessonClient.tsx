@@ -1,16 +1,20 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 import MathContent from "@/components/MathContent";
 import HeartBar from "@/components/ui/HeartBar";
 import XpPopup from "@/components/ui/XpPopup";
 import Confetti from "@/components/ui/Confetti";
-import Mascot from "@/components/game/Mascot";
+import QuizMascot from "@/components/game/QuizMascot";
 import NumberLineDrag from "@/components/lesson/NumberLineDrag";
 import SortingQuestion from "@/components/lesson/SortingQuestion";
 import EquationBuilder from "@/components/lesson/EquationBuilder";
+import HintButton from "@/components/lesson/HintButton";
+import MistakeReview from "@/components/lesson/MistakeReview";
+import type { MistakeItem } from "@/components/lesson/MistakeReview";
+import GraphPlotter from "@/components/math/GraphPlotter";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import { completeTopic, saveQuizScore, getProfile, trackWrongAnswer, useHeart, refillHearts, consumeDoubleXp, addXp } from "@/lib/gamification";
@@ -42,6 +46,9 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const [showConfetti, setShowConfetti] = useState(false);
   const [breaking, setBreaking] = useState(false);
   const [xpGained, setXpGained] = useState(0);
+  const [combo, setCombo] = useState(0);
+  const [lastAnswerCorrect, setLastAnswerCorrect] = useState<boolean | null>(null);
+  const [mistakes, setMistakes] = useState<MistakeItem[]>([]);
 
   const topicQuizzes = quizzes.filter((q) => q.topicSlug === topic.slug);
   const totalQuestions = Math.min(topicQuizzes.length, 5);
@@ -50,9 +57,38 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
   const isCompleted = profile.completedTopics?.includes(topic.slug);
 
+  // Keyboard shortcuts: 1-4 for MC options, Enter/Space for next
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (step !== "quiz") return;
+      const q = questions[currentQ];
+      if (!q) return;
+
+      // Number keys 1-4 for MC
+      if (["1", "2", "3", "4"].includes(e.key) && (!q.type || q.type === "choice")) {
+        const idx = parseInt(e.key) - 1;
+        if (idx < q.options.length) {
+          // Simulate click on MC option
+          const btn = document.querySelector(`[data-mc-option="${idx}"]`) as HTMLButtonElement;
+          btn?.click();
+        }
+      }
+
+      // Enter/Space to advance after answering
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleNextQuestion();
+      }
+    }
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [step, currentQ, questions]);
+
   const handleCorrect = useCallback(() => {
     playCorrectSound();
     setScore((s) => s + 1);
+    setCombo((c) => c + 1);
+    setLastAnswerCorrect(true);
   }, []);
 
   const handleWrong = useCallback(() => {
@@ -60,6 +96,23 @@ export default function LessonClient({ topic }: LessonClientProps) {
     trackWrongAnswer(topic.slug);
     setBreaking(true);
     setTimeout(() => setBreaking(false), 500);
+    setCombo(0);
+    setLastAnswerCorrect(false);
+
+    // Track mistake for review
+    const q = questions[currentQ];
+    if (q) {
+      setMistakes((prev) => [
+        ...prev,
+        {
+          question: q.question,
+          userAnswer: "Jawaban salah",
+          correctAnswer: q.options[q.correctIndex] || "",
+          explanation: q.explanation,
+        },
+      ]);
+    }
+
     const heartUsed = useHeart();
     setLives((l) => {
       if (l <= 1) {
@@ -272,7 +325,30 @@ export default function LessonClient({ topic }: LessonClientProps) {
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
-                {q.type === "numberline" && q.numberLine ? (
+                {/* Hint button — above every question */}
+                {q.hints && q.hints.length > 0 && (
+                  <div className="mb-4">
+                    <HintButton hints={q.hints} />
+                  </div>
+                )}
+
+                {q.type === "graph" && q.graph ? (
+                  <div className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] p-6 border-2 border-[var(--duo-border)] shadow-lg">
+                    <h3 className="text-lg font-black text-[var(--duo-text)] mb-4 text-center">{q.question}</h3>
+                    <GraphPlotter
+                      expression={q.graph.expression}
+                      xMin={q.graph.xMin}
+                      xMax={q.graph.xMax}
+                      yMin={q.graph.yMin}
+                      yMax={q.graph.yMax}
+                      draggable
+                      correctPoint={q.graph.correctPoint}
+                    />
+                    <button onClick={handleNextQuestion} className="w-full mt-4 py-3 rounded-xl bg-[var(--duo-green)] text-white font-bold shadow-[0_4px_0_var(--duo-green-dark)] active:translate-y-[2px] active:shadow-none transition-all">
+                      Lanjut →
+                    </button>
+                  </div>
+                ) : q.type === "numberline" && q.numberLine ? (
                   <div className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] p-6 border-2 border-[var(--duo-border)] shadow-lg">
                     <h3 className="text-lg font-black text-[var(--duo-text)] mb-4 text-center">{q.question}</h3>
                     <NumberLineDrag
@@ -353,10 +429,13 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
         {/* Mascot */}
         <div className="fixed bottom-20 right-6 lg:bottom-6 z-40">
-          <Mascot
-            mood={lives <= 2 ? "sad" : "thinking"}
-            size={70}
-            message={lives <= 2 ? "Hati-hati!" : undefined}
+          <QuizMascot
+            combo={combo}
+            hearts={lives}
+            maxHearts={profile.maxHearts}
+            lastAnswerCorrect={lastAnswerCorrect}
+            isComplete={false}
+            score={0}
           />
         </div>
       </div>
@@ -378,6 +457,18 @@ export default function LessonClient({ topic }: LessonClientProps) {
           className="max-w-md w-full"
         >
           <div className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] border-2 border-[var(--duo-border)] p-8 text-center">
+            {/* Mascot */}
+            <div className="mb-4">
+              <QuizMascot
+                combo={0}
+                hearts={lives}
+                maxHearts={profile.maxHearts}
+                lastAnswerCorrect={null}
+                isComplete={true}
+                score={pct}
+              />
+            </div>
+
             {/* Trophy */}
             <motion.div
               className={`w-24 h-24 mx-auto mb-6 rounded-full flex items-center justify-center ${
@@ -434,6 +525,17 @@ export default function LessonClient({ topic }: LessonClientProps) {
                 </div>
               ))}
             </div>
+
+            {/* Mistake Review */}
+            {mistakes.length > 0 && (
+              <div className="mb-6 text-left">
+                <MistakeReview
+                  mistakes={mistakes}
+                  onRetry={restart}
+                  onDone={() => {}}
+                />
+              </div>
+            )}
 
             {/* Actions */}
             <div className="space-y-3">
