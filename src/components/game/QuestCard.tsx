@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cardHover, springGentle } from "@/lib/animations";
-import { CheckCircle2, Clock, Gift, Flame, Target, Zap } from "lucide-react";
+import { CheckCircle2, Clock, Gift, Flame, Target, Zap, ChevronRight } from "lucide-react";
 
 interface QuestCardProps {
   title: string;
@@ -13,6 +13,7 @@ interface QuestCardProps {
   type: "daily" | "challenge" | "streak";
   completed?: boolean;
   timeLeft?: string;
+  onClick?: () => void;
 }
 
 const typeConfig = {
@@ -30,6 +31,7 @@ export default function QuestCard({
   type,
   completed = false,
   timeLeft,
+  onClick,
 }: QuestCardProps) {
   const config = typeConfig[type];
   const Icon = config.icon;
@@ -42,10 +44,13 @@ export default function QuestCard({
       whileHover="hover"
       whileTap="tap"
       transition={springGentle}
-      className={`relative overflow-hidden rounded-[var(--radius-card)] border-2 p-4 ${
+      onClick={onClick}
+      className={`relative overflow-hidden rounded-[var(--radius-card)] border-2 p-4 transition-colors ${
+        onClick ? "cursor-pointer" : ""
+      } ${
         completed
           ? "bg-[var(--duo-green-bg)] border-[var(--duo-green)]/30"
-          : "bg-white dark:bg-[var(--duo-card)] border-[var(--duo-border)]"
+          : "bg-white dark:bg-[var(--duo-card)] border-[var(--duo-border)] hover:border-[var(--primary)]/40"
       }`}
     >
       {/* Completed Glow */}
@@ -69,12 +74,17 @@ export default function QuestCard({
             <h4 className="text-sm font-bold text-[var(--duo-text)]">{title}</h4>
             <p className="text-[11px] text-[var(--duo-text-muted)]">{description}</p>
           </div>
-          {timeLeft && (
-            <div className="flex items-center gap-1 text-[10px] font-bold text-[var(--duo-text-muted)]">
-              <Clock size={12} />
-              {timeLeft}
-            </div>
-          )}
+          <div className="flex items-center gap-1">
+            {timeLeft && (
+              <div className="flex items-center gap-1 text-[10px] font-bold text-[var(--duo-text-muted)]">
+                <Clock size={12} />
+                {timeLeft}
+              </div>
+            )}
+            {onClick && !completed && (
+              <ChevronRight size={14} className="text-[var(--duo-text-muted)]" />
+            )}
+          </div>
         </div>
 
         {/* Progress */}

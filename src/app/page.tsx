@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 import WorldMap from "@/components/game/WorldMap";
@@ -20,6 +21,7 @@ import {
   claimDailyReward,
   DAILY_REWARDS,
   saveProfile,
+  BADGES,
 } from "@/lib/gamification";
 import { staggerContainer, staggerItem, springGentle, springBounce, popIn, cardSlideUp } from "@/lib/animations";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
@@ -59,6 +61,7 @@ import type { UserProfile } from "@/lib/gamification";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import Confetti from "@/components/ui/Confetti";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
+import BadgeReveal from "@/components/ui/BadgeReveal";
 
 const MINI_GAMES = [
   {
@@ -373,6 +376,7 @@ function WeeklyChart({ data }: { data: number[] }) {
 }
 
 function HomeContent() {
+  const router = useRouter();
   const [topics, setTopics] = useState<Topic[]>([]);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -381,6 +385,7 @@ function HomeContent() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showDailyReward, setShowDailyReward] = useState(false);
   const [claimedDay, setClaimedDay] = useState<number | null>(null);
+  const [newBadge, setNewBadge] = useState<{ id: string; name: string; icon: string; rarity: string } | null>(null);
   const mascotState = useMascot();
 
   const checkDailyReward = (prof: UserProfile) => {
@@ -398,6 +403,23 @@ function HomeContent() {
     const prof = getProfile();
     setProfile(prof);
     setMounted(true);
+
+    // Check for newly earned badges
+    const prevBadgesKey = "belajar-mtk-prev-badges";
+    try {
+      const prevBadges: string[] = JSON.parse(localStorage.getItem(prevBadgesKey) || "[]");
+      const newBadgeIds = (prof.badges || []).filter((b: string) => !prevBadges.includes(b));
+      if (newBadgeIds.length > 0) {
+        const badgeDef = BADGES.find((b) => b.id === newBadgeIds[0]);
+        if (badgeDef) {
+          setTimeout(() => {
+            setNewBadge({ id: badgeDef.id, name: badgeDef.name, icon: badgeDef.icon, rarity: badgeDef.rarity || "common" });
+          }, 1200);
+        }
+      }
+    } catch {}
+    // Save current badges for next visit
+    localStorage.setItem(prevBadgesKey, JSON.stringify(prof.badges || []));
 
     const onboardingDone = localStorage.getItem("belajar-mtk-onboarding");
     if (!onboardingDone && isFlagEnabled("onboarding")) {
@@ -752,7 +774,7 @@ function HomeContent() {
               >
                 {dailyQuests.map((quest, i) => (
                   <motion.div key={i} variants={staggerItem}>
-                    <QuestCard {...quest} />
+                    <QuestCard {...quest} onClick={() => router.push("/practice")} />
                   </motion.div>
                 ))}
               </motion.div>
@@ -892,6 +914,16 @@ function HomeContent() {
           interactive={true}
         />
       </motion.div>
+
+      {/* ===== BADGE REVEAL ===== */}
+      {newBadge && (
+        <BadgeReveal
+          badgeName={newBadge.name}
+          badgeIcon={newBadge.icon}
+          badgeRarity={newBadge.rarity}
+          onClose={() => setNewBadge(null)}
+        />
+      )}
     </div>
   );
 }
