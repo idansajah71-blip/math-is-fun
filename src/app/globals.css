@@ -994,45 +994,45 @@
 
 /* ===== Mascot Animations (CSS-powered, GPU-composited) ===== */
 @keyframes mascotBreathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.015); }
+  0%, 100% { transform: none; }
+  50% { transform: none; }
 }
 @keyframes mascotHappy {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  25% { transform: scale(1.03) rotate(-1deg); }
-  75% { transform: scale(1.03) rotate(1deg); }
+  0%, 100% { transform: none; }
+  25% { transform: none; }
+  75% { transform: none; }
 }
 @keyframes mascotThink {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  33% { transform: scale(1.02) rotate(-3deg); }
-  66% { transform: scale(1.02) rotate(3deg); }
+  0%, 100% { transform: none; }
+  33% { transform: none; }
+  66% { transform: none; }
 }
 @keyframes mascotCelebrate {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  20% { transform: scale(1.12) rotate(-6deg); }
-  40% { transform: scale(1) rotate(0deg); }
-  60% { transform: scale(1.08) rotate(6deg); }
-  80% { transform: scale(1) rotate(0deg); }
+  0%, 100% { transform: none; }
+  20% { transform: none; }
+  40% { transform: none; }
+  60% { transform: none; }
+  80% { transform: none; }
 }
 @keyframes mascotSad {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(0.97) rotate(2deg); }
+  0%, 100% { transform: none; }
+  50% { transform: none; }
 }
 @keyframes mascotIdle {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.015); }
+  0%, 100% { transform: none; }
+  50% { transform: none; }
 }
 @keyframes mascotWink {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.03) rotate(-2deg); }
+  0%, 100% { transform: none; }
+  50% { transform: none; }
 }
 @keyframes mascotLove {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
+  0%, 100% { transform: none; }
+  50% { transform: none; }
 }
 @keyframes mascotSurprised {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+  0%, 100% { transform: none; }
+  50% { transform: none; }
 }
 @keyframes mascotPupil {
   0%, 100% { transform: translateX(0); }
@@ -1106,20 +1106,20 @@
   50% { transform: scale(1.3); }
 }
 
-.mascot-breathe { animation: mascotBreathe 3.2s ease-in-out infinite; will-change: transform; }
-.mascot-happy { animation: mascotHappy 2.5s ease-in-out infinite; will-change: transform; }
-.mascot-thinking { animation: mascotThink 3s ease-in-out infinite; will-change: transform; }
-.mascot-celebrate { animation: mascotCelebrate 0.6s ease-in-out infinite; will-change: transform; }
-.mascot-sad { animation: mascotSad 2.5s ease-in-out infinite; will-change: transform; }
-.mascot-idle { animation: mascotIdle 2.8s ease-in-out infinite; will-change: transform; }
-.mascot-wink { animation: mascotWink 2.5s ease-in-out infinite; will-change: transform; }
-.mascot-love { animation: mascotLove 2.5s ease-in-out infinite; will-change: transform; }
-.mascot-surprised { animation: mascotSurprised 2.5s ease-in-out infinite; will-change: transform; }
-.mascot-concentrate { animation: mascotBreathe 3.5s ease-in-out infinite; will-change: transform; }
-.mascot-sleepy { animation: mascotSad 3s ease-in-out infinite; will-change: transform; }
-.mascot-angry { animation: mascotThink 2s ease-in-out infinite; will-change: transform; }
-.mascot-proud { animation: mascotLove 2.5s ease-in-out infinite; will-change: transform; }
-.mascot-wave { animation: mascotHappy 2.5s ease-in-out infinite; will-change: transform; }
+.mascot-breathe { animation: mascotBreathe 3.2s ease-in-out infinite; }
+.mascot-happy { animation: mascotHappy 2.5s ease-in-out infinite; }
+.mascot-thinking { animation: mascotThink 3s ease-in-out infinite; }
+.mascot-celebrate { animation: mascotCelebrate 0.6s ease-in-out infinite; }
+.mascot-sad { animation: mascotSad 2.5s ease-in-out infinite; }
+.mascot-idle { animation: mascotIdle 2.8s ease-in-out infinite; }
+.mascot-wink { animation: mascotWink 2.5s ease-in-out infinite; }
+.mascot-love { animation: mascotLove 2.5s ease-in-out infinite; }
+.mascot-surprised { animation: mascotSurprised 2.5s ease-in-out infinite; }
+.mascot-concentrate { animation: mascotBreathe 3.5s ease-in-out infinite; }
+.mascot-sleepy { animation: mascotSad 3s ease-in-out infinite; }
+.mascot-angry { animation: mascotThink 2s ease-in-out infinite; }
+.mascot-proud { animation: mascotLove 2.5s ease-in-out infinite; }
+.mascot-wave { animation: mascotHappy 2.5s ease-in-out infinite; }
 
 .mascot-pupil { animation: mascotPupil 4s ease-in-out infinite; }
 .mascot-blush { animation: mascotBlush 2s ease-in-out infinite; }
