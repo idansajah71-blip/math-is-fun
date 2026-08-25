@@ -32,6 +32,7 @@ import {
   Swords,
   Shield,
   Crown,
+  Calendar,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
@@ -55,6 +56,7 @@ const NAV = [
   { href: "/bookmark", label: "Bookmark", icon: Bookmark },
   { href: "/spaced-repetition", label: "Ulangan", icon: Brain },
   { href: "/friends", label: "Teman", icon: Swords },
+  { href: "/events", label: "Event", icon: Calendar },
   { href: "/profile", label: "Profil", icon: User },
   { href: "/admin", label: "Admin", icon: Shield, hidden: true },
 ];
@@ -72,6 +74,7 @@ const NAV_COLORS: Record<string, string> = {
   "/bookmark": "var(--yellow)",
   "/spaced-repetition": "var(--purple)",
   "/friends": "var(--info)",
+  "/events": "var(--primary)",
   "/profile": "var(--primary)",
   "/admin": "var(--danger)",
 };
