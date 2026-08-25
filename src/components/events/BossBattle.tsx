@@ -1,22 +1,20 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Skull, Trophy, Zap } from "lucide-react";
-import type { EventData, EventParticipant } from "@/lib/events";
-import { getEventQuestions, updateParticipant, calculateRewards, getParticipant } from "@/lib/events";
-import { getProfile, addXp, saveProfile } from "@/lib/gamification";
-import { useAuth } from "@/contexts/AuthContext";
+import { Heart, Skull, Trophy } from "lucide-react";
+import type { EventData } from "@/lib/events";
+import { getEventQuestions } from "@/lib/events";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import type { QuizQuestion } from "@/lib/types";
 import { staggerContainer, staggerItem } from "@/lib/animations";
 
 interface BossBattleProps {
   event: EventData;
-  onComplete: (score: number, xp: number, gems: number, badge: string | null) => void;
+  onComplete: (score: number, isWin: boolean) => void;
 }
 
-const BOSS_HP_DAMAGE = [15, 25];
+const BOSS_HP_DAMAGE: [number, number] = [15, 25];
 
 function getBossExpression(hp: number): string {
   if (hp > 70) return "😠";
@@ -31,16 +29,17 @@ function getBossName(hp: number): string {
 }
 
 export default function BossBattle({ event, onComplete }: BossBattleProps) {
-  const { user } = useAuth();
+  const scoreRef = useRef(0);
+  const completedRef = useRef(false);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [score, setScore] = useState(0);
   const [bossHp, setBossHp] = useState(100);
   const [lives, setLives] = useState(event.lives || 3);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [shaking, setShaking] = useState(false);
   const [gameOver, setGameOver] = useState<"victory" | "defeat" | null>(null);
+  const [finalScore, setFinalScore] = useState(0);
 
   useEffect(() => {
     setQuestions(getEventQuestions(event));
@@ -48,28 +47,16 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
 
   const currentQuestion = questions[currentIdx];
 
-  const handleComplete = useCallback(
-    (finalScore: number, victory: boolean) => {
-      const rewards = calculateRewards(event, finalScore, questions.length, 0);
-      const profile = getProfile();
-      if (victory) {
-        const p = addXp(rewards.xp);
-        p.gems += rewards.gems;
-        saveProfile(p);
-      }
-      updateParticipant(event.id, user?.id || "", {
-        status: "completed",
-        score: finalScore,
-        xpEarned: rewards.xp,
-        gemsEarned: rewards.gems,
-        badgeEarned: rewards.badge,
-        completedAt: new Date().toISOString(),
-        currentBossHP: bossHp,
-      });
-      onComplete(finalScore, rewards.xp, rewards.gems, rewards.badge);
-    },
-    [event, questions.length, bossHp, user?.id, onComplete]
-  );
+  const finishGame = (victory: boolean, score: number) => {
+    if (completedRef.current) return;
+    completedRef.current = true;
+    setFinalScore(score);
+    playCompleteSound();
+    setGameOver(victory ? "victory" : "defeat");
+    setTimeout(() => {
+      onComplete(score, victory);
+    }, 2500);
+  };
 
   const handleAnswer = (i: number) => {
     if (selected !== null || !currentQuestion || gameOver) return;
@@ -78,17 +65,15 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
 
     if (i === currentQuestion.correctIndex) {
       playCorrectSound();
-      const damage = Math.floor(Math.random() * (BOSS_HP_DAMAGE[1] - BOSS_HP_DAMAGE[0] + 1)) + BOSS_HP_DAMAGE[0];
+      const damage =
+        Math.floor(Math.random() * (BOSS_HP_DAMAGE[1] - BOSS_HP_DAMAGE[0] + 1)) +
+        BOSS_HP_DAMAGE[0];
       const newHp = Math.max(0, bossHp - damage);
       setBossHp(newHp);
-      setScore((s) => s + 1);
+      scoreRef.current++;
 
       if (newHp <= 0) {
-        setTimeout(() => {
-          playCompleteSound();
-          setGameOver("victory");
-          handleComplete(score + 1, true);
-        }, 1200);
+        setTimeout(() => finishGame(true, scoreRef.current), 1200);
         return;
       }
     } else {
@@ -98,10 +83,7 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
       const newLives = lives - 1;
       setLives(newLives);
       if (newLives <= 0) {
-        setTimeout(() => {
-          setGameOver("defeat");
-          handleComplete(score, false);
-        }, 1200);
+        setTimeout(() => finishGame(false, scoreRef.current), 1200);
         return;
       }
     }
@@ -140,7 +122,8 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
           <motion.div
             className="h-full rounded-full"
             style={{
-              background: bossHp > 50 ? "var(--duo-green)" : bossHp > 25 ? "var(--duo-orange)" : "var(--duo-red)",
+              background:
+                bossHp > 50 ? "var(--duo-green)" : bossHp > 25 ? "var(--duo-orange)" : "var(--duo-red)",
             }}
             initial={{ width: "100%" }}
             animate={{ width: `${bossHp}%` }}
@@ -148,8 +131,10 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
           />
         </div>
         <div className="flex justify-between mt-1">
-          <span className="text-[10px] text-[var(--duo-text-muted)]">Soal {currentIdx + 1}/{questions.length}</span>
-          <span className="text-[10px] text-[var(--duo-text-muted)]">Skor: {score}</span>
+          <span className="text-[10px] text-[var(--duo-text-muted)]">
+            Soal {currentIdx + 1}/{questions.length}
+          </span>
+          <span className="text-[10px] text-[var(--duo-text-muted)]">Skor: {scoreRef.current}</span>
         </div>
       </div>
 
@@ -164,7 +149,9 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
           >
             <Heart
               size={24}
-              className={i < lives ? "text-[var(--duo-red)] fill-[var(--duo-red)]" : "text-gray-300"}
+              className={
+                i < lives ? "text-[var(--duo-red)] fill-[var(--duo-red)]" : "text-gray-300"
+              }
             />
           </motion.div>
         ))}
@@ -172,7 +159,9 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
 
       {/* Question */}
       <div className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-5 mb-4">
-        <h2 className="text-base font-bold text-[var(--duo-text)] text-center">{currentQuestion.question}</h2>
+        <h2 className="text-base font-bold text-[var(--duo-text)] text-center">
+          {currentQuestion.question}
+        </h2>
       </div>
 
       {/* Options */}
@@ -191,7 +180,8 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
             } else if (i === selected) {
               style = "bg-[var(--duo-red)]/10 border-2 border-[var(--duo-red)]";
             } else {
-              style = "bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 opacity-50";
+              style =
+                "bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 opacity-50";
             }
           }
           return (
@@ -210,8 +200,8 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
                     showResult && i === currentQuestion.correctIndex
                       ? "bg-[var(--duo-green)] text-white"
                       : showResult && i === selected
-                      ? "bg-[var(--duo-red)] text-white"
-                      : "bg-gray-100 dark:bg-gray-800 text-[var(--duo-text-muted)]"
+                        ? "bg-[var(--duo-red)] text-white"
+                        : "bg-gray-100 dark:bg-gray-800 text-[var(--duo-text-muted)]"
                   }`}
                 >
                   {String.fromCharCode(65 + i)}
@@ -238,24 +228,28 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
           >
             <p
               className={`text-sm font-bold ${
-                selected === currentQuestion.correctIndex ? "text-[var(--duo-green)]" : "text-[var(--duo-red)]"
+                selected === currentQuestion.correctIndex
+                  ? "text-[var(--duo-green)]"
+                  : "text-[var(--duo-red)]"
               }`}
             >
               {selected === currentQuestion.correctIndex
                 ? `⚔️ Boss terkena serangan! -${Math.floor(Math.random() * 11) + 15} HP`
                 : "💔 Boss menyerang! Kehilangan 1 nyawa!"}
             </p>
-            <p className="text-xs text-[var(--duo-text-muted)] mt-1">{currentQuestion.explanation}</p>
+            <p className="text-xs text-[var(--duo-text-muted)] mt-1">
+              {currentQuestion.explanation}
+            </p>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Game Over */}
+      {/* Game Over Overlay */}
       <AnimatePresence>
         {gameOver && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
           >
             <motion.div
@@ -269,7 +263,7 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
                   <Trophy size={64} className="text-[var(--duo-green)] mx-auto mb-4" />
                   <h2 className="text-2xl font-black text-[var(--duo-text)] mb-2">Kemenangan!</h2>
                   <p className="text-sm text-[var(--duo-text-muted)]">
-                    Boss berhasil dikalahkan! Skor: {score}/{questions.length}
+                    Boss berhasil dikalahkan! Skor: {finalScore}
                   </p>
                 </>
               ) : (
@@ -277,7 +271,7 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
                   <Skull size={64} className="text-[var(--duo-red)] mx-auto mb-4" />
                   <h2 className="text-2xl font-black text-[var(--duo-text)] mb-2">Kalah!</h2>
                   <p className="text-sm text-[var(--duo-text-muted)]">
-                    Nyawa habis! Skor: {score}/{questions.length}
+                    Nyawa habis! Skor: {finalScore}
                   </p>
                 </>
               )}

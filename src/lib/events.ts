@@ -102,10 +102,21 @@ export function isEventJoined(eventId: string, userId: string): boolean {
   return getParticipants().some((p) => p.eventId === eventId && p.userId === userId);
 }
 
-export function joinEvent(eventId: string, userId: string): EventParticipant {
+export function joinEvent(eventId: string, userId: string): { participant?: EventParticipant; error?: string } {
+  const event = getEventById(eventId);
+  if (!event) return { error: "Event tidak ditemukan" };
+  if (event.status !== "active") return { error: "Event belum aktif atau sudah berakhir" };
+
   const participants = getParticipants();
   const existing = participants.find((p) => p.eventId === eventId && p.userId === userId);
-  if (existing) return existing;
+  if (existing) return { participant: existing };
+
+  if (event.maxParticipants > 0) {
+    const eventParticipants = participants.filter((p) => p.eventId === eventId);
+    if (eventParticipants.length >= event.maxParticipants) {
+      return { error: "Event sudah penuh" };
+    }
+  }
 
   const participant: EventParticipant = {
     eventId,
@@ -119,7 +130,7 @@ export function joinEvent(eventId: string, userId: string): EventParticipant {
   };
   participants.push(participant);
   saveParticipants(participants);
-  return participant;
+  return { participant };
 }
 
 export function updateParticipant(eventId: string, userId: string, updates: Partial<EventParticipant>): void {
@@ -129,6 +140,24 @@ export function updateParticipant(eventId: string, userId: string, updates: Part
     participants[idx] = { ...participants[idx], ...updates };
     saveParticipants(participants);
   }
+}
+
+export function resetParticipant(eventId: string, userId: string): void {
+  updateParticipant(eventId, userId, {
+    status: "joined",
+    score: 0,
+    xpEarned: 0,
+    gemsEarned: 0,
+    badgeEarned: null,
+    completedAt: undefined,
+    questionsAnswered: 0,
+    livesRemaining: undefined,
+    timeSpent: undefined,
+    currentBossHP: undefined,
+    eliminationRound: 0,
+    mysteryRevealed: 0,
+    challengeDay: 0,
+  });
 }
 
 export function getParticipant(eventId: string, userId: string): EventParticipant | undefined {
@@ -153,13 +182,18 @@ export function getEventQuestions(event: EventData): QuizQuestion[] {
     pool = [...allQuizzes];
   }
 
-  const diffMap: Record<string, string> = { easy: "easy", medium: "medium", hard: "hard" };
-  const diffFiltered = pool.filter((q) => q.difficulty === diffMap[event.difficulty]);
+  const diffFiltered = pool.filter((q) => q.difficulty === event.difficulty);
   if (diffFiltered.length >= event.questionsCount) {
     pool = diffFiltered;
   }
 
-  return pool.sort(() => Math.random() - 0.5).slice(0, event.questionsCount);
+  // Fisher-Yates shuffle
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+
+  return pool.slice(0, event.questionsCount);
 }
 
 export function calculateRewards(

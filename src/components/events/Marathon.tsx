@@ -1,92 +1,75 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Trophy, CheckCircle2, XCircle } from "lucide-react";
+import { Heart, CheckCircle2, XCircle } from "lucide-react";
 import type { EventData } from "@/lib/events";
-import { getEventQuestions, updateParticipant, calculateRewards } from "@/lib/events";
-import { getProfile, addXp, saveProfile } from "@/lib/gamification";
-import { useAuth } from "@/contexts/AuthContext";
+import { getEventQuestions } from "@/lib/events";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import type { QuizQuestion } from "@/lib/types";
 import { staggerContainer, staggerItem } from "@/lib/animations";
 
 interface MarathonProps {
   event: EventData;
-  onComplete: (score: number, xp: number, gems: number, badge: string | null) => void;
+  onComplete: (score: number, isWin: boolean) => void;
 }
 
 export default function Marathon({ event, onComplete }: MarathonProps) {
-  const { user } = useAuth();
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [score, setScore] = useState(0);
   const [lives, setLives] = useState(event.lives || 3);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [shaking, setShaking] = useState(false);
   const [gameOver, setGameOver] = useState<"victory" | "defeat" | null>(null);
+  const scoreRef = useRef(0);
+  const maxLives = event.lives || 3;
+  const totalQuestions = event.questionsCount || 20;
 
   useEffect(() => {
-    setQuestions(getEventQuestions(event));
-  }, [event]);
+    setQuestions(getEventQuestions(event).slice(0, totalQuestions));
+  }, [event, totalQuestions]);
 
-  const handleComplete = useCallback(
-    (finalScore: number) => {
-      const rewards = calculateRewards(event, finalScore, questions.length, 0);
-      const profile = getProfile();
-      const p = addXp(rewards.xp);
-      p.gems += rewards.gems;
-      saveProfile(p);
-      updateParticipant(event.id, user?.id || "", {
-        status: "completed",
-        score: finalScore,
-        xpEarned: rewards.xp,
-        gemsEarned: rewards.gems,
-        badgeEarned: rewards.badge,
-        completedAt: new Date().toISOString(),
-        livesRemaining: lives,
-      });
-      onComplete(finalScore, rewards.xp, rewards.gems, rewards.badge);
-    },
-    [event, questions.length, lives, user?.id, onComplete]
-  );
+  const handleAnswer = useCallback(
+    (i: number) => {
+      if (selected !== null || gameOver || !questions[currentIdx]) return;
+      setSelected(i);
+      setShowResult(true);
 
-  const handleAnswer = (i: number) => {
-    if (selected !== null || gameOver || !questions[currentIdx]) return;
-    setSelected(i);
-    setShowResult(true);
+      const isCorrect = i === questions[currentIdx].correctIndex;
 
-    if (i === questions[currentIdx].correctIndex) {
-      playCorrectSound();
-      setScore((s) => s + 1);
-    } else {
-      setShaking(true);
-      playWrongSound();
-      setTimeout(() => setShaking(false), 400);
-      const newLives = lives - 1;
-      setLives(newLives);
-      if (newLives <= 0) {
-        setTimeout(() => {
-          setGameOver("defeat");
-          handleComplete(score);
-        }, 1200);
-        return;
-      }
-    }
-
-    setTimeout(() => {
-      setSelected(null);
-      setShowResult(false);
-      if (currentIdx + 1 >= questions.length) {
-        playCompleteSound();
-        setGameOver("victory");
-        handleComplete(score + (i === questions[currentIdx].correctIndex ? 1 : 0));
+      if (isCorrect) {
+        playCorrectSound();
+        scoreRef.current += 1;
       } else {
-        setCurrentIdx((p) => p + 1);
+        playWrongSound();
+        setShaking(true);
+        setTimeout(() => setShaking(false), 400);
+        const newLives = lives - 1;
+        setLives(newLives);
+        if (newLives <= 0) {
+          setTimeout(() => {
+            setGameOver("defeat");
+            onComplete(scoreRef.current, false);
+          }, 1200);
+          return;
+        }
       }
-    }, 1200);
-  };
+
+      setTimeout(() => {
+        setSelected(null);
+        setShowResult(false);
+        if (currentIdx + 1 >= questions.length) {
+          playCompleteSound();
+          setGameOver("victory");
+          onComplete(scoreRef.current, true);
+        } else {
+          setCurrentIdx((p) => p + 1);
+        }
+      }, 1500);
+    },
+    [selected, gameOver, questions, currentIdx, lives, onComplete]
+  );
 
   const progress = questions.length > 0 ? ((currentIdx + (showResult ? 1 : 0)) / questions.length) * 100 : 0;
   const currentQuestion = questions[currentIdx];
@@ -109,7 +92,7 @@ export default function Marathon({ event, onComplete }: MarathonProps) {
       <div className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-4 mb-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-1">
-            {Array.from({ length: event.lives || 3 }).map((_, i) => (
+            {Array.from({ length: maxLives }).map((_, i) => (
               <motion.div
                 key={i}
                 initial={{ scale: 1 }}
@@ -135,7 +118,7 @@ export default function Marathon({ event, onComplete }: MarathonProps) {
             transition={{ type: "spring", stiffness: 100, damping: 15 }}
           />
         </div>
-        <p className="text-[10px] text-[var(--duo-text-muted)] mt-1 text-center">Skor: {score}</p>
+        <p className="text-[10px] text-[var(--duo-text-muted)] mt-1 text-center">Skor: {scoreRef.current}</p>
       </div>
 
       {/* Question */}
@@ -197,7 +180,7 @@ export default function Marathon({ event, onComplete }: MarathonProps) {
         })}
       </motion.div>
 
-      {/* Result */}
+      {/* Explanation */}
       <AnimatePresence>
         {showResult && (
           <motion.div

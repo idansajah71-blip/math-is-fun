@@ -1,15 +1,15 @@
 "use client";
 
-import { use, useMemo } from "react";
+import { use, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import {
   getEventById,
   getEventParticipants,
-  isEventJoined,
   joinEvent,
   updateParticipant,
   getParticipant,
+  resetParticipant,
 } from "@/lib/events";
 import type { EventParticipant } from "@/lib/events";
 import { EVENT_TYPES } from "@/lib/events";
@@ -28,18 +28,9 @@ import {
   Zap,
   RotateCcw,
   CheckCircle2,
+  AlertTriangle,
 } from "lucide-react";
 import Link from "next/link";
-
-const gradientMap: Record<string, string> = {
-  "from-red-500 to-orange-500": "from-red-500 to-orange-500",
-  "from-yellow-500 to-amber-500": "from-yellow-500 to-amber-500",
-  "from-blue-500 to-cyan-500": "from-blue-500 to-cyan-500",
-  "from-purple-500 to-pink-500": "from-purple-500 to-pink-500",
-  "from-gray-700 to-gray-900": "from-gray-700 to-gray-900",
-  "from-emerald-500 to-teal-500": "from-emerald-500 to-teal-500",
-  "from-indigo-500 to-violet-500": "from-indigo-500 to-violet-500",
-};
 
 const difficultyConfig = {
   easy: { label: "Mudah", color: "bg-[var(--duo-green)]/15 text-[var(--duo-green)]" },
@@ -51,13 +42,10 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
   const { id } = use(params);
   const router = useRouter();
   const { user } = useAuth();
+  const [error, setError] = useState("");
 
   const event = useMemo(() => getEventById(id), [id]);
   const participants = useMemo(() => (event ? getEventParticipants(event.id) : []), [event]);
-  const isJoined = useMemo(
-    () => (user && event ? isEventJoined(event.id, user.id) : false),
-    [event, user]
-  );
   const participant: EventParticipant | undefined = useMemo(
     () => (user && event ? getParticipant(event.id, user.id) : undefined),
     [event, user]
@@ -92,21 +80,23 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
   }
 
   const eventType = EVENT_TYPES[event.type];
-  const gradientClass = gradientMap[eventType.gradient] || "from-gray-500 to-gray-700";
   const diff = difficultyConfig[event.difficulty];
 
-  const formatDate = (date: string) =>
-    new Date(date).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
-
   const formatDateTime = (date: string, time: string) => {
-    const d = new Date(`${date}T${time}`);
-    return d.toLocaleString("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    if (!date || !time) return "-";
+    try {
+      const d = new Date(`${date}T${time}`);
+      if (isNaN(d.getTime())) return "-";
+      return d.toLocaleString("id-ID", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch {
+      return "-";
+    }
   };
 
   const handleJoin = () => {
@@ -114,12 +104,25 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
       router.push("/auth");
       return;
     }
-    joinEvent(event.id, user.id);
+    setError("");
+    const result = joinEvent(event.id, user.id);
+    if (result.error) {
+      setError(result.error);
+      return;
+    }
+    updateParticipant(event.id, user.id, { status: "playing" });
     router.push(`/events/${event.id}/play`);
   };
 
   const handleStart = () => {
     if (!user || !event) return;
+    updateParticipant(event.id, user.id, { status: "playing" });
+    router.push(`/events/${event.id}/play`);
+  };
+
+  const handleRetry = () => {
+    if (!user || !event) return;
+    resetParticipant(event.id, user.id);
     updateParticipant(event.id, user.id, { status: "playing" });
     router.push(`/events/${event.id}/play`);
   };
@@ -137,6 +140,16 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
       );
     }
 
+    if (event.status !== "active") {
+      return (
+        <div className="p-4 bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] text-center">
+          <p className="text-sm font-bold text-[var(--duo-text-muted)]">
+            {event.status === "scheduled" ? "Event belum dimulai" : "Event sudah berakhir"}
+          </p>
+        </div>
+      );
+    }
+
     if (!participant) {
       return (
         <button
@@ -149,42 +162,40 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
       );
     }
 
-    if (participant.status === "completed") {
+    if (participant.status === "completed" || participant.status === "failed") {
+      const isFailed = participant.status === "failed";
       return (
         <div className="space-y-3">
-          <div className="p-4 bg-[var(--duo-green)]/10 rounded-2xl border border-[var(--duo-green)]/30 text-center">
-            <CheckCircle2 size={24} className="text-[var(--duo-green)] mx-auto mb-1" />
-            <p className="text-sm font-bold text-[var(--duo-green)]">Selesai ✓</p>
+          <div className={`p-4 rounded-2xl border text-center ${
+            isFailed
+              ? "bg-red-500/10 border-red-500/30"
+              : "bg-[var(--duo-green)]/10 border-[var(--duo-green)]/30"
+          }`}>
+            {isFailed ? (
+              <AlertTriangle size={24} className="text-red-500 mx-auto mb-1" />
+            ) : (
+              <CheckCircle2 size={24} className="text-[var(--duo-green)] mx-auto mb-1" />
+            )}
+            <p className={`text-sm font-bold ${isFailed ? "text-red-500" : "text-[var(--duo-green)]"}`}>
+              {isFailed ? "Gagal" : "Selesai ✓"}
+            </p>
             <p className="text-xs text-[var(--duo-text-muted)] mt-1">
               Skor: {participant.score} | XP: +{participant.xpEarned} | Gems: +{participant.gemsEarned}
             </p>
           </div>
+          <button
+            onClick={handleRetry}
+            className="w-full py-3 bg-[var(--duo-green)] text-white rounded-xl text-sm font-bold shadow-[0_3px_0_var(--duo-green-dark)] hover:brightness-110 transition-all flex items-center justify-center gap-2"
+          >
+            <RotateCcw size={16} />
+            Coba Lagi
+          </button>
           <Link
             href="/events"
             className="block w-full py-3 bg-[var(--duo-card)] text-[var(--duo-text)] rounded-xl text-sm font-bold border-2 border-[var(--duo-border)] text-center hover:brightness-110 transition-all"
           >
             Kembali ke Event
           </Link>
-        </div>
-      );
-    }
-
-    if (participant.status === "failed") {
-      return (
-        <div className="space-y-3">
-          <div className="p-4 bg-red-500/10 rounded-2xl border border-red-500/30 text-center">
-            <p className="text-sm font-bold text-red-500">Gagal</p>
-            <p className="text-xs text-[var(--duo-text-muted)] mt-1">
-              Skor: {participant.score} | Coba lagi untuk hasil lebih baik!
-            </p>
-          </div>
-          <button
-            onClick={handleJoin}
-            className="w-full py-3 bg-[var(--duo-green)] text-white rounded-xl text-sm font-bold shadow-[0_3px_0_var(--duo-green-dark)] hover:brightness-110 transition-all flex items-center justify-center gap-2"
-          >
-            <RotateCcw size={16} />
-            Coba Lagi
-          </button>
         </div>
       );
     }
@@ -217,7 +228,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`rounded-2xl p-6 bg-gradient-to-r ${gradientClass} mb-6`}
+            className={`rounded-2xl p-6 bg-gradient-to-r ${eventType.gradient} mb-6`}
           >
             <div className="flex items-center gap-3 mb-3">
               <span className="text-3xl">{eventType.icon}</span>
@@ -233,7 +244,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
 
           <div className="grid grid-cols-2 gap-3 mb-6">
             <InfoCard icon={<Calendar size={16} />} label="Tipe" value={eventType.label} />
-            <InfoCard icon={<Trophy size={16} />} label="Difficulties" value={diff.label} />
+            <InfoCard icon={<Trophy size={16} />} label="Difficulty" value={diff.label} />
             <InfoCard icon={<HelpCircle size={16} />} label="Jumlah Soal" value={`${event.questionsCount} soal`} />
             <InfoCard icon={<Heart size={16} />} label="Nyawa" value={`${event.lives} nyawa`} />
             <InfoCard
@@ -255,7 +266,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
             className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-5 mb-6"
           >
             <h3 className="text-sm font-black text-[var(--duo-text)] mb-3">Reward</h3>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 flex-wrap">
               <div className="flex items-center gap-2 px-3 py-2 bg-[var(--duo-xp)]/10 rounded-xl">
                 <Zap size={16} className="text-[var(--duo-xp)]" />
                 <span className="text-sm font-bold text-[var(--duo-xp)]">{event.rewards.xp} XP</span>
@@ -293,6 +304,12 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
               )}
             </div>
           </motion.div>
+
+          {error && (
+            <div className="p-3 bg-red-50 dark:bg-red-950/30 rounded-xl border border-red-200 dark:border-red-800 mb-4">
+              <p className="text-xs font-bold text-red-500 text-center">{error}</p>
+            </div>
+          )}
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}

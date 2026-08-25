@@ -1,56 +1,57 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Skull, CheckCircle2, XCircle } from "lucide-react";
 import type { EventData } from "@/lib/events";
-import { getEventQuestions, updateParticipant, calculateRewards } from "@/lib/events";
-import { getProfile, addXp, saveProfile } from "@/lib/gamification";
-import { useAuth } from "@/contexts/AuthContext";
+import { getEventQuestions } from "@/lib/events";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import type { QuizQuestion } from "@/lib/types";
 import { staggerContainer, staggerItem } from "@/lib/animations";
 
 interface EliminationProps {
   event: EventData;
-  onComplete: (score: number, xp: number, gems: number, badge: string | null) => void;
+  onComplete: (score: number, isWin: boolean) => void;
+}
+
+function ensureOptions(question: QuizQuestion, minOptions: number): QuizQuestion {
+  if (question.options.length >= minOptions) return question;
+  const opts = [...question.options];
+  let idx = opts.length;
+  while (opts.length < minOptions) {
+    opts.push(`Opsi ${idx + 1}`);
+    idx++;
+  }
+  return { ...question, options: opts, correctIndex: question.correctIndex };
 }
 
 export default function Elimination({ event, onComplete }: EliminationProps) {
-  const { user } = useAuth();
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [score, setScore] = useState(0);
   const [lives, setLives] = useState(event.lives || 3);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [shaking, setShaking] = useState(false);
   const [gameOver, setGameOver] = useState<"victory" | "defeat" | null>(null);
   const [eliminated, setEliminated] = useState<Record<number, number[]>>({});
+  const scoreRef = useRef(0);
 
   useEffect(() => {
-    setQuestions(getEventQuestions(event));
+    const qs = getEventQuestions(event).map((q) => ensureOptions(q, 6));
+    setQuestions(qs);
   }, [event]);
 
-  const handleComplete = useCallback(
-    (finalScore: number) => {
-      const rewards = calculateRewards(event, finalScore, questions.length, 0);
-      const profile = getProfile();
-      const p = addXp(rewards.xp);
-      p.gems += rewards.gems;
-      saveProfile(p);
-      updateParticipant(event.id, user?.id || "", {
-        status: "completed",
-        score: finalScore,
-        xpEarned: rewards.xp,
-        gemsEarned: rewards.gems,
-        badgeEarned: rewards.badge,
-        completedAt: new Date().toISOString(),
-      });
-      onComplete(finalScore, rewards.xp, rewards.gems, rewards.badge);
-    },
-    [event, questions.length, user?.id, onComplete]
-  );
+  const advanceQuestion = useCallback(() => {
+    setSelected(null);
+    setShowResult(false);
+    if (currentIdx + 1 >= questions.length) {
+      playCompleteSound();
+      setGameOver("victory");
+      onComplete(scoreRef.current, true);
+    } else {
+      setCurrentIdx((p) => p + 1);
+    }
+  }, [currentIdx, questions.length, onComplete]);
 
   const handleAnswer = (i: number) => {
     if (selected !== null || gameOver || !questions[currentIdx]) return;
@@ -62,53 +63,46 @@ export default function Elimination({ event, onComplete }: EliminationProps) {
 
     if (i === questions[currentIdx].correctIndex) {
       playCorrectSound();
-      setScore((s) => s + 1);
+      scoreRef.current += 1;
+      setTimeout(() => advanceQuestion(), 1500);
     } else {
       setShaking(true);
       playWrongSound();
       setTimeout(() => setShaking(false), 400);
 
-      // Eliminate a wrong option
-      const currentQ = questions[currentIdx];
-      const wrongOptions = currentQ.options
-        .map((_, idx) => idx)
-        .filter(
-          (idx) =>
-            idx !== currentQ.correctIndex &&
-            idx !== i &&
-            !(eliminated[currentIdx] || []).includes(idx)
-        );
-
-      if (wrongOptions.length > 0) {
-        const toEliminate = wrongOptions[Math.floor(Math.random() * wrongOptions.length)];
-        setEliminated((prev) => ({
-          ...prev,
-          [currentIdx]: [...(prev[currentIdx] || []), toEliminate],
-        }));
-      }
+      const newEliminated = [...currentEliminated, i];
+      setEliminated((prev) => ({
+        ...prev,
+        [currentIdx]: newEliminated,
+      }));
 
       const newLives = lives - 1;
       setLives(newLives);
+
       if (newLives <= 0) {
         setTimeout(() => {
           setGameOver("defeat");
-          handleComplete(score);
+          onComplete(scoreRef.current, false);
         }, 1200);
         return;
       }
-    }
 
-    setTimeout(() => {
-      setSelected(null);
-      setShowResult(false);
-      if (currentIdx + 1 >= questions.length) {
-        playCompleteSound();
-        setGameOver("victory");
-        handleComplete(score + (i === questions[currentIdx].correctIndex ? 1 : 0));
+      const currentQ = questions[currentIdx];
+      const remainingOpts = currentQ.options
+        .map((_, idx) => idx)
+        .filter((idx) => !newEliminated.includes(idx));
+
+      if (remainingOpts.length === 1 && remainingOpts[0] === currentQ.correctIndex) {
+        scoreRef.current += 1;
+        setEliminated((prev) => ({
+          ...prev,
+          [currentIdx]: newEliminated,
+        }));
+        setTimeout(() => advanceQuestion(), 1500);
       } else {
-        setCurrentIdx((p) => p + 1);
+        setTimeout(() => advanceQuestion(), 1500);
       }
-    }, 1500);
+    }
   };
 
   const currentQuestion = questions[currentIdx];
@@ -155,7 +149,7 @@ export default function Elimination({ event, onComplete }: EliminationProps) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-[var(--duo-text)]">Opsi tersisa: {remainingOptions}</span>
-          <span className="text-xs font-bold text-[var(--duo-text)]">Skor: {score}</span>
+          <span className="text-xs font-bold text-[var(--duo-text)]">Skor: {scoreRef.current}</span>
         </div>
       </div>
 

@@ -1,87 +1,66 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, HelpCircle } from "lucide-react";
 import type { EventData } from "@/lib/events";
-import { getEventQuestions, updateParticipant, calculateRewards } from "@/lib/events";
-import { getProfile, addXp, saveProfile } from "@/lib/gamification";
-import { useAuth } from "@/contexts/AuthContext";
+import { getEventQuestions } from "@/lib/events";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import type { QuizQuestion } from "@/lib/types";
 import { staggerContainer, staggerItem } from "@/lib/animations";
 
 interface MysteryEventProps {
   event: EventData;
-  onComplete: (score: number, xp: number, gems: number, badge: string | null) => void;
+  onComplete: (score: number, isWin: boolean) => void;
 }
 
 const TOTAL_QUESTIONS = 5;
 
 export default function MysteryEvent({ event, onComplete }: MysteryEventProps) {
-  const { user } = useAuth();
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [score, setScore] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const [finished, setFinished] = useState(false);
+  const scoreRef = useRef(0);
 
   useEffect(() => {
     setQuestions(getEventQuestions(event).slice(0, TOTAL_QUESTIONS));
   }, [event]);
 
-  const handleComplete = useCallback(
-    (finalScore: number) => {
-      const rewards = calculateRewards(event, finalScore, TOTAL_QUESTIONS, 0);
-      const profile = getProfile();
-      const p = addXp(rewards.xp);
-      p.gems += rewards.gems;
-      saveProfile(p);
-      updateParticipant(event.id, user?.id || "", {
-        status: "completed",
-        score: finalScore,
-        xpEarned: rewards.xp,
-        gemsEarned: rewards.gems,
-        badgeEarned: rewards.badge,
-        completedAt: new Date().toISOString(),
-        mysteryRevealed: TOTAL_QUESTIONS,
-      });
-      onComplete(finalScore, rewards.xp, rewards.gems, rewards.badge);
-    },
-    [event, user?.id, onComplete]
-  );
-
   const handleReveal = () => {
     setRevealed(true);
   };
 
-  const handleAnswer = (i: number) => {
-    if (selected !== null || finished || !questions[currentIdx] || !revealed) return;
-    setSelected(i);
-    setShowResult(true);
+  const handleAnswer = useCallback(
+    (i: number) => {
+      if (selected !== null || finished || !questions[currentIdx] || !revealed) return;
+      setSelected(i);
+      setShowResult(true);
 
-    if (i === questions[currentIdx].correctIndex) {
-      playCorrectSound();
-      setScore((s) => s + 1);
-    } else {
-      playWrongSound();
-    }
-
-    setTimeout(() => {
-      setSelected(null);
-      setShowResult(false);
-      setRevealed(false);
-      if (currentIdx + 1 >= TOTAL_QUESTIONS) {
-        playCompleteSound();
-        setFinished(true);
-        handleComplete(score + (i === questions[currentIdx].correctIndex ? 1 : 0));
+      if (i === questions[currentIdx].correctIndex) {
+        playCorrectSound();
+        scoreRef.current += 1;
       } else {
-        setCurrentIdx((p) => p + 1);
+        playWrongSound();
       }
-    }, 1500);
-  };
+
+      setTimeout(() => {
+        setSelected(null);
+        setShowResult(false);
+        setRevealed(false);
+        if (currentIdx + 1 >= TOTAL_QUESTIONS) {
+          playCompleteSound();
+          setFinished(true);
+          onComplete(scoreRef.current, true);
+        } else {
+          setCurrentIdx((p) => p + 1);
+        }
+      }, 1500);
+    },
+    [selected, finished, questions, currentIdx, revealed, onComplete]
+  );
 
   const currentQuestion = questions[currentIdx];
 
@@ -104,7 +83,7 @@ export default function MysteryEvent({ event, onComplete }: MysteryEventProps) {
         <span className="text-xs font-bold text-[var(--duo-text-muted)]">
           Soal {currentIdx + 1}/{TOTAL_QUESTIONS}
         </span>
-        <span className="text-xs font-bold text-[var(--duo-text)]">Skor: {score}</span>
+        <span className="text-xs font-bold text-[var(--duo-text)]">Skor: {scoreRef.current}</span>
       </div>
 
       {/* Question Card */}

@@ -1,19 +1,17 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, Calendar } from "lucide-react";
 import type { EventData } from "@/lib/events";
-import { getEventQuestions, updateParticipant, calculateRewards } from "@/lib/events";
-import { getProfile, addXp, saveProfile } from "@/lib/gamification";
-import { useAuth } from "@/contexts/AuthContext";
+import { getEventQuestions } from "@/lib/events";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import type { QuizQuestion } from "@/lib/types";
 import { staggerContainer, staggerItem } from "@/lib/animations";
 
 interface ChallengeWeekProps {
   event: EventData;
-  onComplete: (score: number, xp: number, gems: number, badge: string | null) => void;
+  onComplete: (score: number, isWin: boolean) => void;
 }
 
 const QUESTIONS_PER_DAY = 3;
@@ -39,7 +37,6 @@ function saveState(state: Record<number, DayState>) {
 }
 
 export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps) {
-  const { user } = useAuth();
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentDay, setCurrentDay] = useState(1);
   const [currentQIdx, setCurrentQIdx] = useState(0);
@@ -50,12 +47,14 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
   const [dayStates, setDayStates] = useState<Record<number, DayState>>({});
   const [dayComplete, setDayComplete] = useState(false);
   const [allComplete, setAllComplete] = useState(false);
+  const totalScoreRef = useRef(0);
 
   useEffect(() => {
     setQuestions(getEventQuestions(event));
     const saved = loadState();
     setDayStates(saved);
     const total = Object.values(saved).reduce((sum, d) => sum + d.score, 0);
+    totalScoreRef.current = total;
     setTotalScore(total);
     const nextDay = Array.from({ length: TOTAL_DAYS }, (_, i) => i + 1).find((d) => !saved[d]?.completed) || TOTAL_DAYS;
     setCurrentDay(nextDay);
@@ -66,28 +65,6 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
     currentDay * QUESTIONS_PER_DAY
   );
   const currentQuestion = dayQuestions[currentQIdx];
-
-  const handleComplete = useCallback(
-    (finalTotal: number) => {
-      const allQ = TOTAL_DAYS * QUESTIONS_PER_DAY;
-      const rewards = calculateRewards(event, finalTotal, allQ, 0);
-      const profile = getProfile();
-      const p = addXp(rewards.xp);
-      p.gems += rewards.gems;
-      saveProfile(p);
-      updateParticipant(event.id, user?.id || "", {
-        status: "completed",
-        score: finalTotal,
-        xpEarned: rewards.xp,
-        gemsEarned: rewards.gems,
-        badgeEarned: rewards.badge,
-        completedAt: new Date().toISOString(),
-        challengeDay: TOTAL_DAYS,
-      });
-      onComplete(finalTotal, rewards.xp, rewards.gems, rewards.badge);
-    },
-    [event, user?.id, onComplete]
-  );
 
   const handleAnswer = (i: number) => {
     if (selected !== null || dayComplete || !currentQuestion) return;
@@ -110,7 +87,8 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
         const newStates = { ...dayStates, [currentDay]: { completed: true, score: dayScore } };
         setDayStates(newStates);
         saveState(newStates);
-        const newTotal = totalScore + dayScore;
+        const newTotal = totalScoreRef.current + dayScore;
+        totalScoreRef.current = newTotal;
         setTotalScore(newTotal);
         playCompleteSound();
         setDayComplete(true);
@@ -118,7 +96,7 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
         if (currentDay >= TOTAL_DAYS) {
           setTimeout(() => {
             setAllComplete(true);
-            handleComplete(newTotal);
+            onComplete(newTotal, true);
           }, 1200);
         }
       } else {
@@ -144,7 +122,7 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
         >
           <Calendar size={64} className="text-[var(--duo-green)] mx-auto mb-4" />
           <h2 className="text-2xl font-black text-[var(--duo-text)] mb-2">Challenge Week Selesai!</h2>
-          <p className="text-sm text-[var(--duo-text-muted)]">Total skor: {totalScore}/{TOTAL_DAYS * QUESTIONS_PER_DAY}</p>
+          <p className="text-sm text-[var(--duo-text-muted)]">Total skor: {totalScoreRef.current}/{TOTAL_DAYS * QUESTIONS_PER_DAY}</p>
         </motion.div>
       </div>
     );
@@ -175,7 +153,7 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
       {/* Total Score */}
       <div className="text-center mb-4">
         <span className="text-xs font-bold text-[var(--duo-text-muted)]">
-          Hari {currentDay}/{TOTAL_DAYS} | Soal {currentQIdx + 1}/{QUESTIONS_PER_DAY} | Skor: {totalScore}
+          Hari {currentDay}/{TOTAL_DAYS} | Soal {currentQIdx + 1}/{QUESTIONS_PER_DAY} | Skor: {totalScoreRef.current}
         </span>
       </div>
 

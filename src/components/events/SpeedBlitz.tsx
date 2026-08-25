@@ -1,44 +1,44 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Clock, CheckCircle2, XCircle, Zap } from "lucide-react";
+import { Clock, Zap } from "lucide-react";
 import type { EventData } from "@/lib/events";
-import { getEventQuestions, updateParticipant, calculateRewards } from "@/lib/events";
-import { getProfile, addXp, saveProfile } from "@/lib/gamification";
-import { useAuth } from "@/contexts/AuthContext";
+import { getEventQuestions } from "@/lib/events";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import type { QuizQuestion } from "@/lib/types";
 import { staggerContainer, staggerItem } from "@/lib/animations";
 
 interface SpeedBlitzProps {
   event: EventData;
-  onComplete: (score: number, xp: number, gems: number, badge: string | null) => void;
+  onComplete: (score: number, isWin: boolean) => void;
 }
 
-const TIMER_TOTAL = 180;
-
 export default function SpeedBlitz({ event, onComplete }: SpeedBlitzProps) {
-  const { user } = useAuth();
+  const scoreRef = useRef(0);
+  const completedRef = useRef(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [score, setScore] = useState(0);
-  const [timer, setTimer] = useState(TIMER_TOTAL);
+  const [timer, setTimer] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [finished, setFinished] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [showTimeUp, setShowTimeUp] = useState(false);
 
   useEffect(() => {
-    setQuestions(getEventQuestions(event));
+    const qs = getEventQuestions(event);
+    setQuestions(qs);
+    const timeLimit = Math.min(Math.max(event.questionsCount * 10, 60), 300);
+    setTimer(timeLimit);
   }, [event]);
 
   useEffect(() => {
-    if (finished) return;
+    if (finished || questions.length === 0) return;
     timerRef.current = setInterval(() => {
       setTimer((t) => {
         if (t <= 1) {
-          clearInterval(timerRef.current!);
+          if (timerRef.current) clearInterval(timerRef.current);
           return 0;
         }
         return t - 1;
@@ -47,36 +47,27 @@ export default function SpeedBlitz({ event, onComplete }: SpeedBlitzProps) {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [finished]);
+  }, [finished, questions.length]);
 
   useEffect(() => {
-    if (timer === 0 && !finished) {
-      handleFinish();
+    if (timer === 0 && !finished && questions.length > 0) {
+      finishGame();
     }
-  }, [timer, finished]);
+  }, [timer, finished, questions.length]);
 
-  const handleFinish = useCallback(() => {
-    if (finished) return;
+  const finishGame = () => {
+    if (completedRef.current) return;
+    completedRef.current = true;
     setFinished(true);
     if (timerRef.current) clearInterval(timerRef.current);
-
-    const rewards = calculateRewards(event, score, questions.length, TIMER_TOTAL - timer);
-    const profile = getProfile();
-    const p = addXp(rewards.xp);
-    p.gems += rewards.gems;
-    saveProfile(p);
-    updateParticipant(event.id, user?.id || "", {
-      status: "completed",
-      score,
-      xpEarned: rewards.xp,
-      gemsEarned: rewards.gems,
-      badgeEarned: rewards.badge,
-      completedAt: new Date().toISOString(),
-      questionsAnswered: score,
-      timeSpent: TIMER_TOTAL - timer,
-    });
-    onComplete(score, rewards.xp, rewards.gems, rewards.badge);
-  }, [score, questions.length, timer, event, user?.id, onComplete, finished]);
+    playCompleteSound();
+    if (timer === 0) {
+      setShowTimeUp(true);
+    }
+    setTimeout(() => {
+      onComplete(scoreRef.current, true);
+    }, timer === 0 ? 2000 : 1500);
+  };
 
   const handleAnswer = (i: number) => {
     if (selected !== null || finished || !questions[currentIdx]) return;
@@ -85,7 +76,7 @@ export default function SpeedBlitz({ event, onComplete }: SpeedBlitzProps) {
 
     if (i === questions[currentIdx].correctIndex) {
       playCorrectSound();
-      setScore((s) => s + 1);
+      scoreRef.current++;
     } else {
       playWrongSound();
     }
@@ -93,14 +84,20 @@ export default function SpeedBlitz({ event, onComplete }: SpeedBlitzProps) {
     setTimeout(() => {
       setSelected(null);
       setShowResult(false);
-      setCurrentIdx((p) => p + 1);
+      setCurrentIdx((p) => {
+        const next = p + 1;
+        if (next >= questions.length) {
+          finishGame();
+        }
+        return next;
+      });
     }, 800);
   };
 
   const currentQuestion = questions[currentIdx];
   const minutes = Math.floor(timer / 60);
   const seconds = timer % 60;
-  const isUrgent = timer < 30;
+  const isUrgent = timer < 30 && timer > 0;
 
   if (!currentQuestion && !finished) {
     return (
@@ -148,68 +145,98 @@ export default function SpeedBlitz({ event, onComplete }: SpeedBlitzProps) {
       {/* Score */}
       <div className="flex items-center justify-center gap-2 mb-4">
         <Zap size={16} className="text-[var(--duo-orange)]" />
-        <span className="text-sm font-bold text-[var(--duo-text)]">{score} jawaban benar</span>
+        <span className="text-sm font-bold text-[var(--duo-text)]">{scoreRef.current} jawaban benar</span>
         <span className="text-xs text-[var(--duo-text-muted)]">/ {currentIdx} dijawab</span>
       </div>
 
       {/* Question */}
-      <div className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-5 mb-4">
-        <h2 className="text-base font-bold text-[var(--duo-text)] text-center">{currentQuestion.question}</h2>
-      </div>
+      {currentQuestion && (
+        <>
+          <div className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-5 mb-4">
+            <h2 className="text-base font-bold text-[var(--duo-text)] text-center">
+              {currentQuestion.question}
+            </h2>
+          </div>
 
-      {/* Options */}
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-1 gap-3 mb-4"
-      >
-        {currentQuestion.options.map((opt, i) => {
-          let style =
-            "bg-white dark:bg-[var(--duo-card)] border-2 border-[var(--duo-border)] hover:border-[var(--duo-orange)]/50 hover:shadow-md cursor-pointer";
-          if (showResult) {
-            if (i === currentQuestion.correctIndex) {
-              style = "bg-[var(--duo-green)]/10 border-2 border-[var(--duo-green)]";
-            } else if (i === selected) {
-              style = "bg-[var(--duo-red)]/10 border-2 border-[var(--duo-red)]";
-            } else {
-              style = "bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 opacity-50";
-            }
-          }
-          return (
-            <motion.button
-              key={i}
-              variants={staggerItem}
-              onClick={() => handleAnswer(i)}
-              disabled={selected !== null || finished}
-              className={`w-full p-4 rounded-xl text-left transition-all ${style}`}
-              whileHover={selected === null ? { scale: 1.02, y: -1 } : {}}
-              whileTap={selected === null ? { scale: 0.98 } : {}}
-            >
-              <div className="flex items-center gap-3">
-                <span
-                  className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-black shrink-0 ${
-                    showResult && i === currentQuestion.correctIndex
-                      ? "bg-[var(--duo-green)] text-white"
-                      : showResult && i === selected
-                      ? "bg-[var(--duo-red)] text-white"
-                      : "bg-gray-100 dark:bg-gray-800 text-[var(--duo-text-muted)]"
-                  }`}
+          {/* Options */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 gap-3 mb-4"
+          >
+            {currentQuestion.options.map((opt, i) => {
+              let style =
+                "bg-white dark:bg-[var(--duo-card)] border-2 border-[var(--duo-border)] hover:border-[var(--duo-orange)]/50 hover:shadow-md cursor-pointer";
+              if (showResult) {
+                if (i === currentQuestion.correctIndex) {
+                  style = "bg-[var(--duo-green)]/10 border-2 border-[var(--duo-green)]";
+                } else if (i === selected) {
+                  style = "bg-[var(--duo-red)]/10 border-2 border-[var(--duo-red)]";
+                } else {
+                  style =
+                    "bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 opacity-50";
+                }
+              }
+              return (
+                <motion.button
+                  key={i}
+                  variants={staggerItem}
+                  onClick={() => handleAnswer(i)}
+                  disabled={selected !== null || finished}
+                  className={`w-full p-4 rounded-xl text-left transition-all ${style}`}
+                  whileHover={selected === null ? { scale: 1.02, y: -1 } : {}}
+                  whileTap={selected === null ? { scale: 0.98 } : {}}
                 >
-                  {showResult && i === currentQuestion.correctIndex ? (
-                    <CheckCircle2 size={16} />
-                  ) : showResult && i === selected ? (
-                    <XCircle size={16} />
-                  ) : (
-                    String.fromCharCode(65 + i)
-                  )}
-                </span>
-                <span className="text-sm font-bold text-[var(--duo-text)]">{opt}</span>
-              </div>
-            </motion.button>
-          );
-        })}
-      </motion.div>
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-black shrink-0 ${
+                        showResult && i === currentQuestion.correctIndex
+                          ? "bg-[var(--duo-green)] text-white"
+                          : showResult && i === selected
+                            ? "bg-[var(--duo-red)] text-white"
+                            : "bg-gray-100 dark:bg-gray-800 text-[var(--duo-text-muted)]"
+                      }`}
+                    >
+                      {String.fromCharCode(65 + i)}
+                    </span>
+                    <span className="text-sm font-bold text-[var(--duo-text)]">{opt}</span>
+                  </div>
+                </motion.button>
+              );
+            })}
+          </motion.div>
+        </>
+      )}
+
+      {/* Waktu Habis Overlay */}
+      <AnimatePresence>
+        {showTimeUp && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              className="bg-white dark:bg-[var(--duo-card)] rounded-3xl p-8 mx-4 text-center max-w-sm w-full"
+            >
+              <motion.div
+                animate={{ rotate: [0, -10, 10, -10, 0] }}
+                transition={{ duration: 0.5 }}
+              >
+                <Clock size={64} className="text-[var(--duo-red)] mx-auto mb-4" />
+              </motion.div>
+              <h2 className="text-2xl font-black text-[var(--duo-text)] mb-2">Waktu Habis!</h2>
+              <p className="text-sm text-[var(--duo-text-muted)]">
+                Skor akhir: {scoreRef.current}
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

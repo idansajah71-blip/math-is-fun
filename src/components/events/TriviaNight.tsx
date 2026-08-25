@@ -1,78 +1,60 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, Tag } from "lucide-react";
 import type { EventData } from "@/lib/events";
-import { getEventQuestions, updateParticipant, calculateRewards } from "@/lib/events";
-import { getProfile, addXp, saveProfile } from "@/lib/gamification";
-import { useAuth } from "@/contexts/AuthContext";
+import { getEventQuestions } from "@/lib/events";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import type { QuizQuestion } from "@/lib/types";
 import { staggerContainer, staggerItem } from "@/lib/animations";
 
 interface TriviaNightProps {
   event: EventData;
-  onComplete: (score: number, xp: number, gems: number, badge: string | null) => void;
+  onComplete: (score: number, isWin: boolean) => void;
 }
 
 export default function TriviaNight({ event, onComplete }: TriviaNightProps) {
-  const { user } = useAuth();
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [score, setScore] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [finished, setFinished] = useState(false);
+  const scoreRef = useRef(0);
+  const totalQuestions = event.questionsCount || 15;
 
   useEffect(() => {
-    setQuestions(getEventQuestions(event));
-  }, [event]);
+    setQuestions(getEventQuestions(event).slice(0, totalQuestions));
+  }, [event, totalQuestions]);
 
-  const handleComplete = useCallback(
-    (finalScore: number) => {
-      const rewards = calculateRewards(event, finalScore, questions.length, 0);
-      const profile = getProfile();
-      const p = addXp(rewards.xp);
-      p.gems += rewards.gems;
-      saveProfile(p);
-      updateParticipant(event.id, user?.id || "", {
-        status: "completed",
-        score: finalScore,
-        xpEarned: rewards.xp,
-        gemsEarned: rewards.gems,
-        badgeEarned: rewards.badge,
-        completedAt: new Date().toISOString(),
-      });
-      onComplete(finalScore, rewards.xp, rewards.gems, rewards.badge);
-    },
-    [event, questions.length, user?.id, onComplete]
-  );
+  const handleAnswer = useCallback(
+    (i: number) => {
+      if (selected !== null || finished || !questions[currentIdx]) return;
+      setSelected(i);
+      setShowResult(true);
 
-  const handleAnswer = (i: number) => {
-    if (selected !== null || finished || !questions[currentIdx]) return;
-    setSelected(i);
-    setShowResult(true);
-
-    if (i === questions[currentIdx].correctIndex) {
-      playCorrectSound();
-      setScore((s) => s + 1);
-    } else {
-      playWrongSound();
-    }
-
-    setTimeout(() => {
-      setSelected(null);
-      setShowResult(false);
-      if (currentIdx + 1 >= questions.length) {
-        playCompleteSound();
-        setFinished(true);
-        handleComplete(score + (i === questions[currentIdx].correctIndex ? 1 : 0));
+      const isCorrect = i === questions[currentIdx].correctIndex;
+      if (isCorrect) {
+        playCorrectSound();
+        scoreRef.current += 1;
       } else {
-        setCurrentIdx((p) => p + 1);
+        playWrongSound();
       }
-    }, 1500);
-  };
+
+      setTimeout(() => {
+        setSelected(null);
+        setShowResult(false);
+        if (currentIdx + 1 >= questions.length) {
+          playCompleteSound();
+          setFinished(true);
+          onComplete(scoreRef.current, true);
+        } else {
+          setCurrentIdx((p) => p + 1);
+        }
+      }, 1500);
+    },
+    [selected, finished, questions, currentIdx, onComplete]
+  );
 
   const currentQuestion = questions[currentIdx];
 
@@ -99,7 +81,7 @@ export default function TriviaNight({ event, onComplete }: TriviaNightProps) {
         </div>
         <div className="flex items-center gap-2">
           <CheckCircle2 size={14} className="text-[var(--duo-green)]" />
-          <span className="text-xs font-bold text-[var(--duo-text)]">{score} benar</span>
+          <span className="text-xs font-bold text-[var(--duo-text)]">{scoreRef.current} benar</span>
         </div>
       </div>
 

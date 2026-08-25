@@ -56,10 +56,9 @@ export default function EventPlayPage({ params }: { params: Promise<{ id: string
     setLoading(false);
   }, [id, user, router]);
 
-  const handleComplete = (score: number, xp: number, gems: number, badge: string | null) => {
+  const handleComplete = (score: number, isWin: boolean) => {
     if (!event || !user) return;
 
-    const participant = getParticipant(event.id, user.id);
     const totalQuestions = event.questionsCount;
 
     const rewards = calculateRewards(event, score, totalQuestions, 0);
