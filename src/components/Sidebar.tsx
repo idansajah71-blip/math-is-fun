@@ -40,6 +40,7 @@ import AccentColorPicker from "./ui/AccentColorPicker";
 import { useSoundManager } from "@/hooks/useSoundManager";
 import type { UserProfile } from "@/lib/gamification";
 import { isPremiumActive } from "@/lib/gamification";
+import { isFlagEnabled } from "@/lib/admin/flags";
 
 const NAV = [
   { href: "/", label: "Beranda", icon: Home },
@@ -122,7 +123,7 @@ function SidebarInner({
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-black text-[var(--fg)] truncate leading-tight flex items-center gap-1.5">
               {profile?.name || "Pelajar"}
-              {isPremiumActive() && (
+              {isFlagEnabled("premium") && isPremiumActive() && (
                 <span className="px-1.5 py-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[8px] font-black rounded-full flex items-center gap-0.5">
                   <Crown size={8} /> PRO
                 </span>

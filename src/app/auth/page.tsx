@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Lock, User, ArrowRight, Loader2, Eye, EyeOff, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { SigmaIcon } from "@/components/icons/CustomIcons";
 import { signup, login, resetPassword } from "@/lib/localAuth";
+import { isFlagEnabled } from "@/lib/admin/flags";
 
 export default function AuthPage() {
   const [mode, setMode] = useState<"login" | "signup" | "forgot">("signup");
@@ -360,7 +361,7 @@ export default function AuthPage() {
         )}
 
         {/* Guest */}
-        {mode !== "forgot" && (
+        {mode !== "forgot" && isFlagEnabled("guest-mode") && (
           <div className="mt-6 pt-4 border-t border-[var(--duo-border)]">
             <button
               onClick={handleGuest}

@@ -23,6 +23,7 @@ import {
 } from "@/lib/gamification";
 import { staggerContainer, staggerItem, springGentle, springBounce, popIn, cardSlideUp } from "@/lib/animations";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
+import { Megaphone } from "lucide-react";
 import {
   Play,
   Trophy,
@@ -52,10 +53,12 @@ import {
 } from "lucide-react";
 import { renderIcon, InlineIcon } from "@/lib/iconMap";
 import Onboarding from "@/components/Onboarding";
+import { isFlagEnabled } from "@/lib/admin/flags";
 import type { Topic } from "@/lib/types";
 import type { UserProfile } from "@/lib/gamification";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import Confetti from "@/components/ui/Confetti";
+import AnnouncementBanner from "@/components/AnnouncementBanner";
 
 const MINI_GAMES = [
   {
@@ -397,11 +400,13 @@ function HomeContent() {
     setMounted(true);
 
     const onboardingDone = localStorage.getItem("belajar-mtk-onboarding");
-    if (!onboardingDone) {
+    if (!onboardingDone && isFlagEnabled("onboarding")) {
       setShowOnboarding(true);
     } else {
-      const cleanup = checkDailyReward(prof);
-      return cleanup;
+      if (isFlagEnabled("daily-reward")) {
+        const cleanup = checkDailyReward(prof);
+        return cleanup;
+      }
     }
   }, []);
 
@@ -584,6 +589,9 @@ function HomeContent() {
               </div>
             </div>
           </motion.div>
+
+          {/* ===== ANNOUNCEMENTS BANNER ===== */}
+          <AnnouncementBanner profile={profile} />
 
           {/* ===== STATS ROW ===== */}
           <motion.div
