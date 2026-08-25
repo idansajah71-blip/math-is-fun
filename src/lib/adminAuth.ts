@@ -16,6 +16,7 @@ export interface AdminSession {
   name: string;
   role: string;
   loginAt: string;
+  supabaseUserId?: string;
 }
 
 const DEFAULT_ADMIN: AdminUser = {
@@ -25,6 +26,13 @@ const DEFAULT_ADMIN: AdminUser = {
   role: "superadmin",
   createdAt: new Date().toISOString(),
 };
+
+function isSupabaseConfigured(): boolean {
+  if (typeof window === "undefined") return false;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  return !!(url && key && !url.includes("your-project") && !key.includes("your-anon"));
+}
 
 function getAdminUsers(): AdminUser[] {
   if (typeof window === "undefined") return [DEFAULT_ADMIN];
@@ -41,7 +49,45 @@ function getAdminUsers(): AdminUser[] {
   }
 }
 
-export function adminLogin(email: string, password: string): { error?: string; session?: AdminSession } {
+export async function adminLogin(email: string, password: string): Promise<{ error?: string; session?: AdminSession }> {
+  // Try Supabase Auth first when configured
+  if (isSupabaseConfigured()) {
+    try {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        // Fall through to localStorage check
+      } else if (data.user) {
+        // Check role in profiles table
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role, name")
+          .eq("id", data.user.id)
+          .single();
+
+        const role = (profile as { role?: string } | null)?.role || "user";
+        if (role !== "admin" && role !== "superadmin") {
+          await supabase.auth.signOut();
+          return { error: "Akun ini bukan akun admin" };
+        }
+
+        const session: AdminSession = {
+          email: data.user.email || email,
+          name: (profile as { name?: string } | null)?.name || "Admin",
+          role,
+          loginAt: new Date().toISOString(),
+          supabaseUserId: data.user.id,
+        };
+        localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(session));
+        return { session };
+      }
+    } catch {
+      // Supabase unavailable, fall through to localStorage
+    }
+  }
+
+  // localStorage fallback
   const users = getAdminUsers();
   const user = users.find((u) => u.email === email && u.password === password);
   if (!user) {
@@ -57,7 +103,17 @@ export function adminLogin(email: string, password: string): { error?: string; s
   return { session };
 }
 
-export function adminLogout() {
+export async function adminLogout(): Promise<void> {
+  const session = getAdminSession();
+  if (session?.supabaseUserId && isSupabaseConfigured()) {
+    try {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      await supabase.auth.signOut();
+    } catch {
+      // ignore
+    }
+  }
   localStorage.removeItem(ADMIN_STORAGE_KEY);
 }
 
@@ -74,6 +130,11 @@ export function getAdminSession(): AdminSession | null {
 
 export function isAdminLoggedIn(): boolean {
   return getAdminSession() !== null;
+}
+
+export function isAdminOrSuperadmin(): boolean {
+  const session = getAdminSession();
+  return session?.role === "admin" || session?.role === "superadmin";
 }
 
 export function addAdmin(email: string, password: string, name: string): { error?: string } {

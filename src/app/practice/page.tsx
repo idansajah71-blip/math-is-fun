@@ -5,19 +5,19 @@ import Sidebar from "@/components/Sidebar";
 import Confetti from "@/components/ui/Confetti";
 import Hearts from "@/components/Hearts";
 import XpPopup from "@/components/ui/XpPopup";
-import { quizzes } from "@/lib/quizzes";
-import { getAllTopics } from "@/lib/mathData";
+import { getAllTopics, getAllQuizzes } from "@/lib/data";
 import { saveQuizScore, addXp } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import { CheckCircle2, XCircle, ChevronRight, Timer, RotateCcw, Settings2 } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import type { QuizQuestion } from "@/lib/types";
 
 export default function PracticePage() {
   const [step, setStep] = useState<"config" | "quiz" | "result">("config");
   const [selectedTopic, setSelectedTopic] = useState("all");
   const [numQuestions, setNumQuestions] = useState(10);
   const [timeLimit, setTimeLimit] = useState(0);
-  const [questions, setQuestions] = useState<typeof quizzes>([]);
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -43,7 +43,7 @@ export default function PracticePage() {
   }, [currentQ, questions]);
 
   const startQuiz = useCallback(() => {
-    let pool = selectedTopic === "all" ? quizzes : quizzes.filter((q) => q.topicSlug === selectedTopic);
+    let pool = selectedTopic === "all" ? getAllQuizzes() : getAllQuizzes().filter((q) => q.topicSlug === selectedTopic);
     pool = [...pool].sort(() => Math.random() - 0.5).slice(0, numQuestions);
     if (pool.length === 0) return;
     setQuestions(pool);

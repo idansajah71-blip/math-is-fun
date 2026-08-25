@@ -4,13 +4,13 @@ import { useState, useEffect, useMemo } from "react";
 import Sidebar from "@/components/Sidebar";
 import Confetti from "@/components/ui/Confetti";
 import XpPopup from "@/components/ui/XpPopup";
-import { quizzes } from "@/lib/quizzes";
-import { getAllTopics } from "@/lib/mathData";
+import { getAllTopics, getAllQuizzes } from "@/lib/data";
 import { getProfile, saveQuizScore, addXp, UserProfile } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import { AlertTriangle, CheckCircle2, XCircle, RotateCcw, ChevronRight, BookOpen, Filter } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { renderIcon } from "@/lib/iconMap";
+import type { QuizQuestion } from "@/lib/types";
 
 type Tab = "wrong" | "quiz" | "result";
 
@@ -19,7 +19,7 @@ export default function ReviewPage() {
   const [tab, setTab] = useState<Tab>("wrong");
   const [filterLevel, setFilterLevel] = useState<string>("all");
   const [quizTopicSlug, setQuizTopicSlug] = useState<string>("");
-  const [questions, setQuestions] = useState<typeof quizzes>([]);
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -70,7 +70,7 @@ export default function ReviewPage() {
   }, [currentQ, questions]);
 
   function startQuiz(slug: string) {
-    const pool = quizzes
+    const pool = getAllQuizzes()
       .filter((q) => q.topicSlug === slug && q.type === "choice" && q.options.length > 0)
       .sort(() => Math.random() - 0.5)
       .slice(0, 10);

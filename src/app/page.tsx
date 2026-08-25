@@ -11,7 +11,7 @@ import QuestCard from "@/components/game/QuestCard";
 import XPBar from "@/components/ui/XPBar";
 import StreakBar from "@/components/ui/StreakBar";
 import XpPopup from "@/components/ui/XpPopup";
-import { getAllTopics } from "@/lib/mathData";
+import { getAllTopics } from "@/lib/data";
 import {
   getProfile,
   LEVEL_NAMES,

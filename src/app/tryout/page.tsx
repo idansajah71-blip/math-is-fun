@@ -4,15 +4,16 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import Sidebar from "@/components/Sidebar";
 import Confetti from "@/components/ui/Confetti";
 import Hearts from "@/components/Hearts";
-import { quizzes } from "@/lib/quizzes";
+import { getAllQuizzes } from "@/lib/data";
 import { saveQuizScore, addXp } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import { CheckCircle2, XCircle, ChevronRight, Timer, Trophy, RotateCcw } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import type { QuizQuestion } from "@/lib/types";
 
 export default function TryOutPage() {
   const [step, setStep] = useState<"start" | "quiz" | "result">("start");
-  const [questions, setQuestions] = useState<typeof quizzes>([]);
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -34,7 +35,7 @@ export default function TryOutPage() {
   }, [currentQ, questions]);
 
   const startTryOut = useCallback(() => {
-    const pool = [...quizzes].sort(() => Math.random() - 0.5).slice(0, 20);
+    const pool = [...getAllQuizzes()].sort(() => Math.random() - 0.5).slice(0, 20);
     setQuestions(pool);
     setCurrentQ(0);
     setScore(0);

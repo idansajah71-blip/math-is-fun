@@ -25,8 +25,8 @@ export default function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  function handleLogout() {
-    adminLogout();
+  async function handleLogout() {
+    await adminLogout();
     router.push("/admin/login");
   }
 

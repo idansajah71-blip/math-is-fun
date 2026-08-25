@@ -4,12 +4,12 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import { getProfile, getDueTopics, getUpcomingReviews, recordReview, addXp } from "@/lib/gamification";
-import { getTopicBySlug } from "@/lib/mathData";
-import { quizzes } from "@/lib/quizzes";
+import { getTopicBySlug, getAllQuizzes } from "@/lib/data";
 import { renderIcon } from "@/lib/iconMap";
 import { playCorrectSound, playWrongSound } from "@/lib/sounds";
 import { motion } from "framer-motion";
 import { Brain, CheckCircle2, XCircle, ChevronRight, Calendar, Clock, Sparkles } from "lucide-react";
+import FeatureGuard from "@/components/admin/FeatureGuard";
 
 export default function SpacedRepetitionPage() {
   const [dueSlugs, setDueSlugs] = useState<string[]>([]);
@@ -40,7 +40,7 @@ export default function SpacedRepetitionPage() {
     setReviewMode(true);
   }
 
-  const topicQuizzes = currentSlug ? quizzes.filter((q) => q.topicSlug === currentSlug) : [];
+  const topicQuizzes = currentSlug ? getAllQuizzes().filter((q) => q.topicSlug === currentSlug) : [];
   const currentQuiz = topicQuizzes[currentQuizIdx];
 
   function handleAnswer(i: number) {
@@ -77,10 +77,11 @@ export default function SpacedRepetitionPage() {
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div className="flex min-h-screen bg-[var(--duo-bg)]">
-      <Sidebar />
+    <FeatureGuard flag="spaced-repetition">
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
+        <Sidebar />
 
-      <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
+        <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
         <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
           <div className="max-w-2xl mx-auto px-8 py-6">
             <div className="flex items-center gap-3 mb-2">
@@ -248,6 +249,7 @@ export default function SpacedRepetitionPage() {
           )}
         </div>
       </main>
-    </div>
-  );
-}
+        </div>
+      </FeatureGuard>
+    );
+  }

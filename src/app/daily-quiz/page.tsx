@@ -4,12 +4,13 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import Sidebar from "@/components/Sidebar";
 import Confetti from "@/components/ui/Confetti";
 import XpPopup from "@/components/ui/XpPopup";
-import { quizzes } from "@/lib/quizzes";
+import { getAllQuizzes } from "@/lib/data";
 import { getProfile, saveProfile, addXp, getWeakTopics } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import { CheckCircle2, XCircle, Timer, RotateCcw, Calendar, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import type { QuizQuestion } from "@/lib/types";
+import FeatureGuard from "@/components/admin/FeatureGuard";
 
 function getTodayStr(): string {
   return new Date().toISOString().split("T")[0];
@@ -28,7 +29,7 @@ function seedRandom(seed: string): () => number {
 
 function generateDailyQuiz(dateStr: string, weakTopics: string[]): QuizQuestion[] {
   const rng = seedRandom(dateStr);
-  const pool = [...quizzes];
+  const pool = [...getAllQuizzes()];
 
   const weakQuestions = pool.filter((q) => weakTopics.includes(q.topicSlug));
   const otherQuestions = pool.filter((q) => !weakTopics.includes(q.topicSlug));
@@ -161,12 +162,13 @@ export default function DailyQuizPage() {
   const accuracy = questions.length > 0 ? Math.round((score / questions.length) * 100) : 0;
 
   return (
-    <div className="flex min-h-screen bg-[var(--duo-bg)]">
-      <Sidebar />
-      {showXp && <XpPopup amount={score * 5 + (score >= 8 ? 20 : score >= 5 ? 10 : 0)} show={true} onComplete={() => setShowXp(false)} />}
-      {showConfetti && <Confetti show={true} />}
+    <FeatureGuard flag="daily-quiz">
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
+        <Sidebar />
+        {showXp && <XpPopup amount={score * 5 + (score >= 8 ? 20 : score >= 5 ? 10 : 0)} show={true} onComplete={() => setShowXp(false)} />}
+        {showConfetti && <Confetti show={true} />}
 
-      <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
+        <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
         <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
           <div className="max-w-2xl mx-auto px-8 py-6">
             <div className="flex items-center gap-3 mb-2">
@@ -361,6 +363,7 @@ export default function DailyQuizPage() {
           )}
         </div>
       </main>
-    </div>
-  );
-}
+        </div>
+      </FeatureGuard>
+    );
+  }

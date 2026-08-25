@@ -6,7 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import MathContent from "@/components/MathContent";
 import LessonClient from "@/components/lesson/LessonClient";
 import AnimatedButton from "@/components/ui/AnimatedButton";
-import { getTopicBySlug, getTopicsByLevel } from "@/lib/mathData";
+import { getTopicBySlug, getTopicsByLevel } from "@/lib/data";
 import { toggleBookmark, getProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
 import { Bookmark, Play, ChevronRight, StickyNote, Save } from "lucide-react";

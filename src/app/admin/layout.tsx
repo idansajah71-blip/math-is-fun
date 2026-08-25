@@ -16,11 +16,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       setReady(true);
       return;
     }
+
+    // Check localStorage session
     if (!isAdminLoggedIn()) {
       router.push("/admin/login");
-    } else {
-      setReady(true);
+      return;
     }
+
+    // Also verify role is admin/superadmin
+    const session = getAdminSession();
+    if (session && session.role !== "admin" && session.role !== "superadmin") {
+      router.push("/admin/login");
+      return;
+    }
+
+    setReady(true);
   }, [pathname, router]);
 
   if (pathname === "/admin/login") {

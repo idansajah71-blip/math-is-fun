@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { getProfile, getWeakTopics, LEVEL_NAMES, UserProfile } from "@/lib/gamification";
-import { getAllTopics } from "@/lib/mathData";
+import { getAllTopics } from "@/lib/data";
 
 type MascotMood = "happy" | "thinking" | "celebrate" | "sad" | "idle" | "wink" | "love" | "surprised";
 

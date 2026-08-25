@@ -24,7 +24,7 @@ import {
   completeTopic, saveQuizScore, getProfile, trackWrongAnswer, useHeart,
   consumeDoubleXp, addXp, BADGES, LEVEL_NAMES, recordReview,
 } from "@/lib/gamification";
-import { quizzes } from "@/lib/quizzes";
+import { getAllQuizzes } from "@/lib/data";
 import {
   ArrowLeft, ArrowRight, CheckCircle2, RotateCcw,
   Home, Star, Zap, Trophy, BookOpen, Flame, Target,
@@ -73,7 +73,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const [startTime] = useState(Date.now());
   const [answered, setAnswered] = useState(false);
 
-  const topicQuizzes = quizzes.filter((q) => q.topicSlug === topic.slug);
+  const topicQuizzes = getAllQuizzes().filter((q) => q.topicSlug === topic.slug);
   const totalQuestions = Math.min(topicQuizzes.length, 5);
   const questions = topicQuizzes.slice(0, totalQuestions);
   const progress = totalQuestions > 0 ? ((currentQ) / totalQuestions) * 100 : 0;

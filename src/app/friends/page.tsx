@@ -7,6 +7,7 @@ import { getProfile, addXp, LEVEL_NAMES } from "@/lib/gamification";
 import { motion } from "framer-motion";
 import { UserPlus, Trophy, Zap, Flame, Target, Send, X, CheckCircle2, Swords } from "lucide-react";
 import type { UserProfile } from "@/lib/gamification";
+import FeatureGuard from "@/components/admin/FeatureGuard";
 
 interface Friend {
   id: string;
@@ -149,10 +150,11 @@ export default function FriendsPage() {
   const completedChallenges = challenges.filter(c => c.status === "completed");
 
   return (
-    <div className="flex min-h-screen bg-[var(--duo-bg)]">
-      <Sidebar />
+    <FeatureGuard flag="friends">
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
+        <Sidebar />
 
-      <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
+        <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
         <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
           <div className="max-w-2xl mx-auto px-8 py-6">
             <div className="flex items-center gap-3 mb-4">
@@ -370,6 +372,7 @@ export default function FriendsPage() {
           </motion.div>
         </div>
       )}
-    </div>
-  );
-}
+        </div>
+      </FeatureGuard>
+    );
+  }

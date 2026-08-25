@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import { getProfile, toggleBookmark } from "@/lib/gamification";
-import { getTopicBySlug } from "@/lib/mathData";
+import { getTopicBySlug } from "@/lib/data";
 import { renderIcon } from "@/lib/iconMap";
 import { motion } from "framer-motion";
 import { Bookmark, Trash2, ChevronRight } from "lucide-react";
 import type { Topic } from "@/lib/types";
+import FeatureGuard from "@/components/admin/FeatureGuard";
 
 interface BookmarkedTopic {
   slug: string;
@@ -51,10 +52,11 @@ export default function BookmarkPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[var(--duo-bg)]">
-      <Sidebar />
+    <FeatureGuard flag="bookmarks">
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
+        <Sidebar />
 
-      <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
+        <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
         <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
           <div className="max-w-2xl mx-auto px-8 py-6">
             <div className="flex items-center gap-3 mb-2">
@@ -148,6 +150,7 @@ export default function BookmarkPage() {
           )}
         </div>
       </main>
-    </div>
-  );
-}
+        </div>
+      </FeatureGuard>
+    );
+  }

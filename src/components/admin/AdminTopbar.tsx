@@ -12,8 +12,8 @@ export default function AdminTopbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
 
-  function handleLogout() {
-    adminLogout();
+  async function handleLogout() {
+    await adminLogout();
     router.push("/admin/login");
   }
 

@@ -19,20 +19,23 @@ export default function AdminLoginPage() {
     }
   }, [router]);
 
-  function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    setTimeout(() => {
-      const result = adminLogin(email, password);
+    try {
+      const result = await adminLogin(email, password);
       if (result.error) {
         setError(result.error);
-        setLoading(false);
       } else {
         router.push("/admin");
       }
-    }, 500);
+    } catch {
+      setError("Terjadi kesalahan, coba lagi");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
-import { getAllTopics } from "@/lib/mathData";
+import { getAllTopics } from "@/lib/data";
 import { Copy, Check, Search } from "lucide-react";
 
 export default function FormulasPage() {

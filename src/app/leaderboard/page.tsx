@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { Trophy, Medal, Crown, Flame, Info, Award, LogIn } from "lucide-react";
 import Link from "next/link";
 import { renderIcon } from "@/lib/iconMap";
+import FeatureGuard from "@/components/admin/FeatureGuard";
 
 interface LeaderboardEntry {
   rank: number;
@@ -65,6 +66,7 @@ export default function LeaderboardPage() {
   const myRank = getMyRank();
 
   return (
+    <FeatureGuard flag="leaderboard">
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
 
@@ -280,5 +282,6 @@ export default function LeaderboardPage() {
         </div>
       </main>
     </div>
+    </FeatureGuard>
   );
 }

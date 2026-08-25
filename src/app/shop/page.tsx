@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Gem, ShoppingBag, Zap, Star, CheckCircle2, Info, Sparkles } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 import type { UserProfile } from "@/lib/gamification";
+import FeatureGuard from "@/components/admin/FeatureGuard";
 
 export default function ShopPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -47,6 +48,7 @@ export default function ShopPage() {
   const filteredItems = SHOP_ITEMS.filter(i => filter === "all" || i.category === filter);
 
   return (
+    <FeatureGuard flag="shop">
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
 
@@ -184,5 +186,6 @@ export default function ShopPage() {
         </div>
       </main>
     </div>
+    </FeatureGuard>
   );
 }
