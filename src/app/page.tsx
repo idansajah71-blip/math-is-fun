@@ -387,6 +387,7 @@ function HomeContent() {
   const [showDailyReward, setShowDailyReward] = useState(false);
   const [claimedDay, setClaimedDay] = useState<number | null>(null);
   const [newBadge, setNewBadge] = useState<{ id: string; name: string; icon: string; rarity: string } | null>(null);
+  const [badgeQueue, setBadgeQueue] = useState<{ id: string; name: string; icon: string; rarity: string }[]>([]);
   const [claimedQuests, setClaimedQuests] = useState<Set<number>>(new Set());
   const [showConfetti, setShowConfetti] = useState(false);
   const mascotState = useMascot();
@@ -421,10 +422,16 @@ function HomeContent() {
       const prevBadges: string[] = JSON.parse(localStorage.getItem(prevBadgesKey) || "[]");
       const newBadgeIds = (prof.badges || []).filter((b: string) => !prevBadges.includes(b));
       if (newBadgeIds.length > 0) {
-        const badgeDef = BADGES.find((b) => b.id === newBadgeIds[0]);
-        if (badgeDef) {
+        const rarityOrder: Record<string, number> = { legendary: 0, epic: 1, rare: 2, common: 3 };
+        const newBadges = newBadgeIds
+          .map((id) => BADGES.find((b) => b.id === id))
+          .filter(Boolean)
+          .map((b) => ({ id: b!.id, name: b!.name, icon: b!.icon, rarity: b!.rarity || "common" }))
+          .sort((a, b) => (rarityOrder[a.rarity] ?? 3) - (rarityOrder[b.rarity] ?? 3));
+        if (newBadges.length > 0) {
+          setBadgeQueue(newBadges.slice(1));
           setTimeout(() => {
-            setNewBadge({ id: badgeDef.id, name: badgeDef.name, icon: badgeDef.icon, rarity: badgeDef.rarity || "common" });
+            setNewBadge(newBadges[0]);
           }, 1200);
         }
       }
@@ -954,7 +961,15 @@ function HomeContent() {
           badgeName={newBadge.name}
           badgeIcon={newBadge.icon}
           badgeRarity={newBadge.rarity}
-          onClose={() => setNewBadge(null)}
+          onClose={() => {
+            if (badgeQueue.length > 0) {
+              const next = badgeQueue[0];
+              setBadgeQueue((prev) => prev.slice(1));
+              setNewBadge(next);
+            } else {
+              setNewBadge(null);
+            }
+          }}
         />
       )}
     </div>
