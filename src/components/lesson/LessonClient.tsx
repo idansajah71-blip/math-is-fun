@@ -561,17 +561,10 @@ export default function LessonClient({ topic }: LessonClientProps) {
                 >
                   {(() => {
                     const q = questions[currentQ];
-                    const cycleTypes = ["choice", "fill", "truefalse"];
-                    let quizType: string;
-                    if (q.type === "choice" || q.type === "fill") {
-                      quizType = q.type;
-                    } else if (q.type) {
-                      quizType = q.type;
-                    } else {
-                      const qText = q.question.toLowerCase();
-                      const isCalculation = /adalah\s*_{2,}|=|hitung|nilai|sederhanakan|penyelesaian|berapa/i.test(qText);
-                      quizType = isCalculation ? "choice" : cycleTypes[currentQ % cycleTypes.length];
-                    }
+                    const cycleTypes = ["choice", "fill"];
+                    const quizType = (q.type === "choice" || q.type === "fill")
+                      ? q.type
+                      : cycleTypes[currentQ % cycleTypes.length];
 
                     return (
                       <div className="p-6 md:p-8">
