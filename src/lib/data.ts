@@ -15,7 +15,7 @@ function getAdminTopics(): { slug: string; title: string; level: Level; section:
   } catch { return []; }
 }
 
-function getAdminQuestions(): { id: string; topicSlug: string; question: string; options: string[]; correctIndex: number; explanation: string; type?: string; difficulty?: string; hints?: string[]; isPublished: boolean }[] {
+function getAdminQuestions(): (QuizQuestion & { isPublished: boolean; createdBy?: string; updatedAt?: string })[] {
   if (typeof window === "undefined") return [];
   try {
     return JSON.parse(localStorage.getItem(QUESTIONS_KEY) || "[]");
@@ -123,7 +123,7 @@ export function getAllQuizzes(): QuizQuestion[] {
   const result: QuizQuestion[] = [];
 
   for (const q of publishedAdmin) {
-    result.push({
+    const merged: QuizQuestion = {
       id: q.id,
       topicSlug: q.topicSlug,
       question: q.question,
@@ -133,7 +133,15 @@ export function getAllQuizzes(): QuizQuestion[] {
       type: q.type as QuizQuestion["type"],
       difficulty: q.difficulty as QuizQuestion["difficulty"],
       hints: q.hints,
-    });
+      alternatives: q.alternatives,
+      equation: q.equation,
+      numberLine: q.numberLine,
+      sorting: q.sorting,
+      graph: q.graph,
+      geometry: q.geometry,
+      venn: q.venn,
+    };
+    result.push(merged);
   }
 
   for (const q of staticQuizzes) {
