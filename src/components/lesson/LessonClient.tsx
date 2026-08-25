@@ -561,7 +561,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                 >
                   {(() => {
                     const q = questions[currentQ];
-                    const cycleTypes = ["choice", "fill"];
+                    const cycleTypes = ["choice", "fill", "truefalse"];
                     const quizType = (q.type === "choice" || q.type === "fill")
                       ? q.type
                       : cycleTypes[currentQ % cycleTypes.length];

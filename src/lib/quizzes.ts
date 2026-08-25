@@ -28,6 +28,7 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "40% × x = 20, maka x = 20 ÷ 0.4 = 50",
     alternatives: ["50"],
+    type: "fill",
   },
 
   // Interactive: Number line for fractions
@@ -848,11 +849,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-calculus-3",
     topicSlug: "a-calculus-kalkulus-iiii",
-    question: "∫₀^π sin x dx = ...",
-    options: ["2", "0", "1", "π"],
+    question: "∫₀^π sin x dx = 2",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "[-cos x]₀^π = -(-1)-(-1) = 1+1 = 2",
-    alternatives: ["2"],
+    explanation: "[-cos x]₀^π = -(-1)-(-1) = 1+1 = 2. Pernyataan ini benar.",
   },
   {
     id: "q-calculus-4",
@@ -887,11 +887,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-ptlsv-3",
     topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
-    question: "Penyelesaian -2x + 1 < 5 adalah...",
-    options: ["x > -2", "x < -2", "x > 2", "x < 2"],
+    question: "Penyelesaian -2x + 1 < 5 adalah x > -2",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "-2x + 1 < 5 → -2x < 4 → x > -2 (tanda berubah karena dibagi negatif)",
-    alternatives: ["x > -2"],
+    explanation: "-2x + 1 < 5 → -2x < 4 → x > -2 (tanda berubah karena dibagi negatif). Benar.",
   },
   {
     id: "q-ptlsv-4",
@@ -925,11 +924,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-sosial-3",
     topicSlug: "7-aritmetika-sosial",
-    question: "Toko membeli barang Rp500.000, dijual Rp625.000. Keuntungan = ...%",
-    options: ["25%", "20%", "15%", "30%"],
+    question: "Toko membeli barang Rp500.000, dijual Rp625.000, keuntungannya 25%",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "Keuntungan = (125.000/500.000) × 100% = 25%",
-    alternatives: ["25%"],
+    explanation: "Keuntungan = (125.000/500.000) × 100% = 25%. Benar.",
   },
   {
     id: "q-sosial-4",
@@ -963,11 +961,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-relasi-3",
     topicSlug: "9-relasi-dan-fungsi",
-    question: "Fungsi g(x) = x^2 - 4. Nilai x jika g(x) = 5 adalah...",
-    options: ["3 atau -3", "3", "-3", "5"],
+    question: "Fungsi g(x) = x² - 4, maka g(3) = 5",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "x^2 - 4 = 5, x^2 = 9, x = 3 atau x = -3",
-    alternatives: ["3 atau -3","±3"],
+    explanation: "g(3) = 3² - 4 = 9 - 4 = 5. Benar.",
   },
   {
     id: "q-relasi-4",
@@ -1001,11 +998,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-sudut-3",
     topicSlug: "12-garis-dan-sudut",
-    question: "Jika sudut A = 60 derajat, maka pelurus sudut A adalah...",
-    options: ["120 derajat", "30 derajat", "240 derajat", "180 derajat"],
+    question: "Pelurus sudut 60° adalah 120°",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "Pelurus sudut = 180 - 60 = 120 derajat",
-    alternatives: ["120 derajat","120°"],
+    explanation: "Pelurus sudut = 180 - 60 = 120°. Benar.",
   },
   {
     id: "q-sudut-4",
@@ -1039,11 +1035,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-sisidatar-3",
     topicSlug: "16-bangun-ruang-sisi-datar",
-    question: "Luas permukaan kubus dengan rusuk 4 cm adalah...",
-    options: ["96 cm2", "64 cm2", "48 cm2", "128 cm2"],
+    question: "Luas permukaan kubus dengan rusuk 4 cm adalah 96 cm²",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "LP = 6 x r^2 = 6 x 16 = 96 cm2",
-    alternatives: ["96 cm2","96"],
+    explanation: "LP = 6 × r² = 6 × 16 = 96 cm². Benar.",
   },
   {
     id: "q-sisidatar-4",
@@ -1077,11 +1072,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-sisilengkung-3",
     topicSlug: "17-bangun-ruang-sisi-lengkung",
-    question: "Volume kerucut dengan jari-jari 6 cm dan tinggi 10 cm (pi=3,14) adalah...",
-    options: ["376,8 cm3", "1130,4 cm3", "565,2 cm3", "188,4 cm3"],
+    question: "Volume kerucut dengan jari-jari 6 cm dan tinggi 10 cm adalah 376,8 cm³",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "V = (1/3)*pi*r^2*t = (1/3) x 3,14 x 36 x 10 = 376,8 cm3",
-    alternatives: ["376,8 cm3","376.8 cm3"],
+    explanation: "V = (1/3)πr²t = (1/3) × 3,14 × 36 × 10 = 376,8 cm³. Benar.",
   },
   {
     id: "q-sisilengkung-4",
@@ -1115,11 +1109,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-lingkaran-5",
     topicSlug: "21-persamaan-lingkaran-dan-irisan-kerucut",
-    question: "Garis singgung lingkaran x^2 + y^2 = 10 di titik (1,3) memiliki persamaan...",
-    options: ["x + 3y = 10", "x + 3y = 20", "3x + y = 10", "x - 3y = 10"],
+    question: "Garis singgung lingkaran x² + y² = 10 di titik (1,3) adalah x + 3y = 10",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "Persamaan tangent di (x1,y1): x1*x + y1*y = r^2, maka x + 3y = 10",
-    alternatives: ["x + 3y = 10"],
+    explanation: "Persamaan tangent di (x₁,y₁): x₁x + y₁y = r², maka 1·x + 3·y = 10. Benar.",
   },
   {
     id: "q-lingkaran-6",
@@ -1153,11 +1146,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-kompleks-3",
     topicSlug: "22-bilangan-kompleks",
-    question: "Modulus dari bilangan kompleks 3 + 4i adalah...",
-    options: ["5", "7", "25", "12"],
+    question: "Modulus dari bilangan kompleks 3 + 4i adalah 5",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "|z| = sqrt(3^2 + 4^2) = sqrt(25) = 5",
-    alternatives: ["5"],
+    explanation: "|z| = √(3² + 4²) = √25 = 5. Benar.",
   },
   {
     id: "q-kompleks-4",
@@ -1191,11 +1183,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-real-3",
     topicSlug: "d-real-analysis-analisis-real",
-    question: "Suatu himpunan S terbatas dari atas jika...",
-    options: ["Ada bilangan real M sehingga s <= M untuk semua s di S", "S hanya berisi bilangan bulat", "S kosong", "S berisi bilangan negatif"],
+    question: "Suatu himpunan S terbatas dari atas jika ada bilangan real M sehingga s ≤ M untuk semua s di S",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "Definisi terbatas dari atas: ada M real sehingga semua elemen S <= M.",
-    alternatives: ["ada bilangan real M sehingga s <= M untuk semua s di S"],
+    explanation: "Definisi terbatas dari atas: ada M real sehingga semua elemen S ≤ M. Benar.",
   },
   {
     id: "q-real-4",
@@ -1229,11 +1220,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-abstract-3",
     topicSlug: "e-abstract-algebra-aljabar-abstrak",
-    question: "Himpunan {1, -1} dengan operasi perkalian biasa membentuk...",
-    options: ["Grup orde 2", "Grup orde 4", "Hanya monoid", "Tidak ada"],
+    question: "Himpunan {1, -1} dengan operasi perkalian membentuk grup orde 2",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "1*1=1, 1*(-1)=-1, (-1)*1=-1, (-1)*(-1)=1. Grup orde 2.",
-    alternatives: ["grup orde 2"],
+    explanation: "1×1=1, 1×(-1)=-1, (-1)×1=-1, (-1)×(-1)=1. Memenuhi aksioma grup orde 2. Benar.",
   },
   {
     id: "q-abstract-4",
@@ -1305,11 +1295,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-prob-3",
     topicSlug: "g-probability-statistics-probabilitas-statistika-lanjut",
-    question: "Distribusi normal dengan mean=50 dan deviasi standar=10. P(X > 60) = ...",
-    options: ["0,1587", "0,8413", "0,5", "0,3413"],
+    question: "Pada distribusi normal N(50, 10²), P(X > 60) ≈ 0,1587",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "Z = (60-50)/10 = 1. P(Z > 1) = 1 - 0,8413 = 0,1587",
-    alternatives: ["0,1587","0.1587"],
+    explanation: "Z = (60-50)/10 = 1. P(Z > 1) = 1 - 0,8413 = 0,1587. Benar.",
   },
   {
     id: "q-prob-4",
@@ -1343,11 +1332,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "q-lanjutan-3",
     topicSlug: "h-topik-lanjutan",
-    question: "Persamaan diferensial dy/dx = y memiliki solusi umum...",
-    options: ["y = Ce^x", "y = Cx", "y = C + x", "y = C/x"],
+    question: "Solusi umum persamaan diferensial dy/dx = y adalah y = Ce^x",
+    options: ["Benar", "Salah"],
     correctIndex: 0,
-    explanation: "dy/y = dx, ln|y| = x + C, y = Ce^x",
-    alternatives: ["y = Ce^x"],
+    explanation: "dy/y = dx → ln|y| = x + C → y = Ce^x. Benar.",
   },
   {
     id: "q-lanjutan-4",
