@@ -21,7 +21,6 @@ import {
   claimDailyReward,
   DAILY_REWARDS,
   saveProfile,
-  BADGES,
   addXp,
 } from "@/lib/gamification";
 import { staggerContainer, staggerItem, springGentle, springBounce, popIn, cardSlideUp } from "@/lib/animations";
@@ -62,7 +61,6 @@ import type { UserProfile } from "@/lib/gamification";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import Confetti from "@/components/ui/Confetti";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
-import BadgeReveal from "@/components/ui/BadgeReveal";
 
 const MINI_GAMES = [
   {
@@ -386,8 +384,6 @@ function HomeContent() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showDailyReward, setShowDailyReward] = useState(false);
   const [claimedDay, setClaimedDay] = useState<number | null>(null);
-  const [newBadge, setNewBadge] = useState<{ id: string; name: string; icon: string; rarity: string } | null>(null);
-  const [badgeQueue, setBadgeQueue] = useState<{ id: string; name: string; icon: string; rarity: string }[]>([]);
   const [claimedQuests, setClaimedQuests] = useState<Set<number>>(new Set());
   const [showConfetti, setShowConfetti] = useState(false);
   const mascotState = useMascot();
@@ -415,29 +411,6 @@ function HomeContent() {
       const saved: number[] = JSON.parse(localStorage.getItem(claimedKey) || "[]");
       setClaimedQuests(new Set(saved));
     } catch {}
-
-    // Check for newly earned badges
-    const prevBadgesKey = "belajar-mtk-prev-badges";
-    try {
-      const prevBadges: string[] = JSON.parse(localStorage.getItem(prevBadgesKey) || "[]");
-      const newBadgeIds = (prof.badges || []).filter((b: string) => !prevBadges.includes(b));
-      if (newBadgeIds.length > 0) {
-        const rarityOrder: Record<string, number> = { legendary: 0, epic: 1, rare: 2, common: 3 };
-        const newBadges = newBadgeIds
-          .map((id) => BADGES.find((b) => b.id === id))
-          .filter(Boolean)
-          .map((b) => ({ id: b!.id, name: b!.name, icon: b!.icon, rarity: b!.rarity || "common" }))
-          .sort((a, b) => (rarityOrder[a.rarity] ?? 3) - (rarityOrder[b.rarity] ?? 3));
-        if (newBadges.length > 0) {
-          setBadgeQueue(newBadges.slice(1));
-          setTimeout(() => {
-            setNewBadge(newBadges[0]);
-          }, 1200);
-        }
-      }
-    } catch {}
-    // Save current badges for next visit
-    localStorage.setItem(prevBadgesKey, JSON.stringify(prof.badges || []));
 
     const onboardingDone = localStorage.getItem("belajar-mtk-onboarding");
     if (!onboardingDone && isFlagEnabled("onboarding")) {
@@ -955,23 +928,6 @@ function HomeContent() {
         />
       </motion.div>
 
-      {/* ===== BADGE REVEAL ===== */}
-      {newBadge && (
-        <BadgeReveal
-          badgeName={newBadge.name}
-          badgeIcon={newBadge.icon}
-          badgeRarity={newBadge.rarity}
-          onClose={() => {
-            if (badgeQueue.length > 0) {
-              const next = badgeQueue[0];
-              setBadgeQueue((prev) => prev.slice(1));
-              setNewBadge(next);
-            } else {
-              setNewBadge(null);
-            }
-          }}
-        />
-      )}
     </div>
   );
 }
