@@ -19,7 +19,14 @@ export default function SortingQuestion({
   onCorrect,
   onWrong,
 }: SortingQuestionProps) {
-  const [order, setOrder] = useState<number[]>(items.map((_, i) => i));
+  const [order, setOrder] = useState<number[]>(() => {
+    const arr = items.map((_, i) => i);
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  });
   const [answered, setAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
 
@@ -50,7 +57,12 @@ export default function SortingQuestion({
   }
 
   function handleReset() {
-    setOrder(items.map((_, i) => i));
+    const arr = items.map((_, i) => i);
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    setOrder(arr);
     setAnswered(false);
     setIsCorrect(false);
   }
