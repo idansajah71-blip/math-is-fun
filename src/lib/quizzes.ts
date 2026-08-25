@@ -78,6 +78,58 @@ export const quizzes: QuizQuestion[] = [
     sorting: { items: ["0.45", "0.8", "0.09", "0.4"], correctOrder: [1, 0, 3, 2], label: "Dari terbesar ke terkecil" },
   },
 
+  // Interactive: Number line for percentages
+  {
+    id: "q-bilangan-interactive-6",
+    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    question: "Geser ke posisi 0.5 di garis bilangan",
+    options: [],
+    correctIndex: 0,
+    explanation: "0.5 setengah dari 0 ke 1",
+    type: "numberline",
+    numberLine: { min: 0, max: 1, correctValue: 0.5, step: 0.1, tolerance: 0.1 },
+  },
+  {
+    id: "q-bilangan-interactive-7",
+    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    question: "Geser ke posisi 1/3 di garis bilangan",
+    options: [],
+    correctIndex: 0,
+    explanation: "1/3 ≈ 0.33, posisi sepertiga dari 0 ke 1",
+    type: "numberline",
+    numberLine: { min: 0, max: 1, correctValue: 0.33, step: 0.1, tolerance: 0.1 },
+  },
+  {
+    id: "q-bilangan-interactive-8",
+    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    question: "Geser ke posisi -2.5 di garis bilangan",
+    options: [],
+    correctIndex: 0,
+    explanation: "-2.5 tepat di tengah -2 dan -3",
+    type: "numberline",
+    numberLine: { min: -5, max: 5, correctValue: -2.5, step: 0.5, tolerance: 0.3 },
+  },
+  {
+    id: "q-bilangan-interactive-9",
+    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    question: "Geser ke posisi 2/5 di garis bilangan",
+    options: [],
+    correctIndex: 0,
+    explanation: "2/5 = 0.4, posisi di antara 0 dan 1",
+    type: "numberline",
+    numberLine: { min: 0, max: 1, correctValue: 0.4, step: 0.1, tolerance: 0.1 },
+  },
+  {
+    id: "q-bilangan-interactive-10",
+    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    question: "Geser ke posisi 75% di garis bilangan",
+    options: [],
+    correctIndex: 0,
+    explanation: "75% = 0.75 = 3/4",
+    type: "numberline",
+    numberLine: { min: 0, max: 1, correctValue: 0.75, step: 0.25, tolerance: 0.1 },
+  },
+
   // Himpunan
   {
     id: "q-himpunan-1",
@@ -105,6 +157,18 @@ export const quizzes: QuizQuestion[] = [
     options: ["(x+3)(x+4)", "(x+2)(x+6)", "(x+1)(x+12)", "(x+5)(x+2)"],
     correctIndex: 0,
     explanation: "Cari dua bilangan berjumlah 7 dan berkal12 → 3 dan 4. Maka (x+3)(x+4)",
+  },
+
+  // Interactive: Number line for integers
+  {
+    id: "q-aljabar-interactive-1",
+    topicSlug: "3-bentuk-aljabar",
+    question: "Geser ke posisi 4 di garis bilangan",
+    options: [],
+    correctIndex: 0,
+    explanation: "4 terletak di kanan nol pada garis bilangan",
+    type: "numberline",
+    numberLine: { min: -5, max: 10, correctValue: 4, step: 1, tolerance: 0.5 },
   },
 
   // PLSV
@@ -347,6 +411,29 @@ export const quizzes: QuizQuestion[] = [
     explanation: "sin 30° = 1/2 (nilai khusus trigonometri)",
     alternatives: ["1/2","0.5"],
   },
+
+  // Interactive: Number line for trig values
+  {
+    id: "q-trigo-interactive-1",
+    topicSlug: "8-trigonometri-dasar",
+    question: "Geser ke posisi sin 30° di garis bilangan",
+    options: [],
+    correctIndex: 0,
+    explanation: "sin 30° = 0.5",
+    type: "numberline",
+    numberLine: { min: 0, max: 1, correctValue: 0.5, step: 0.1, tolerance: 0.1 },
+  },
+  {
+    id: "q-trigo-interactive-2",
+    topicSlug: "8-trigonometri-dasar",
+    question: "Geser ke posisi cos 60° di garis bilangan",
+    options: [],
+    correctIndex: 0,
+    explanation: "cos 60° = 0.5",
+    type: "numberline",
+    numberLine: { min: 0, max: 1, correctValue: 0.5, step: 0.1, tolerance: 0.1 },
+  },
+
   {
     id: "q-trigo-2",
     topicSlug: "8-trigonometri-dasar",
@@ -366,6 +453,18 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "Faktorkan: (x²-4)/(x-2) = (x+2)(x-2)/(x-2) = x+2. lim(x→2) = 4",
     alternatives: ["4"],
+  },
+
+  // Interactive: Number line for limit
+  {
+    id: "q-limit-interactive-1",
+    topicSlug: "13-limit-fungsi",
+    question: "Geser ke posisi limit f(x) = x² di x → 3",
+    options: [],
+    correctIndex: 0,
+    explanation: "lim(x→3) x² = 9",
+    type: "numberline",
+    numberLine: { min: 0, max: 15, correctValue: 9, step: 1, tolerance: 0.5 },
   },
 
   // Turunan
