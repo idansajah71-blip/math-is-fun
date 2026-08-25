@@ -22,6 +22,7 @@ import {
   DAILY_REWARDS,
   saveProfile,
   BADGES,
+  addXp,
 } from "@/lib/gamification";
 import { staggerContainer, staggerItem, springGentle, springBounce, popIn, cardSlideUp } from "@/lib/animations";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
@@ -386,6 +387,7 @@ function HomeContent() {
   const [showDailyReward, setShowDailyReward] = useState(false);
   const [claimedDay, setClaimedDay] = useState<number | null>(null);
   const [newBadge, setNewBadge] = useState<{ id: string; name: string; icon: string; rarity: string } | null>(null);
+  const [claimedQuests, setClaimedQuests] = useState<Set<number>>(new Set());
   const mascotState = useMascot();
 
   const checkDailyReward = (prof: UserProfile) => {
@@ -403,6 +405,14 @@ function HomeContent() {
     const prof = getProfile();
     setProfile(prof);
     setMounted(true);
+
+    // Load claimed quests for today
+    const today = new Date().toISOString().split("T")[0];
+    const claimedKey = `belajar-mtk-claimed-quests-${today}`;
+    try {
+      const saved: number[] = JSON.parse(localStorage.getItem(claimedKey) || "[]");
+      setClaimedQuests(new Set(saved));
+    } catch {}
 
     // Check for newly earned badges
     const prevBadgesKey = "belajar-mtk-prev-badges";
@@ -431,6 +441,21 @@ function HomeContent() {
       }
     }
   }, []);
+
+  const handleClaimQuest = (questIdx: number, xpReward: number) => {
+    if (claimedQuests.has(questIdx)) return;
+    const updated = addXp(xpReward);
+    setProfile(updated);
+    const today = new Date().toISOString().split("T")[0];
+    const claimedKey = `belajar-mtk-claimed-quests-${today}`;
+    const newClaimed = new Set(claimedQuests);
+    newClaimed.add(questIdx);
+    setClaimedQuests(newClaimed);
+    localStorage.setItem(claimedKey, JSON.stringify([...newClaimed]));
+    setShowXp(true);
+    setXpAmount(xpReward);
+    setTimeout(() => setShowXp(false), 1500);
+  };
 
   const handleClaimReward = (dayIdx: number) => {
     const result = claimDailyReward();
@@ -774,7 +799,11 @@ function HomeContent() {
               >
                 {dailyQuests.map((quest, i) => (
                   <motion.div key={i} variants={staggerItem}>
-                    <QuestCard {...quest} onClick={() => router.push("/practice")} />
+                    <QuestCard
+                      {...quest}
+                      claimed={claimedQuests.has(i)}
+                      onClick={quest.completed && !claimedQuests.has(i) ? () => handleClaimQuest(i, quest.xpReward) : undefined}
+                    />
                   </motion.div>
                 ))}
               </motion.div>

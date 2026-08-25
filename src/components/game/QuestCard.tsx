@@ -12,6 +12,7 @@ interface QuestCardProps {
   xpReward: number;
   type: "daily" | "challenge" | "streak";
   completed?: boolean;
+  claimed?: boolean;
   timeLeft?: string;
   onClick?: () => void;
 }
@@ -30,6 +31,7 @@ export default function QuestCard({
   xpReward,
   type,
   completed = false,
+  claimed = false,
   timeLeft,
   onClick,
 }: QuestCardProps) {
@@ -46,15 +48,17 @@ export default function QuestCard({
       transition={springGentle}
       onClick={onClick}
       className={`relative overflow-hidden rounded-[var(--radius-card)] border-2 p-4 transition-colors ${
-        onClick ? "cursor-pointer" : ""
+        onClick && completed && !claimed ? "cursor-pointer" : ""
       } ${
-        completed
+        claimed
+          ? "bg-gray-50 dark:bg-gray-900/30 border-gray-200 dark:border-gray-800 opacity-60"
+          : completed
           ? "bg-[var(--duo-green-bg)] border-[var(--duo-green)]/30"
           : "bg-white dark:bg-[var(--duo-card)] border-[var(--duo-border)] hover:border-[var(--primary)]/40"
       }`}
     >
       {/* Completed Glow */}
-      {completed && (
+      {completed && !claimed && (
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--duo-green)]/5 to-transparent" />
       )}
 
@@ -64,15 +68,17 @@ export default function QuestCard({
           <div
             className={`w-10 h-10 rounded-xl flex items-center justify-center ${config.bg}`}
           >
-            {completed ? (
+            {claimed ? (
+              <CheckCircle2 size={20} className="text-gray-400" />
+            ) : completed ? (
               <CheckCircle2 size={20} style={{ color: config.color }} />
             ) : (
               <Icon size={20} style={{ color: config.color }} />
             )}
           </div>
           <div className="flex-1 min-w-0">
-            <h4 className="text-sm font-bold text-[var(--duo-text)]">{title}</h4>
-            <p className="text-[11px] text-[var(--duo-text-muted)]">{description}</p>
+            <h4 className={`text-sm font-bold ${claimed ? "text-gray-400" : "text-[var(--duo-text)]"}`}>{title}</h4>
+            <p className={`text-[11px] ${claimed ? "text-gray-400" : "text-[var(--duo-text-muted)]"}`}>{description}</p>
           </div>
           <div className="flex items-center gap-1">
             {timeLeft && (
@@ -81,8 +87,8 @@ export default function QuestCard({
                 {timeLeft}
               </div>
             )}
-            {onClick && !completed && (
-              <ChevronRight size={14} className="text-[var(--duo-text-muted)]" />
+            {completed && !claimed && (
+              <ChevronRight size={14} className="text-[var(--duo-green)]" />
             )}
           </div>
         </div>
@@ -90,17 +96,17 @@ export default function QuestCard({
         {/* Progress */}
         <div className="mb-2">
           <div className="flex items-center justify-between text-xs mb-1">
-            <span className="font-bold text-[var(--duo-text)]">
+            <span className={`font-bold ${claimed ? "text-gray-400" : "text-[var(--duo-text)]"}`}>
               {progress}/{total}
             </span>
-            <span className="font-bold" style={{ color: config.color }}>
+            <span className="font-bold" style={{ color: claimed ? "var(--duo-text-muted)" : config.color }}>
               +{xpReward} XP
             </span>
           </div>
           <div className="h-2.5 bg-[var(--duo-border)] rounded-full overflow-hidden">
             <motion.div
               className="h-full rounded-full"
-              style={{ backgroundColor: config.color }}
+              style={{ backgroundColor: claimed ? "var(--duo-text-muted)" : config.color }}
               initial={{ width: 0 }}
               animate={{ width: `${pct}%` }}
               transition={{ type: "spring", stiffness: 100, damping: 20 }}
@@ -108,15 +114,21 @@ export default function QuestCard({
           </div>
         </div>
 
-        {/* Reward */}
-        {completed && (
+        {/* Action */}
+        {claimed && (
+          <div className="flex items-center justify-center gap-2 py-2 bg-gray-200 dark:bg-gray-800 rounded-xl text-gray-400 text-xs font-bold">
+            <CheckCircle2 size={14} />
+            Sudah Diklaim
+          </div>
+        )}
+        {completed && !claimed && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             className="flex items-center justify-center gap-2 py-2 bg-[var(--duo-green)] rounded-xl text-white text-xs font-bold"
           >
             <Gift size={14} />
-            Selesai! +{xpReward} XP
+            Klaim +{xpReward} XP
           </motion.div>
         )}
       </div>
