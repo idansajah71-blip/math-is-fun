@@ -994,18 +994,18 @@
 
 /* ===== Mascot Animations (CSS-powered, GPU-composited) ===== */
 @keyframes mascotBreathe {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-6px) scale(1.015); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.015); }
 }
 @keyframes mascotHappy {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(-4px) rotate(-1deg); }
-  75% { transform: translateY(-4px) rotate(1deg); }
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.03) rotate(-1deg); }
+  75% { transform: scale(1.03) rotate(1deg); }
 }
 @keyframes mascotThink {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  33% { transform: translateY(-3px) rotate(-3deg); }
-  66% { transform: translateY(-3px) rotate(3deg); }
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  33% { transform: scale(1.02) rotate(-3deg); }
+  66% { transform: scale(1.02) rotate(3deg); }
 }
 @keyframes mascotCelebrate {
   0%, 100% { transform: scale(1) rotate(0deg); }
@@ -1015,24 +1015,24 @@
   80% { transform: scale(1) rotate(0deg); }
 }
 @keyframes mascotSad {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(3px) rotate(2deg); }
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(0.97) rotate(2deg); }
 }
 @keyframes mascotIdle {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-4px) scale(1.015); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.015); }
 }
 @keyframes mascotWink {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-6px) rotate(-2deg); }
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.03) rotate(-2deg); }
 }
 @keyframes mascotLove {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-5px) scale(1.03); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
 }
 @keyframes mascotSurprised {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-8px) scale(1.05); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
 }
 @keyframes mascotPupil {
   0%, 100% { transform: translateX(0); }
