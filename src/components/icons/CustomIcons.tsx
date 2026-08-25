@@ -422,6 +422,20 @@ export function LimitIcon({ size = 24, color, strokeWidth = 2, animated = false,
   );
 }
 
+export function SigmaIcon({ size = 24, color, strokeWidth = 2, animated = false, ...props }: SvgIconProps) {
+  const { fill, defs } = useColor("sigma", color || "#FFFFFF", "#FFFFFF", "#FFFFFF");
+  const Comp = animated ? motion.g : "g";
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" {...props}>
+      {defs}
+      <rect x="4" y="4" width="40" height="40" rx="10" fill={fill} opacity="0.15" />
+      <Comp stroke={fill} strokeWidth={strokeWidth + 1} strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M34 12 L14 12 L30 24 L14 36 L34 36" />
+      </Comp>
+    </svg>
+  );
+}
+
 export function SparklesIcon({ size = 24, color, strokeWidth = 2, animated = false, ...props }: SvgIconProps) {
   const { fill, defs } = useColor("spark", color || { from: "#FFD900", to: "#FF86D0" }, "#FFD900", "#FF86D0");
   const Comp = animated ? motion.g : "g";
@@ -957,6 +971,8 @@ export const EMOJI_TO_CUSTOM: Record<string, React.FC<SvgIconProps>> = {
   "🪙": CoinIcon,
   "📝": FormulaIcon,
   "✍️": FormulaIcon,
+  "Σ": SigmaIcon,
+  "σ": SigmaIcon,
   "😊": SmileIcon,
   "😉": SmileIcon,
 };

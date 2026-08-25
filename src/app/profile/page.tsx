@@ -9,6 +9,7 @@ import { getAllTopics } from "@/lib/mathData";
 import { motion } from "framer-motion";
 import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
+import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -209,6 +210,16 @@ export default function ProfilePage() {
               );
             })}
           </div>
+
+          {/* Activity Heatmap */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-4"
+          >
+            <ActivityHeatmap dailyXpHistory={profile.dailyXpHistory || {}} />
+          </motion.div>
 
           {/* Badges */}
           {badges.length > 0 && (

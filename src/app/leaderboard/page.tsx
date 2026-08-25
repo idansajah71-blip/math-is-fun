@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
-import { getProfile, LEVEL_NAMES, UserProfile } from "@/lib/gamification";
-import { fetchLeaderboard } from "@/lib/supabase/sync";
+import { getProfile, getLeaderboard, LEVEL_NAMES, UserProfile } from "@/lib/gamification";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { Trophy, Medal, Crown, Flame, Info, Award, LogIn } from "lucide-react";
@@ -31,27 +30,23 @@ export default function LeaderboardPage() {
   }, []);
 
   useEffect(() => {
-    async function load() {
-      setLoading(true);
-      try {
-        const data = await fetchLeaderboard(period);
-        const mapped: LeaderboardEntry[] = data.map((row: Record<string, unknown>, i: number) => ({
-          rank: i + 1,
-          name: (row.name as string) ?? "Pelajar",
-          xp: (row.xp as number) ?? 0,
-          level: (row.level as number) ?? 0,
-          streak: (row.streak as number) ?? 0,
-          weeklyXpTotal: row.weekly_xp_total as number | undefined,
-        }));
-        setEntries(mapped);
-      } catch {
-        // Fallback: show empty state
-        setEntries([]);
-      } finally {
-        setLoading(false);
-      }
+    setLoading(true);
+    try {
+      const data = getLeaderboard(period);
+      const mapped: LeaderboardEntry[] = data.map((row, i) => ({
+        rank: i + 1,
+        name: row.name ?? "Pelajar",
+        xp: row.xp ?? 0,
+        level: row.level ?? 0,
+        streak: row.streak ?? 0,
+        weeklyXpTotal: row.weeklyXpTotal,
+      }));
+      setEntries(mapped);
+    } catch {
+      setEntries([]);
+    } finally {
+      setLoading(false);
     }
-    load();
   }, [period]);
 
   const getMyRank = (): LeaderboardEntry | null => {

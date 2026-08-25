@@ -25,6 +25,13 @@ import {
   X,
   Gem,
   Sigma,
+  AlertTriangle,
+  Bookmark,
+  Sparkles,
+  Brain,
+  Swords,
+  Shield,
+  Crown,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
@@ -32,6 +39,7 @@ import ThemeToggle from "./ui/ThemeToggle";
 import AccentColorPicker from "./ui/AccentColorPicker";
 import { useSoundManager } from "@/hooks/useSoundManager";
 import type { UserProfile } from "@/lib/gamification";
+import { isPremiumActive } from "@/lib/gamification";
 
 const NAV = [
   { href: "/", label: "Beranda", icon: Home },
@@ -39,9 +47,15 @@ const NAV = [
   { href: "/tryout", label: "Try Out", icon: Trophy },
   { href: "/formulas", label: "Rumus", icon: FileText },
   { href: "/leaderboard", label: "Peringkat", icon: Trophy },
+  { href: "/daily-quiz", label: "Quiz Harian", icon: Sparkles },
   { href: "/shop", label: "Toko", icon: ShoppingBag },
   { href: "/badges", label: "Pencapaian", icon: Award },
+  { href: "/review", label: "Review Salah", icon: AlertTriangle },
+  { href: "/bookmark", label: "Bookmark", icon: Bookmark },
+  { href: "/spaced-repetition", label: "Ulangan", icon: Brain },
+  { href: "/friends", label: "Teman", icon: Swords },
   { href: "/profile", label: "Profil", icon: User },
+  { href: "/admin", label: "Admin", icon: Shield, hidden: true },
 ];
 
 const NAV_COLORS: Record<string, string> = {
@@ -50,9 +64,15 @@ const NAV_COLORS: Record<string, string> = {
   "/tryout": "var(--accent-xp)",
   "/formulas": "var(--purple)",
   "/leaderboard": "var(--orange)",
+  "/daily-quiz": "var(--info)",
   "/shop": "var(--pink)",
   "/badges": "var(--purple)",
+  "/review": "var(--danger)",
+  "/bookmark": "var(--yellow)",
+  "/spaced-repetition": "var(--purple)",
+  "/friends": "var(--info)",
   "/profile": "var(--primary)",
+  "/admin": "var(--danger)",
 };
 
 function SidebarInner({
@@ -100,8 +120,13 @@ function SidebarInner({
             </div>
           </Link>
           <div className="flex-1 min-w-0">
-            <p className="text-[13px] font-black text-[var(--fg)] truncate leading-tight">
+            <p className="text-[13px] font-black text-[var(--fg)] truncate leading-tight flex items-center gap-1.5">
               {profile?.name || "Pelajar"}
+              {isPremiumActive() && (
+                <span className="px-1.5 py-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[8px] font-black rounded-full flex items-center gap-0.5">
+                  <Crown size={8} /> PRO
+                </span>
+              )}
             </p>
             <p className="text-[10px] font-bold text-[var(--fg-muted)] leading-tight">
               {LEVEL_NAMES[level] || "Pemula"}
@@ -151,7 +176,7 @@ function SidebarInner({
         className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto"
         aria-label="Main navigation"
       >
-        {NAV.map((item) => {
+        {NAV.filter((item) => !item.hidden).map((item) => {
           const active = pathname === item.href;
           const Icon = item.icon;
           const accentColor = NAV_COLORS[item.href] || "var(--primary)";

@@ -22,7 +22,7 @@ import AnimatedButton from "@/components/ui/AnimatedButton";
 import { playCorrectSound, playWrongSound, playCompleteSound, playLevelUpSound } from "@/lib/sounds";
 import {
   completeTopic, saveQuizScore, getProfile, trackWrongAnswer, useHeart,
-  consumeDoubleXp, addXp, BADGES, LEVEL_NAMES,
+  consumeDoubleXp, addXp, BADGES, LEVEL_NAMES, recordReview,
 } from "@/lib/gamification";
 import { quizzes } from "@/lib/quizzes";
 import {
@@ -185,6 +185,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
     require("@/lib/gamification").saveProfile(updatedProfile);
 
     saveQuizScore(topic.slug, pct, true);
+    recordReview(topic.slug, pct >= 80 ? 5 : pct >= 60 ? 4 : pct >= 40 ? 3 : pct >= 20 ? 2 : 1);
 
     let totalXp = 0;
     if (pct >= 80) {
@@ -620,7 +621,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                               onWrong={handleWrong}
                             />
                             <AnimatedButton onClick={handleNextQuestion} fullWidth size="lg" className="mt-5" iconRight={<ArrowRight size={18} />}>
-                              Lanjut →
+                              Lanjut 
                             </AnimatedButton>
                           </div>
                         ) : q.type === "sorting" && q.sorting ? (
@@ -634,7 +635,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                               onWrong={handleWrong}
                             />
                             <AnimatedButton onClick={handleNextQuestion} fullWidth size="lg" className="mt-5" iconRight={<ArrowRight size={18} />}>
-                              Lanjut →
+                              Lanjut 
                             </AnimatedButton>
                           </div>
                         ) : q.type === "equation" && q.equation ? (
@@ -645,7 +646,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                               onComplete={(ok) => ok ? handleCorrect() : handleWrong()}
                             />
                             <AnimatedButton onClick={handleNextQuestion} fullWidth size="lg" className="mt-5" iconRight={<ArrowRight size={18} />}>
-                              Lanjut →
+                              Lanjut 
                             </AnimatedButton>
                           </div>
                         ) : quizType === "fill" ? (

@@ -30,6 +30,12 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     dailyRewardStreak: (row.daily_reward_streak as number) ?? 0,
     doubleXpNextLesson: (row.double_xp_next_lesson as boolean) ?? false,
     lastSeenLevel: (row.last_seen_level as number) ?? 0,
+    dailyXpHistory: (row.daily_xp_history as Record<string, number>) ?? {},
+    dailyQuizDate: (row.daily_quiz_date as string) ?? null,
+    spacedRepetition: (row.spaced_repetition as Record<string, { lastReview: string; nextReview: string; easeFactor: number; interval: number; reviewCount: number }>) ?? {},
+    isPremium: (row.is_premium as boolean) ?? false,
+    premiumActivatedAt: (row.premium_activated_at as string) ?? null,
+    premiumExpiresAt: (row.premium_expires_at as string) ?? null,
   };
 }
 
@@ -58,6 +64,12 @@ function profileToRow(profile: UserProfile) {
     daily_reward_streak: profile.dailyRewardStreak,
     double_xp_next_lesson: profile.doubleXpNextLesson,
     last_seen_level: profile.lastSeenLevel,
+    daily_xp_history: profile.dailyXpHistory,
+    daily_quiz_date: profile.dailyQuizDate,
+    spaced_repetition: profile.spacedRepetition,
+    is_premium: profile.isPremium,
+    premium_activated_at: profile.premiumActivatedAt,
+    premium_expires_at: profile.premiumExpiresAt,
   };
 }
 

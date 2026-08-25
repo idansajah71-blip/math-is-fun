@@ -22,6 +22,7 @@ import {
   saveProfile,
 } from "@/lib/gamification";
 import { staggerContainer, staggerItem, springGentle, springBounce, popIn, cardSlideUp } from "@/lib/animations";
+import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
 import {
   Play,
   Trophy,
@@ -626,6 +627,16 @@ function HomeContent() {
               bg="bg-white dark:bg-[var(--surface)]"
               trend="up"
             />
+          </motion.div>
+
+          {/* ===== ACTIVITY HEATMAP ===== */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="bg-white dark:bg-[var(--surface)] rounded-[24px] border-2 border-[var(--border)] p-5 mb-7 shadow-sm"
+          >
+            <ActivityHeatmap dailyXpHistory={profile.dailyXpHistory || {}} />
           </motion.div>
 
           {/* ===== TWO COLUMN: CONTINUE + WEEKLY CHART ===== */}

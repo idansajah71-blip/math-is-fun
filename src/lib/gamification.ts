@@ -23,27 +23,50 @@ export interface UserProfile {
   dailyRewardStreak: number;
   doubleXpNextLesson: boolean;
   lastSeenLevel: number;
+  dailyXpHistory: Record<string, number>;
+  dailyQuizDate: string | null;
+  spacedRepetition: Record<string, { lastReview: string; nextReview: string; easeFactor: number; interval: number; reviewCount: number }>;
+  isPremium: boolean;
+  premiumActivatedAt: string | null;
+  premiumExpiresAt: string | null;
   _lastHeartTime?: number;
 }
 
 export const STORAGE_KEY = "belajar-mtk-profile";
 
 export const LEVEL_THRESHOLDS = [
-  0, 50, 150, 300, 500, 750, 1000, 1500, 2000, 3000, 5000,
+  0, 30, 75, 150, 300, 500, 750, 1100, 1500, 2000,
+  2700, 3500, 4500, 6000, 8000, 10500, 14000, 18500, 25000, 35000,
 ];
 
 export const LEVEL_NAMES = [
   "Pemula",
-  "Pembelajar",
-  "Murid",
-  "Siswa",
+  "Penjelajah",
   "Pelajar",
+  "Murid Rajin",
+  "Siswa Cerdas",
+  "Penuntut Ilmu",
   "Cendikia",
   "Sarjana Muda",
-  "Master",
+  "Ahli Matematika",
+  "Master Angka",
   "Grandmaster",
-  "Sang Guru",
-  "Legenda",
+  "Profesor Muda",
+  "Sang Ahli",
+  "Doktor Matematika",
+  "Guru Besar",
+  "Jenius",
+  "Dewa Angka",
+  "Sang Legenda",
+  "Oracle",
+  "Dewa Matematika",
+];
+
+export const LEVEL_COLORS = [
+  "#9CA3AF", "#6B7280", "#3DD34C", "#25B2F6", "#25B2F6",
+  "#BA75FF", "#BA75FF", "#FF86D0", "#FF86D0", "#FFC629",
+  "#FFC629", "#FF8A25", "#FF8A25", "#FF5252", "#FF5252",
+  "#BA75FF", "#FFC629", "#FF5252", "#FFC629", "#FF5252",
 ];
 
 export const BADGES = [
@@ -68,6 +91,13 @@ export const SHOP_ITEMS = [
   { id: "streak-freeze", name: "Streak Freeze", icon: "Snowflake", description: "Lindungi streak saat tidak belajar", price: 100, category: "powerup" as const },
   { id: "extra-heart", name: "Extra Heart", icon: "Heart", description: "+1 max heart", price: 200, category: "powerup" as const },
   { id: "double-xp", name: "Double XP", icon: "Sparkles", description: "2x XP untuk 1 lesson berikutnya", price: 150, category: "powerup" as const },
+  { id: "hint-token", name: "Hint Token", icon: "Lightbulb", description: "Dapatkan 3 petunjuk gratis", price: 80, category: "powerup" as const },
+  { id: "refill-hearts", name: "Refill Hearts", icon: "HeartPulse", description: "Isi ulang semua heart ke max", price: 120, category: "powerup" as const },
+  { id: "xp-boost-30m", name: "XP Boost 30m", icon: "Zap", description: "+50% XP selama 30 menit", price: 250, category: "powerup" as const },
+  { id: "avatar-ninja", name: "Avatar Ninja", icon: "Ninja", description: "Avatar khusus: Ninja Matematika", price: 500, category: "avatar" as const },
+  { id: "avatar-wizard", name: "Avatar Wizard", icon: "Wizard", description: "Avatar khusus: Penyihir Angka", price: 500, category: "avatar" as const },
+  { id: "frame-gold", name: "Frame Emas", icon: "Frame", description: "Border profil emas berkilau", price: 300, category: "effect" as const },
+  { id: "title-master", name: "Title: Master", icon: "Crown", description: "Gelar 'Master Matematika' di profil", price: 400, category: "effect" as const },
 ];
 
 export const DAILY_REWARDS = [
@@ -86,7 +116,7 @@ export function getProfile(): UserProfile {
   }
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
-    const profile = JSON.parse(stored);
+    const profile = { ...getDefaultProfile(), ...JSON.parse(stored) };
     updateStreak(profile);
     regenerateHearts(profile);
     saveProfile(profile);
@@ -128,6 +158,12 @@ export function getDefaultProfile(): UserProfile {
     dailyRewardStreak: 0,
     doubleXpNextLesson: false,
     lastSeenLevel: 0,
+    dailyXpHistory: {},
+    dailyQuizDate: null,
+    spacedRepetition: {},
+    isPremium: false,
+    premiumActivatedAt: null,
+    premiumExpiresAt: null,
   };
 }
 
@@ -170,6 +206,10 @@ export function addXp(amount: number): UserProfile {
   // Track weekly XP
   const today = new Date().getDay();
   profile.weeklyXp[today] = (profile.weeklyXp[today] || 0) + amount;
+
+  // Track daily XP history for heatmap
+  const todayStr = new Date().toISOString().split("T")[0];
+  profile.dailyXpHistory[todayStr] = (profile.dailyXpHistory[todayStr] || 0) + amount;
 
   checkBadges(profile);
   saveProfile(profile);
@@ -317,6 +357,8 @@ export function purchaseItem(itemId: string): UserProfile {
     profile.hearts = profile.maxHearts;
   } else if (itemId === "double-xp") {
     profile.doubleXpNextLesson = true;
+  } else if (itemId === "refill-hearts") {
+    profile.hearts = profile.maxHearts;
   }
 
   saveProfile(profile);
@@ -363,11 +405,123 @@ function checkBadges(profile: UserProfile) {
   }
 }
 
-export function getLeaderboard(): { name: string; xp: number; level: number }[] {
+export function getLeaderboard(
+  period: "weekly" | "alltime" = "weekly"
+): { name: string; xp: number; level: number; streak: number; weeklyXpTotal?: number }[] {
   const entries = Object.keys(localStorage)
     .filter((k) => k.startsWith("belajar-mtk-lb-"))
     .map((k) => JSON.parse(localStorage.getItem(k)!));
+
   const myProfile = getProfile();
-  entries.push({ name: myProfile.name, xp: myProfile.xp, level: myProfile.level });
-  return entries.sort((a, b) => b.xp - a.xp).slice(0, 20);
+  const myWeeklyTotal = myProfile.weeklyXp.reduce((a, b) => a + b, 0);
+  entries.push({
+    name: myProfile.name,
+    xp: myProfile.xp,
+    level: myProfile.level,
+    streak: myProfile.streak,
+    weeklyXpTotal: myWeeklyTotal,
+  });
+
+  if (period === "weekly") {
+    return entries
+      .sort((a, b) => (b.weeklyXpTotal ?? b.xp) - (a.weeklyXpTotal ?? a.xp))
+      .slice(0, 50);
+  }
+  return entries.sort((a, b) => b.xp - a.xp).slice(0, 50);
+}
+
+export function recordReview(slug: string, quality: number): void {
+  const profile = getProfile();
+  const today = new Date().toISOString().split("T")[0];
+  const existing = profile.spacedRepetition[slug];
+
+  let easeFactor = existing?.easeFactor ?? 2.5;
+  let interval = existing?.interval ?? 1;
+
+  if (quality >= 3) {
+    if (!existing) {
+      interval = 1;
+    } else if (existing.interval <= 1) {
+      interval = 6;
+    } else {
+      interval = Math.round(existing.interval * easeFactor);
+    }
+  } else {
+    interval = 1;
+  }
+
+  easeFactor = Math.max(1.3, easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)));
+
+  const nextDate = new Date();
+  nextDate.setDate(nextDate.getDate() + interval);
+
+  profile.spacedRepetition[slug] = {
+    lastReview: today,
+    nextReview: nextDate.toISOString().split("T")[0],
+    easeFactor,
+    interval,
+    reviewCount: (existing?.reviewCount ?? 0) + 1,
+  };
+
+  saveProfile(profile);
+}
+
+export function getDueTopics(): string[] {
+  const profile = getProfile();
+  const today = new Date().toISOString().split("T")[0];
+  return Object.entries(profile.spacedRepetition)
+    .filter(([, data]) => data.nextReview <= today)
+    .sort((a, b) => a[1].nextReview.localeCompare(b[1].nextReview))
+    .map(([slug]) => slug);
+}
+
+export function getUpcomingReviews(): { slug: string; nextReview: string; interval: number; reviewCount: number }[] {
+  const profile = getProfile();
+  return Object.entries(profile.spacedRepetition)
+    .map(([slug, data]) => ({ slug, ...data }))
+    .sort((a, b) => a.nextReview.localeCompare(b.nextReview));
+}
+
+export function isPremiumActive(): boolean {
+  const profile = getProfile();
+  if (!profile.isPremium) return false;
+  if (!profile.premiumExpiresAt) return true;
+  return new Date(profile.premiumExpiresAt) > new Date();
+}
+
+export function activatePremium(days: number): UserProfile {
+  const profile = getProfile();
+  const now = new Date();
+  const expires = new Date(now.getTime() + days * 86400000);
+  profile.isPremium = true;
+  profile.premiumActivatedAt = now.toISOString().split("T")[0];
+  profile.premiumExpiresAt = expires.toISOString().split("T")[0];
+  saveProfile(profile);
+  return profile;
+}
+
+export function grantTrialPremium(): UserProfile {
+  return activatePremium(7);
+}
+
+export function getAllUserProfiles(): Record<string, UserProfile> {
+  if (typeof window === "undefined") return {};
+  const result: Record<string, UserProfile> = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key === STORAGE_KEY) {
+      try {
+        const profile = JSON.parse(localStorage.getItem(key) || "{}");
+        result["current"] = profile;
+      } catch {}
+    }
+  }
+  try {
+    const authUser = localStorage.getItem("belajar-mtk-auth-user");
+    if (authUser) {
+      const parsed = JSON.parse(authUser);
+      result[parsed.email || "unknown"] = { ...result["current"], name: parsed.name || "Pelajar" };
+    }
+  } catch {}
+  return result;
 }

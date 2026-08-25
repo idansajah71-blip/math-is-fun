@@ -195,20 +195,7 @@ export default function BadgeUnlockModal({ show, badge, onClose }: BadgeUnlockMo
                   transition={{ type: "spring", stiffness: 180, damping: 15, delay: 0.3 }}
                   className="relative mx-auto mb-6"
                 >
-                  {/* Outer rotating ring for legendary/epic */}
-                  {(badge.rarity === "legendary" || badge.rarity === "epic") && (
-                    <motion.div
-                      className="absolute -inset-3 rounded-full"
-                      style={{
-                        background: badge.rarity === "legendary"
-                          ? "conic-gradient(from 0deg, #FFD900, #FF4B4B, #CE82FF, #1CB0F6, #58CC02, #FFD900)"
-                          : "conic-gradient(from 0deg, #CE82FF, #FF86D0, #1CB0F6, #CE82FF)",
-                      }}
-                      animate={{ rotate: [0, 360] }}
-                      transition={{ duration: badge.rarity === "legendary" ? 4 : 6, repeat: Infinity, ease: "linear" }}
-                    />
-                  )}
-
+                
                   <div className="relative">
                     <div className={`relative w-32 h-32 mx-auto rounded-3xl ${rarity.iconBg} shadow-2xl flex items-center justify-center overflow-hidden`}>
                       {/* Inner shine */}
