@@ -70,6 +70,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const [newLevel, setNewLevel] = useState(0);
   const [showBadgeUnlock, setShowBadgeUnlock] = useState(false);
   const [unlockedBadge, setUnlockedBadge] = useState<typeof BADGES[0] | null>(null);
+  const [badgeQueue, setBadgeQueue] = useState<typeof BADGES>([]);
   const [startTime] = useState(Date.now());
   const [answered, setAnswered] = useState(false);
 
@@ -165,11 +166,14 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const checkNewBadges = useCallback((oldBadges: string[], newBadges: string[]) => {
     const diff = newBadges.filter((b) => !oldBadges.includes(b));
     if (diff.length > 0) {
-      const badgeData = BADGES.find((b) => b.id === diff[diff.length - 1]);
-      if (badgeData) {
-        setUnlockedBadge(badgeData);
-        setTimeout(() => setShowBadgeUnlock(true), 2000);
-      }
+      const rarityOrder: Record<string, number> = { legendary: 0, epic: 1, rare: 2, common: 3 };
+      const newBadgeData = diff
+        .map((id) => BADGES.find((b) => b.id === id))
+        .filter(Boolean) as typeof BADGES;
+      newBadgeData.sort((a, b) => (rarityOrder[a.rarity] ?? 3) - (rarityOrder[b.rarity] ?? 3));
+      setUnlockedBadge(newBadgeData[0]);
+      setBadgeQueue(newBadgeData.slice(1));
+      setTimeout(() => setShowBadgeUnlock(true), 2000);
     }
   }, []);
 
@@ -278,8 +282,14 @@ export default function LessonClient({ topic }: LessonClientProps) {
         show={showBadgeUnlock}
         badge={unlockedBadge}
         onClose={() => {
-          setShowBadgeUnlock(false);
-          setUnlockedBadge(null);
+          if (badgeQueue.length > 0) {
+            const next = badgeQueue[0];
+            setBadgeQueue((prev) => prev.slice(1));
+            setUnlockedBadge(next);
+          } else {
+            setShowBadgeUnlock(false);
+            setUnlockedBadge(null);
+          }
         }}
       />
 
