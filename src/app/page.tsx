@@ -388,6 +388,7 @@ function HomeContent() {
   const [claimedDay, setClaimedDay] = useState<number | null>(null);
   const [newBadge, setNewBadge] = useState<{ id: string; name: string; icon: string; rarity: string } | null>(null);
   const [claimedQuests, setClaimedQuests] = useState<Set<number>>(new Set());
+  const [showConfetti, setShowConfetti] = useState(false);
   const mascotState = useMascot();
 
   const checkDailyReward = (prof: UserProfile) => {
@@ -452,6 +453,8 @@ function HomeContent() {
     newClaimed.add(questIdx);
     setClaimedQuests(newClaimed);
     localStorage.setItem(claimedKey, JSON.stringify([...newClaimed]));
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 3000);
     setShowXp(true);
     setXpAmount(xpReward);
     setTimeout(() => setShowXp(false), 1500);
@@ -551,6 +554,7 @@ function HomeContent() {
         />
       )}
       <XpPopup amount={xpAmount} show={showXp} onComplete={() => setShowXp(false)} />
+      <Confetti show={showConfetti} />
 
       <DailyRewardModal
         show={showDailyReward}
