@@ -5,13 +5,17 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { isAdminLoggedIn, getAdminSession, adminLogout } from "@/lib/adminAuth";
 import { motion } from "framer-motion";
-import { Shield, LayoutDashboard, Users, Calendar, LogOut, Menu, X, BarChart3 } from "lucide-react";
+import { Shield, LayoutDashboard, Users, Calendar, LogOut, Menu, X, BarChart3, BookOpen, History, Flag, Megaphone } from "lucide-react";
 
 const ADMIN_NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/users", label: "Users", icon: Users },
+  { href: "/admin/content", label: "Content", icon: BookOpen },
   { href: "/admin/events", label: "Events", icon: Calendar },
+  { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
+  { href: "/admin/flags", label: "Flags", icon: Flag },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
+  { href: "/admin/audit", label: "Audit Log", icon: History },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

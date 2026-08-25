@@ -4,9 +4,10 @@ const USERS_KEY = "belajarmtk_users";
 const SESSION_KEY = "belajarmtk_session";
 
 export interface LocalUser {
+  id: string;
   email: string;
   name: string;
-  password: string; // hashed with btoa for basic obfuscation
+  password: string;
 }
 
 function getUsers(): LocalUser[] {
@@ -35,8 +36,18 @@ export function signup(email: string, password: string, name: string): { error?:
   if (password.length < 6) {
     return { error: "Password minimal 6 karakter" };
   }
-  users.push({ email: email.toLowerCase(), name: name || "Pelajar", password: hashPassword(password) });
+
+  const userId = "usr_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+
+  users.push({ id: userId, email: email.toLowerCase(), name: name || "Pelajar", password: hashPassword(password) });
   saveUsers(users);
+
+  // Register in central registry
+  try {
+    import("@/lib/admin/registry").then(({ registerUser }) => {
+      registerUser(userId, email.toLowerCase(), name || "Pelajar");
+    });
+  } catch {}
 
   // Auto-activate 7-day trial premium for new users
   try {
@@ -48,7 +59,7 @@ export function signup(email: string, password: string, name: string): { error?:
   return {};
 }
 
-export function login(email: string, password: string): { error?: string; user?: { email: string; name: string } } {
+export function login(email: string, password: string): { error?: string; user?: { id: string; email: string; name: string } } {
   const users = getUsers();
   const user = users.find(
     (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === hashPassword(password)
@@ -56,24 +67,54 @@ export function login(email: string, password: string): { error?: string; user?:
   if (!user) {
     return { error: "Email atau password salah" };
   }
-  const session = { email: user.email, name: user.name, loggedInAt: Date.now() };
+
+  const session = { id: user.id, email: user.email, name: user.name, loggedInAt: Date.now() };
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-  return { user: { email: user.email, name: user.name } };
+
+  // Update registry last active
+  try {
+    import("@/lib/admin/registry").then(({ updateUserRegistry }) => {
+      updateUserRegistry(user.id, { lastActive: new Date().toISOString() });
+    });
+  } catch {}
+
+  return { user: { id: user.id, email: user.email, name: user.name } };
 }
 
 export function logout() {
   localStorage.removeItem(SESSION_KEY);
 }
 
-export function getCurrentUser(): { email: string; name: string } | null {
+export function getCurrentUser(): { id: string; email: string; name: string } | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = localStorage.getItem(SESSION_KEY);
     if (!raw) return null;
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (!parsed.id) {
+      // Migrate old session: find user by email to get ID
+      const users = getUsers();
+      const user = users.find((u) => u.email === parsed.email);
+      if (user) {
+        parsed.id = user.id;
+        localStorage.setItem(SESSION_KEY, JSON.stringify(parsed));
+      } else {
+        parsed.id = "legacy_" + Date.now().toString(36);
+        localStorage.setItem(SESSION_KEY, JSON.stringify(parsed));
+      }
+    }
+    return parsed;
   } catch {
     return null;
   }
+}
+
+export function getUserProfileKey(userId?: string): string {
+  if (!userId) {
+    const user = getCurrentUser();
+    userId = user?.id;
+  }
+  return userId ? `belajar-mtk-profile-${userId}` : "belajar-mtk-profile";
 }
 
 export function resetPassword(email: string): { error?: string; success?: boolean } {
@@ -82,7 +123,6 @@ export function resetPassword(email: string): { error?: string; success?: boolea
   if (idx === -1) {
     return { error: "Email tidak ditemukan" };
   }
-  // Generate random password and "send" it (show in alert for local mode)
   const newPw = "reset" + Math.floor(1000 + Math.random() * 9000);
   users[idx].password = hashPassword(newPw);
   saveUsers(users);
@@ -109,5 +149,17 @@ export function updateProfile(updates: { name?: string; email?: string }): { err
 
   saveUsers(users);
   localStorage.setItem(SESSION_KEY, JSON.stringify({ ...session, ...updates }));
+
+  // Update registry
+  try {
+    import("@/lib/admin/registry").then(({ updateUserRegistry }) => {
+      updateUserRegistry(session.id, { name: updates.name, email: updates.email });
+    });
+  } catch {}
+
   return {};
+}
+
+export function getAllLocalUsers(): LocalUser[] {
+  return getUsers();
 }

@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 import { getCurrentUser } from "@/lib/localAuth";
 
 interface AuthContextType {
-  user: { email: string; name: string } | null;
+  user: { id: string; email: string; name: string } | null;
   loading: boolean;
   refreshUser: () => void;
 }
@@ -12,7 +12,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({ user: null, loading: true, refreshUser: () => {} });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<{ email: string; name: string } | null>(null);
+  const [user, setUser] = useState<{ id: string; email: string; name: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -34,6 +34,18 @@ export interface UserProfile {
 
 export const STORAGE_KEY = "belajar-mtk-profile";
 
+function getProfileKey(): string {
+  if (typeof window === "undefined") return STORAGE_KEY;
+  try {
+    const raw = localStorage.getItem("belajarmtk_session");
+    if (raw) {
+      const session = JSON.parse(raw);
+      if (session.id) return `belajar-mtk-profile-${session.id}`;
+    }
+  } catch {}
+  return STORAGE_KEY;
+}
+
 export const LEVEL_THRESHOLDS = [
   0, 30, 75, 150, 300, 500, 750, 1100, 1500, 2000,
   2700, 3500, 4500, 6000, 8000, 10500, 14000, 18500, 25000, 35000,
@@ -114,13 +126,23 @@ export function getProfile(): UserProfile {
   if (typeof window === "undefined") {
     return getDefaultProfile();
   }
-  const stored = localStorage.getItem(STORAGE_KEY);
+  const key = getProfileKey();
+  const stored = localStorage.getItem(key);
   if (stored) {
     const profile = { ...getDefaultProfile(), ...JSON.parse(stored) };
     updateStreak(profile);
     regenerateHearts(profile);
     saveProfile(profile);
     return profile;
+  }
+  // Migration: try loading from old default key
+  if (key !== STORAGE_KEY) {
+    const old = localStorage.getItem(STORAGE_KEY);
+    if (old) {
+      const profile = { ...getDefaultProfile(), ...JSON.parse(old) };
+      saveProfile(profile);
+      return profile;
+    }
   }
   const profile = getDefaultProfile();
   saveProfile(profile);
@@ -129,7 +151,8 @@ export function getProfile(): UserProfile {
 
 export function saveProfile(profile: UserProfile) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+  const key = getProfileKey();
+  localStorage.setItem(key, JSON.stringify(profile));
   // Background sync to Supabase (fire-and-forget)
   import("@/lib/supabase/sync").then(({ pushProfile }) => pushProfile(profile)).catch(() => {});
 }
@@ -507,21 +530,35 @@ export function grantTrialPremium(): UserProfile {
 export function getAllUserProfiles(): Record<string, UserProfile> {
   if (typeof window === "undefined") return {};
   const result: Record<string, UserProfile> = {};
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key === STORAGE_KEY) {
-      try {
-        const profile = JSON.parse(localStorage.getItem(key) || "{}");
-        result["current"] = profile;
-      } catch {}
-    }
-  }
+
+  // Read from user registry
   try {
-    const authUser = localStorage.getItem("belajar-mtk-auth-user");
-    if (authUser) {
-      const parsed = JSON.parse(authUser);
-      result[parsed.email || "unknown"] = { ...result["current"], name: parsed.name || "Pelajar" };
+    const registryRaw = localStorage.getItem("belajarmtk_user_registry");
+    if (registryRaw) {
+      const registry: { id: string; email: string; name: string }[] = JSON.parse(registryRaw);
+      for (const reg of registry) {
+        const profileKey = `belajar-mtk-profile-${reg.id}`;
+        const stored = localStorage.getItem(profileKey);
+        if (stored) {
+          result[reg.id] = { ...getDefaultProfile(), ...JSON.parse(stored), name: reg.name };
+        }
+      }
     }
   } catch {}
+
+  // Fallback: current user from session
+  const current = getProfile();
+  const sessionRaw = localStorage.getItem("belajarmtk_session");
+  let sessionKey = "current";
+  try {
+    if (sessionRaw) {
+      const s = JSON.parse(sessionRaw);
+      sessionKey = s.id || s.email || "current";
+    }
+  } catch {}
+  if (!result[sessionKey]) {
+    result[sessionKey] = current;
+  }
+
   return result;
 }
