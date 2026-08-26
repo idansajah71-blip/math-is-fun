@@ -24,26 +24,35 @@ function saveUsers(users: LocalUser[]) {
 }
 
 function hashPassword(pw: string): string {
-  // Simple salted hash for localStorage-only auth.
-  // Not cryptographic-grade but far better than plain base64.
   const salt = "bmtk_salt_v1";
   let hash = 0;
   const combined = salt + pw + salt;
   for (let i = 0; i < combined.length; i++) {
     const char = combined.charCodeAt(i);
     hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32-bit integer
+    hash = hash & hash;
   }
-  // Mix with length and use hex
   const hex = (hash >>> 0).toString(16).padStart(8, "0");
   const lengthHex = pw.length.toString(16).padStart(4, "0");
-  // Add a second pass for better distribution
   let hash2 = 0;
   for (let i = 0; i < hex.length; i++) {
     hash2 = ((hash2 << 5) - hash2) + hex.charCodeAt(i);
     hash2 = hash2 & hash2;
   }
   return hex + (hash2 >>> 0).toString(16).padStart(8, "0") + lengthHex;
+}
+
+function legacyHashPassword(pw: string): string {
+  return btoa(pw);
+}
+
+function isLegacyHash(stored: string): boolean {
+  try {
+    const decoded = atob(stored);
+    return decoded.length > 0 && !decoded.includes("\n");
+  } catch {
+    return false;
+  }
 }
 
 export function signup(email: string, password: string, name: string): { error?: string } {
@@ -80,17 +89,27 @@ export function signup(email: string, password: string, name: string): { error?:
 
 export function login(email: string, password: string): { error?: string; user?: { id: string; email: string; name: string } } {
   const users = getUsers();
-  const user = users.find(
-    (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === hashPassword(password)
-  );
-  if (!user) {
+  const idx = users.findIndex((u) => u.email.toLowerCase() === email.toLowerCase());
+  if (idx === -1) {
+    return { error: "Email atau password salah" };
+  }
+  const user = users[idx];
+  const newHash = hashPassword(password);
+  const legacyHash = legacyHashPassword(password);
+
+  if (user.password === newHash) {
+    // Hash baru — login ok
+  } else if (user.password === legacyHash) {
+    // Hash lama (base64) — auto-migrate ke hash baru
+    users[idx].password = newHash;
+    saveUsers(users);
+  } else {
     return { error: "Email atau password salah" };
   }
 
   const session = { id: user.id, email: user.email, name: user.name, loggedInAt: Date.now() };
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
 
-  // Update registry last active
   try {
     import("@/lib/admin/registry").then(({ updateUserRegistry }) => {
       updateUserRegistry(user.id, { lastActive: new Date().toISOString() });
