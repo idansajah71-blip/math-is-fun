@@ -41,6 +41,35 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           crossOrigin="anonymous"
         />
         <link rel="apple-touch-icon" href="/icon-192.png" />
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function(){
+            try {
+              var c = localStorage.getItem("belajar-mtk-accent");
+              if (!c) return;
+              var t = {
+                green:  { p:"#58CC02", h:"#46A302", l:"#89E219", bg:"rgba(88,204,2,0.1)", r:"rgba(88,204,2,0.4)" },
+                blue:   { p:"#1CB0F6", h:"#1899D6", l:"#4DC9FF", bg:"rgba(28,176,246,0.1)", r:"rgba(28,176,246,0.4)" },
+                purple: { p:"#A855F7", h:"#9333EA", l:"#C084FC", bg:"rgba(168,85,247,0.1)", r:"rgba(168,85,247,0.4)" },
+                orange: { p:"#FF9600", h:"#E58700", l:"#FFB340", bg:"rgba(255,150,0,0.1)", r:"rgba(255,150,0,0.4)" },
+                rose:   { p:"#F43F5E", h:"#E11D48", l:"#FB7185", bg:"rgba(244,63,94,0.1)", r:"rgba(244,63,94,0.4)" },
+                teal:   { p:"#14B8A6", h:"#0D9488", l:"#2DD4BF", bg:"rgba(20,184,166,0.1)", r:"rgba(20,184,166,0.4)" }
+              };
+              var x = t[c];
+              if (!x) return;
+              var s = document.documentElement.style;
+              s.setProperty("--primary", x.p);
+              s.setProperty("--primary-hover", x.h);
+              s.setProperty("--primary-light", x.l);
+              s.setProperty("--primary-bg", x.bg);
+              s.setProperty("--duo-green", x.p);
+              s.setProperty("--duo-green-dark", x.h);
+              s.setProperty("--duo-green-light", x.l);
+              s.setProperty("--duo-green-bg", x.bg);
+              s.setProperty("--shadow-button", "0 4px 0 "+x.h);
+              s.setProperty("--focus-ring", x.r);
+            } catch(e){}
+          })();
+        ` }} />
       </head>
       <body className="min-h-screen bg-[var(--duo-bg)] text-[var(--duo-text)] antialiased font-sans">
         <ClientProviders>{children}</ClientProviders>
