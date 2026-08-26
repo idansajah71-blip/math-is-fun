@@ -459,6 +459,25 @@ export function getLeaderboard(
   return entries.sort((a, b) => b.xp - a.xp).slice(0, 50);
 }
 
+export async function getLeaderboardAsync(
+  period: "weekly" | "alltime" = "weekly"
+): Promise<{ name: string; xp: number; level: number; streak: number; weeklyXpTotal?: number }[]> {
+  try {
+    const { fetchLeaderboard } = await import("@/lib/supabase/sync");
+    const remote = await fetchLeaderboard(period);
+    if (remote.length > 0) {
+      return remote.map((row: Record<string, unknown>) => ({
+        name: (row.name as string) ?? "Pelajar",
+        xp: (row.xp as number) ?? 0,
+        level: (row.level as number) ?? 0,
+        streak: (row.streak as number) ?? 0,
+        weeklyXpTotal: row.weekly_xp_total as number | undefined,
+      }));
+    }
+  } catch {}
+  return getLeaderboard(period);
+}
+
 export function recordReview(slug: string, quality: number): void {
   const profile = getProfile();
   const today = new Date().toISOString().split("T")[0];

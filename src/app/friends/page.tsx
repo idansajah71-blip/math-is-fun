@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
-import { getProfile, addXp, LEVEL_NAMES } from "@/lib/gamification";
+import { getProfile, addXp, LEVEL_NAMES, getAllUserProfiles, getDefaultProfile } from "@/lib/gamification";
+import { getAllLocalUsers } from "@/lib/localAuth";
 import { motion } from "framer-motion";
 import { UserPlus, Trophy, Zap, Flame, Target, Send, X, CheckCircle2, Swords } from "lucide-react";
 import type { UserProfile } from "@/lib/gamification";
@@ -11,6 +12,7 @@ import FeatureGuard from "@/components/admin/FeatureGuard";
 
 interface Friend {
   id: string;
+  userId?: string;
   name: string;
   xp: number;
   level: number;
@@ -58,6 +60,7 @@ export default function FriendsPage() {
   const [friends, setFriends] = useState<Friend[]>([]);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [addName, setAddName] = useState("");
+  const [addError, setAddError] = useState("");
   const [activeTab, setActiveTab] = useState<"friends" | "challenges">("friends");
   const [showChallengeModal, setShowChallengeModal] = useState<string | null>(null);
   const [challengeTopic, setChallengeTopic] = useState("");
@@ -71,17 +74,50 @@ export default function FriendsPage() {
 
   useEffect(() => { load(); }, [load]);
 
+  function findUserByName(name: string): { userId: string; profile: UserProfile } | null {
+    const localUsers = getAllLocalUsers();
+    const matched = localUsers.find(u => u.name.toLowerCase() === name.toLowerCase());
+    if (matched) {
+      const profiles = getAllUserProfiles();
+      const userProfile = profiles[matched.id];
+      if (userProfile) {
+        return { userId: matched.id, profile: userProfile };
+      }
+      return {
+        userId: matched.id,
+        profile: { ...getDefaultProfile(), name: matched.name } as UserProfile,
+      };
+    }
+    const profiles = getAllUserProfiles();
+    for (const [id, p] of Object.entries(profiles)) {
+      if (p.name.toLowerCase() === name.toLowerCase()) {
+        return { userId: id, profile: p };
+      }
+    }
+    return null;
+  }
+
   function addFriend() {
     const name = addName.trim();
     if (!name) return;
-    if (friends.some(f => f.name.toLowerCase() === name.toLowerCase())) return;
+    setAddError("");
+    if (friends.some(f => f.name.toLowerCase() === name.toLowerCase())) {
+      setAddError("Sudah jadi teman!");
+      return;
+    }
+    if (profile && name.toLowerCase() === profile.name.toLowerCase()) {
+      setAddError("Gak bisa tambah diri sendiri!");
+      return;
+    }
 
+    const found = findUserByName(name);
     const newFriend: Friend = {
       id: Date.now().toString(),
+      userId: found?.userId,
       name,
-      xp: Math.floor(Math.random() * 2000) + 100,
-      level: Math.floor(Math.random() * 8) + 1,
-      streak: Math.floor(Math.random() * 15),
+      xp: found?.profile.xp ?? 0,
+      level: found?.profile.level ?? 1,
+      streak: found?.profile.streak ?? 0,
       addedAt: new Date().toISOString().split("T")[0],
     };
 
@@ -89,6 +125,22 @@ export default function FriendsPage() {
     saveFriends(updated);
     setFriends(updated);
     setAddName("");
+    if (!found) {
+      setAddError("User tidak ditemukan. Mereka belum daftar.");
+    }
+  }
+
+  function refreshFriends() {
+    const profiles = getAllUserProfiles();
+    const updated = friends.map(f => {
+      if (f.userId && profiles[f.userId]) {
+        const p = profiles[f.userId];
+        return { ...f, xp: p.xp, level: p.level, streak: p.streak };
+      }
+      return f;
+    });
+    saveFriends(updated);
+    setFriends(updated);
   }
 
   function removeFriend(id: string) {
@@ -199,7 +251,7 @@ export default function FriendsPage() {
                 <input
                   type="text"
                   value={addName}
-                  onChange={(e) => setAddName(e.target.value)}
+                  onChange={(e) => { setAddName(e.target.value); setAddError(""); }}
                   onKeyDown={(e) => e.key === "Enter" && addFriend()}
                   placeholder="Tambah teman (nama)..."
                   className="flex-1 px-4 py-2.5 bg-white dark:bg-[var(--duo-card)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] placeholder:text-[var(--duo-text-muted)] focus:outline-none focus:border-[var(--duo-green)]"
@@ -211,6 +263,15 @@ export default function FriendsPage() {
                   Tambah
                 </button>
               </div>
+              {addError && (
+                <p className="text-xs text-red-500 font-medium mt-1">{addError}</p>
+              )}
+              {friends.length > 0 && (
+                <button onClick={refreshFriends}
+                  className="text-xs text-[var(--duo-green)] font-bold hover:underline mt-1">
+                  ↻ Refresh data teman
+                </button>
+              )}
 
               {friends.length === 0 ? (
                 <div className="text-center py-12">

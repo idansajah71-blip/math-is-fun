@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
-import { getProfile, getLeaderboard, LEVEL_NAMES, UserProfile } from "@/lib/gamification";
+import { getProfile, getLeaderboardAsync, LEVEL_NAMES, UserProfile } from "@/lib/gamification";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { Trophy, Medal, Crown, Flame, Info, Award, LogIn } from "lucide-react";
@@ -31,9 +31,10 @@ export default function LeaderboardPage() {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
     setLoading(true);
-    try {
-      const data = getLeaderboard(period);
+    getLeaderboardAsync(period).then((data) => {
+      if (cancelled) return;
       const mapped: LeaderboardEntry[] = data.map((row, i) => ({
         rank: i + 1,
         name: row.name ?? "Pelajar",
@@ -43,11 +44,14 @@ export default function LeaderboardPage() {
         weeklyXpTotal: row.weeklyXpTotal,
       }));
       setEntries(mapped);
-    } catch {
-      setEntries([]);
-    } finally {
       setLoading(false);
-    }
+    }).catch(() => {
+      if (!cancelled) {
+        setEntries([]);
+        setLoading(false);
+      }
+    });
+    return () => { cancelled = true; };
   }, [period]);
 
   const getMyRank = (): LeaderboardEntry | null => {
