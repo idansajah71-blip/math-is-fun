@@ -11,18 +11,37 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({ user: null, loading: true, refreshUser: () => {} });
 
+function getProfileUser(): { id: string; email: string; name: string } | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem("belajar-mtk-profile");
+    if (!raw) return null;
+    const profile = JSON.parse(raw);
+    if (profile.name && profile.name !== "Pelajar" && profile.name !== "Siswa") {
+      return { id: "local", email: "", name: profile.name };
+    }
+  } catch {}
+  return null;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<{ id: string; email: string; name: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const sessionUser = getCurrentUser();
+    let sessionUser = getCurrentUser();
+    if (!sessionUser) {
+      sessionUser = getProfileUser();
+    }
     setUser(sessionUser);
     setLoading(false);
   }, []);
 
   function refreshUser() {
-    const sessionUser = getCurrentUser();
+    let sessionUser = getCurrentUser();
+    if (!sessionUser) {
+      sessionUser = getProfileUser();
+    }
     setUser(sessionUser);
   }
 
