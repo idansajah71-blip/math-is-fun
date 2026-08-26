@@ -113,6 +113,35 @@ export function searchTopics(query: string): Topic[] {
   );
 }
 
+function generateHints(q: QuizQuestion): string[] {
+  if (q.hints && q.hints.length > 0) return q.hints;
+  const text = q.explanation || "";
+  const hints: string[] = [];
+
+  if (q.options && q.options.length > 0) {
+    const wrong = q.options.filter((_, i) => i !== q.correctIndex);
+    if (wrong.length > 0) {
+      hints.push(`Coba eliminasi jawaban yang jelas salah terlebih dahulu.`);
+    }
+  }
+
+  const sentences = text.split(/[.!]\s+/).filter((s) => s.length > 5);
+  if (sentences.length >= 2) {
+    hints.push(`Perhatikan langkah: ${sentences[0].trim()}.`);
+  }
+  if (sentences.length >= 3) {
+    hints.push(`Jawaban akhirnya berkaitan dengan: ${sentences[sentences.length - 1].trim()}.`);
+  } else if (sentences.length >= 1) {
+    hints.push(`Konsep kunci: ${sentences[0].trim()}.`);
+  }
+
+  if (hints.length === 0) {
+    hints.push(`Baca penjelasan dengan seksama setelah menjawab untuk memahami konsepnya.`);
+  }
+
+  return hints;
+}
+
 export function getAllQuizzes(): QuizQuestion[] {
   const adminQuestions = getAdminQuestions();
   const publishedAdmin = adminQuestions.filter((q) => q.isPublished);
@@ -132,7 +161,7 @@ export function getAllQuizzes(): QuizQuestion[] {
       explanation: q.explanation,
       type: q.type as QuizQuestion["type"],
       difficulty: q.difficulty as QuizQuestion["difficulty"],
-      hints: q.hints,
+      hints: generateHints(q),
       alternatives: q.alternatives,
       equation: q.equation,
       numberLine: q.numberLine,
@@ -146,7 +175,7 @@ export function getAllQuizzes(): QuizQuestion[] {
 
   for (const q of staticQuizzes) {
     if (!adminIds.has(q.id)) {
-      result.push(q);
+      result.push({ ...q, hints: generateHints(q) });
     }
   }
 
