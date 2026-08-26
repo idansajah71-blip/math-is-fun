@@ -6,6 +6,7 @@ import Confetti from "./Confetti";
 import { Star, Award, Check, Sparkles, Trophy, Crown, Flame, Brain, Gem, Zap, Sprout, Dumbbell, Medal, Diamond } from "lucide-react";
 import AnimatedButton from "./AnimatedButton";
 import { InlineIcon } from "@/lib/iconMap";
+import Link from "next/link";
 
 interface BadgeUnlockModalProps {
   show: boolean;
@@ -302,6 +303,11 @@ export default function BadgeUnlockModal({ show, badge, onClose }: BadgeUnlockMo
                   >
                     Koleksi Sekarang!
                   </AnimatedButton>
+                  <Link href="/badges" onClick={onClose}>
+                    <p className="text-center text-xs font-bold text-white/60 hover:text-white/90 mt-3 transition-colors cursor-pointer underline underline-offset-2">
+                      Lihat Semua Pencapaian →
+                    </p>
+                  </Link>
                 </motion.div>
               </div>
             </div>

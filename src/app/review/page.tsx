@@ -7,10 +7,11 @@ import XpPopup from "@/components/ui/XpPopup";
 import { getAllTopics, getAllQuizzes } from "@/lib/data";
 import { getProfile, saveQuizScore, addXp, UserProfile } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
-import { AlertTriangle, CheckCircle2, XCircle, RotateCcw, ChevronRight, BookOpen, Filter } from "lucide-react";
+import { AlertTriangle, CheckCircle2, XCircle, RotateCcw, ChevronRight, BookOpen, Filter, Brain, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { renderIcon } from "@/lib/iconMap";
 import type { QuizQuestion } from "@/lib/types";
+import Link from "next/link";
 
 type Tab = "wrong" | "quiz" | "result";
 
@@ -133,8 +134,8 @@ export default function ReviewPage() {
               </div>
               <div>
                 <h1 className="text-xl font-bold text-[var(--duo-text)]">Salah Jawab Review</h1>
-                <p className="text-sm text-[var(--duo-text-muted)]">
-                  {wrongTopics.length} topik perlu diperbaiki
+                <p className="text-xs text-[var(--duo-text-muted)]">
+                  Review Salah = ulang soal yang pernah salah
                 </p>
               </div>
             </div>
@@ -199,6 +200,24 @@ export default function ReviewPage() {
                 ))}
               </div>
             )}
+
+            {/* Cross-link to Spaced Repetition */}
+            <div className="mt-6 p-4 rounded-2xl bg-[var(--duo-purple)]/10 border-2 border-[var(--duo-purple)]/20">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[var(--duo-purple)]/20 flex items-center justify-center shrink-0">
+                  <Brain size={18} className="text-[var(--duo-purple)]" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-[var(--duo-text)]">Mau perkuat ingatan topik yang sudah selesai juga?</p>
+                  <p className="text-xs text-[var(--duo-text-muted)]">Coba Ulangan Bertahap untuk review berkala.</p>
+                </div>
+                <Link href="/spaced-repetition" className="shrink-0">
+                  <div className="flex items-center gap-1 px-3 py-2 rounded-xl bg-[var(--duo-purple)] text-white text-xs font-bold hover:brightness-110 transition-all">
+                    Buka <ArrowRight size={12} />
+                  </div>
+                </Link>
+              </div>
+            </div>
           </div>
         </main>
       </div>

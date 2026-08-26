@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, GraduationCap, Trophy, ChevronRight, Sparkles } from "lucide-react";
+import { BookOpen, GraduationCap, Trophy, ChevronRight, Sparkles, Gem, Flame, Target, BarChart3 } from "lucide-react";
 import { getProfile, saveProfile } from "@/lib/gamification";
 import AnimatedButton from "./ui/AnimatedButton";
 
@@ -31,6 +31,13 @@ const steps = [
   },
 ];
 
+const tourFeatures = [
+  { icon: Gem, label: "Gems", desc: "Kumpulkan gems dari belajar, beli item keren di Toko!", color: "text-[var(--duo-purple)]", bg: "bg-[var(--duo-purple)]/15" },
+  { icon: Flame, label: "Streak", desc: "Jaga streak harianmu agar tetap berapi-api!", color: "text-[var(--duo-orange)]", bg: "bg-[var(--duo-orange)]/15" },
+  { icon: Target, label: "Quiz Harian", desc: "Quiz harian beda dari latihan biasa — lebih menantang!", color: "text-[var(--duo-info)]", bg: "bg-[var(--duo-info)]/15" },
+  { icon: BarChart3, label: "Peringkat", desc: "Lihat progressmu dibanding pelajar lainnya!", color: "text-[var(--primary)]", bg: "bg-[var(--primary-bg)]" },
+];
+
 const levels = [
   { id: "smp", label: "SMP", desc: "Kelas 7-9", icon: BookOpen },
   { id: "sma", label: "SMA", desc: "Kelas 10-12", icon: GraduationCap },
@@ -41,13 +48,14 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   const [step, setStep] = useState(0);
   const [name, setName] = useState("");
   const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
+  const [showTour, setShowTour] = useState(false);
 
   const handleNext = () => {
     if (step === 1 && !name.trim()) return;
     if (step < steps.length - 1) {
       setStep(step + 1);
     } else {
-      handleComplete();
+      setShowTour(true);
     }
   };
 
@@ -171,6 +179,68 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           </button>
         )}
       </motion.div>
+
+      {/* Tour Screen Overlay */}
+      <AnimatePresence>
+        {showTour && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[81] flex items-center justify-center bg-[var(--bg)] p-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              className="w-full max-w-sm"
+            >
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 mx-auto rounded-full bg-[var(--primary-bg)] flex items-center justify-center mb-4">
+                  <Sparkles size={28} className="text-[var(--primary)]" />
+                </div>
+                <h2 className="text-xl font-black text-[var(--fg)] mb-1">Sebelum Mulai...</h2>
+                <p className="text-sm text-[var(--fg-muted)]">Ini fitur-fitur utama yang harus kamu tahu!</p>
+              </div>
+
+              <div className="space-y-3 mb-6">
+                {tourFeatures.map((feature, i) => (
+                  <motion.div
+                    key={feature.label}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + i * 0.08 }}
+                    className="flex items-center gap-3 p-3 rounded-2xl bg-white dark:bg-[var(--surface)] border-2 border-[var(--border-subtle)]"
+                  >
+                    <div className={`w-10 h-10 rounded-xl ${feature.bg} flex items-center justify-center shrink-0`}>
+                      <feature.icon size={18} className={feature.color} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-black text-[var(--fg)]">{feature.label}</p>
+                      <p className="text-[11px] text-[var(--fg-muted)] leading-relaxed">{feature.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              <AnimatedButton
+                onClick={handleComplete}
+                fullWidth
+                variant="primary"
+                size="lg"
+                icon={<Sparkles size={16} />}
+              >
+                Mengerti, Mulai Belajar!
+              </AnimatedButton>
+              <button
+                onClick={handleComplete}
+                className="w-full mt-2 py-2 text-sm text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors"
+              >
+                Lewati
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

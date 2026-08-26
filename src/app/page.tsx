@@ -22,6 +22,8 @@ import {
   DAILY_REWARDS,
   saveProfile,
   addXp,
+  getStreakFreezeNotification,
+  markStreakFreezeNotified,
 } from "@/lib/gamification";
 import { staggerContainer, staggerItem, springGentle, springBounce, popIn, cardSlideUp } from "@/lib/animations";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
@@ -386,6 +388,7 @@ function HomeContent() {
   const [claimedDay, setClaimedDay] = useState<number | null>(null);
   const [claimedQuests, setClaimedQuests] = useState<Set<number>>(new Set());
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showStreakFreezeToast, setShowStreakFreezeToast] = useState(false);
   const mascotState = useMascot();
 
   const checkDailyReward = (prof: UserProfile) => {
@@ -418,8 +421,19 @@ function HomeContent() {
     } else {
       if (isFlagEnabled("daily-reward")) {
         const cleanup = checkDailyReward(prof);
+        // Check streak freeze notification
+        const sfNotif = getStreakFreezeNotification();
+        if (sfNotif.show) {
+          setTimeout(() => setShowStreakFreezeToast(true), 1500);
+        }
         return cleanup;
       }
+    }
+
+    // Check streak freeze notification (when onboarding is shown)
+    const sfNotif = getStreakFreezeNotification();
+    if (sfNotif.show) {
+      setTimeout(() => setShowStreakFreezeToast(true), 1500);
     }
   }, []);
 
@@ -542,6 +556,38 @@ function HomeContent() {
         onClaim={handleClaimReward}
         claimedDay={claimedDay}
       />
+
+      {/* Streak Freeze Notification Toast */}
+      <AnimatePresence>
+        {showStreakFreezeToast && (
+          <motion.div
+            initial={{ opacity: 0, y: -30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -30, scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="fixed top-6 left-1/2 -translate-x-1/2 z-[90] w-full max-w-md px-4"
+          >
+            <div className="bg-gradient-to-r from-[var(--duo-info)]/15 via-white to-[var(--duo-info)]/15 dark:from-[var(--duo-info)]/10 dark:via-[var(--surface)] dark:to-[var(--duo-info)]/10 border-2 border-[var(--duo-info)]/40 rounded-2xl p-4 shadow-xl flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[var(--duo-info)]/20 flex items-center justify-center shrink-0">
+                <span className="text-xl">🧊</span>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-black text-[var(--fg)]">Streak Freeze kamu terpakai kemarin!</p>
+                <p className="text-xs text-[var(--fg-muted)]">Streak tetap aman. Yuk belajar hari ini juga! 🔥</p>
+              </div>
+              <button
+                onClick={() => {
+                  markStreakFreezeNotified();
+                  setShowStreakFreezeToast(false);
+                }}
+                className="w-8 h-8 rounded-full bg-[var(--border-subtle)] flex items-center justify-center hover:bg-[var(--border)] transition-colors shrink-0"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <main className="flex-1 ml-[260px] p-6 pb-24">
         <div className="max-w-5xl mx-auto">

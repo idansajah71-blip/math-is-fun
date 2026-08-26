@@ -24,11 +24,11 @@ import {
   completeTopic, saveQuizScore, getProfile, trackWrongAnswer, useHeart,
   consumeDoubleXp, addXp, BADGES, LEVEL_NAMES, recordReview,
 } from "@/lib/gamification";
-import { getAllQuizzes } from "@/lib/data";
+import { getAllQuizzes, getAllTopics } from "@/lib/data";
 import {
   ArrowLeft, ArrowRight, CheckCircle2, RotateCcw,
   Home, Star, Zap, Trophy, BookOpen, Flame, Target,
-  Sparkles, Crown, Gem, Rocket, Brain, XCircle,
+  Sparkles, Crown, Gem, Rocket, Brain, XCircle, Heart,
 } from "lucide-react";
 import Link from "next/link";
 import type { Topic } from "@/lib/types";
@@ -73,6 +73,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const [badgeQueue, setBadgeQueue] = useState<typeof BADGES>([]);
   const [startTime] = useState(Date.now());
   const [answered, setAnswered] = useState(false);
+  const [outOfHearts, setOutOfHearts] = useState(false);
 
   const topicQuizzes = getAllQuizzes().filter((q) => q.topicSlug === topic.slug);
   const totalQuestions = Math.min(topicQuizzes.length, 5);
@@ -156,6 +157,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
     const heartUsed = useHeart();
     setLives((l) => {
       if (l <= 1) {
+        setOutOfHearts(true);
         setTimeout(() => finishLesson(), 700);
         return 0;
       }
@@ -978,36 +980,100 @@ export default function LessonClient({ topic }: LessonClientProps) {
                     </motion.div>
                   )}
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.2 }}
-                    className="space-y-3"
-                  >
-                    {pct < 80 && (
-                      <AnimatedButton
-                        onClick={restart}
-                        fullWidth
-                        variant="outline"
-                        size="lg"
-                        icon={<RotateCcw size={16} />}
-                      >
-                        Coba Lagi — Dapatkan Sempurna!
-                      </AnimatedButton>
-                    )}
-                    <div className="grid grid-cols-2 gap-3">
-                      <Link href="/practice">
-                        <AnimatedButton fullWidth variant="info" size="lg" icon={<Brain size={16} />}>
-                          Latihan Lagi
+                  {outOfHearts ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 1 }}
+                      className="space-y-3"
+                    >
+                      <div className="p-4 rounded-2xl bg-[var(--danger-bg)] border-2 border-[var(--danger)]/30">
+                        <div className="flex items-center gap-3 mb-2">
+                          <Heart size={20} className="text-[var(--danger)]" fill="currentColor" />
+                          <p className="text-sm font-black text-[var(--danger)]">Nyawa kamu habis!</p>
+                        </div>
+                        <p className="text-xs text-[var(--fg-muted)] leading-relaxed">
+                          Kamu kehabisan nyawa sebelum menyelesaikan quiz. Isi ulang nyawa di toko atau tunggu nyawa pulih sendiri (~30 menit/jiwa).
+                        </p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <Link href="/shop">
+                          <AnimatedButton fullWidth variant="danger" size="lg" icon={<Gem size={16} />}>
+                            Beli Refill di Toko
+                          </AnimatedButton>
+                        </Link>
+                        <Link href="/">
+                          <AnimatedButton fullWidth variant="outline" size="lg" icon={<Heart size={16} />}>
+                            Tunggu Nyawa Pulih
+                          </AnimatedButton>
+                        </Link>
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 1.2 }}
+                      className="space-y-3"
+                    >
+                      {(() => {
+                        const allTopics = getAllTopics();
+                        const sameLevelTopics = allTopics.filter((t) => t.level === topic.level);
+                        const currentIdx = sameLevelTopics.findIndex((t) => t.slug === topic.slug);
+                        const nextTopic = currentIdx !== -1 && currentIdx < sameLevelTopics.length - 1
+                          ? sameLevelTopics[currentIdx + 1]
+                          : null;
+
+                        if (pct >= 80 && nextTopic) {
+                          return (
+                            <Link href={`/topic/${nextTopic.slug}`}>
+                              <AnimatedButton fullWidth variant="primary" size="xl" glow icon={<Rocket size={18} />}>
+                                Lanjut: {nextTopic.title.replace(/^\d+\.\s*/, "")}
+                              </AnimatedButton>
+                            </Link>
+                          );
+                        }
+
+                        if (pct >= 80 && !nextTopic) {
+                          return (
+                            <div className="p-4 rounded-2xl bg-[var(--primary-bg)] border-2 border-[var(--primary)]/30 text-center">
+                              <p className="text-sm font-bold text-[var(--primary)] flex items-center justify-center gap-2">
+                                <Trophy size={16} />
+                                Kamu sudah menyelesaikan semua topik {levelLabel}!
+                              </p>
+                              <p className="text-xs text-[var(--fg-muted)] mt-1">Keren banget! Coba tantangan di tingkat lain ya.</p>
+                            </div>
+                          );
+                        }
+
+                        return null;
+                      })()}
+
+                      {pct < 80 && (
+                        <AnimatedButton
+                          onClick={restart}
+                          fullWidth
+                          variant="outline"
+                          size="lg"
+                          icon={<RotateCcw size={16} />}
+                        >
+                          Coba Lagi — Dapatkan Sempurna!
                         </AnimatedButton>
-                      </Link>
-                      <Link href="/">
-                        <AnimatedButton fullWidth variant="primary" size="lg" icon={<Home size={16} />}>
-                          Ke Beranda
-                        </AnimatedButton>
-                      </Link>
-                    </div>
-                  </motion.div>
+                      )}
+                      <div className="grid grid-cols-2 gap-3">
+                        <Link href="/practice">
+                          <AnimatedButton fullWidth variant="info" size="lg" icon={<Brain size={16} />}>
+                            Latihan Lagi
+                          </AnimatedButton>
+                        </Link>
+                        <Link href="/">
+                          <AnimatedButton fullWidth variant="primary" size="lg" icon={<Home size={16} />}>
+                            Ke Beranda
+                          </AnimatedButton>
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
               </div>
             </motion.div>

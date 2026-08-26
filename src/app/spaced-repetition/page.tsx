@@ -8,7 +8,7 @@ import { getTopicBySlug, getAllQuizzes } from "@/lib/data";
 import { renderIcon } from "@/lib/iconMap";
 import { playCorrectSound, playWrongSound } from "@/lib/sounds";
 import { motion } from "framer-motion";
-import { Brain, CheckCircle2, XCircle, ChevronRight, Calendar, Clock, Sparkles } from "lucide-react";
+import { Brain, CheckCircle2, XCircle, ChevronRight, Calendar, Clock, Sparkles, AlertTriangle, ArrowRight } from "lucide-react";
 import FeatureGuard from "@/components/admin/FeatureGuard";
 
 export default function SpacedRepetitionPage() {
@@ -90,8 +90,8 @@ export default function SpacedRepetitionPage() {
               </div>
               <div>
                 <h1 className="text-2xl font-black text-[var(--duo-text)]">Ulangan Bertahap</h1>
-                <p className="text-sm text-[var(--duo-text-muted)]">
-                  {reviewMode ? `Menguji: ${getTopicBySlug(currentSlug!)?.title}` : `${dueSlugs.length} topik siap diulang`}
+                <p className="text-xs text-[var(--duo-text-muted)]">
+                  Ulangan Bertahap = jadwal ulang topik yang sudah selesai
                 </p>
               </div>
             </div>
@@ -243,6 +243,24 @@ export default function SpacedRepetitionPage() {
                       <p className="text-xs font-bold text-[var(--duo-green)]">+{totalReviewed} topik diulang hari ini</p>
                     </div>
                   )}
+
+                  {/* Cross-link to Review */}
+                  <div className="mt-4 p-4 rounded-2xl bg-[var(--danger-bg)] border-2 border-[var(--danger)]/20">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-[var(--danger-bg)] flex items-center justify-center shrink-0">
+                        <AlertTriangle size={18} className="text-[var(--danger)]" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-bold text-[var(--duo-text)]">Ingin review soal yang pernah salah?</p>
+                        <p className="text-xs text-[var(--duo-text-muted)]">Coba halaman Review Salah untuk latihan lebih fokus.</p>
+                      </div>
+                      <Link href="/review" className="shrink-0">
+                        <div className="flex items-center gap-1 px-3 py-2 rounded-xl bg-[var(--danger)] text-white text-xs font-bold hover:brightness-110 transition-all">
+                          Buka <ArrowRight size={12} />
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
                 </>
               )}
             </div>

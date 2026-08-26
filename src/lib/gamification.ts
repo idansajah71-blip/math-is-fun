@@ -29,6 +29,8 @@ export interface UserProfile {
   isPremium: boolean;
   premiumActivatedAt: string | null;
   premiumExpiresAt: string | null;
+  streakFreezeUsedAt: string | null;
+  streakFreezeNotified: boolean;
   _lastHeartTime?: number;
 }
 
@@ -187,6 +189,8 @@ export function getDefaultProfile(): UserProfile {
     isPremium: false,
     premiumActivatedAt: null,
     premiumExpiresAt: null,
+    streakFreezeUsedAt: null,
+    streakFreezeNotified: false,
   };
 }
 
@@ -201,6 +205,8 @@ function updateStreak(profile: UserProfile) {
   } else if (profile.streakFreeze > 0 && profile.lastActive !== today) {
     // Use streak freeze
     profile.streakFreeze -= 1;
+    profile.streakFreezeUsedAt = yesterday;
+    profile.streakFreezeNotified = false;
   } else {
     profile.streak = 1;
   }
@@ -525,6 +531,20 @@ export function activatePremium(days: number): UserProfile {
 
 export function grantTrialPremium(): UserProfile {
   return activatePremium(7);
+}
+
+export function markStreakFreezeNotified(): void {
+  const profile = getProfile();
+  profile.streakFreezeNotified = true;
+  saveProfile(profile);
+}
+
+export function getStreakFreezeNotification(): { show: boolean; date: string | null } {
+  const profile = getProfile();
+  if (profile.streakFreezeUsedAt && !profile.streakFreezeNotified) {
+    return { show: true, date: profile.streakFreezeUsedAt };
+  }
+  return { show: false, date: null };
 }
 
 export function getAllUserProfiles(): Record<string, UserProfile> {
