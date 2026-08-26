@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, X } from "lucide-react";
+import { Sparkles, X, PartyPopper } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 
 interface BadgeRevealProps {
@@ -137,7 +137,7 @@ export default function BadgeReveal({ badgeName, badgeIcon, badgeRarity = "commo
                 onClick={onClose}
                 className="mt-5 w-full py-2.5 bg-gradient-to-r from-[var(--primary)] to-[var(--duo-green-dark)] text-white rounded-xl text-sm font-bold shadow-[0_3px_0_var(--duo-green-dark)] hover:brightness-110 active:translate-y-[2px] transition-all"
               >
-                Keren! 🎉
+                <span className="flex items-center gap-1.5">Keren! <PartyPopper size={16} /></span>
               </motion.button>
             </div>
           </div>

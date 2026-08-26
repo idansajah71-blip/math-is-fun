@@ -2,7 +2,8 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Calendar, Plus, Trophy, Swords, Zap, Clock, Trash2, Edit3, Eye, ChevronRight } from "lucide-react";
+import { Calendar, Plus, Trophy, Swords, Zap, Clock, Trash2, Edit3, Eye, ChevronRight, Heart, Target, Timer, Brain, Skull, Dice6, CalendarDays } from "lucide-react";
+import React from "react";
 
 export interface EventData {
   id: string;
@@ -25,14 +26,25 @@ export interface EventData {
 }
 
 const EVENT_TYPES = [
-  { id: "boss_battle", label: "Boss Battle", icon: "⚔️", color: "from-red-500 to-orange-500" },
-  { id: "speed_blitz", label: "Speed Blitz", icon: "⚡", color: "from-yellow-500 to-amber-500" },
-  { id: "marathon", label: "Marathon", icon: "🏃", color: "from-blue-500 to-cyan-500" },
-  { id: "trivia_night", label: "Trivia Night", icon: "🧠", color: "from-purple-500 to-pink-500" },
-  { id: "elimination", label: "Elimination", icon: "💀", color: "from-gray-700 to-gray-900" },
-  { id: "mystery", label: "Mystery", icon: "🎲", color: "from-emerald-500 to-teal-500" },
-  { id: "challenge_week", label: "Challenge Week", icon: "📅", color: "from-indigo-500 to-violet-500" },
+  { id: "boss_battle", label: "Boss Battle", icon: "swords", color: "from-red-500 to-orange-500" },
+  { id: "speed_blitz", label: "Speed Blitz", icon: "zap", color: "from-yellow-500 to-amber-500" },
+  { id: "marathon", label: "Marathon", icon: "timer", color: "from-blue-500 to-cyan-500" },
+  { id: "trivia_night", label: "Trivia Night", icon: "brain", color: "from-purple-500 to-pink-500" },
+  { id: "elimination", label: "Elimination", icon: "skull", color: "from-gray-700 to-gray-900" },
+  { id: "mystery", label: "Mystery", icon: "dice", color: "from-emerald-500 to-teal-500" },
+  { id: "challenge_week", label: "Challenge Week", icon: "calendar", color: "from-indigo-500 to-violet-500" },
 ];
+
+const EVENT_ICON_MAP: Record<string, React.ReactNode> = {
+  swords: <Swords size={18} />,
+  zap: <Zap size={18} />,
+  timer: <Timer size={18} />,
+  brain: <Brain size={18} />,
+  skull: <Skull size={18} />,
+  dice: <Dice6 size={18} />,
+  calendar: <CalendarDays size={18} />,
+  target: <Target size={18} />,
+};
 
 const EVENTS_KEY = "belajar-mtk-admin-events";
 
@@ -313,8 +325,8 @@ export default function AdminEventsPage() {
               <motion.div key={evt.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
                 className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-5">
                 <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${typeInfo?.color || "from-gray-500 to-gray-600"} flex items-center justify-center text-white text-xl shrink-0`}>
-                    {typeInfo?.icon || "🎯"}
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${typeInfo?.color || "from-gray-500 to-gray-600"} flex items-center justify-center text-white shrink-0`}>
+                    {EVENT_ICON_MAP[typeInfo?.icon || "target"] || <Target size={18} />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
@@ -326,8 +338,8 @@ export default function AdminEventsPage() {
                       <span className="flex items-center gap-1"><Calendar size={10} /> {evt.startDate || "Draft"}</span>
                       <span className="flex items-center gap-1"><Clock size={10} /> {evt.startTime} - {evt.endTime}</span>
                       <span className="flex items-center gap-1"><Zap size={10} /> {evt.questionsCount} soal</span>
-                      <span className="flex items-center gap-1">❤️ {evt.lives} nyawa</span>
-                      <span className="flex items-center gap-1">🏆 +{evt.rewards.xp} XP, +{evt.rewards.gems} Gems</span>
+                      <span className="flex items-center gap-1"><Heart size={10} className="text-red-400" /> {evt.lives} nyawa</span>
+                      <span className="flex items-center gap-1"><Trophy size={10} className="text-yellow-400" /> +{evt.rewards.xp} XP, +{evt.rewards.gems} Gems</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">

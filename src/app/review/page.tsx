@@ -7,7 +7,7 @@ import XpPopup from "@/components/ui/XpPopup";
 import { getAllTopics, getAllQuizzes } from "@/lib/data";
 import { getProfile, saveQuizScore, addXp, UserProfile } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
-import { AlertTriangle, CheckCircle2, XCircle, RotateCcw, ChevronRight, BookOpen, Filter, Brain, ArrowRight } from "lucide-react";
+import { AlertTriangle, CheckCircle2, XCircle, RotateCcw, ChevronRight, BookOpen, Filter, Brain, ArrowRight, PartyPopper, ThumbsUp, Dumbbell } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { renderIcon } from "@/lib/iconMap";
 import type { QuizQuestion } from "@/lib/types";
@@ -315,8 +315,8 @@ export default function ReviewPage() {
                     <div>
                       <p className="text-sm font-bold text-[var(--duo-text)]">
                         {selected !== null && shuffled && selected === shuffled.correctIndex
-                          ? "Benar! 🎉"
-                          : "Salah 😅"}
+                          ? <span className="flex items-center gap-1">Benar! <PartyPopper size={14} className="text-[var(--duo-green)]" /></span>
+                          : <span className="flex items-center gap-1">Salah <XCircle size={14} className="text-[var(--duo-danger)]" /></span>}
                       </p>
                       <p className="text-xs text-[var(--duo-text-muted)] mt-1">{q.explanation}</p>
                     </div>
@@ -362,7 +362,7 @@ export default function ReviewPage() {
               <span className="text-3xl font-black">{pct}%</span>
             </div>
             <h2 className="text-xl font-bold text-[var(--duo-text)] mb-1">
-              {pct >= 80 ? "Luar Biasa! 🎉" : pct >= 50 ? "Cukup Bagus! 👍" : "Terus Belajar! 💪"}
+              {pct >= 80 ? <span className="flex items-center gap-1">Luar Biasa! <PartyPopper size={18} className="text-[var(--duo-green)]" /></span> : pct >= 50 ? <span className="flex items-center gap-1">Cukup Bagus! <ThumbsUp size={18} className="text-[var(--duo-info)]" /></span> : <span className="flex items-center gap-1">Terus Belajar! <Dumbbell size={18} className="text-[var(--duo-orange)]" /></span>}
             </h2>
             <p className="text-sm text-[var(--duo-text-muted)] mb-6">
               {score} dari {questions.length} soal benar

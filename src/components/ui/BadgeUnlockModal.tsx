@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Confetti from "./Confetti";
-import { Star, Award, Check, Sparkles, Trophy, Crown, Flame, Brain, Gem, Zap, Sprout, Dumbbell, Medal, Diamond } from "lucide-react";
+import { Star, Award, Check, Sparkles, Trophy, Crown, Flame, Brain, Gem, Zap, Sprout, Dumbbell, Medal, Diamond, PartyPopper } from "lucide-react";
 import AnimatedButton from "./AnimatedButton";
 import { InlineIcon } from "@/lib/iconMap";
 import Link from "next/link";
@@ -272,7 +272,7 @@ export default function BadgeUnlockModal({ show, badge, onClose }: BadgeUnlockMo
                 >
                   <div className={`p-4 rounded-2xl ${rarity.bg} border ${rarity.border}`}>
                     <p className="text-sm text-white/90 font-semibold leading-relaxed flex items-start gap-1.5">
-                      <InlineIcon emoji="🎉" size={15} className="mt-0.5 shrink-0" /> <span>{badge.desc}</span>
+                      <PartyPopper size={15} className="mt-0.5 shrink-0 text-[var(--duo-green)]" /> <span>{badge.desc}</span>
                     </p>
                   </div>
                 </motion.div>

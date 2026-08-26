@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
+import { Target } from "lucide-react";
 
 interface NumberLineDragProps {
   min: number;
@@ -157,7 +158,7 @@ export default function NumberLineDrag({
           }`}
         >
           {isCorrect ? (
-            <span>Benar! 🎯</span>
+            <span className="flex items-center gap-1">Benar! <Target size={14} className="text-[var(--duo-green)]" /></span>
           ) : (
             <span>Jawaban yang benar: {correctValue}</span>
           )}

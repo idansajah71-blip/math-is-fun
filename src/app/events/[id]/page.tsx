@@ -177,7 +177,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
               <CheckCircle2 size={24} className="text-[var(--duo-green)] mx-auto mb-1" />
             )}
             <p className={`text-sm font-bold ${isFailed ? "text-red-500" : "text-[var(--duo-green)]"}`}>
-              {isFailed ? "Gagal" : "Selesai ✓"}
+              {isFailed ? "Gagal" : "Selesai"}
             </p>
             <p className="text-xs text-[var(--duo-text-muted)] mt-1">
               Skor: {participant.score} | XP: +{participant.xpEarned} | Gems: +{participant.gemsEarned}

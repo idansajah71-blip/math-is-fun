@@ -54,6 +54,7 @@ import {
   Gamepad2,
   PartyPopper,
   Pointer,
+  Snowflake,
 } from "lucide-react";
 import { renderIcon, InlineIcon } from "@/lib/iconMap";
 import Onboarding from "@/components/Onboarding";
@@ -569,11 +570,11 @@ function HomeContent() {
           >
             <div className="bg-gradient-to-r from-[var(--duo-info)]/15 via-white to-[var(--duo-info)]/15 dark:from-[var(--duo-info)]/10 dark:via-[var(--surface)] dark:to-[var(--duo-info)]/10 border-2 border-[var(--duo-info)]/40 rounded-2xl p-4 shadow-xl flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-[var(--duo-info)]/20 flex items-center justify-center shrink-0">
-                <span className="text-xl">🧊</span>
+                <Snowflake size={20} className="text-[var(--duo-info)]" />
               </div>
               <div className="flex-1">
                 <p className="text-sm font-black text-[var(--fg)]">Streak Freeze kamu terpakai kemarin!</p>
-                <p className="text-xs text-[var(--fg-muted)]">Streak tetap aman. Yuk belajar hari ini juga! 🔥</p>
+                <p className="text-xs text-[var(--fg-muted)]">Streak tetap aman. Yuk belajar hari ini juga! <Flame size={12} className="inline text-orange-500" /></p>
               </div>
               <button
                 onClick={() => {
@@ -681,7 +682,7 @@ function HomeContent() {
               icon={Flame}
               label="Streak"
               value={`${streak} hari`}
-              subtext={streak >= 7 ? "🔥 Konsisten!" : "Lanjutkan!"}
+              subtext={streak >= 7 ? "Konsisten!" : "Lanjutkan!"}
               color="linear-gradient(135deg, #FF9600, #FF4B4B)"
               bg="bg-white dark:bg-[var(--surface)]"
               trend="up"
@@ -742,7 +743,7 @@ function HomeContent() {
                   >
                     <div className="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
                     <div className="absolute -right-4 -bottom-12 w-40 h-40 bg-white/10 rounded-full" />
-                    <div className="absolute left-4 top-4 text-5xl opacity-10">📚</div>
+                    <div className="absolute left-4 top-4 opacity-10"><BookOpen size={48} /></div>
 
                     <div className="relative flex items-center gap-5">
                       <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center border-2 border-white/30 shrink-0 transition-transform duration-200 hover:rotate-[-6deg] hover:scale-105">
@@ -750,7 +751,7 @@ function HomeContent() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-white/80 text-xs font-black uppercase tracking-wider mb-1.5">
-                          🚀 Materi Selanjutnya
+                          <Rocket size={14} className="inline" /> Materi Selanjutnya
                         </p>
                         <h3 className="text-2xl font-black mb-1">{nextTopic.title}</h3>
                         <p className="text-white/70 text-sm mb-4 line-clamp-1">{nextTopic.description}</p>
@@ -765,7 +766,7 @@ function HomeContent() {
                             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
                               <Gem size={14} />
                             </div>
-                            <span className="text-sm font-bold">+5 💎</span>
+                            <span className="text-sm font-bold">+5 <Gem size={12} className="inline" /></span>
                           </div>
                         </div>
                       </div>
@@ -865,7 +866,7 @@ function HomeContent() {
                     </div>
                   </div>
 
-                  <h3 className="text-base font-black text-[var(--fg)] mb-1">⚡ Tantangan Hari Ini</h3>
+                  <h3 className="text-base font-black text-[var(--fg)] mb-1"><Zap size={16} className="inline text-yellow-500" /> Tantangan Hari Ini</h3>
                   <p className="text-xs text-[var(--fg-muted)] mb-4">
                     Selesaikan quiz tanpa salah satu pun untuk dapat bonus!
                   </p>

@@ -33,6 +33,7 @@ import {
   Shield,
   Crown,
   Calendar,
+  Heart,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
@@ -175,7 +176,7 @@ function SidebarInner({
             {profile?.gems || 0}
           </div>
           <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-[var(--danger-bg)] text-[var(--danger)] text-[10px] font-black">
-            <span className="text-[10px] leading-none">♥</span>
+            <Heart size={10} className="text-red-400" fill="currentColor" />
             {profile?.hearts ?? 5}/{profile?.maxHearts ?? 5}
           </div>
         </div>

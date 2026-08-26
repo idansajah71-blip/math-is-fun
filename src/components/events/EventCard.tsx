@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Users, Zap, Heart, HelpCircle } from "lucide-react";
+import { Users, Zap, Heart, HelpCircle, Check } from "lucide-react";
 import type { EventData } from "@/lib/events";
 import { EVENT_TYPES } from "@/lib/events";
 import { staggerItem } from "@/lib/animations";
@@ -80,9 +80,9 @@ export default function EventCard({ event, isJoined, participantCount, onClick }
           </span>
 
           {isJoined ? (
-            <span className="flex items-center gap-1 px-4 py-1.5 rounded-xl text-xs font-bold bg-[var(--duo-green)]/10 text-[var(--duo-green)]">
-              Joined ✓
-            </span>
+              <span className="flex items-center gap-1 px-4 py-1.5 rounded-xl text-xs font-bold bg-[var(--duo-green)]/10 text-[var(--duo-green)]">
+                <Check size={12} /> Joined
+              </span>
           ) : (
             <span className="flex items-center gap-1 px-4 py-1.5 rounded-xl text-xs font-bold bg-[var(--duo-green)] text-white shadow-[0_2px_0_var(--duo-green-dark)]">
               <Zap size={12} />

@@ -481,7 +481,7 @@ export default function AdminContentPage() {
                             setQuestionForm({ ...questionForm, options: newOpts });
                           }}
                             className="flex-1 px-4 py-2 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-purple-500"
-                            placeholder={`Pilihan ${idx + 1}${idx === questionForm.correctIndex ? " (✓ Benar)" : ""}`} />
+                            placeholder={`Pilihan ${idx + 1}${idx === questionForm.correctIndex ? " (Benar)" : ""}`} />
                         </div>
                       ))}
                       <p className="text-[10px] text-[var(--duo-text-muted)]">Klik radio button untuk pilih jawaban benar</p>

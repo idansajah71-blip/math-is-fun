@@ -29,6 +29,7 @@ import {
   ArrowLeft, ArrowRight, CheckCircle2, RotateCcw,
   Home, Star, Zap, Trophy, BookOpen, Flame, Target,
   Sparkles, Crown, Gem, Rocket, Brain, XCircle, Heart,
+  Check, Lightbulb,
 } from "lucide-react";
 import Link from "next/link";
 import type { Topic } from "@/lib/types";
@@ -339,7 +340,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                   {[
                     { icon: BookOpen, label: "Materi", value: "1", color: "from-[var(--primary)] to-[var(--duo-green-light)]" },
                     { icon: Target, label: "Soal", value: `${totalQuestions}`, color: "from-[var(--duo-info)] to-[#4DC9FF]" },
-                    { icon: Zap, label: "XP", value: isCompleted ? "✓" : "+25", color: "from-[var(--duo-xp)] to-[var(--duo-orange)]" },
+                    { icon: Zap, label: "XP", value: isCompleted ? <Check size={14} className="text-white" /> : "+25", color: "from-[var(--duo-xp)] to-[var(--duo-orange)]" },
                   ].map((info, i) => (
                     <motion.div
                       key={info.label}
@@ -430,7 +431,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                     <BookOpen size={20} className="text-white" />
                   </div>
                   <div>
-                    <span className={`text-xs font-black uppercase tracking-wider ${levelTextColor}`}>📖 Materi Belajar</span>
+                    <span className={`text-xs font-black uppercase tracking-wider ${levelTextColor}`}>Materi Belajar</span>
                     <h2 className="text-xl font-black text-[var(--fg)]">{topic.title}</h2>
                   </div>
                 </div>
@@ -453,7 +454,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                   <span className="text-xs font-black text-[var(--duo-purple)]">TIPS</span>
                 </div>
                 <p className="text-xs text-[var(--fg-secondary)] font-semibold leading-relaxed">
-                  Pahami konsepnya pelan-pelan ya. Boleh baca berulang sampai paham! 💡
+                  Pahami konsepnya pelan-pelan ya. Boleh baca berulang sampai paham! <Lightbulb size={12} className="inline text-yellow-400" />
                 </p>
               </motion.div>
 
@@ -505,7 +506,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                     <Flame size={22} fill="#fff6" />
                     <div className="text-center leading-tight">
                       <p className="text-lg font-black tracking-tight">{toast.value}x COMBO!</p>
-                      <p className="text-[10px] font-bold opacity-90">+10 XP Bonus 🔥</p>
+                       <p className="text-[10px] font-bold opacity-90">+10 XP Bonus <Flame size={10} className="inline text-orange-400" /></p>
                     </div>
                     <Sparkles size={18} />
                   </div>
@@ -723,7 +724,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                               </motion.div>
                               <div>
                                 <p className="text-xl font-black">BENAR!</p>
-                                <p className="text-xs font-bold opacity-90">+10 XP 🔥</p>
+                                <p className="text-xs font-bold opacity-90">+10 XP <Flame size={10} className="inline text-orange-400" /></p>
                               </div>
                             </>
                           ) : (

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Skull, Trophy } from "lucide-react";
+import { Heart, Skull, Trophy, Swords, Frown, Annoyed, Angry } from "lucide-react";
 import type { EventData } from "@/lib/events";
 import { getEventQuestions } from "@/lib/events";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
@@ -16,10 +16,10 @@ interface BossBattleProps {
 
 const BOSS_HP_DAMAGE: [number, number] = [15, 25];
 
-function getBossExpression(hp: number): string {
-  if (hp > 70) return "😠";
-  if (hp > 30) return "😰";
-  return "😡";
+function getBossExpression(hp: number): React.ReactNode {
+  if (hp > 70) return <Annoyed size={28} className="text-orange-400" />;
+  if (hp > 30) return <Frown size={28} className="text-yellow-400" />;
+  return <Angry size={28} className="text-red-500" />;
 }
 
 function getBossName(hp: number): string {
@@ -234,8 +234,8 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
               }`}
             >
               {selected === currentQuestion.correctIndex
-                ? `⚔️ Boss terkena serangan! -${Math.floor(Math.random() * 11) + 15} HP`
-                : "💔 Boss menyerang! Kehilangan 1 nyawa!"}
+                ? <span className="flex items-center gap-1"><Swords size={14} className="text-[var(--duo-green)]" /> Boss terkena serangan! -{Math.floor(Math.random() * 11) + 15} HP</span>
+                : <span className="flex items-center gap-1"><Heart size={14} className="text-red-500" /> Boss menyerang! Kehilangan 1 nyawa!</span>}
             </p>
             <p className="text-xs text-[var(--duo-text-muted)] mt-1">
               {currentQuestion.explanation}

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Lock, User, ArrowRight, Loader2, Eye, EyeOff, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { Mail, Lock, User, ArrowRight, Loader2, Eye, EyeOff, ArrowLeft, CheckCircle2, PartyPopper, Key } from "lucide-react";
 import { SigmaIcon } from "@/components/icons/CustomIcons";
 import { signup, login, resetPassword } from "@/lib/localAuth";
 import { isFlagEnabled } from "@/lib/admin/flags";
@@ -108,7 +108,7 @@ export default function AuthPage() {
             >
               <CheckCircle2 className="w-16 h-16 text-[var(--duo-green)] mx-auto mb-4" />
             </motion.div>
-            <h2 className="text-xl font-bold text-[var(--duo-text)] mb-2">Daftar Berhasil! 🎉</h2>
+            <h2 className="text-xl font-bold text-[var(--duo-text)] mb-2 flex items-center justify-center gap-2">Daftar Berhasil! <PartyPopper size={20} className="text-[var(--duo-green)]" /></h2>
             <p className="text-sm text-[var(--duo-text-muted)] mb-6">
               Akun <strong className="text-[var(--duo-text)]">{email}</strong> sudah dibuat. Silakan login untuk mulai belajar.
             </p>
@@ -141,7 +141,7 @@ export default function AuthPage() {
             >
               <CheckCircle2 className="w-16 h-16 text-[var(--duo-green)] mx-auto mb-4" />
             </motion.div>
-            <h2 className="text-xl font-bold text-[var(--duo-text)] mb-2">Password Di-reset! 🔑</h2>
+            <h2 className="text-xl font-bold text-[var(--duo-text)] mb-2 flex items-center justify-center gap-2">Password Di-reset! <Key size={20} className="text-[var(--duo-green)]" /></h2>
             <p className="text-sm text-[var(--duo-text-muted)] mb-4">
               Password baru kamu:
             </p>

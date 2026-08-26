@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Confetti from "./Confetti";
-import { Star, Sparkles, Zap, Gem, Trophy, Rocket, Crown, TrendingUp } from "lucide-react";
+import { Star, Sparkles, Zap, Gem, Trophy, Rocket, Crown, TrendingUp, Flame } from "lucide-react";
 import { LEVEL_NAMES } from "@/lib/gamification";
 import AnimatedButton from "./AnimatedButton";
 import { renderIcon } from "@/lib/iconMap";
@@ -143,8 +143,8 @@ export default function LevelUpModal({ show, level, onClose, rewards = {} }: Lev
 
               {/* Top decoration */}
               <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full bg-gradient-to-b from-[var(--duo-xp)]/40 to-transparent blur-2xl" />
-              <div className="absolute top-4 left-4 text-4xl opacity-20">✨</div>
-              <div className="absolute top-6 right-6 text-3xl opacity-20">🌟</div>
+              <div className="absolute top-4 left-4 opacity-20"><Sparkles size={32} /></div>
+              <div className="absolute top-6 right-6 opacity-20"><Star size={28} /></div>
 
               <div className="relative p-8 pt-10 text-center">
                 {/* Crown / Badge */}
@@ -251,7 +251,7 @@ export default function LevelUpModal({ show, level, onClose, rewards = {} }: Lev
                   className="grid grid-cols-2 gap-3 mb-7"
                 >
                   <div className="relative p-4 rounded-2xl bg-gradient-to-br from-[var(--duo-xp)]/20 to-[var(--duo-orange)]/10 border border-[var(--duo-xp)]/30 overflow-hidden">
-                    <div className="absolute -top-3 -right-3 text-3xl opacity-20">⚡</div>
+                    <div className="absolute -top-3 -right-3 opacity-20"><Zap size={28} /></div>
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--duo-xp)] to-[var(--duo-orange)] flex items-center justify-center mb-2 mx-auto">
                       <Zap size={18} className="text-[#5C4300]" />
                     </div>
@@ -260,7 +260,7 @@ export default function LevelUpModal({ show, level, onClose, rewards = {} }: Lev
                   </div>
 
                   <div className="relative p-4 rounded-2xl bg-gradient-to-br from-[var(--duo-purple)]/20 to-[var(--duo-pink)]/10 border border-[var(--duo-purple)]/30 overflow-hidden">
-                    <div className="absolute -top-3 -right-3 opacity-20">{renderIcon("💎", 32)}</div>
+                    <div className="absolute -top-3 -right-3 opacity-20"><Gem size={28} /></div>
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--duo-purple)] to-[var(--duo-pink)] flex items-center justify-center mb-2 mx-auto">
                       <Gem size={18} className="text-white" />
                     </div>
@@ -301,7 +301,7 @@ export default function LevelUpModal({ show, level, onClose, rewards = {} }: Lev
                   </AnimatedButton>
 
                   <p className="text-xs text-white/40 mt-3 font-semibold">
-                    Pertahankan semangatmu, {levelName}! 🔥
+                    Pertahankan semangatmu, {levelName}! <Flame size={14} className="inline text-orange-400" />
                   </p>
                 </motion.div>
               </div>
