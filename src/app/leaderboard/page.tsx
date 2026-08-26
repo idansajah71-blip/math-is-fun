@@ -24,7 +24,7 @@ export default function LeaderboardPage() {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<"weekly" | "alltime">("weekly");
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
     setProfile(getProfile());
@@ -113,8 +113,8 @@ export default function LeaderboardPage() {
         </div>
 
         <div className="max-w-2xl mx-auto px-8 py-6">
-          {/* Auth prompt */}
-          {!user && (
+          {/* Auth prompt — only show after auth finishes loading */}
+          {!authLoading && !user && (
             <div className="mb-6 p-4 bg-[var(--duo-green-bg)] rounded-[20px] border-2 border-[var(--duo-green)]/30 text-center">
               <p className="text-sm text-[var(--duo-text)] mb-2 font-medium">
                 Masuk untuk muncul di peringkat ini
@@ -142,7 +142,7 @@ export default function LeaderboardPage() {
               <div className="mb-3 flex justify-center">{renderIcon("🏆", 48)}</div>
               <p className="text-sm font-bold text-[var(--duo-text)]">Belum ada peringkat</p>
               <p className="text-xs text-[var(--duo-text-muted)] mt-1">
-                {user ? "Jadi yang pertama! Selesaikan materi untuk masuk peringkat." : "Masuk untuk mulai berkompetisi."}
+                {user ? "Jadi yang pertama! Selesaikan materi untuk masuk peringkat." : authLoading ? "" : "Masuk untuk mulai berkompetisi."}
               </p>
             </div>
           ) : (
@@ -200,7 +200,7 @@ export default function LeaderboardPage() {
               )}
 
               {/* My Rank */}
-              {myRank && user && (
+              {myRank && !authLoading && user && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -275,7 +275,7 @@ export default function LeaderboardPage() {
               <span>
                 {user
                   ? "Peringkat diperbarui secara real-time. Selesaikan lebih banyak materi untuk naik ke peringkat atas!"
-                  : "Masuk untuk menyimpan progres dan muncul di peringkat."}
+                  : authLoading ? "Memuat..." : "Masuk untuk menyimpan progres dan muncul di peringkat."}
             </span>
             </p>
           </div>

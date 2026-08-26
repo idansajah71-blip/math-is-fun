@@ -18,6 +18,7 @@ export default function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [resetSent, setResetSent] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
   const router = useRouter();
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -53,25 +54,22 @@ export default function AuthPage() {
     setError("");
     setLoading(true);
 
-    // Simulate async
-    setTimeout(() => {
-      if (mode === "signup") {
-        const result = signup(email, password, name);
-        if (result.error) {
-          setError(result.error);
-        } else {
-          setSignupSuccess(true);
-        }
+    if (mode === "signup") {
+      const result = signup(email, password, name);
+      if (result.error) {
+        setError(result.error);
       } else {
-        const result = login(email, password);
-        if (result.error) {
-          setError(result.error);
-        } else {
-          router.push("/");
-        }
+        setSignupSuccess(true);
       }
-      setLoading(false);
-    }, 300);
+    } else {
+      const result = login(email, password);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        router.push("/");
+      }
+    }
+    setLoading(false);
   }
 
   function handleForgotPassword(e: React.FormEvent) {
@@ -79,15 +77,14 @@ export default function AuthPage() {
     setError("");
     setLoading(true);
 
-    setTimeout(() => {
-      const result = resetPassword(email);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setResetSent(true);
-      }
-      setLoading(false);
-    }, 300);
+    const result = resetPassword(email);
+    if (result.error) {
+      setError(result.error);
+    } else {
+      setNewPassword(result.newPassword || "");
+      setResetSent(true);
+    }
+    setLoading(false);
   }
 
   function handleGuest() {
@@ -145,8 +142,14 @@ export default function AuthPage() {
               <CheckCircle2 className="w-16 h-16 text-[var(--duo-green)] mx-auto mb-4" />
             </motion.div>
             <h2 className="text-xl font-bold text-[var(--duo-text)] mb-2">Password Di-reset! 🔑</h2>
-            <p className="text-sm text-[var(--duo-text-muted)] mb-6">
-              Password baru sudah ditampilkan di popup. Gunakan password baru tersebut untuk login.
+            <p className="text-sm text-[var(--duo-text-muted)] mb-4">
+              Password baru kamu:
+            </p>
+            <div className="mb-6 p-3 bg-[var(--duo-card)] rounded-xl border-2 border-[var(--duo-border)] font-mono text-base font-bold text-[var(--duo-text)] text-center tracking-wider select-all">
+              {newPassword}
+            </div>
+            <p className="text-xs text-[var(--duo-text-muted)] mb-6">
+              Simpan password ini! Gunakan untuk login selanjutnya.
             </p>
             <button
               onClick={() => { setResetSent(false); switchMode("login"); }}

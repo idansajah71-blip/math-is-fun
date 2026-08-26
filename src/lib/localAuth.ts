@@ -24,7 +24,26 @@ function saveUsers(users: LocalUser[]) {
 }
 
 function hashPassword(pw: string): string {
-  return btoa(pw);
+  // Simple salted hash for localStorage-only auth.
+  // Not cryptographic-grade but far better than plain base64.
+  const salt = "bmtk_salt_v1";
+  let hash = 0;
+  const combined = salt + pw + salt;
+  for (let i = 0; i < combined.length; i++) {
+    const char = combined.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  // Mix with length and use hex
+  const hex = (hash >>> 0).toString(16).padStart(8, "0");
+  const lengthHex = pw.length.toString(16).padStart(4, "0");
+  // Add a second pass for better distribution
+  let hash2 = 0;
+  for (let i = 0; i < hex.length; i++) {
+    hash2 = ((hash2 << 5) - hash2) + hex.charCodeAt(i);
+    hash2 = hash2 & hash2;
+  }
+  return hex + (hash2 >>> 0).toString(16).padStart(8, "0") + lengthHex;
 }
 
 export function signup(email: string, password: string, name: string): { error?: string } {
@@ -103,6 +122,12 @@ export function getCurrentUser(): { id: string; email: string; name: string } | 
         localStorage.setItem(SESSION_KEY, JSON.stringify(parsed));
       }
     }
+    // Session expiry: 30 days
+    const SESSION_TTL = 30 * 24 * 60 * 60 * 1000;
+    if (parsed.loggedInAt && Date.now() - parsed.loggedInAt > SESSION_TTL) {
+      localStorage.removeItem(SESSION_KEY);
+      return null;
+    }
     return parsed;
   } catch {
     return null;
@@ -117,7 +142,7 @@ export function getUserProfileKey(userId?: string): string {
   return userId ? `belajar-mtk-profile-${userId}` : "belajar-mtk-profile";
 }
 
-export function resetPassword(email: string): { error?: string; success?: boolean } {
+export function resetPassword(email: string): { error?: string; success?: boolean; newPassword?: string } {
   const users = getUsers();
   const idx = users.findIndex((u) => u.email.toLowerCase() === email.toLowerCase());
   if (idx === -1) {
@@ -126,8 +151,8 @@ export function resetPassword(email: string): { error?: string; success?: boolea
   const newPw = "reset" + Math.floor(1000 + Math.random() * 9000);
   users[idx].password = hashPassword(newPw);
   saveUsers(users);
-  alert(`Password baru kamu: ${newPw}\n\n(Simpan! Ini untuk mode local)`);
-  return { success: true };
+  // Return the new password so the UI can display it properly (no more alert)
+  return { success: true, newPassword: newPw };
 }
 
 export function updateProfile(updates: { name?: string; email?: string }): { error?: string } {
