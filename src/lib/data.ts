@@ -115,28 +115,104 @@ export function searchTopics(query: string): Topic[] {
 
 function generateHints(q: QuizQuestion): string[] {
   if (q.hints && q.hints.length > 0) return q.hints;
-  const text = q.explanation || "";
+  const question = q.question.toLowerCase();
+  const explanation = q.explanation || "";
   const hints: string[] = [];
 
-  if (q.options && q.options.length > 0) {
-    const wrong = q.options.filter((_, i) => i !== q.correctIndex);
-    if (wrong.length > 0) {
-      hints.push(`Coba eliminasi jawaban yang jelas salah terlebih dahulu.`);
+  // Keyword-based contextual hints
+  const kw = (terms: string[]) => terms.some((t) => question.includes(t));
+
+  if (kw(["sederhanakan", "tambah", "kurang"]) && kw(["/", "pecahan"])) {
+    hints.push("Untuk menjumlahkan pecahan, samakan penyebutnya terlebih dahulu (cari KPK dari kedua penyebut).");
+    hints.push("Setelah penyebut sama, jumlahkan pembilangnya saja.");
+  } else if (kw(["fpb", "faktor persekutuan terbesar"])) {
+    hints.push("Tuliskan semua faktor dari masing-masing bilangan.");
+    hints.push("FPB adalah faktor yang paling besar yang dimiliki kedua bilangan.");
+  } else if (kw(["kpk", "kelipatan persekutuan"])) {
+    hints.push("Tuliskan kelipatan-kelipatan dari masing-masing bilangan.");
+    hints.push("KPK adalah kelipatan yang paling kecil yang sama-sama dimiliki.");
+  } else if (kw(["%", "persen"])) {
+    hints.push("Ubah persen ke desimal: bagi dengan 100.");
+    hints.push("Kalikan nilai desimal dengan bilangan yang dicari.");
+  } else if (kw(["faktorkan", "faktorisasi"])) {
+    hints.push("Cari dua bilangan yang jika dijumlahkan hasilnya sama dengan koefisien x, dan jika dikalikan hasilnya sama dengan konstanta.");
+    if (explanation.includes("x²")) {
+      hints.push("Untuk x² + bx + c, cari dua angka yang berjumlah b dan berkalikan c.");
+    }
+  } else if (kw(["penyelesaian", "x ="])) {
+    hints.push("Pindahkan semua konstanta ke satu ruas, sisakan yang mengandung x.");
+    if (kw(["2x", "3x", "4x", "5x"])) {
+      const match = question.match(/(\d)x/);
+      if (match) hints.push(`Bagi kedua ruas dengan ${match[1]} untuk mendapatkan nilai x.`);
+    }
+  } else if (kw(["gradien", "kemiringan"])) {
+    hints.push("Gradien = (y₂ - y₁) / (x₂ - x₁). Selisih y dibagi selisih x.");
+  } else if (kw(["hipotenusa", "pythagoras", "segitiga siku"])) {
+    hints.push("Gunakan rumus Pythagoras: c² = a² + b², lalu akarkan hasilnya.");
+  } else if (kw(["luas"]) && kw(["lingkaran"])) {
+    hints.push("Rumus luas lingkaran: L = π × r². Kuadratkan jari-jarinya lalu kalikan π.");
+  } else if (kw(["keliling"]) && kw(["lingkaran"])) {
+    hints.push("Rumus keliling lingkaran: K = π × d atau K = 2 × π × r.");
+  } else if (kw(["luas"]) && kw(["trapesium", "segitiga", "jajar genjang", "layang"])) {
+    hints.push("Perhatikan rumus luas bangun datar yang sesuai, lalu masukkan nilai yang diketahui.");
+  } else if (kw(["barisan", "suku ke"])) {
+    hints.push("Untuk barisan aritmetika: Uₙ = a + (n-1) × b. Tentukan nilai a (suku pertama) dan b (beda).");
+  } else if (kw(["perbandingan", "senilai", "berbalik nilai"])) {
+    hints.push("Untuk perbandingan senilai: a/b = c/d. Untuk berbalik nilai: a × b = c × d.");
+  } else if (kw(["n(a∪b)", "n(a∩b)", "himpunan"])) {
+    hints.push("Gunakan rumus: n(A∪B) = n(A) + n(B) - n(A∩B).");
+  } else if (kw(["himpunan bagian", "banyak himpunan"])) {
+    hints.push("Banyak himpunan bagian = 2^n, di mana n adalah banyak elemen.");
+  } else if (kw(["turunan", "f'(x)", "dx"])) {
+    hints.push("Gunakan aturan turunan: (xⁿ)' = n·xⁿ⁻¹. Turunkan pangkat lalu kurangi pangkatnya 1.");
+  } else if (kw(["integral", "∫"])) {
+    hints.push("Integral adalah kebalikan dari turunan. Untuk ∫xⁿ dx = xⁿ⁺¹/(n+1) + C.");
+  } else if (kw(["sin", "cos", "trigonometri"])) {
+    hints.push("Ingat identitas trigonometri dasar: sin²θ + cos²θ = 1.");
+  } else if (kw(["limit"])) {
+    hints.push("Substitusikan nilai x langsung ke dalam fungsi jika fungsi kontinu di titik tersebut.");
+  } else if (kw(["matriks", "determinan"])) {
+    hints.push("Untuk matriks 2×2: det = ad - bc.");
+  } else if (kw(["vektor", "│v│"])) {
+    hints.push("Panjang vector = √(x² + y²). Kuadratkan setiap komponen, jumlahkan, lalu akarkan.");
+  } else if (kw(["diskon", "harga"])) {
+    hints.push("Harga setelah diskon = harga asli × (100% - %diskon) / 100%.");
+  } else if (kw(["pajak"])) {
+    hints.push("Pajak = harga × %pajak / 100%. Harga bersih = harga - pajak.");
+  } else if (kw(["keuntungan", "rugi"])) {
+    hints.push("Untung/rugi = (harga jual - harga beli) / harga beli × 100%.");
+  } else if (kw(["fungsi", "f(x)"])) {
+    hints.push("Masukkan nilai x ke dalam rumus fungsi untuk mencari f(x).");
+  } else if (kw(["peluang", "kemungkinan"])) {
+    hints.push("Peluang = banyak kejadian menguntungkan / banyak seluruh kemungkinan.");
+  } else if (kw(["mean", "rata-rata"])) {
+    hints.push("Rata-rata = jumlah seluruh data / banyak data.");
+  } else if (kw(["median"])) {
+    hints.push("Median adalah nilai tengah setelah data diurutkan dari kecil ke besar.");
+  } else if (kw(["modus"])) {
+    hints.push("Modus adalah nilai yang paling sering muncul.");
+  } else if (kw(["z-score", "standar deviasi"])) {
+    hints.push("z = (x - mean) / σ. Kurangi rata-rata, lalu bagi dengan standar deviasi.");
+  } else if (kw(["grenel", "eliminasi"])) {
+    hints.push("Kalikan salah satu persamaan agar koefisien salah satu variabel sama, lalu eliminasi.");
+  } else if (kw(["persamaan garis", "y = mx"])) {
+    hints.push("Gradien m = (y₂-y₁)/(x₂-x₁). Persamaan garis: y - y₁ = m(x - x₁).");
+  } else {
+    // Fallback: extract from explanation
+    const sentences = explanation.split(/[.!]\s+/).filter((s) => s.length > 5);
+    if (q.options && q.options.length > 0) {
+      hints.push("Coba eliminasi jawaban yang jelas tidak masuk akal terlebih dahulu.");
+    }
+    if (sentences.length >= 2) {
+      hints.push(`Perhatikan: ${sentences[0].trim()}.`);
+    }
+    if (sentences.length >= 3) {
+      hints.push(`Langkah berikutnya: ${sentences[1].trim()}.`);
     }
   }
 
-  const sentences = text.split(/[.!]\s+/).filter((s) => s.length > 5);
-  if (sentences.length >= 2) {
-    hints.push(`Perhatikan langkah: ${sentences[0].trim()}.`);
-  }
-  if (sentences.length >= 3) {
-    hints.push(`Jawaban akhirnya berkaitan dengan: ${sentences[sentences.length - 1].trim()}.`);
-  } else if (sentences.length >= 1) {
-    hints.push(`Konsep kunci: ${sentences[0].trim()}.`);
-  }
-
   if (hints.length === 0) {
-    hints.push(`Baca penjelasan dengan seksama setelah menjawab untuk memahami konsepnya.`);
+    hints.push("Baca penjelasan setelah menjawab untuk memahami konsepnya lebih lanjut.");
   }
 
   return hints;
