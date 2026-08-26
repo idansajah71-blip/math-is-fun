@@ -97,8 +97,14 @@ export default function ProfilePage() {
             <div className="flex items-start gap-5">
               <div className="relative">
                 <ProgressRing progress={pct} size={100} strokeWidth={6}>
-                  <div className="w-[80px] h-[80px] rounded-full bg-gradient-to-br from-[var(--duo-green)] to-[var(--duo-green-dark)] flex items-center justify-center text-white font-black text-2xl shadow-lg">
-                    {profile.name.charAt(0)}
+                  <div className={`w-[80px] h-[80px] rounded-full flex items-center justify-center text-white font-black text-2xl shadow-lg ${
+                    profile.purchasedItems.includes("frame-gold")
+                      ? "bg-gradient-to-br from-yellow-400 to-amber-600 ring-4 ring-yellow-400/50"
+                      : "bg-gradient-to-br from-[var(--duo-green)] to-[var(--duo-green-dark)]"
+                  }`}>
+                    {profile.purchasedItems.includes("avatar-ninja") ? "🥷" :
+                     profile.purchasedItems.includes("avatar-wizard") ? "🧙" :
+                     profile.name.charAt(0)}
                   </div>
                 </ProgressRing>
                 <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-[var(--duo-green)] rounded-full flex items-center justify-center text-white text-[10px] font-black border-2 border-white shadow-md">
@@ -143,16 +149,24 @@ export default function ProfilePage() {
                     </motion.button>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-black text-[var(--duo-text)]">{profile.name}</h2>
-                    <motion.button
-                      onClick={() => setEditMode(true)}
-                      className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[var(--duo-text-muted)]"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h2 className="text-xl font-black text-[var(--duo-text)]">{profile.name}</h2>
+                      <motion.button
+                        onClick={() => setEditMode(true)}
+                        className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[var(--duo-text-muted)]"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
                       <Edit3 size={14} />
                     </motion.button>
+                    </div>
+                    {profile.purchasedItems.includes("title-myth") && (
+                      <p className="text-xs font-bold text-yellow-500 dark:text-yellow-400 mt-0.5">Mitos</p>
+                    )}
+                    {profile.purchasedItems.includes("title-master") && !profile.purchasedItems.includes("title-myth") && (
+                      <p className="text-xs font-bold text-purple-500 dark:text-purple-400 mt-0.5">Master Matematika</p>
+                    )}
                   </div>
                 )}
 

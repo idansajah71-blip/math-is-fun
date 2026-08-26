@@ -31,6 +31,8 @@ export interface UserProfile {
   premiumExpiresAt: string | null;
   streakFreezeUsedAt: string | null;
   streakFreezeNotified: boolean;
+  hintTokens: number;
+  xpBoostUntil: number | null;
   _lastHeartTime?: number;
 }
 
@@ -111,7 +113,7 @@ export const SHOP_ITEMS = [
   { id: "avatar-ninja", name: "Avatar Ninja", icon: "Ninja", description: "Avatar khusus: Ninja Matematika", price: 500, category: "avatar" as const },
   { id: "avatar-wizard", name: "Avatar Wizard", icon: "Wizard", description: "Avatar khusus: Penyihir Angka", price: 500, category: "avatar" as const },
   { id: "frame-gold", name: "Frame Emas", icon: "Frame", description: "Border profil emas berkilau", price: 300, category: "effect" as const },
-  { id: "title-master", name: "Title: Master", icon: "Crown", description: "Gelar 'Master Matematika' di profil", price: 400, category: "effect" as const },
+  { id: "title-myth", name: "Title: Mitos", icon: "Crown", description: "Gelar 'Mitos' — untuk yang benar-benar legenda", price: 5000, category: "effect" as const },
 ];
 
 export const DAILY_REWARDS = [
@@ -191,6 +193,8 @@ export function getDefaultProfile(): UserProfile {
     premiumExpiresAt: null,
     streakFreezeUsedAt: null,
     streakFreezeNotified: false,
+    hintTokens: 0,
+    xpBoostUntil: null,
   };
 }
 
@@ -310,9 +314,7 @@ export function completeTopic(slug: string): { xp: number; gems: number; profile
     profile.completedTopics.push(slug);
     xp = 25;
     gems = 5;
-    profile.xp += xp;
     profile.gems += gems;
-    profile.level = getLevelForXp(profile.xp);
   }
   checkBadges(profile);
   saveProfile(profile);
@@ -388,6 +390,11 @@ export function purchaseItem(itemId: string): UserProfile {
     profile.doubleXpNextLesson = true;
   } else if (itemId === "refill-hearts") {
     profile.hearts = profile.maxHearts;
+  } else if (itemId === "hint-token") {
+    profile.hintTokens = (profile.hintTokens || 0) + 3;
+  } else if (itemId === "xp-boost-30m") {
+    const now = Date.now();
+    profile.xpBoostUntil = Math.max(profile.xpBoostUntil || 0, now) + 30 * 60 * 1000;
   }
 
   saveProfile(profile);
@@ -409,6 +416,28 @@ export function consumeDoubleXp(): boolean {
     return true;
   }
   return false;
+}
+
+export function consumeHintToken(): boolean {
+  const profile = getProfile();
+  if ((profile.hintTokens || 0) > 0) {
+    profile.hintTokens -= 1;
+    saveProfile(profile);
+    return true;
+  }
+  return false;
+}
+
+export function isXpBoostActive(): boolean {
+  const profile = getProfile();
+  return !!profile.xpBoostUntil && Date.now() < profile.xpBoostUntil;
+}
+
+export function getXpBoostRemainingMs(): number {
+  const profile = getProfile();
+  if (!profile.xpBoostUntil) return 0;
+  const remaining = profile.xpBoostUntil - Date.now();
+  return remaining > 0 ? remaining : 0;
 }
 
 export function getLevelForXp(xp: number): number {

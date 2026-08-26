@@ -36,6 +36,10 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     isPremium: (row.is_premium as boolean) ?? false,
     premiumActivatedAt: (row.premium_activated_at as string) ?? null,
     premiumExpiresAt: (row.premium_expires_at as string) ?? null,
+    streakFreezeUsedAt: (row.streak_freeze_used_at as string) ?? null,
+    streakFreezeNotified: (row.streak_freeze_notified as boolean) ?? false,
+    hintTokens: (row.hint_tokens as number) ?? 0,
+    xpBoostUntil: (row.xp_boost_until as number) ?? null,
   };
 }
 

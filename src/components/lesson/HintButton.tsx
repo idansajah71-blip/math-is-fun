@@ -6,28 +6,40 @@ import { Lightbulb, ChevronDown } from "lucide-react";
 
 interface HintButtonProps {
   hints: string[];
+  hintTokens: number;
+  onUseToken: () => void;
 }
 
-export default function HintButton({ hints }: HintButtonProps) {
+export default function HintButton({ hints, hintTokens, onUseToken }: HintButtonProps) {
   const [visibleCount, setVisibleCount] = useState(0);
   const [expanded, setExpanded] = useState(false);
 
   if (!hints || hints.length === 0) return null;
 
+  const freeHints = 1;
+  const hasTokens = hintTokens > 0;
+  const canShowMore = visibleCount < hints.length;
+  const needsToken = visibleCount >= freeHints;
+
   function showNextHint() {
-    if (visibleCount < hints.length) {
-      setVisibleCount((c) => c + 1);
-      setExpanded(true);
+    if (!canShowMore) return;
+    if (needsToken && !hasTokens) return;
+    if (needsToken && hasTokens) {
+      onUseToken();
     }
+    setVisibleCount((c) => c + 1);
+    setExpanded(true);
   }
+
+  const disabled = !canShowMore || (needsToken && !hasTokens);
 
   return (
     <div className="space-y-2">
       <button
         onClick={showNextHint}
-        disabled={visibleCount >= hints.length}
+        disabled={disabled}
         className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
-          visibleCount >= hints.length
+          disabled
             ? "bg-[var(--duo-card)] text-[var(--duo-text-muted)] border border-[var(--duo-border)] cursor-not-allowed opacity-50"
             : "bg-yellow-50 dark:bg-yellow-950/30 text-yellow-600 dark:text-yellow-400 border border-yellow-300 dark:border-yellow-700 hover:brightness-95"
         }`}
@@ -36,7 +48,8 @@ export default function HintButton({ hints }: HintButtonProps) {
         {visibleCount === 0
           ? `Butuh petunjuk? (${hints.length} tersedia)`
           : `Petunjuk ${visibleCount}/${hints.length}`}
-        {visibleCount < hints.length && <ChevronDown size={14} className={`transition-transform ${expanded ? "rotate-180" : ""}`} />}
+        {hasTokens && <span className="text-[10px] bg-yellow-400 text-white px-1.5 py-0.5 rounded-full">{hintTokens}</span>}
+        {canShowMore && <ChevronDown size={14} className={`transition-transform ${expanded ? "rotate-180" : ""}`} />}
       </button>
 
       <AnimatePresence>

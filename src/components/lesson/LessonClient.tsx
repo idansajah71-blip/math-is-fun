@@ -23,6 +23,7 @@ import { playCorrectSound, playWrongSound, playCompleteSound, playLevelUpSound }
 import {
   completeTopic, saveQuizScore, getProfile, trackWrongAnswer, useHeart,
   consumeDoubleXp, addXp, BADGES, LEVEL_NAMES, recordReview,
+  consumeHintToken, isXpBoostActive, getXpBoostRemainingMs,
 } from "@/lib/gamification";
 import { getAllQuizzes, getAllTopics } from "@/lib/data";
 import {
@@ -75,6 +76,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const [startTime] = useState(Date.now());
   const [answered, setAnswered] = useState(false);
   const [outOfHearts, setOutOfHearts] = useState(false);
+  const [hintTokens, setHintTokens] = useState(profileRef.current.hintTokens || 0);
 
   const topicQuizzes = getAllQuizzes().filter((q) => q.topicSlug === topic.slug);
   const totalQuestions = Math.min(topicQuizzes.length, 5);
@@ -198,11 +200,22 @@ export default function LessonClient({ topic }: LessonClientProps) {
     if (pct >= 80) {
       const reward = completeTopic(topic.slug);
       const isDoubleXp = consumeDoubleXp();
+      const hasXpBoost = isXpBoostActive();
+      const xpMultiplier = (isDoubleXp ? 2 : 1) * (hasXpBoost ? 1.5 : 1);
+
       if (isDoubleXp) {
         addXp(reward.xp);
-        totalXp = reward.xp * 2;
+        addXp(reward.xp);
       } else {
-        totalXp = reward.xp;
+        addXp(reward.xp);
+      }
+
+      totalXp = Math.round(reward.xp * xpMultiplier);
+
+      if (hasXpBoost) {
+        const boostBonus = Math.round(reward.xp * 0.5);
+        addXp(boostBonus);
+        totalXp += boostBonus;
       }
 
       const comboBonus = maxCombo >= 5 ? 20 : maxCombo >= 3 ? 10 : 0;
@@ -602,7 +615,15 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
                           {q.hints && q.hints.length > 0 && (
                             <div className="shrink-0">
-                              <HintButton hints={q.hints} />
+                              <HintButton
+                                hints={q.hints}
+                                hintTokens={hintTokens}
+                                onUseToken={() => {
+                                  if (consumeHintToken()) {
+                                    setHintTokens((t) => t - 1);
+                                  }
+                                }}
+                              />
                             </div>
                           )}
                         </div>
