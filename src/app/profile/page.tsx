@@ -208,6 +208,54 @@ export default function ProfilePage() {
             </motion.button>
           </motion.div>
 
+          {/* Premium Showcase */}
+          {isPremiumActive() && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="relative overflow-hidden rounded-[28px] border-2 border-yellow-400/30"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500 via-orange-500 to-amber-600" />
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iYSIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIj48cGF0aCBkPSJNMCA0MGwyMCAyME0yMCA0MGwyMCAyMCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDgpIiBzdHJva2Utd2lkdGg9IjIiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IGZpbGw9InVybCgjYSkiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIi8+PC9zdmc+')] opacity-40" />
+              <div className="relative px-6 py-5">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                    <Crown size={28} className="text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="text-lg font-black text-white">Player Sultan</h3>
+                      <span className="px-2 py-0.5 bg-white/20 backdrop-blur-sm text-white text-[9px] font-black rounded-full">PREMIUM</span>
+                    </div>
+                    <p className="text-xs text-white/80 font-bold">
+                      {profile.premiumExpiresAt
+                        ? `Aktif sampai ${profile.premiumExpiresAt}`
+                        : "Premium Selamanya"}
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-3 mt-4">
+                  <div className="bg-white/15 backdrop-blur-sm rounded-xl p-2.5 text-center">
+                    <Zap size={16} className="text-white mx-auto mb-1" />
+                    <p className="text-xs font-black text-white">2x XP</p>
+                    <p className="text-[9px] text-white/70">Double reward</p>
+                  </div>
+                  <div className="bg-white/15 backdrop-blur-sm rounded-xl p-2.5 text-center">
+                    <Heart size={16} className="text-white mx-auto mb-1" />
+                    <p className="text-xs font-black text-white">Infinite</p>
+                    <p className="text-[9px] text-white/70">Nyawa unlimited</p>
+                  </div>
+                  <div className="bg-white/15 backdrop-blur-sm rounded-xl p-2.5 text-center">
+                    <Gem size={16} className="text-white mx-auto mb-1" />
+                    <p className="text-xs font-black text-white">+50/Hari</p>
+                    <p className="text-[9px] text-white/70">Bonus gems</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           {/* Stats Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {stats.map((s, i) => {
