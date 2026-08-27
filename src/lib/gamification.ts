@@ -135,6 +135,11 @@ export function getProfile(): UserProfile {
   const stored = localStorage.getItem(key);
   if (stored) {
     const profile = { ...getDefaultProfile(), ...JSON.parse(stored) };
+    // Migration: weeklyXp switched from Sunday-first to Monday-first indexing
+    if ((profile as Record<string, unknown>).weeklyXpVersion !== 2) {
+      profile.weeklyXp = [0, 0, 0, 0, 0, 0, 0];
+      (profile as Record<string, unknown>).weeklyXpVersion = 2;
+    }
     updateStreak(profile);
     regenerateHearts(profile);
     saveProfile(profile);
@@ -238,8 +243,8 @@ export function addXp(amount: number): UserProfile {
   profile.xp += amount;
   profile.level = getLevelForXp(profile.xp);
 
-  // Track weekly XP
-  const today = new Date().getDay();
+  // Track weekly XP (0=Senin...6=Minggu)
+  const today = (new Date().getDay() + 6) % 7;
   profile.weeklyXp[today] = (profile.weeklyXp[today] || 0) + amount;
 
   // Track daily XP history for heatmap

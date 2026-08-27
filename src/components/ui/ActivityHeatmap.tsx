@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useRef, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 
 interface ActivityHeatmapProps {
@@ -108,6 +108,21 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
     return { weeks, monthLabels, totalXp, activeDays, longestStreak, todayStr };
   }, [dailyXpHistory, totalDays]);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollToToday = useCallback(() => {
+    const el = scrollRef.current;
+    if (el) {
+      requestAnimationFrame(() => {
+        el.scrollLeft = el.scrollWidth;
+      });
+    }
+  }, []);
+
+  // Scroll to today on mount and when data changes
+  useEffect(() => {
+    scrollToToday();
+  }, [weeks, scrollToToday]);
+
   return (
     <div className="w-full">
       {/* Header */}
@@ -137,7 +152,7 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
       </div>
 
       {/* Heatmap Grid */}
-      <div className="overflow-x-auto pb-1">
+      <div ref={scrollRef} className="overflow-x-auto pb-1">
         <div className="inline-flex gap-[5px] min-w-max">
           {/* Day labels */}
           <div className="flex flex-col gap-[5px] mr-1.5">

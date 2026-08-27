@@ -284,8 +284,8 @@ export default function ProfilePage() {
               {profile.weeklyXp.map((xp, i) => {
                 const max = Math.max(...profile.weeklyXp, 1);
                 const height = Math.max((xp / max) * 100, 8);
-                const dayNames = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
-                const today = new Date().getDay();
+                const dayNames = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
+                const today = (new Date().getDay() + 6) % 7;
 
                 return (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
