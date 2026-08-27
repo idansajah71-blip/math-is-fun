@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Users, Crown, Search, Shield, ArrowUp, Calendar, Zap, Trophy, Flame,
   CheckCircle2, XCircle, RefreshCw, Heart, BookOpen, Star, Gem, Gift,
-  Lock, Unlock, ChevronDown, ChevronUp,
+  Lock, ChevronDown, ChevronUp, AlertCircle,
 } from "lucide-react";
 import { getAdminSession } from "@/lib/adminAuth";
 import { logAudit } from "@/lib/admin/audit";
@@ -31,6 +31,7 @@ export default function AdminUsersPage() {
   const [filterPremium, setFilterPremium] = useState<"all" | "premium" | "free">("all");
   const [upgrading, setUpgrading] = useState<string | null>(null);
   const [upgraded, setUpgraded] = useState<string | null>(null);
+  const [upgradeError, setUpgradeError] = useState<string | null>(null);
   const [stats, setStats] = useState({ totalUsers: 0, premiumUsers: 0, newUsersToday: 0, activeLastWeek: 0 });
   const [expandedUser, setExpandedUser] = useState<string | null>(null);
 
@@ -109,7 +110,6 @@ export default function AdminUsersPage() {
     }
 
     rows.sort((a, b) => (b.lastActive || "").localeCompare(a.lastActive || ""));
-
     setUsers(rows);
     setStats(getRegistryStats());
   }, []);
@@ -118,43 +118,90 @@ export default function AdminUsersPage() {
 
   function handleUpgrade(userId: string, days: number) {
     setUpgrading(userId);
+    setUpgradeError(null);
     const session = getAdminSession();
+    const profileKey = `matika-profile-${userId}`;
 
-    setTimeout(() => {
-      const profileKey = `matika-profile-${userId}`;
-      let profile: UserProfile;
+    // Step 1: Read current profile
+    let profile: UserProfile;
+    try {
+      const raw = localStorage.getItem(profileKey);
+      profile = raw ? { ...getDefaultProfile(), ...JSON.parse(raw) } : getDefaultProfile();
+    } catch {
+      profile = getDefaultProfile();
+    }
+
+    const oldProfile = { ...profile };
+
+    // Step 2: Apply premium
+    profile.isPremium = true;
+    profile.premiumActivatedAt = new Date().toISOString().split("T")[0];
+    profile.premiumExpiresAt = days >= 9999 ? null : new Date(Date.now() + days * 86400000).toISOString().split("T")[0];
+    profile.maxHearts = 99;
+    profile.hearts = 99;
+    profile.hintTokens = (profile.hintTokens || 0) + 10;
+
+    // Step 3: Save with retry
+    let attempts = 0;
+    const maxAttempts = 3;
+
+    function trySave() {
+      attempts++;
       try {
-        const raw = localStorage.getItem(profileKey);
-        profile = raw ? { ...getDefaultProfile(), ...JSON.parse(raw) } : getDefaultProfile();
-      } catch {
-        profile = getDefaultProfile();
+        // Direct localStorage save
+        localStorage.setItem(profileKey, JSON.stringify(profile));
+        // Also via helper (triggers Supabase sync)
+        saveProfileForKey(userId, profile);
+      } catch (err) {
+        if (attempts < maxAttempts) {
+          setTimeout(trySave, 200);
+          return;
+        }
+        setUpgrading(null);
+        setUpgradeError("Gagal menyimpan ke localStorage");
+        return;
       }
 
-      profile.isPremium = true;
-      profile.premiumActivatedAt = new Date().toISOString().split("T")[0];
-      profile.premiumExpiresAt = days >= 9999 ? null : new Date(Date.now() + days * 86400000).toISOString().split("T")[0];
-      profile.maxHearts = 99;
-      profile.hearts = 99;
-      profile.hintTokens = (profile.hintTokens || 0) + 10;
+      // Step 4: Verify
+      setTimeout(() => {
+        try {
+          const verifyRaw = localStorage.getItem(profileKey);
+          if (!verifyRaw) {
+            if (attempts < maxAttempts) {
+              setTimeout(trySave, 200);
+              return;
+            }
+            setUpgrading(null);
+            setUpgradeError("Verifikasi gagal: data tidak tersimpan");
+            return;
+          }
+          const verified = JSON.parse(verifyRaw);
+          if (!verified.isPremium) {
+            // Force save again
+            localStorage.setItem(profileKey, JSON.stringify(profile));
+            saveProfileForKey(userId, profile);
+          }
+        } catch {}
 
-      saveProfileForKey(userId, profile);
-      updateUserRegistry(userId, { isPremium: true });
+        // Step 5: Update registry + audit
+        updateUserRegistry(userId, { isPremium: true });
+        if (session) {
+          logAudit(session.email, session.name, "upgrade_premium", "user", userId,
+            { isPremium: oldProfile.isPremium }, { isPremium: true, days });
+        }
 
-      if (session) {
-        logAudit(session.email, session.name, "upgrade_premium", "user", userId,
-          { isPremium: false }, { isPremium: true, days });
-      }
+        setUpgrading(null);
+        setUpgraded(userId);
+        setTimeout(() => setUpgraded(null), 3000);
+        loadUsers();
+      }, 150);
+    }
 
-      setUpgrading(null);
-      setUpgraded(userId);
-      setTimeout(() => setUpgraded(null), 2000);
-      loadUsers();
-    }, 800);
+    trySave();
   }
 
   function handleRemovePremium(userId: string) {
     const session = getAdminSession();
-
     const profileKey = `matika-profile-${userId}`;
     try {
       const raw = localStorage.getItem(profileKey);
@@ -164,17 +211,16 @@ export default function AdminUsersPage() {
         profile.premiumExpiresAt = null;
         profile.maxHearts = 5;
         if (profile.hearts > 5) profile.hearts = 5;
+        localStorage.setItem(profileKey, JSON.stringify(profile));
         saveProfileForKey(userId, profile);
       }
     } catch {}
 
     updateUserRegistry(userId, { isPremium: false });
-
     if (session) {
       logAudit(session.email, session.name, "remove_premium", "user", userId,
         { isPremium: true }, { isPremium: false });
     }
-
     loadUsers();
   }
 
@@ -271,6 +317,19 @@ export default function AdminUsersPage() {
         </div>
       </div>
 
+      <AnimatePresence>
+        {upgradeError && (
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+            className="flex items-center gap-3 p-3 bg-red-50 dark:bg-red-950/30 border-2 border-red-300 dark:border-red-800 rounded-xl">
+            <AlertCircle size={16} className="text-red-500 shrink-0" />
+            <p className="text-xs font-bold text-red-600 dark:text-red-400 flex-1">{upgradeError}</p>
+            <button onClick={() => setUpgradeError(null)} className="text-red-400 hover:text-red-600">
+              <XCircle size={14} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="space-y-3">
         {filtered.map((user, i) => {
           const isExpanded = expandedUser === user.id;
@@ -315,11 +374,11 @@ export default function AdminUsersPage() {
                   {upgrading === user.id ? (
                     <div className="flex items-center gap-2 px-3 py-1.5">
                       <div className="w-4 h-4 border-2 border-[var(--info)] border-t-transparent rounded-full animate-spin" />
-                      <span className="text-[10px] font-bold text-[var(--info)]">Memproses...</span>
+                      <span className="text-[10px] font-bold text-[var(--info)]">Menyimpan...</span>
                     </div>
                   ) : upgraded === user.id ? (
                     <span className="px-3 py-1.5 text-[10px] font-bold text-[var(--success)] flex items-center gap-1 bg-[var(--success-bg)] rounded-lg">
-                      <CheckCircle2 size={12} /> Berhasil!
+                      <CheckCircle2 size={12} /> Premium Aktif!
                     </span>
                   ) : user.isPremium ? (
                     <div className="flex gap-1.5">
@@ -376,7 +435,7 @@ export default function AdminUsersPage() {
                         </div>
                       </div>
 
-                      {user.isPremium && (
+                      {user.isPremium ? (
                         <div className="p-3 rounded-xl bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-300/30">
                           <div className="flex items-center gap-2 mb-2">
                             <Crown size={14} className="text-yellow-500" />
@@ -395,9 +454,7 @@ export default function AdminUsersPage() {
                             <span className="flex items-center gap-1"><Star size={10} className="text-purple-400" /> {user.profile?.hintTokens ?? 0} Hint Tokens</span>
                           </div>
                         </div>
-                      )}
-
-                      {!user.isPremium && (
+                      ) : (
                         <div className="p-3 rounded-xl bg-[var(--border-subtle)] border border-[var(--border)]">
                           <div className="flex items-center gap-2">
                             <Lock size={14} className="text-[var(--fg-muted)]" />
@@ -405,6 +462,16 @@ export default function AdminUsersPage() {
                           </div>
                         </div>
                       )}
+
+                      <div className="mt-2 flex gap-2">
+                        <button onClick={() => {
+                          const raw = localStorage.getItem(`matika-profile-${user.id}`);
+                          alert(raw ? `localStorage OK: ${raw.substring(0, 200)}...` : "TIDAK ADA di localStorage!");
+                        }}
+                          className="px-3 py-1.5 text-[10px] font-bold text-[var(--info)] bg-[var(--info-bg)] rounded-lg hover:bg-[var(--info)]/20 transition-colors">
+                          Debug: Cek localStorage
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 )}

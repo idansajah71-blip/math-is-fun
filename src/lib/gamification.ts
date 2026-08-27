@@ -186,6 +186,7 @@ export function saveProfileForKey(userId: string, profile: UserProfile) {
   if (typeof window === "undefined") return;
   const key = `matika-profile-${userId}`;
   localStorage.setItem(key, JSON.stringify(profile));
+  import("@/lib/supabase/sync").then(({ pushProfile }) => pushProfile(profile)).catch(() => {});
 }
 
 export function getDefaultProfile(): UserProfile {
