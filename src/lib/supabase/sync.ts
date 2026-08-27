@@ -40,6 +40,7 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     streakFreezeNotified: (row.streak_freeze_notified as boolean) ?? false,
     hintTokens: (row.hint_tokens as number) ?? 0,
     xpBoostUntil: (row.xp_boost_until as number) ?? null,
+    dailyXpLog: (row.daily_xp_log as Record<string, number>) ?? {},
   };
 }
 

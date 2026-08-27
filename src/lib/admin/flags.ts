@@ -1,6 +1,6 @@
 "use client";
 
-const FLAGS_KEY = "belajarmtk_feature_flags";
+const FLAGS_KEY = "matika_feature_flags";
 
 export interface FeatureFlag {
   key: string;

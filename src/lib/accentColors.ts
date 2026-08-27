@@ -69,7 +69,7 @@ export const ACCENT_THEMES: Record<AccentColor, AccentTheme> = {
   },
 };
 
-const STORAGE_KEY = "belajar-mtk-accent";
+const STORAGE_KEY = "matika-accent";
 
 export function getAccentColor(): AccentColor {
   if (typeof window === "undefined") return "green";

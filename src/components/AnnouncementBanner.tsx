@@ -13,7 +13,7 @@ interface Announcement {
   isActive: boolean;
 }
 
-const ANNOUNCEMENTS_KEY = "belajarmtk_announcements";
+const ANNOUNCEMENTS_KEY = "matika_announcements";
 
 function getActiveAnnouncements(profile: UserProfile | null): Announcement[] {
   try {
@@ -30,7 +30,7 @@ function getActiveAnnouncements(profile: UserProfile | null): Announcement[] {
   }
 }
 
-const DISMISSED_KEY = "belajarmtk_announcements_dismissed";
+const DISMISSED_KEY = "matika_announcements_dismissed";
 
 export default function AnnouncementBanner({ profile }: { profile: UserProfile | null }) {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);

@@ -47,11 +47,11 @@ function getActivitiesFromLocalStorage(): Activity[] {
 
   try {
     // Get all profile keys
-    const registryRaw = localStorage.getItem("belajarmtk_user_registry");
+    const registryRaw = localStorage.getItem("matika_user_registry");
     const registry: { id: string; name: string }[] = registryRaw ? JSON.parse(registryRaw) : [];
 
     // Also check current session user
-    const sessionRaw = localStorage.getItem("belajarmtk_session");
+    const sessionRaw = localStorage.getItem("matika_session");
     let currentUserId = "";
     let currentUserName = "Pelajar";
     if (sessionRaw) {
@@ -67,7 +67,7 @@ function getActivitiesFromLocalStorage(): Activity[] {
     }
 
     for (const user of userIds) {
-      const profileKey = `belajar-mtk-profile-${user.id}`;
+      const profileKey = `matika-profile-${user.id}`;
       const stored = localStorage.getItem(profileKey);
       if (!stored) continue;
 

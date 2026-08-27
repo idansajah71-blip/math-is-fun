@@ -14,7 +14,7 @@ const AuthContext = createContext<AuthContextType>({ user: null, loading: true, 
 function getProfileUser(): { id: string; email: string; name: string } | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = localStorage.getItem("belajar-mtk-profile");
+    const raw = localStorage.getItem("matika-profile");
     if (!raw) return null;
     const profile = JSON.parse(raw);
     if (profile.name && profile.name !== "Pelajar" && profile.name !== "Siswa") {

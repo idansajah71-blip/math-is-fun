@@ -16,13 +16,13 @@ function getAudioContext(): AudioContext {
 export function setSoundEnabled(enabled: boolean) {
   soundEnabled = enabled;
   if (typeof window !== "undefined") {
-    localStorage.setItem("belajar-mtk-sound", enabled ? "1" : "0");
+    localStorage.setItem("matika-sound", enabled ? "1" : "0");
   }
 }
 
 export function isSoundEnabled(): boolean {
   if (typeof window === "undefined") return true;
-  const stored = localStorage.getItem("belajar-mtk-sound");
+  const stored = localStorage.getItem("matika-sound");
   return stored !== "0";
 }
 

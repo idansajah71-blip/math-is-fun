@@ -910,7 +910,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Rp100.000", "Rp95.000", "Rp105.000", "Rp120.000"],
     correctIndex: 0,
     explanation: "Harga jual = Rp80.000 × 125% = Rp100.000",
-    alternatives: ["Rp100.000","100000"],
+    alternatives: ["Rp100.000","100000","100.000"],
   },
   {
     id: "q-sosial-2",
@@ -919,14 +919,14 @@ export const quizzes: QuizQuestion[] = [
     options: ["Rp1.020.000", "Rp1.080.000", "Rp1.050.000", "Rp960.000"],
     correctIndex: 0,
     explanation: "Harga setelah diskon = Rp1.200.000 × 85% = Rp1.020.000",
-    alternatives: ["Rp1.020.000","1020000"],
+    alternatives: ["Rp1.020.000","1020000","1.020.000","rp1020000","RP1020000","RP1.020.000","rp1.020.000","Rp1020000"],
   },
   {
     id: "q-sosial-3",
     topicSlug: "7-aritmetika-sosial",
-    question: "Toko membeli barang Rp500.000, dijual Rp625.000, keuntungannya 25%",
+    question: "Hasil dari operasi perkalian bilangan bulat (-5) × (-4) adalah -20",
     options: ["Benar", "Salah"],
-    correctIndex: 0,
+    correctIndex: 1,
     explanation: "Keuntungan = (125.000/500.000) × 100% = 25%. Benar.",
   },
   {

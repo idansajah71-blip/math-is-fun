@@ -38,7 +38,7 @@ export default function AdminSidebar() {
           <Shield size={18} className="text-white" />
         </div>
         <div>
-          <p className="text-sm font-black text-[var(--fg)] leading-tight">BelajarMTK</p>
+          <p className="text-sm font-black text-[var(--fg)] leading-tight">Matika</p>
           <p className="text-[10px] font-bold text-[var(--primary)] uppercase leading-tight">Admin Panel</p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
-const ADMIN_STORAGE_KEY = "belajar-mtk-admin";
-const ADMIN_USERS_KEY = "belajar-mtk-admin-users";
+const ADMIN_STORAGE_KEY = "matika-admin";
+const ADMIN_USERS_KEY = "matika-admin-users";
 
 export interface AdminUser {
   email: string;
@@ -20,7 +20,7 @@ export interface AdminSession {
 }
 
 const DEFAULT_ADMIN: AdminUser = {
-  email: "admin@belajar-mtk.com",
+  email: "admin@matika.com",
   password: "admin123",
   name: "Super Admin",
   role: "superadmin",

@@ -46,7 +46,7 @@ export default function AdminLoginPage() {
             <Shield size={32} className="text-white" />
           </div>
           <h1 className="text-2xl font-black text-[var(--duo-text)]">Admin Panel</h1>
-          <p className="text-sm text-[var(--duo-text-muted)] mt-1">BelajarMTK Administration</p>
+          <p className="text-sm text-[var(--duo-text-muted)] mt-1">Matika Administration</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
@@ -58,7 +58,7 @@ export default function AdminLoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@belajar-mtk.com"
+                placeholder="admin@matika.com"
                 className="w-full pl-10 pr-4 py-3 bg-white dark:bg-[var(--duo-card)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] placeholder:text-gray-400 focus:outline-none focus:border-red-500 transition-colors"
                 required
               />

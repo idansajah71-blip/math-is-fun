@@ -79,7 +79,7 @@ export default function AdminDashboardPage() {
           Dashboard
         </h1>
         <p className="text-sm text-[var(--fg-muted)] mt-1">
-          Overview aktivitas BelajarMTK
+          Overview aktivitas Matika
         </p>
       </motion.div>
 

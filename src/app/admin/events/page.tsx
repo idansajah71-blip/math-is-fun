@@ -46,7 +46,7 @@ const EVENT_ICON_MAP: Record<string, React.ReactNode> = {
   target: <Target size={18} />,
 };
 
-const EVENTS_KEY = "belajar-mtk-admin-events";
+const EVENTS_KEY = "matika-admin-events";
 
 function getEvents(): EventData[] {
   try {
@@ -112,7 +112,7 @@ export default function AdminEventsPage() {
       rewards: { xp: form.xpReward, gems: form.gemsReward, badge: form.badgeReward || null },
       maxParticipants: form.maxParticipants,
       status: form.startDate ? "scheduled" : "draft",
-      createdBy: "admin@belajar-mtk.com",
+      createdBy: "admin@matika.com",
       createdAt: editing ? (events.find((e) => e.id === editing)?.createdAt || now) : now,
     };
 

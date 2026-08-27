@@ -16,7 +16,7 @@ interface ChallengeWeekProps {
 
 const QUESTIONS_PER_DAY = 3;
 const TOTAL_DAYS = 7;
-const STORAGE_KEY = "belajarmtk_challenge_week";
+const STORAGE_KEY = "matika_challenge_week";
 
 interface DayState {
   completed: boolean;

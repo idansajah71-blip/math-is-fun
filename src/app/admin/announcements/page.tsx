@@ -16,7 +16,7 @@ export interface Announcement {
   createdAt: string;
 }
 
-const ANNOUNCEMENTS_KEY = "belajarmtk_announcements";
+const ANNOUNCEMENTS_KEY = "matika_announcements";
 
 function getAnnouncements(): Announcement[] {
   try {

@@ -4,9 +4,9 @@ import type { Topic, QuizQuestion, Level } from "./types";
 import topicsData from "./topics.json";
 import { quizzes as staticQuizzes } from "./quizzes";
 
-const TOPICS_KEY = "belajarmtk_admin_topics";
-const QUESTIONS_KEY = "belajarmtk_admin_questions";
-const SEEDED_KEY = "belajarmtk_content_seeded";
+const TOPICS_KEY = "matika_admin_topics";
+const QUESTIONS_KEY = "matika_admin_questions";
+const SEEDED_KEY = "matika_content_seeded";
 
 function getAdminTopics(): { slug: string; title: string; level: Level; section: string; icon: string; content: string; description: string; isPublished: boolean }[] {
   if (typeof window === "undefined") return [];

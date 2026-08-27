@@ -3,13 +3,13 @@ import ClientProviders from "@/components/ClientProviders";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "BelajarMTK - Matematika Seru Seperti Game",
+  title: "Matika - Matematika Seru Seperti Game",
   description: "Belajar matematika dari SMP hingga Universitas dengan pengalaman game yang menyenangkan",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "BelajarMTK",
+    title: "Matika",
   },
 };
 
@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
             try {
-              var c = localStorage.getItem("belajar-mtk-accent");
+              var c = localStorage.getItem("matika-accent");
               if (!c) return;
               var t = {
                 green:  { p:"#58CC02", h:"#46A302", l:"#89E219", bg:"rgba(88,204,2,0.1)", r:"rgba(88,204,2,0.4)" },

@@ -107,7 +107,7 @@ function SidebarInner({
           </div>
           <div>
             <span className="text-[15px] font-black text-[var(--fg)] leading-none block">
-              BelajarMTK
+               Matika
             </span>
             <span className="text-[9px] font-bold text-[var(--fg-muted)] uppercase tracking-widest">
               v2.0

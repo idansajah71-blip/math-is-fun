@@ -45,7 +45,7 @@ export default function AdminUsersPage() {
     }
 
     // Add current user session if not in registry
-    const sessionRaw = localStorage.getItem("belajarmtk_session");
+    const sessionRaw = localStorage.getItem("matika_session");
     if (sessionRaw) {
       try {
         const session = JSON.parse(sessionRaw);
@@ -87,7 +87,7 @@ export default function AdminUsersPage() {
         profile.premiumExpiresAt = days >= 9999 ? null : expires;
 
         // Save to correct profile key
-        const profileKey = `belajar-mtk-profile-${userId}`;
+        const profileKey = `matika-profile-${userId}`;
         localStorage.setItem(profileKey, JSON.stringify(profile));
       }
 
@@ -113,7 +113,7 @@ export default function AdminUsersPage() {
     if (user?.profile) {
       user.profile.isPremium = false;
       user.profile.premiumExpiresAt = null;
-      const profileKey = `belajar-mtk-profile-${userId}`;
+        const profileKey = `matika-profile-${userId}`;
       localStorage.setItem(profileKey, JSON.stringify(user.profile));
     }
 

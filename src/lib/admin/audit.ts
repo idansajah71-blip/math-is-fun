@@ -1,6 +1,6 @@
 "use client";
 
-const AUDIT_KEY = "belajarmtk_audit_log";
+const AUDIT_KEY = "matika_audit_log";
 
 export interface AuditEntry {
   id: string;

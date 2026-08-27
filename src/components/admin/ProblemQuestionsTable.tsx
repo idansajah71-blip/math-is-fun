@@ -26,10 +26,10 @@ function getProblemQuestions(): ProblemQuestion[] {
 
   try {
     // Get all profile keys
-    const registryRaw = localStorage.getItem("belajarmtk_user_registry");
+    const registryRaw = localStorage.getItem("matika_user_registry");
     const registry: { id: string }[] = registryRaw ? JSON.parse(registryRaw) : [];
 
-    const sessionRaw = localStorage.getItem("belajarmtk_session");
+    const sessionRaw = localStorage.getItem("matika_session");
     let userIds: string[] = [];
     if (sessionRaw) {
       const session = JSON.parse(sessionRaw);
@@ -43,7 +43,7 @@ function getProblemQuestions(): ProblemQuestion[] {
     const wrongBySlug: Record<string, number> = {};
 
     for (const userId of userIds) {
-      const profileKey = `belajar-mtk-profile-${userId}`;
+      const profileKey = `matika-profile-${userId}`;
       const stored = localStorage.getItem(profileKey);
       if (!stored) continue;
 
@@ -56,7 +56,7 @@ function getProblemQuestions(): ProblemQuestion[] {
     }
 
     // Load questions from admin content
-    const questionsRaw = localStorage.getItem("belajarmtk_admin_questions");
+    const questionsRaw = localStorage.getItem("matika_admin_questions");
     const allQuestions: { id: string; topicSlug: string; question: string; difficulty?: string }[] = questionsRaw ? JSON.parse(questionsRaw) : [];
 
     // Build problem questions from wrongAnswers

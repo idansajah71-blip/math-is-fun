@@ -24,7 +24,7 @@ export default function AuthPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const forgotEmailRef = useRef<HTMLInputElement>(null);
 
-  const GUEST_KEY = "belajarmtk_guest";
+  const GUEST_KEY = "matika_guest";
 
   useEffect(() => {
     if (mode === "signup" && nameRef.current) {
@@ -181,7 +181,7 @@ export default function AuthPage() {
           >
             <SigmaIcon size={56} animated />
           </motion.div>
-          <h1 className="text-2xl font-bold text-[var(--duo-text)]">BelajarMTK</h1>
+          <h1 className="text-2xl font-bold text-[var(--duo-text)]">Matika</h1>
           <p className="text-sm text-[var(--duo-text-muted)] mt-1">
             {mode === "signup" && "Buat akun untuk mulai belajar"}
             {mode === "login" && "Masuk ke akunmu"}

@@ -1,7 +1,7 @@
 "use client";
 
-const USERS_KEY = "belajarmtk_users";
-const SESSION_KEY = "belajarmtk_session";
+const USERS_KEY = "matika_users";
+const SESSION_KEY = "matika_session";
 
 export interface LocalUser {
   id: string;
@@ -158,7 +158,7 @@ export function getUserProfileKey(userId?: string): string {
     const user = getCurrentUser();
     userId = user?.id;
   }
-  return userId ? `belajar-mtk-profile-${userId}` : "belajar-mtk-profile";
+  return userId ? `matika-profile-${userId}` : "matika-profile";
 }
 
 export function resetPassword(email: string): { error?: string; success?: boolean; newPassword?: string } {

@@ -67,7 +67,7 @@ export default function ProfilePage() {
 
   const handleShare = () => {
     if (navigator.share) {
-      navigator.share({ title: "BelajarMTK Progress", text: shareText });
+      navigator.share({ title: "Matika Progress", text: shareText });
     } else {
       navigator.clipboard.writeText(shareText);
       setCopied(true);

@@ -65,7 +65,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
       ...profile,
       name: name.trim() || "Siswa",
     });
-    localStorage.setItem("belajar-mtk-onboarding", "done");
+    localStorage.setItem("matika-onboarding", "done");
     onComplete();
   };
 

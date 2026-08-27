@@ -1,6 +1,6 @@
 "use client";
 
-const REGISTRY_KEY = "belajarmtk_user_registry";
+const REGISTRY_KEY = "matika_user_registry";
 
 export interface RegistryUser {
   id: string;

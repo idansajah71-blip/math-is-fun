@@ -30,8 +30,8 @@ interface Challenge {
   status: "pending" | "accepted" | "completed";
 }
 
-const STORAGE_FRIENDS = "belajar-mtk-friends";
-const STORAGE_CHALLENGES = "belajar-mtk-challenges";
+const STORAGE_FRIENDS = "matika-friends";
+const STORAGE_CHALLENGES = "matika-challenges";
 
 function getFriends(): Friend[] {
   if (typeof window === "undefined") return [];

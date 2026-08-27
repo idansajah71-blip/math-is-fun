@@ -1,7 +1,7 @@
 import type { Variants, Transition } from "framer-motion";
 
 // ═══════════════════════════════════════════════════════════════════
-// UNIFIED MOTION SYSTEM — BelajarMTK
+// UNIFIED MOTION SYSTEM — Matika
 //
 // Use ONLY these tokens for animations. Do not inline custom values.
 // This ensures visual consistency across all pages.

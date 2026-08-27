@@ -2,9 +2,9 @@
 
 import type { Topic, QuizQuestion, Level } from "@/lib/types";
 
-const TOPICS_KEY = "belajarmtk_admin_topics";
-const QUESTIONS_KEY = "belajarmtk_admin_questions";
-const INITIAL_SEEDED_KEY = "belajarmtk_content_seeded";
+const TOPICS_KEY = "matika_admin_topics";
+const QUESTIONS_KEY = "matika_admin_questions";
+const INITIAL_SEEDED_KEY = "matika_content_seeded";
 
 export interface ManagedTopic extends Topic {
   isPublished: boolean;
