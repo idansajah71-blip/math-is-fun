@@ -64,7 +64,7 @@ export default function ProfilePage() {
     { icon: Clock, label: "Waktu Belajar", value: `${Math.round(profile.totalStudyTime / 60)}j`, color: "text-[var(--duo-orange)]", bg: "bg-orange-50 dark:bg-orange-950/30" },
   ];
 
-  const shareText = `MTK Progress\n\nLevel: ${LEVEL_NAMES[profile.level]}\nXP: ${profile.xp}\nStreak: ${profile.streak} hari\nMateri: ${completed}/${total}\nBadge: ${badges.length}/${BADGES.length}\n\nAyo belajar matematika bareng!`;
+  const shareText = `Matika Progress\n\nLevel: ${LEVEL_NAMES[profile.level]}\nXP: ${profile.xp}\nStreak: ${profile.streak} hari\nMateri: ${completed}/${total}\nBadge: ${badges.length}/${BADGES.length}\n\nKuy join M=atika belajar emtekuy!\nlink:matika.co.id`;
 
   const handleShare = () => {
     if (navigator.share) {
@@ -155,7 +155,7 @@ export default function ProfilePage() {
                       <h2 className="text-xl font-black text-[var(--duo-text)]">{profile.name}</h2>
                       {isPremiumActive() && (
                         <span className="px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[9px] font-black rounded-full flex items-center gap-0.5">
-                          <Crown size={8} /> Sultan
+                          <Crown size={8} /> PRO
                         </span>
                       )}
                       <motion.button

@@ -639,6 +639,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                               <HintButton
                                 hints={q.hints}
                                 hintTokens={hintTokens}
+                                resetKey={currentQ}
                                 onUseToken={() => {
                                   if (consumeHintToken()) {
                                     setHintTokens((t) => t - 1);

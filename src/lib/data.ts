@@ -137,13 +137,14 @@ export function searchTopics(query: string): Topic[] {
 
 function generateHints(q: QuizQuestion): string[] {
   if (q.hints && q.hints.length > 0) return q.hints;
+
   const question = q.question.toLowerCase();
   const explanation = q.explanation || "";
   const hints: string[] = [];
 
-  // Keyword-based contextual hints
   const kw = (terms: string[]) => terms.some((t) => question.includes(t));
 
+  // ── Specific topic hints (keyword-based) ──
   if (kw(["sederhanakan", "tambah", "kurang"]) && kw(["/", "pecahan"])) {
     hints.push("Untuk menjumlahkan pecahan, samakan penyebutnya terlebih dahulu (cari KPK dari kedua penyebut).");
     hints.push("Setelah penyebut sama, jumlahkan pembilangnya saja.");
@@ -158,9 +159,7 @@ function generateHints(q: QuizQuestion): string[] {
     hints.push("Kalikan nilai desimal dengan bilangan yang dicari.");
   } else if (kw(["faktorkan", "faktorisasi"])) {
     hints.push("Cari dua bilangan yang jika dijumlahkan hasilnya sama dengan koefisien x, dan jika dikalikan hasilnya sama dengan konstanta.");
-    if (explanation.includes("x²")) {
-      hints.push("Untuk x² + bx + c, cari dua angka yang berjumlah b dan berkalikan c.");
-    }
+    if (explanation.includes("x²")) hints.push("Untuk x² + bx + c, cari dua angka yang berjumlah b dan berkalikan c.");
   } else if (kw(["penyelesaian", "x ="])) {
     hints.push("Pindahkan semua konstanta ke satu ruas, sisakan yang mengandung x.");
     if (kw(["2x", "3x", "4x", "5x"])) {
@@ -219,20 +218,38 @@ function generateHints(q: QuizQuestion): string[] {
     hints.push("Kalikan salah satu persamaan agar koefisien salah satu variabel sama, lalu eliminasi.");
   } else if (kw(["persamaan garis", "y = mx"])) {
     hints.push("Gradien m = (y₂-y₁)/(x₂-x₁). Persamaan garis: y - y₁ = m(x - x₁).");
-  } else {
-    // Fallback: extract from explanation
-    const sentences = explanation.split(/[.!]\s+/).filter((s) => s.length > 5);
+  }
+
+  // ── Fallback: build hints from explanation + question + options ──
+  if (hints.length === 0) {
+    // Hint 1: always give a strategy hint
     if (q.options && q.options.length > 0) {
-      hints.push("Coba eliminasi jawaban yang jelas tidak masuk akal terlebih dahulu.");
+      hints.push("Coba eliminasi jawaban yang jelas tidak masuk akal terlebih dahulu, lalu fokus pada sisa pilihan.");
+    } else {
+      hints.push("Baca soal dengan teliti dan identifikasi informasi yang diketahui vs yang dicari.");
+    }
+
+    // Hint 2: extract from explanation
+    const sentences = explanation
+      .split(/[.!]\s+/)
+      .map((s) => s.trim())
+      .filter((s) => s.length > 10 && !s.startsWith("Jawaban") && !s.startsWith("Jadi"));
+
+    if (sentences.length >= 1) {
+      hints.push(`Perhatikan: ${sentences[0]}.`);
     }
     if (sentences.length >= 2) {
-      hints.push(`Perhatikan: ${sentences[0].trim()}.`);
+      hints.push(`Langkah berikutnya: ${sentences[1]}.`);
     }
-    if (sentences.length >= 3) {
-      hints.push(`Langkah berikutnya: ${sentences[1].trim()}.`);
+
+    // Hint 3: extract numbers from question for calculation hints
+    const numbers = question.match(/\d+/g);
+    if (numbers && numbers.length >= 2) {
+      hints.push(`Coba gunakan angka ${numbers.slice(0, 3).join(", ")} dari soal dalam rumus yang sesuai.`);
     }
   }
 
+  // Absolute minimum: always at least 1 hint
   if (hints.length === 0) {
     hints.push("Baca penjelasan setelah menjawab untuk memahami konsepnya lebih lanjut.");
   }
