@@ -151,7 +151,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
         {
           question: q.question,
           userAnswer: "Jawaban salah",
-          correctAnswer: q.options[q.correctIndex] || "",
+          correctAnswer: q.options?.[q.correctIndex] || "",
           explanation: q.explanation,
         },
       ]);
@@ -587,10 +587,18 @@ export default function LessonClient({ topic }: LessonClientProps) {
                 >
                   {(() => {
                     const q = questions[currentQ];
+                    if (!q) return null;
                     const cycleTypes = ["choice", "fill", "truefalse"];
                     const quizType = (q.type === "choice" || q.type === "fill")
                       ? q.type
                       : cycleTypes[currentQ % cycleTypes.length];
+                    const fillAnswer = q.options && q.options[q.correctIndex]
+                      ? (q.alternatives && q.alternatives.length > 0
+                          ? [q.options[q.correctIndex], ...q.alternatives]
+                          : q.options[q.correctIndex])
+                      : (q.alternatives && q.alternatives.length > 0
+                          ? q.alternatives
+                          : "");
 
                     return (
                       <div className="p-6 md:p-8">
@@ -688,11 +696,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                         ) : quizType === "fill" ? (
                           <FillBlank
                             question={q.question}
-                            correctAnswer={
-                              q.alternatives && q.alternatives.length > 0
-                                ? [q.options[q.correctIndex], ...q.alternatives]
-                                : q.options[q.correctIndex]
-                            }
+                            correctAnswer={fillAnswer}
                             explanation={q.explanation}
                             onCorrect={handleCorrect}
                             onWrong={handleWrong}

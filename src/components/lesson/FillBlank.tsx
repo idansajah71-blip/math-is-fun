@@ -39,7 +39,8 @@ export default function FillBlank({
         .replace(/\s*\*\s*/g, "*")
         .replace(/,(\d)/g, ".$1")
         .replace(/\s*(cm|m|mm|kg|g|hari|menit|detik|tahun|persen|%|rp|ribu|juta)\b/gi, "")
-        .replace(/^\(([^()]+)\)$/, "$1");
+        .replace(/^\(([^()]+)\)$/, "$1")
+        .replace(/(\d{3})\.(\d{3})(?=[.,\s]|$)/g, "$1$2");
 
     const normalized = normalize(answer);
     const alternatives = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
