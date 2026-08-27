@@ -562,6 +562,12 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
                 <div className="flex items-center gap-3">
                   <HeartBar lives={lives} breaking={breaking} />
+              {hintTokens > 0 && (
+                <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-100 dark:bg-yellow-950/40 text-yellow-600 dark:text-yellow-400 text-xs font-black">
+                  <Lightbulb size={12} />
+                  {hintTokens}
+                </div>
+              )}
                   <span className="text-sm font-black text-[var(--fg-muted)] bg-[var(--border-subtle)] px-3 py-1.5 rounded-xl">
                     {currentQ + 1}<span className="text-[var(--fg-disabled)]">/</span>{totalQuestions}
                   </span>
