@@ -258,6 +258,11 @@ export function addXp(amount: number): UserProfile {
   checkBadges(profile);
   saveProfile(profile);
 
+  // Notify listeners (heatmap, charts, etc.) that XP changed
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("xp-updated"));
+  }
+
   if (profile.level > oldLevel) {
     // Level up! Award gems + update lastSeenLevel
     profile.gems += 25;

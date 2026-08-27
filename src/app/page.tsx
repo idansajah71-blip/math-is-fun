@@ -321,7 +321,23 @@ function StatCard({
 
 function WeeklyChart({ data }: { data: number[] }) {
   const days = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
-  const maxVal = Math.max(...data, 10);
+
+  // Round max to nearest clean number (25, 50, 100, etc.)
+  const rawMax = Math.max(...data, 10);
+  const niceMax = (() => {
+    if (rawMax <= 25) return 25;
+    if (rawMax <= 50) return 50;
+    if (rawMax <= 100) return 100;
+    if (rawMax <= 200) return 200;
+    if (rawMax <= 500) return 500;
+    return Math.ceil(rawMax / 100) * 100;
+  })();
+
+  const totalXp = data.reduce((a, b) => a + b, 0);
+  const todayIdx = (new Date().getDay() + 6) % 7;
+
+  // Gridline thresholds
+  const gridLines = [0.25, 0.5, 0.75].filter((f) => niceMax * f < niceMax);
 
   return (
     <div className="bg-white dark:bg-[var(--surface)] rounded-2xl border-2 border-[var(--border)] p-5">
@@ -332,41 +348,71 @@ function WeeklyChart({ data }: { data: number[] }) {
           </div>
           <div>
             <h3 className="text-sm font-black text-[var(--fg)]">XP Mingguan</h3>
-            <p className="text-[10px] text-[var(--fg-muted)]">Performa belajarmu 7 hari terakhir</p>
+            <p className="text-[10px] text-[var(--fg-muted)]">Semangat belajar minggu ini 💪</p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-xl font-black text-gradient-xp">
-            {data.reduce((a, b) => a + b, 0)}
-          </p>
+          <p className="text-xl font-black text-gradient-xp">{totalXp}</p>
           <p className="text-[10px] font-bold text-[var(--fg-muted)]">Total XP</p>
         </div>
       </div>
 
-      <div className="flex items-end gap-1.5 h-28">
+      <div className="relative flex items-end gap-1.5 h-32">
+        {/* Gridlines */}
+        {gridLines.map((f) => (
+          <div
+            key={f}
+            className="absolute left-0 right-0 border-t border-dashed border-[var(--border)]"
+            style={{ bottom: `${f * 100}%` }}
+          />
+        ))}
+
+        {/* Bars */}
         {data.map((xp, i) => {
-          const height = Math.max((xp / maxVal) * 100, 4);
-          const isToday = i === new Date().getDay();
+          const heightPct = Math.max((xp / niceMax) * 100, 0);
+          const isToday = i === todayIdx;
+          const hasXp = xp > 0;
+
           return (
             <motion.div
               key={i}
               initial={{ height: 0 }}
-              animate={{ height: `${height}%` }}
+              animate={{ height: "100%" }}
               transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 + i * 0.05 }}
-              className="flex-1 flex flex-col items-center gap-1.5"
+              className="relative flex-1 flex flex-col items-center"
+              style={{ height: "100%" }}
             >
-              <div className="w-full flex-1 flex items-end">
-                <div
-                  className={`w-full rounded-t-lg ${
-                    isToday
-                      ? "bg-gradient-to-t from-[var(--primary)] to-[var(--duo-green-light)] shadow-lg"
-                      : "bg-gradient-to-t from-[var(--border)] to-[var(--border-strong)]"
+              {/* XP label */}
+              <div className="absolute top-0 left-0 right-0 flex justify-center" style={{ transform: "translateY(-16px)" }}>
+                <span className={`text-[8px] font-black ${hasXp ? "text-[var(--fg)]" : "text-[var(--border)]"}`}>
+                  {hasXp ? (xp >= 1000 ? `${(xp / 1000).toFixed(1)}k` : xp) : "-"}
+                </span>
+              </div>
+
+              {/* Bar container */}
+              <div className="w-full flex-1 flex items-end relative">
+                {/* Background track */}
+                <div className="absolute inset-0 rounded-t-md bg-[var(--border-subtle)] opacity-40" />
+
+                {/* Actual bar */}
+                <motion.div
+                  initial={{ height: 0 }}
+                  animate={{ height: `${heightPct}%` }}
+                  transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.15 + i * 0.05 }}
+                  className={`w-full rounded-t-md relative z-10 ${
+                    hasXp
+                      ? isToday
+                        ? "bg-gradient-to-t from-[var(--primary)] to-[var(--duo-green-light)] shadow-md"
+                        : "bg-gradient-to-t from-[var(--primary)]/80 to-[var(--primary)]/50"
+                      : "bg-[var(--border-subtle)]"
                   }`}
-                  style={{ minHeight: "4px" }}
+                  style={{ minHeight: hasXp ? "4px" : "0px" }}
                 />
               </div>
+
+              {/* Day label */}
               <span
-                className={`text-[9px] font-bold ${
+                className={`text-[9px] font-bold mt-1.5 ${
                   isToday ? "text-[var(--primary)]" : "text-[var(--fg-muted)]"
                 }`}
               >
@@ -440,6 +486,25 @@ function HomeContent() {
     if (sfNotif.show) {
       setTimeout(() => setShowStreakFreezeToast(true), 1500);
     }
+
+    // Real-time listeners: re-fetch profile on xp-updated or storage change
+    const onXpUpdated = () => {
+      const prof = getProfile();
+      setProfile(prof);
+    };
+    const onStorage = (e: StorageEvent) => {
+      if (e.key && e.key.startsWith("matika-profile")) {
+        const prof = getProfile();
+        setProfile(prof);
+      }
+    };
+    window.addEventListener("xp-updated", onXpUpdated);
+    window.addEventListener("storage", onStorage);
+
+    return () => {
+      window.removeEventListener("xp-updated", onXpUpdated);
+      window.removeEventListener("storage", onStorage);
+    };
   }, []);
 
   const handleClaimQuest = (questIdx: number, xpReward: number) => {

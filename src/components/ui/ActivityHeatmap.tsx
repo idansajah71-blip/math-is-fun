@@ -23,15 +23,37 @@ function getIntensityClass(xp: number): string {
 const DAY_LABELS = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
 const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
 
+function calcLongestStreak(dailyXpHistory: Record<string, number>): number {
+  const dates = Object.keys(dailyXpHistory)
+    .filter((d) => dailyXpHistory[d] > 0)
+    .sort();
+  if (dates.length === 0) return 0;
+
+  let longest = 1;
+  let current = 1;
+  for (let i = 1; i < dates.length; i++) {
+    const prev = new Date(dates[i - 1] + "T00:00:00");
+    const curr = new Date(dates[i] + "T00:00:00");
+    const diff = (curr.getTime() - prev.getTime()) / 86400000;
+    if (diff === 1) {
+      current++;
+      longest = Math.max(longest, current);
+    } else {
+      current = 1;
+    }
+  }
+  return longest;
+}
+
 export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: ActivityHeatmapProps) {
-  const { weeks, monthLabels, totalXp, activeDays } = useMemo(() => {
+  const { weeks, monthLabels, totalXp, activeDays, longestStreak, todayStr } = useMemo(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const todayStr = formatDate(today);
 
     const startDate = new Date(today);
     startDate.setDate(startDate.getDate() - (totalDays - 1));
 
-    // Adjust start to Sunday (beginning of week)
     const dayOfWeek = startDate.getDay();
     startDate.setDate(startDate.getDate() - dayOfWeek);
 
@@ -68,7 +90,6 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
       weeks.push(currentWeek);
     }
 
-    // Calculate month label positions
     const monthLabels: { label: string; weekIndex: number }[] = [];
     let lastMonth = -1;
     weeks.forEach((week, i) => {
@@ -82,7 +103,9 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
       }
     });
 
-    return { weeks, monthLabels, totalXp, activeDays };
+    const longestStreak = calcLongestStreak(dailyXpHistory);
+
+    return { weeks, monthLabels, totalXp, activeDays, longestStreak, todayStr };
   }, [dailyXpHistory, totalDays]);
 
   return (
@@ -90,45 +113,50 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h3 className="text-sm font-bold text-[var(--fg)]">Aktivitas Belajar</h3>
+          <h3 className="text-sm font-bold text-[var(--fg)]">Jejak Belajar</h3>
           <p className="text-xs text-[var(--fg-muted)]">
-            {activeDays} hari aktif · {totalXp} XP total
+            Udah {activeDays} hari nunjukin progress, total {totalXp} XP terkumpul 🔥
           </p>
         </div>
-        {/* Legend */}
-        <div className="flex items-center gap-1.5 text-[10px] text-[var(--fg-muted)]">
-          <span>Kurang</span>
-          <div className="w-3 h-3 rounded-sm bg-[#1B4620] dark:bg-[#0E2611]" />
-          <div className="w-3 h-3 rounded-sm bg-[#256B2E] dark:bg-[#1B4620]" />
-          <div className="w-3 h-3 rounded-sm bg-[#2FA83D] dark:bg-[#256B2E]" />
-          <div className="w-3 h-3 rounded-sm bg-[var(--primary)]" />
-          <span>Lebih</span>
+        <div className="flex items-center gap-3">
+          {longestStreak > 0 && (
+            <span className="text-[10px] font-bold text-[var(--duo-orange)] bg-[var(--duo-orange)]/10 px-2 py-1 rounded-lg">
+              🔥 {longestStreak} hari berturut
+            </span>
+          )}
+          {/* Legend */}
+          <div className="flex items-center gap-1.5 text-[10px] text-[var(--fg-muted)]">
+            <span>Kurang</span>
+            <div className="w-3 h-3 rounded-sm bg-[#1B4620] dark:bg-[#0E2611]" />
+            <div className="w-3 h-3 rounded-sm bg-[#256B2E] dark:bg-[#1B4620]" />
+            <div className="w-3 h-3 rounded-sm bg-[#2FA83D] dark:bg-[#256B2E]" />
+            <div className="w-3 h-3 rounded-sm bg-[var(--primary)]" />
+            <span>Lebih</span>
+          </div>
         </div>
       </div>
 
       {/* Heatmap Grid */}
       <div className="overflow-x-auto pb-1">
-        <div className="inline-flex gap-0.5 min-w-max">
+        <div className="inline-flex gap-[5px] min-w-max">
           {/* Day labels */}
-          <div className="flex flex-col gap-0.5 mr-1.5">
+          <div className="flex flex-col gap-[5px] mr-1.5">
             {DAY_LABELS.map((label, i) => (
-              <div key={label} className="h-3 flex items-center text-[9px] text-[var(--fg-muted)] font-medium">
+              <div key={label} className="h-4 flex items-center text-[9px] text-[var(--fg-muted)] font-medium">
                 {i % 2 === 1 ? label : ""}
               </div>
             ))}
           </div>
 
           {/* Weeks */}
-          <div className="flex flex-col gap-0.5">
+          <div className="flex flex-col gap-[5px]">
             {/* Month labels row */}
-            <div className="flex gap-0.5 mb-0.5" style={{ height: 12 }}>
+            <div className="flex gap-[5px] mb-0.5" style={{ height: 12 }}>
               {monthLabels.map((m, i) => (
                 <div
                   key={`${m.label}-${i}`}
                   className="text-[9px] text-[var(--fg-muted)] font-medium absolute"
-                  style={{
-                    left: m.weekIndex * 14,
-                  }}
+                  style={{ left: m.weekIndex * 19 }}
                 >
                   {m.label}
                 </div>
@@ -136,16 +164,21 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
             </div>
 
             {/* Grid rows */}
-            <div className="flex gap-0.5">
+            <div className="flex gap-[5px]">
               {weeks.map((week, wi) => (
-                <div key={wi} className="flex flex-col gap-0.5">
+                <div key={wi} className="flex flex-col gap-[5px]">
                   {week.map((day, di) => {
                     const isFuture = day.date > new Date();
+                    const isToday = formatDate(day.date) === todayStr;
                     return (
                       <motion.div
                         key={di}
-                        className={`w-3 h-3 rounded-sm transition-colors ${
-                          isFuture ? "bg-transparent" : getIntensityClass(day.xp)
+                        className={`w-4 h-4 rounded-[4px] transition-colors ${
+                          isFuture
+                            ? "bg-transparent"
+                            : isToday
+                            ? `${getIntensityClass(day.xp)} ring-2 ring-[var(--primary)] ring-offset-1 ring-offset-[var(--surface)]`
+                            : getIntensityClass(day.xp)
                         }`}
                         whileHover={!isFuture ? { scale: 1.3, zIndex: 10 } : undefined}
                         title={
