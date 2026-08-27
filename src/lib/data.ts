@@ -95,6 +95,28 @@ export function getAllTopics(): Topic[] {
   return merged;
 }
 
+export function getTopicStatus(
+  topics: Topic[],
+  completedTopics: string[]
+): Map<string, "completed" | "available" | "locked"> {
+  const completed = new Set(completedTopics);
+  const statusMap = new Map<string, "completed" | "available" | "locked">();
+  let foundAvailable = false;
+
+  for (const t of topics) {
+    if (completed.has(t.slug)) {
+      statusMap.set(t.slug, "completed");
+    } else if (!foundAvailable) {
+      statusMap.set(t.slug, "available");
+      foundAvailable = true;
+    } else {
+      statusMap.set(t.slug, "locked");
+    }
+  }
+
+  return statusMap;
+}
+
 export function getTopicsByLevel(level: Level): Topic[] {
   return getAllTopics().filter((t) => t.level === level);
 }

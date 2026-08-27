@@ -2,11 +2,12 @@
 
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import MathContent from "@/components/MathContent";
 import LessonClient from "@/components/lesson/LessonClient";
 import AnimatedButton from "@/components/ui/AnimatedButton";
-import { getTopicBySlug, getTopicsByLevel } from "@/lib/data";
+import { getTopicBySlug, getTopicsByLevel, getAllTopics, getTopicStatus } from "@/lib/data";
 import { toggleBookmark, getProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
 import { Bookmark, Play, ChevronRight, StickyNote, Save } from "lucide-react";
@@ -14,6 +15,7 @@ import type { Topic } from "@/lib/types";
 
 export default function TopicPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
+  const router = useRouter();
   const [topic, setTopic] = useState<Topic | null>(null);
   const [related, setRelated] = useState<Topic[]>([]);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -24,14 +26,24 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
   useEffect(() => {
     const found = getTopicBySlug(slug);
     if (found) {
+      // Check lock status
+      const p = getProfile();
+      const allTopics = getAllTopics();
+      const statusMap = getTopicStatus(allTopics, p.completedTopics || []);
+      const status = statusMap.get(slug);
+
+      if (status === "locked") {
+        router.replace("/?msg=topic-locked");
+        return;
+      }
+
       setTopic(found);
       setRelated(getTopicsByLevel(found.level).filter((t) => t.slug !== slug).slice(0, 5));
-      const p = getProfile();
       setIsBookmarked(p.bookmarkedTopics.includes(slug));
       const savedNotes = localStorage.getItem(`note-${slug}`) || "";
       setNotes(savedNotes);
     }
-  }, [slug]);
+  }, [slug, router]);
 
   const handleBookmark = () => {
     toggleBookmark(slug);

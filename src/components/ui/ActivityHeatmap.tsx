@@ -3,13 +3,11 @@
 import { useMemo, useRef, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 
+import { getLocalDateStr } from "@/lib/gamification";
+
 interface ActivityHeatmapProps {
   dailyXpHistory: Record<string, number>;
   totalDays?: number;
-}
-
-function formatDate(date: Date): string {
-  return date.toISOString().split("T")[0];
 }
 
 function getIntensityClass(xp: number): string {
@@ -49,7 +47,7 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
   const { weeks, monthLabels, totalXp, activeDays, longestStreak, todayStr } = useMemo(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const todayStr = formatDate(today);
+    const todayStr = getLocalDateStr();
 
     const startDate = new Date(today);
     startDate.setDate(startDate.getDate() - (totalDays - 1));
@@ -64,7 +62,7 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
 
     const cursor = new Date(startDate);
     while (cursor <= today || currentWeek.length > 0) {
-      const dateStr = formatDate(cursor);
+      const dateStr = getLocalDateStr(cursor);
       const xp = dailyXpHistory[dateStr] || 0;
 
       currentWeek.push({ date: new Date(cursor), xp });
@@ -184,7 +182,7 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
                 <div key={wi} className="flex flex-col gap-[5px]">
                   {week.map((day, di) => {
                     const isFuture = day.date > new Date();
-                    const isToday = formatDate(day.date) === todayStr;
+                    const isToday = getLocalDateStr(day.date) === todayStr;
                     return (
                       <motion.div
                         key={di}

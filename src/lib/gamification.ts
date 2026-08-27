@@ -39,6 +39,13 @@ export interface UserProfile {
 
 export const STORAGE_KEY = "matika-profile";
 
+export function getLocalDateStr(d: Date = new Date()): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
 function getProfileKey(): string {
   if (typeof window === "undefined") return STORAGE_KEY;
   try {
@@ -175,7 +182,7 @@ export function getDefaultProfile(): UserProfile {
     hearts: 5,
     maxHearts: 5,
     streak: 0,
-    lastActive: new Date().toISOString().split("T")[0],
+    lastActive: getLocalDateStr(),
     level: 0,
     badges: [],
     completedTopics: [],
@@ -206,8 +213,8 @@ export function getDefaultProfile(): UserProfile {
 }
 
 function updateStreak(profile: UserProfile) {
-  const today = new Date().toISOString().split("T")[0];
-  const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+  const today = getLocalDateStr();
+  const yesterday = getLocalDateStr(new Date(Date.now() - 86400000));
 
   if (profile.lastActive === today) return;
 
@@ -248,14 +255,14 @@ export function addXp(amount: number): UserProfile {
   profile.weeklyXp[today] = (profile.weeklyXp[today] || 0) + amount;
 
   // Track daily XP history for heatmap
-  const todayStr = new Date().toISOString().split("T")[0];
+  const todayStr = getLocalDateStr();
   profile.dailyXpHistory[todayStr] = (profile.dailyXpHistory[todayStr] || 0) + amount;
 
   // Track daily XP log for monthly chart
   if (!profile.dailyXpLog) profile.dailyXpLog = {};
   profile.dailyXpLog[todayStr] = (profile.dailyXpLog[todayStr] || 0) + amount;
   // Prune entries older than 90 days
-  const cutoff = new Date(Date.now() - 90 * 86400000).toISOString().split("T")[0];
+  const cutoff = getLocalDateStr(new Date(Date.now() - 90 * 86400000));
   for (const key of Object.keys(profile.dailyXpLog)) {
     if (key < cutoff) delete profile.dailyXpLog[key];
   }
@@ -303,11 +310,11 @@ export function refillHearts(): UserProfile {
 
 export function claimDailyReward(): { profile: UserProfile; reward: typeof DAILY_REWARDS[0] } | null {
   const profile = getProfile();
-  const today = new Date().toISOString().split("T")[0];
+  const today = getLocalDateStr();
 
   if (profile.dailyRewardClaimed === today) return null;
 
-  const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+  const yesterday = getLocalDateStr(new Date(Date.now() - 86400000));
 
   if (profile.dailyRewardClaimed === yesterday) {
     profile.dailyRewardStreak = Math.min(profile.dailyRewardStreak + 1, 6);
@@ -530,7 +537,7 @@ export async function getLeaderboardAsync(
 
 export function recordReview(slug: string, quality: number): void {
   const profile = getProfile();
-  const today = new Date().toISOString().split("T")[0];
+  const today = getLocalDateStr();
   const existing = profile.spacedRepetition[slug];
 
   let easeFactor = existing?.easeFactor ?? 2.5;
@@ -555,7 +562,7 @@ export function recordReview(slug: string, quality: number): void {
 
   profile.spacedRepetition[slug] = {
     lastReview: today,
-    nextReview: nextDate.toISOString().split("T")[0],
+    nextReview: getLocalDateStr(nextDate),
     easeFactor,
     interval,
     reviewCount: (existing?.reviewCount ?? 0) + 1,
@@ -566,7 +573,7 @@ export function recordReview(slug: string, quality: number): void {
 
 export function getDueTopics(): string[] {
   const profile = getProfile();
-  const today = new Date().toISOString().split("T")[0];
+  const today = getLocalDateStr();
   return Object.entries(profile.spacedRepetition)
     .filter(([, data]) => data.nextReview <= today)
     .sort((a, b) => a[1].nextReview.localeCompare(b[1].nextReview))
@@ -592,8 +599,8 @@ export function activatePremium(days: number): UserProfile {
   const now = new Date();
   const expires = new Date(now.getTime() + days * 86400000);
   profile.isPremium = true;
-  profile.premiumActivatedAt = now.toISOString().split("T")[0];
-  profile.premiumExpiresAt = expires.toISOString().split("T")[0];
+  profile.premiumActivatedAt = getLocalDateStr(now);
+  profile.premiumExpiresAt = getLocalDateStr(expires);
   saveProfile(profile);
   return profile;
 }

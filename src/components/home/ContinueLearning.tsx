@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Play, Zap, AlertTriangle } from "lucide-react";
-import { getAllTopics } from "@/lib/data";
+import { getAllTopics, getTopicStatus } from "@/lib/data";
 import { getWeakTopics } from "@/lib/gamification";
 import { renderIcon } from "@/lib/iconMap";
 import type { UserProfile } from "@/lib/gamification";
@@ -13,13 +13,14 @@ import type { Topic } from "@/lib/types";
 function ContinueLearning({ profile }: { profile: UserProfile }) {
   const { nextTopics, weakTopics } = useMemo(() => {
     const all = getAllTopics();
+    const statusMap = getTopicStatus(all, profile.completedTopics || []);
+
+    // Only show "available" topics (not locked ones)
+    const nextTopics = all.filter((t) => statusMap.get(t.slug) === "available");
+
+    // Weak topics: show even if not "available" because they were previously accessed
     const weakSlugs = getWeakTopics(3);
-
     const completed = new Set(profile.completedTopics || []);
-
-    const filtered = all.filter((t) => !completed.has(t.slug));
-    const nextTopics = filtered.slice(0, 4);
-
     const weakTopics = weakSlugs
       .map((slug) => all.find((t) => t.slug === slug))
       .filter((t): t is Topic => !!t && !completed.has(t.slug))

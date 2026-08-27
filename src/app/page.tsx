@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 import WorldMap from "@/components/game/WorldMap";
@@ -12,7 +12,7 @@ import QuestCard from "@/components/game/QuestCard";
 import XPBar from "@/components/ui/XPBar";
 import StreakBar from "@/components/ui/StreakBar";
 import XpPopup from "@/components/ui/XpPopup";
-import { getAllTopics } from "@/lib/data";
+import { getAllTopics, getTopicStatus } from "@/lib/data";
 import {
   getProfile,
   LEVEL_NAMES,
@@ -24,6 +24,7 @@ import {
   addXp,
   getStreakFreezeNotification,
   markStreakFreezeNotified,
+  getLocalDateStr,
 } from "@/lib/gamification";
 import { staggerContainer, staggerItem, springGentle, springBounce, popIn, cardSlideUp } from "@/lib/animations";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
@@ -55,6 +56,7 @@ import {
   PartyPopper,
   Pointer,
   Snowflake,
+  Lock,
 } from "lucide-react";
 import { InlineIcon } from "@/lib/iconMap";
 import Onboarding from "@/components/Onboarding";
@@ -440,10 +442,12 @@ function HomeContent() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showStreakFreezeToast, setShowStreakFreezeToast] = useState(false);
   const [chartView, setChartView] = useState<"weekly" | "monthly">("weekly");
+  const [showLockedToast, setShowLockedToast] = useState(false);
+  const searchParams = useSearchParams();
   const mascotState = useMascot();
 
   const checkDailyReward = (prof: UserProfile) => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = getLocalDateStr();
     if (prof.dailyRewardClaimed !== today) {
       const timer = setTimeout(() => setShowDailyReward(true), 800);
       return () => clearTimeout(timer);
@@ -459,7 +463,7 @@ function HomeContent() {
     setMounted(true);
 
     // Load claimed quests for today
-    const today = new Date().toISOString().split("T")[0];
+    const today = getLocalDateStr();
     const claimedKey = `matika-claimed-quests-${today}`;
     try {
       const saved: number[] = JSON.parse(localStorage.getItem(claimedKey) || "[]");
@@ -487,6 +491,13 @@ function HomeContent() {
       setTimeout(() => setShowStreakFreezeToast(true), 1500);
     }
 
+    // Check for locked topic redirect
+    if (searchParams.get("msg") === "topic-locked") {
+      setShowLockedToast(true);
+      setTimeout(() => setShowLockedToast(false), 4000);
+      router.replace("/");
+    }
+
     // Real-time listeners: re-fetch profile on xp-updated or storage change
     const onXpUpdated = () => {
       const prof = getProfile();
@@ -511,7 +522,7 @@ function HomeContent() {
     if (claimedQuests.has(questIdx)) return;
     const updated = addXp(xpReward);
     setProfile(updated);
-    const today = new Date().toISOString().split("T")[0];
+    const today = getLocalDateStr();
     const claimedKey = `matika-claimed-quests-${today}`;
     const newClaimed = new Set(claimedQuests);
     newClaimed.add(questIdx);
@@ -557,17 +568,14 @@ function HomeContent() {
     : 85;
 
   const nextTopic = topics.find((t) => !profile.completedTopics?.includes(t.slug));
+  const topicStatus = getTopicStatus(topics, profile.completedTopics || []);
 
   const mapNodes = topics.map((t) => ({
     slug: t.slug,
     title: t.title,
     icon: t.icon,
     level: t.level as "smp" | "sma" | "kuliah",
-    status: profile.completedTopics?.includes(t.slug)
-      ? ("completed" as const)
-      : t === nextTopic
-      ? ("available" as const)
-      : ("locked" as const),
+    status: topicStatus.get(t.slug) || ("locked" as const),
     section: t.section,
   }));
 
@@ -649,6 +657,35 @@ function HomeContent() {
                   markStreakFreezeNotified();
                   setShowStreakFreezeToast(false);
                 }}
+                className="w-8 h-8 rounded-full bg-[var(--border-subtle)] flex items-center justify-center hover:bg-[var(--border)] transition-colors shrink-0"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Locked Topic Toast */}
+      <AnimatePresence>
+        {showLockedToast && (
+          <motion.div
+            initial={{ opacity: 0, y: -30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -30, scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="fixed top-6 left-1/2 -translate-x-1/2 z-[90] w-full max-w-md px-4"
+          >
+            <div className="bg-gradient-to-r from-[var(--duo-orange)]/15 via-white to-[var(--duo-orange)]/15 dark:from-[var(--duo-orange)]/10 dark:via-[var(--surface)] dark:to-[var(--duo-orange)]/10 border-2 border-[var(--duo-orange)]/40 rounded-2xl p-4 shadow-xl flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[var(--duo-orange)]/20 flex items-center justify-center shrink-0">
+                <Lock size={20} className="text-[var(--duo-orange)]" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-black text-[var(--fg)]">Selesaikan topik sebelumnya dulu ya!</p>
+                <p className="text-xs text-[var(--fg-muted)]">Topik ini masih terkunci 🔒</p>
+              </div>
+              <button
+                onClick={() => setShowLockedToast(false)}
                 className="w-8 h-8 rounded-full bg-[var(--border-subtle)] flex items-center justify-center hover:bg-[var(--border)] transition-colors shrink-0"
               >
                 <X size={14} />

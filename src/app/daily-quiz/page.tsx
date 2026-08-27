@@ -5,7 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import Confetti from "@/components/ui/Confetti";
 import XpPopup from "@/components/ui/XpPopup";
 import { getAllQuizzes } from "@/lib/data";
-import { getProfile, saveProfile, addXp, getWeakTopics } from "@/lib/gamification";
+import { getProfile, saveProfile, addXp, getWeakTopics, getLocalDateStr } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import { CheckCircle2, XCircle, Timer, RotateCcw, Calendar, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
@@ -13,7 +13,7 @@ import type { QuizQuestion } from "@/lib/types";
 import FeatureGuard from "@/components/admin/FeatureGuard";
 
 function getTodayStr(): string {
-  return new Date().toISOString().split("T")[0];
+  return getLocalDateStr();
 }
 
 function seedRandom(seed: string): () => number {

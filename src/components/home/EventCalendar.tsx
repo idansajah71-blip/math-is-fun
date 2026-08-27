@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, ChevronRight, Zap, Gem, Clock } from "lucide-react";
 import { getVisibleEvents } from "@/lib/admin/events";
+import { getLocalDateStr } from "@/lib/gamification";
 import type { EventData } from "@/app/admin/events/page";
 
 const MAX_SHOW = 4;
@@ -18,7 +19,7 @@ function formatDateShort(dateStr: string): string {
 function EventCalendar() {
   const events = useMemo(() => {
     const now = new Date();
-    const today = now.toISOString().split("T")[0];
+    const today = getLocalDateStr();
     return getVisibleEvents()
       .filter((e) => e.startDate >= today)
       .sort((a, b) => a.startDate.localeCompare(b.startDate));

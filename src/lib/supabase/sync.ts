@@ -1,7 +1,7 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { UserProfile, getDefaultProfile, STORAGE_KEY } from "@/lib/gamification";
+import { UserProfile, getDefaultProfile, STORAGE_KEY, getLocalDateStr } from "@/lib/gamification";
 
 const supabase = createClient();
 
@@ -14,7 +14,7 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     hearts: (row.hearts as number) ?? 5,
     maxHearts: (row.max_hearts as number) ?? 5,
     streak: (row.streak as number) ?? 0,
-    lastActive: (row.last_active as string) ?? new Date().toISOString().split("T")[0],
+    lastActive: (row.last_active as string) ?? getLocalDateStr(),
     level: (row.level as number) ?? 0,
     badges: (row.badges as string[]) ?? [],
     completedTopics: (row.completed_topics as string[]) ?? [],

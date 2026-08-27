@@ -1,6 +1,7 @@
 "use client";
 
 import type { EventData } from "@/app/admin/events/page";
+import { getLocalDateStr } from "@/lib/gamification";
 
 const EVENTS_KEY = "matika-admin-events";
 
@@ -15,8 +16,8 @@ export function getEvents(): EventData[] {
 
 export function getVisibleEvents(): EventData[] {
   const now = new Date();
-  const today = now.toISOString().split("T")[0];
-  const in30Days = new Date(now.getTime() + 30 * 86400000).toISOString().split("T")[0];
+  const today = getLocalDateStr();
+  const in30Days = getLocalDateStr(new Date(now.getTime() + 30 * 86400000));
 
   return getEvents().filter((evt) => {
     if (evt.status === "draft") return false;
