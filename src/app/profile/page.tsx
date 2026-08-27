@@ -155,7 +155,7 @@ export default function ProfilePage() {
                       <h2 className="text-xl font-black text-[var(--duo-text)]">{profile.name}</h2>
                       {isPremiumActive() && (
                         <span className="px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[9px] font-black rounded-full flex items-center gap-0.5">
-                          <Crown size={8} /> PRO
+                          <Crown size={8} /> Sultan
                         </span>
                       )}
                       <motion.button

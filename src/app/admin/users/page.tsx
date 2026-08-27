@@ -108,12 +108,37 @@ export default function AdminUsersPage() {
   useEffect(() => { loadUsers(); }, [loadUsers]);
 
   function handleUpgrade(userId: string, days: number) {
-    const profileKey = `matika-profile-${userId}`;
-
     let profile: UserProfile;
+
+    // Find the correct profile key by scanning ALL localStorage keys
+    let profileKey = "";
+    let rawProfile = "";
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith("matika-profile-") && k !== "matika-profile") {
+        try {
+          const raw = localStorage.getItem(k);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed.name?.toLowerCase() === users.find((u) => u.id === userId)?.name?.toLowerCase()
+              || k === `matika-profile-${userId}`) {
+              profileKey = k;
+              rawProfile = raw;
+              break;
+            }
+          }
+        } catch {}
+      }
+    }
+
+    // Fallback: try the userId-based key
+    if (!profileKey) {
+      profileKey = `matika-profile-${userId}`;
+      rawProfile = localStorage.getItem(profileKey) || "";
+    }
+
     try {
-      const raw = localStorage.getItem(profileKey);
-      profile = raw ? { ...getDefaultProfile(), ...JSON.parse(raw) } : getDefaultProfile();
+      profile = rawProfile ? { ...getDefaultProfile(), ...JSON.parse(rawProfile) } : getDefaultProfile();
     } catch {
       profile = getDefaultProfile();
     }
@@ -125,8 +150,37 @@ export default function AdminUsersPage() {
     profile.hearts = 99;
     profile.hintTokens = (profile.hintTokens || 0) + 10;
 
+    // Save to the found key
     localStorage.setItem(profileKey, JSON.stringify(profile));
-    saveProfileForKey(userId, profile);
+
+    // Also scan and save to ALL matika-profile-* keys that match this user
+    const userName = users.find((u) => u.id === userId)?.name?.toLowerCase() || "";
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith("matika-profile-") && k !== "matika-profile" && k !== profileKey) {
+        try {
+          const raw = localStorage.getItem(k);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed.name?.toLowerCase() === userName) {
+              localStorage.setItem(k, JSON.stringify(profile));
+            }
+          }
+        } catch {}
+      }
+    }
+
+    // Also save to fallback key (for users without matika_session)
+    const fallbackRaw = localStorage.getItem("matika-profile");
+    if (fallbackRaw) {
+      try {
+        const fallbackParsed = JSON.parse(fallbackRaw);
+        if (fallbackParsed.name?.toLowerCase() === userName) {
+          localStorage.setItem("matika-profile", JSON.stringify(profile));
+        }
+      } catch {}
+    }
+
     updateUserRegistry(userId, { isPremium: true });
 
     const session = getAdminSession();

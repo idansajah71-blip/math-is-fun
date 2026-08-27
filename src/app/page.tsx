@@ -779,11 +779,11 @@ function HomeContent() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-3 mb-3">
-                    <h1 className="text-2xl font-black text-[var(--fg)] flex items-center gap-2">
+                    <h1 className="text-2xl font-black text-[var(--fg)] flex items-center gap-2 flex-wrap">
                       Halo, {profile.name || "Pelajar"}! <InlineIcon emoji="👆" size={22} />
                       {isPremiumActive() && (
                         <span className="px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[10px] font-black rounded-full flex items-center gap-1">
-                          <Crown size={10} /> PRO
+                          <Crown size={10} /> Player Sultan
                         </span>
                       )}
                     </h1>
