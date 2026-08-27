@@ -1,4 +1,4 @@
-const CACHE_NAME = "belajar-mtk-v1";
+const CACHE_NAME = "matika-v1";
 const STATIC_ASSETS = ["/", "/practice", "/tryout", "/formulas", "/badges", "/leaderboard", "/profile"];
 
 self.addEventListener("install", (event) => {

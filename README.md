@@ -1,4 +1,4 @@
-# BelajarMTK
+# Matika
 
 Matematika seru seperti game — dari SMP hingga Universitas.
 
