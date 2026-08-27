@@ -197,7 +197,7 @@ export default function AdminEventsPage() {
       <div className="flex flex-wrap gap-2">
         {EVENT_TYPES.map((t) => (
           <div key={t.id} className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-[var(--duo-card)] rounded-xl border border-[var(--duo-border)]">
-            <span>{t.icon}</span>
+            <span>{EVENT_ICON_MAP[t.icon] || t.icon}</span>
             <span className="text-[10px] font-bold text-[var(--duo-text-muted)]">{t.label}</span>
           </div>
         ))}
@@ -220,7 +220,7 @@ export default function AdminEventsPage() {
               <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Tipe Event</label>
               <select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value as EventData["type"] })}
                 className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-purple-500">
-                {EVENT_TYPES.map((t) => <option key={t.id} value={t.id}>{t.icon} {t.label}</option>)}
+                {EVENT_TYPES.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
               </select>
             </div>
             <div className="md:col-span-2">

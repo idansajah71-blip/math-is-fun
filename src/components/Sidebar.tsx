@@ -34,11 +34,13 @@ import {
   Crown,
   Calendar,
   Heart,
+  Users,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
 import ThemeToggle from "./ui/ThemeToggle";
 import AccentColorPicker from "./ui/AccentColorPicker";
+import NotificationBell from "./ui/NotificationBell";
 import { useSoundManager } from "@/hooks/useSoundManager";
 import type { UserProfile } from "@/lib/gamification";
 import { isPremiumActive } from "@/lib/gamification";
@@ -58,6 +60,7 @@ const NAV = [
   { href: "/spaced-repetition", label: "Ulangan", icon: Brain },
   { href: "/friends", label: "Teman", icon: Swords },
   { href: "/events", label: "Event", icon: Calendar },
+  { href: "/rooms", label: "Room", icon: Users },
   { href: "/profile", label: "Profil", icon: User },
   { href: "/admin", label: "Admin", icon: Shield, hidden: true },
 ];
@@ -76,6 +79,7 @@ const NAV_COLORS: Record<string, string> = {
   "/spaced-repetition": "var(--purple)",
   "/friends": "var(--info)",
   "/events": "var(--primary)",
+  "/rooms": "var(--info)",
   "/profile": "var(--primary)",
   "/admin": "var(--danger)",
 };
@@ -239,7 +243,10 @@ function SidebarInner({
       <div className="px-3 pb-3 pt-2 border-t border-[var(--border)] space-y-0.5 shrink-0">
         <div className="flex items-center justify-between px-3 py-2 rounded-xl text-[13px] font-bold text-[var(--fg-muted)]">
           <span>{theme === "dark" ? "Mode Gelap" : "Mode Terang"}</span>
-          <ThemeToggle />
+          <div className="flex items-center gap-1">
+            <NotificationBell />
+            <ThemeToggle />
+          </div>
         </div>
 
         <AccentColorPicker />

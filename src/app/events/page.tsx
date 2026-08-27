@@ -10,7 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import FeatureGuard from "@/components/admin/FeatureGuard";
 import { Calendar, Search } from "lucide-react";
-import { staggerContainer, staggerItem } from "@/lib/animations";
+import { staggerContainer } from "@/lib/animations";
 
 type FilterTab = "semua" | "active" | "scheduled" | "ended";
 

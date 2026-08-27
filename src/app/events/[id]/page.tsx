@@ -10,6 +10,7 @@ import {
   updateParticipant,
   getParticipant,
   resetParticipant,
+  getEventLeaderboard,
 } from "@/lib/events";
 import type { EventParticipant } from "@/lib/events";
 import { EVENT_TYPES } from "@/lib/events";
@@ -29,6 +30,7 @@ import {
   RotateCcw,
   CheckCircle2,
   AlertTriangle,
+  Medal,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -304,6 +306,47 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
               )}
             </div>
           </motion.div>
+
+          {(() => {
+            const leaderboard = getEventLeaderboard(event.id);
+            if (leaderboard.length === 0) return null;
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-5 mb-6"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <Medal size={16} className="text-yellow-400" />
+                  <span className="text-sm font-black text-[var(--duo-text)]">Leaderboard</span>
+                </div>
+                <div className="space-y-2">
+                  {leaderboard.slice(0, 10).map((p, i) => {
+                    const medals = ["text-yellow-400", "text-gray-400", "text-orange-400"];
+                    return (
+                      <div key={p.userId} className={`flex items-center gap-3 p-3 rounded-xl ${i === 0 ? "bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800" : "bg-[var(--duo-bg)]"}`}>
+                        <span className={`w-8 h-8 rounded-full bg-[var(--duo-card)] flex items-center justify-center text-xs font-black ${medals[i] || "text-[var(--duo-text-muted)]"}`}>
+                          {i < 3 ? ["🥇", "🥈", "🥉"][i] : `#${i + 1}`}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold text-[var(--duo-text)] truncate">
+                            {p.userId === user?.id ? "Kamu" : `Pemain ${p.userId.slice(-4)}`}
+                          </p>
+                          <p className="text-[10px] text-[var(--duo-text-muted)]">
+                            {p.score}/{event.questionsCount} benar &bull; +{p.xpEarned} XP
+                          </p>
+                        </div>
+                        {p.userId === user?.id && (
+                          <span className="px-2 py-0.5 bg-[var(--duo-green)]/10 text-[var(--duo-green)] rounded-full text-[9px] font-bold">Kamu</span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            );
+          })()}
 
           {error && (
             <div className="p-3 bg-red-50 dark:bg-red-950/30 rounded-xl border border-red-200 dark:border-red-800 mb-4">

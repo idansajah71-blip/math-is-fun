@@ -88,7 +88,34 @@ export function getActiveEvents(): EventData[] {
 
 export function getAllEvents(): EventData[] {
   try {
-    return JSON.parse(localStorage.getItem("matika-admin-events") || "[]");
+    const events: EventData[] = JSON.parse(localStorage.getItem("matika-admin-events") || "[]");
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+    const currentTime = now.toTimeString().slice(0, 5);
+    let changed = false;
+    const updated = events.map((e) => {
+      if (e.status === "scheduled" && e.startDate && (e.startDate < today || (e.startDate === today && e.startTime <= currentTime))) {
+        changed = true;
+        try {
+          const { addNotification } = require("@/lib/notifications");
+          addNotification("event_active", `Event "${e.name}" dimulai!`, `Event ${e.type} sudah aktif. Ayo ikut sekarang!`, `/events/${e.id}`);
+        } catch {}
+        return { ...e, status: "active" as const };
+      }
+      if (e.status === "active" && e.endDate && (e.endDate < today || (e.endDate === today && e.endTime <= currentTime))) {
+        changed = true;
+        try {
+          const { addNotification } = require("@/lib/notifications");
+          addNotification("event_done", `Event "${e.name}" selesai`, `Event sudah berakhir. Lihat hasilnya!`, `/events/${e.id}`);
+        } catch {}
+        return { ...e, status: "ended" as const };
+      }
+      return e;
+    });
+    if (changed) {
+      localStorage.setItem("matika-admin-events", JSON.stringify(updated));
+    }
+    return updated;
   } catch {
     return [];
   }

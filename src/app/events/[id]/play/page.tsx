@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { getEventById, getParticipant, updateParticipant, calculateRewards } from "@/lib/events";
 import type { EventData } from "@/lib/events";
-import { addXp, saveProfile, getProfile } from "@/lib/gamification";
+import { addXp, saveProfile } from "@/lib/gamification";
 import BossBattle from "@/components/events/BossBattle";
 import SpeedBlitz from "@/components/events/SpeedBlitz";
 import Marathon from "@/components/events/Marathon";
@@ -72,7 +72,6 @@ export default function EventPlayPage({ params }: { params: Promise<{ id: string
       completedAt: new Date().toISOString(),
     });
 
-    const profile = getProfile();
     const updated = addXp(rewards.xp);
     updated.gems += rewards.gems;
     saveProfile(updated);
