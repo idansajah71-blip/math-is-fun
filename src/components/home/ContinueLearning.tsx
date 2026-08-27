@@ -75,11 +75,6 @@ function ContinueLearning({ profile }: { profile: UserProfile }) {
                   <span className="text-[8px] font-black text-white">Perlu Diulang</span>
                 </div>
               )}
-              {isLocked && (
-                <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gray-400 dark:bg-gray-600 flex items-center justify-center z-10">
-                  <Lock size={10} className="text-white" />
-                </div>
-              )}
 
               <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-3 ${
                 isLocked
