@@ -93,6 +93,10 @@ supabase/             # SQL migrations
 - [x] Phase 4 — Unified motion system
 - [x] Phase 5 — Tests, CI, README
 
+## Contributing
+
+Contributions welcome! Open an issue or submit a PR.
+
 ## License
 
 MIT
