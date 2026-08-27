@@ -99,7 +99,14 @@ export default function LessonClient({ topic }: LessonClientProps) {
         }
       }
 
-      if (e.key === "Enter" || e.key === " ") {
+      // Only handle Enter for navigation, never intercept Space (it's used for typing)
+      if (e.key === "Enter") {
+        const tag = (e.target as HTMLElement)?.tagName;
+        // If focused on an input/textarea, only handle Enter on non-fill question types
+        if (tag === "INPUT" || tag === "TEXTAREA") {
+          // Let the fill-blank component handle its own Enter
+          return;
+        }
         e.preventDefault();
         handleNextQuestion();
       }
@@ -1086,7 +1093,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                           Coba Lagi — Dapatkan Sempurna!
                         </AnimatedButton>
                       )}
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-[var(--border)]">
                         <Link href="/practice">
                           <AnimatedButton fullWidth variant="info" size="lg" icon={<Brain size={16} />}>
                             Latihan Lagi

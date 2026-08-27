@@ -955,8 +955,8 @@ export const quizzes: QuizQuestion[] = [
     question: "Domain fungsi f(x) = sqrt(x-2) adalah...",
     options: ["x >= 2", "x > 2", "x >= 0", "Semua bilangan"],
     correctIndex: 0,
-    explanation: "Akar real: x - 2 >= 0 maka x >= 2",
-    alternatives: ["x >= 2","x≥2","[2,∞)"],
+    explanation: "Akar real: x - 2 >= 0 maka x>= 2",
+    alternatives: ["x>= 2","x≥2","[2,∞)"],
   },
   {
     id: "q-relasi-3",

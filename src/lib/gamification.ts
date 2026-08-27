@@ -139,27 +139,35 @@ export function getProfile(): UserProfile {
     return getDefaultProfile();
   }
   const key = getProfileKey();
-  const stored = localStorage.getItem(key);
-  if (stored) {
-    const profile = { ...getDefaultProfile(), ...JSON.parse(stored) };
-    // Migration: weeklyXp switched from Sunday-first to Monday-first indexing
-    if ((profile as Record<string, unknown>).weeklyXpVersion !== 2) {
-      profile.weeklyXp = [0, 0, 0, 0, 0, 0, 0];
-      (profile as Record<string, unknown>).weeklyXpVersion = 2;
-    }
-    updateStreak(profile);
-    regenerateHearts(profile);
-    saveProfile(profile);
-    return profile;
-  }
-  // Migration: try loading from old default key
-  if (key !== STORAGE_KEY) {
-    const old = localStorage.getItem(STORAGE_KEY);
-    if (old) {
-      const profile = { ...getDefaultProfile(), ...JSON.parse(old) };
+  try {
+    const stored = localStorage.getItem(key);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      const profile = { ...getDefaultProfile(), ...parsed };
+      // Migration: weeklyXp switched from Sunday-first to Monday-first indexing
+      if ((profile as Record<string, unknown>).weeklyXpVersion !== 2) {
+        profile.weeklyXp = [0, 0, 0, 0, 0, 0, 0];
+        (profile as Record<string, unknown>).weeklyXpVersion = 2;
+      }
+      updateStreak(profile);
+      regenerateHearts(profile);
       saveProfile(profile);
       return profile;
     }
+  } catch {
+    // Corrupt data — clear and fall through to default
+    try { localStorage.removeItem(key); } catch {}
+  }
+  // Migration: try loading from old default key
+  if (key !== STORAGE_KEY) {
+    try {
+      const old = localStorage.getItem(STORAGE_KEY);
+      if (old) {
+        const profile = { ...getDefaultProfile(), ...JSON.parse(old) };
+        saveProfile(profile);
+        return profile;
+      }
+    } catch {}
   }
   const profile = getDefaultProfile();
   saveProfile(profile);
@@ -172,6 +180,12 @@ export function saveProfile(profile: UserProfile) {
   localStorage.setItem(key, JSON.stringify(profile));
   // Background sync to Supabase (fire-and-forget)
   import("@/lib/supabase/sync").then(({ pushProfile }) => pushProfile(profile)).catch(() => {});
+}
+
+export function saveProfileForKey(userId: string, profile: UserProfile) {
+  if (typeof window === "undefined") return;
+  const key = `matika-profile-${userId}`;
+  localStorage.setItem(key, JSON.stringify(profile));
 }
 
 export function getDefaultProfile(): UserProfile {
@@ -247,20 +261,21 @@ function regenerateHearts(profile: UserProfile) {
 export function addXp(amount: number): UserProfile {
   const profile = getProfile();
   const oldLevel = profile.level;
-  profile.xp += amount;
+  const xpGain = isPremiumActive() ? amount * 2 : amount;
+  profile.xp += xpGain;
   profile.level = getLevelForXp(profile.xp);
 
   // Track weekly XP (0=Senin...6=Minggu)
   const today = (new Date().getDay() + 6) % 7;
-  profile.weeklyXp[today] = (profile.weeklyXp[today] || 0) + amount;
+  profile.weeklyXp[today] = (profile.weeklyXp[today] || 0) + xpGain;
 
   // Track daily XP history for heatmap
   const todayStr = getLocalDateStr();
-  profile.dailyXpHistory[todayStr] = (profile.dailyXpHistory[todayStr] || 0) + amount;
+  profile.dailyXpHistory[todayStr] = (profile.dailyXpHistory[todayStr] || 0) + xpGain;
 
   // Track daily XP log for monthly chart
   if (!profile.dailyXpLog) profile.dailyXpLog = {};
-  profile.dailyXpLog[todayStr] = (profile.dailyXpLog[todayStr] || 0) + amount;
+  profile.dailyXpLog[todayStr] = (profile.dailyXpLog[todayStr] || 0) + xpGain;
   // Prune entries older than 90 days
   const cutoff = getLocalDateStr(new Date(Date.now() - 90 * 86400000));
   for (const key of Object.keys(profile.dailyXpLog)) {
@@ -295,6 +310,7 @@ export function addGems(amount: number): UserProfile {
 
 export function useHeart(): boolean {
   const profile = getProfile();
+  if (isPremiumActive()) return true;
   if (profile.hearts <= 0) return false;
   profile.hearts -= 1;
   saveProfile(profile);
@@ -324,8 +340,10 @@ export function claimDailyReward(): { profile: UserProfile; reward: typeof DAILY
 
   const dayIndex = profile.dailyRewardStreak;
   const reward = DAILY_REWARDS[dayIndex];
-  profile.xp += reward.xp;
-  profile.gems += reward.gems;
+  const xpGain = isPremiumActive() ? reward.xp * 2 : reward.xp;
+  const gemBonus = isPremiumActive() ? 50 : 0;
+  profile.xp += xpGain;
+  profile.gems += reward.gems + gemBonus;
   profile.level = getLevelForXp(profile.xp);
   profile.dailyRewardClaimed = today;
   checkBadges(profile);
@@ -340,8 +358,8 @@ export function completeTopic(slug: string): { xp: number; gems: number; profile
   let gems = 0;
   if (!profile.completedTopics.includes(slug)) {
     profile.completedTopics.push(slug);
-    xp = 25;
-    gems = 5;
+    xp = isPremiumActive() ? 50 : 25;
+    gems = isPremiumActive() ? 10 : 5;
     profile.gems += gems;
   }
   checkBadges(profile);
@@ -370,9 +388,11 @@ export function saveQuizScore(slug: string, score: number, withReward = true): U
     if (score >= 80) xpGain = 50;
     else if (score >= 60) xpGain = 30;
 
+    if (isPremiumActive()) xpGain *= 2;
+
     // Gem bonus for high scores
-    if (score >= 90) profile.gems += 10;
-    else if (score >= 70) profile.gems += 5;
+    if (score >= 90) profile.gems += isPremiumActive() ? 20 : 10;
+    else if (score >= 70) profile.gems += isPremiumActive() ? 10 : 5;
 
     profile.xp += xpGain;
     profile.level = getLevelForXp(profile.xp);
@@ -591,7 +611,16 @@ export function isPremiumActive(): boolean {
   const profile = getProfile();
   if (!profile.isPremium) return false;
   if (!profile.premiumExpiresAt) return true;
-  return new Date(profile.premiumExpiresAt) > new Date();
+  const expiry = new Date(profile.premiumExpiresAt);
+  expiry.setHours(23, 59, 59, 999);
+  const active = expiry > new Date();
+  if (!active) {
+    // Auto-revoke expired premium
+    profile.isPremium = false;
+    profile.premiumExpiresAt = null;
+    saveProfile(profile);
+  }
+  return active;
 }
 
 export function activatePremium(days: number): UserProfile {

@@ -15,6 +15,7 @@ import XpPopup from "@/components/ui/XpPopup";
 import { getAllTopics, getTopicStatus } from "@/lib/data";
 import {
   getProfile,
+  getDefaultProfile,
   LEVEL_NAMES,
   getXpForCurrentLevel,
   getXpForNextLevel,
@@ -25,6 +26,7 @@ import {
   getStreakFreezeNotification,
   markStreakFreezeNotified,
   getLocalDateStr,
+  isPremiumActive,
 } from "@/lib/gamification";
 import { staggerContainer, staggerItem, springGentle, springBounce, popIn, cardSlideUp } from "@/lib/animations";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
@@ -57,6 +59,7 @@ import {
   Pointer,
   Snowflake,
   Lock,
+  Crown,
 } from "lucide-react";
 import { InlineIcon } from "@/lib/iconMap";
 import Onboarding from "@/components/Onboarding";
@@ -443,8 +446,16 @@ function HomeContent() {
   const [showStreakFreezeToast, setShowStreakFreezeToast] = useState(false);
   const [chartView, setChartView] = useState<"weekly" | "monthly">("weekly");
   const [showLockedToast, setShowLockedToast] = useState(false);
+  const [loadingTimedOut, setLoadingTimedOut] = useState(false);
   const searchParams = useSearchParams();
   const mascotState = useMascot();
+
+  // Loading timeout — if mounted never becomes true after 8s, show retry
+  useEffect(() => {
+    if (mounted) return;
+    const timer = setTimeout(() => setLoadingTimedOut(true), 8000);
+    return () => clearTimeout(timer);
+  }, [mounted]);
 
   const checkDailyReward = (prof: UserProfile) => {
     const today = getLocalDateStr();
@@ -457,64 +468,95 @@ function HomeContent() {
   };
 
   useEffect(() => {
-    setTopics(getAllTopics());
-    const prof = getProfile();
-    setProfile(prof);
-    setMounted(true);
+    let cancelled = false;
+    let cleanupXp: (() => void) | undefined;
 
-    // Load claimed quests for today
-    const today = getLocalDateStr();
-    const claimedKey = `matika-claimed-quests-${today}`;
     try {
-      const saved: number[] = JSON.parse(localStorage.getItem(claimedKey) || "[]");
-      setClaimedQuests(new Set(saved));
-    } catch {}
+      const topicList = getAllTopics();
+      if (!cancelled) setTopics(topicList);
 
-    const onboardingDone = localStorage.getItem("matika-onboarding");
-    if (!onboardingDone && isFlagEnabled("onboarding")) {
-      setShowOnboarding(true);
-    } else {
-      if (isFlagEnabled("daily-reward")) {
-        const cleanup = checkDailyReward(prof);
-        // Check streak freeze notification
-        const sfNotif = getStreakFreezeNotification();
-        if (sfNotif.show) {
-          setTimeout(() => setShowStreakFreezeToast(true), 1500);
+      let prof: UserProfile;
+      try {
+        prof = getProfile();
+      } catch {
+        prof = getDefaultProfile();
+        saveProfile(prof);
+      }
+      if (!cancelled) setProfile(prof);
+
+      // Load claimed quests for today
+      try {
+        const today = getLocalDateStr();
+        const claimedKey = `matika-claimed-quests-${today}`;
+        const saved: number[] = JSON.parse(localStorage.getItem(claimedKey) || "[]");
+        if (!cancelled) setClaimedQuests(new Set(saved));
+      } catch {}
+
+      const onboardingDone = localStorage.getItem("matika-onboarding");
+      if (!onboardingDone && isFlagEnabled("onboarding")) {
+        if (!cancelled) setShowOnboarding(true);
+      } else {
+        if (isFlagEnabled("daily-reward")) {
+          const today = getLocalDateStr();
+          if (prof.dailyRewardClaimed !== today) {
+            const timer = setTimeout(() => {
+              if (!cancelled) setShowDailyReward(true);
+            }, 800);
+            cleanupXp = () => clearTimeout(timer);
+          } else {
+            if (!cancelled) setClaimedDay(prof.dailyRewardStreak);
+          }
         }
-        return cleanup;
       }
-    }
 
-    // Check streak freeze notification (when onboarding is shown)
-    const sfNotif = getStreakFreezeNotification();
-    if (sfNotif.show) {
-      setTimeout(() => setShowStreakFreezeToast(true), 1500);
-    }
-
-    // Check for locked topic redirect
-    if (searchParams.get("msg") === "topic-locked") {
-      setShowLockedToast(true);
-      setTimeout(() => setShowLockedToast(false), 4000);
-      router.replace("/");
-    }
-
-    // Real-time listeners: re-fetch profile on xp-updated or storage change
-    const onXpUpdated = () => {
-      const prof = getProfile();
-      setProfile(prof);
-    };
-    const onStorage = (e: StorageEvent) => {
-      if (e.key && e.key.startsWith("matika-profile")) {
-        const prof = getProfile();
-        setProfile(prof);
+      // Check streak freeze notification
+      const sfNotif = getStreakFreezeNotification();
+      if (sfNotif.show) {
+        setTimeout(() => {
+          if (!cancelled) setShowStreakFreezeToast(true);
+        }, 1500);
       }
-    };
-    window.addEventListener("xp-updated", onXpUpdated);
-    window.addEventListener("storage", onStorage);
+
+      // Check for locked topic redirect
+      if (searchParams.get("msg") === "topic-locked") {
+        if (!cancelled) setShowLockedToast(true);
+        setTimeout(() => {
+          if (!cancelled) setShowLockedToast(false);
+        }, 4000);
+        router.replace("/");
+      }
+
+      // Real-time listeners: re-fetch profile on xp-updated or storage change
+      const onXpUpdated = () => {
+        try {
+          const p = getProfile();
+          if (!cancelled) setProfile(p);
+        } catch {}
+      };
+      const onStorage = (e: StorageEvent) => {
+        if (e.key && e.key.startsWith("matika-profile")) {
+          try {
+            const p = getProfile();
+            if (!cancelled) setProfile(p);
+          } catch {}
+        }
+      };
+      window.addEventListener("xp-updated", onXpUpdated);
+      window.addEventListener("storage", onStorage);
+
+      cleanupXp = () => {
+        window.removeEventListener("xp-updated", onXpUpdated);
+        window.removeEventListener("storage", onStorage);
+      };
+    } catch {
+      // If anything throws, still mark as mounted so user isn't stuck
+    } finally {
+      if (!cancelled) setMounted(true);
+    }
 
     return () => {
-      window.removeEventListener("xp-updated", onXpUpdated);
-      window.removeEventListener("storage", onStorage);
+      cancelled = true;
+      cleanupXp?.();
     };
   }, []);
 
@@ -550,7 +592,19 @@ function HomeContent() {
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <div className="flex-1 flex items-center justify-center">
-          <div className="w-12 h-12 border-4 border-[var(--duo-green)] border-t-transparent rounded-full animate-spin" />
+          {loadingTimedOut ? (
+            <div className="text-center">
+              <p className="text-sm text-[var(--fg-muted)] mb-4">Sepertinya ada masalah saat memuat halaman.</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="px-6 py-2.5 rounded-xl bg-[var(--primary)] text-white text-sm font-bold hover:opacity-90 transition-opacity"
+              >
+                Muat Ulang
+              </button>
+            </div>
+          ) : (
+            <div className="w-12 h-12 border-4 border-[var(--duo-green)] border-t-transparent rounded-full animate-spin" />
+          )}
         </div>
       </div>
     );
@@ -727,6 +781,11 @@ function HomeContent() {
                   <div className="flex flex-wrap items-center gap-3 mb-3">
                     <h1 className="text-2xl font-black text-[var(--fg)] flex items-center gap-2">
                       Halo, {profile.name || "Pelajar"}! <InlineIcon emoji="👆" size={22} />
+                      {isPremiumActive() && (
+                        <span className="px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[10px] font-black rounded-full flex items-center gap-1">
+                          <Crown size={10} /> PRO
+                        </span>
+                      )}
                     </h1>
                     <StreakBar streak={streak} />
                     <motion.div
@@ -825,7 +884,7 @@ function HomeContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35 }}
-            className="bg-white dark:bg-[var(--surface)] rounded-[24px] border-2 border-[var(--border)] p-5 mb-7 shadow-sm"
+            className="bg-white dark:bg-[var(--surface)] rounded-[24px] border-2 border-[var(--border)] p-5 mb-7 shadow-sm relative z-0"
           >
             <ActivityHeatmap dailyXpHistory={profile.dailyXpHistory || {}} />
           </motion.div>
@@ -834,7 +893,7 @@ function HomeContent() {
           <EventCalendar />
 
           {/* ===== TWO COLUMN: CONTINUE + CHART ===== */}
-          <div className="grid lg:grid-cols-5 gap-5 mb-7">
+          <div className="grid lg:grid-cols-5 gap-5 mb-7 relative z-10">
             <div className="lg:col-span-3">
               <ContinueLearning profile={profile} />
             </div>

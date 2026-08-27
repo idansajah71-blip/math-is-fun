@@ -94,10 +94,21 @@ export default function FillBlank({
           type="text"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !showResult) {
+              e.preventDefault();
+              e.stopPropagation();
+              handleSubmit();
+            }
+          }}
           disabled={showResult}
           placeholder="Ketik jawaban di sini..."
-          className="w-full text-lg font-bold text-[var(--duo-text)] placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none bg-transparent"
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          className="w-full text-lg font-bold text-[var(--duo-text)] placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none bg-transparent appearance-none"
+          style={{ WebkitBoxShadow: "none", caretColor: "var(--duo-info)" }}
           autoFocus
         />
       </div>

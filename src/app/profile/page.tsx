@@ -7,9 +7,10 @@ import XPBar from "@/components/ui/XPBar";
 import { getProfile, setProfileName, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel, BADGES, UserProfile, SHOP_ITEMS } from "@/lib/gamification";
 import { getAllTopics } from "@/lib/data";
 import { motion } from "framer-motion";
-import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check } from "lucide-react";
+import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check, Crown } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
+import { isPremiumActive } from "@/lib/gamification";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -55,7 +56,7 @@ export default function ProfilePage() {
   const stats = [
     { icon: Zap, label: "Total XP", value: profile.xp, color: "text-[var(--duo-xp)]", bg: "bg-[var(--duo-xp)]/10" },
     { icon: Gem, label: "Gems", value: profile.gems, color: "text-[var(--duo-purple)]", bg: "bg-[var(--duo-purple)]/10" },
-    { icon: Heart, label: "Hearts", value: `${profile.hearts}/${profile.maxHearts}`, color: "text-[var(--duo-danger)]", bg: "bg-red-50 dark:bg-red-950/30" },
+    { icon: Heart, label: "Hearts", value: isPremiumActive() ? "∞" : `${profile.hearts}/${profile.maxHearts}`, color: "text-[var(--duo-danger)]", bg: "bg-red-50 dark:bg-red-950/30" },
     { icon: BookOpen, label: "Materi", value: `${completed}/${total}`, color: "text-[var(--duo-green)]", bg: "bg-[var(--duo-green-bg)]" },
     { icon: Flame, label: "Streak", value: `${profile.streak} hari`, color: "text-orange-500", bg: "bg-orange-50 dark:bg-orange-950/30" },
     { icon: Award, label: "Badge", value: `${badges.length}/${BADGES.length}`, color: "text-[var(--duo-pink)]", bg: "bg-pink-50 dark:bg-pink-950/30" },
@@ -152,6 +153,11 @@ export default function ProfilePage() {
                   <div>
                     <div className="flex items-center gap-2">
                       <h2 className="text-xl font-black text-[var(--duo-text)]">{profile.name}</h2>
+                      {isPremiumActive() && (
+                        <span className="px-2 py-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[9px] font-black rounded-full flex items-center gap-0.5">
+                          <Crown size={8} /> PRO
+                        </span>
+                      )}
                       <motion.button
                         onClick={() => setEditMode(true)}
                         className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[var(--duo-text-muted)]"

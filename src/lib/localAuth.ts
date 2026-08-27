@@ -77,13 +77,6 @@ export function signup(email: string, password: string, name: string): { error?:
     });
   } catch {}
 
-  // Auto-activate 7-day trial premium for new users
-  try {
-    import("@/lib/gamification").then(({ grantTrialPremium }) => {
-      grantTrialPremium();
-    });
-  } catch {}
-
   return {};
 }
 
@@ -109,6 +102,33 @@ export function login(email: string, password: string): { error?: string; user?:
 
   const session = { id: user.id, email: user.email, name: user.name, loggedInAt: Date.now() };
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+  // Auto-activate 7-day trial premium for new users (first login)
+  try {
+    const profileKey = `matika-profile-${user.id}`;
+    const existingProfile = localStorage.getItem(profileKey);
+    if (!existingProfile) {
+      // New user — no profile yet, grant trial after profile is created
+      import("@/lib/gamification").then(({ activatePremium }) => {
+        // Small delay so the homepage creates the default profile first
+        setTimeout(() => {
+          try {
+            const raw = localStorage.getItem(profileKey);
+            if (raw) {
+              const profile = JSON.parse(raw);
+              if (!profile.isPremium) {
+                profile.isPremium = true;
+                profile.premiumActivatedAt = new Date().toISOString().split("T")[0];
+                const expires = new Date(Date.now() + 7 * 86400000);
+                profile.premiumExpiresAt = expires.toISOString().split("T")[0];
+                localStorage.setItem(profileKey, JSON.stringify(profile));
+              }
+            }
+          } catch {}
+        }, 2000);
+      });
+    }
+  } catch {}
 
   try {
     import("@/lib/admin/registry").then(({ updateUserRegistry }) => {

@@ -75,6 +75,11 @@ function profileToRow(profile: UserProfile) {
     is_premium: profile.isPremium,
     premium_activated_at: profile.premiumActivatedAt,
     premium_expires_at: profile.premiumExpiresAt,
+    streak_freeze_used_at: profile.streakFreezeUsedAt,
+    streak_freeze_notified: profile.streakFreezeNotified,
+    hint_tokens: profile.hintTokens,
+    xp_boost_until: profile.xpBoostUntil,
+    daily_xp_log: profile.dailyXpLog,
   };
 }
 

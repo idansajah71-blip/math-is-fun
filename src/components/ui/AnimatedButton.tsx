@@ -83,6 +83,16 @@ const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
         transition={springSnappy}
         disabled={isDisabled}
         aria-disabled={isDisabled}
+        onKeyDown={(e) => {
+          // Prevent Space from triggering click — only Enter should activate buttons
+          if (e.key === " ") {
+            e.preventDefault();
+          }
+          // Forward any custom onKeyDown from props
+          if (props.onKeyDown) {
+            props.onKeyDown(e);
+          }
+        }}
         className={[
           "relative inline-flex items-center justify-center gap-2",
           "font-black select-none cursor-pointer",

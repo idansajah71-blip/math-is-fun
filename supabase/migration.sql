@@ -29,6 +29,17 @@ create table public.profiles (
   daily_reward_streak integer not null default 0,
   double_xp_next_lesson boolean not null default false,
   last_seen_level integer not null default 0,
+  daily_xp_history jsonb not null default '{}',
+  daily_quiz_date date,
+  spaced_repetition jsonb not null default '{}',
+  is_premium boolean not null default false,
+  premium_activated_at date,
+  premium_expires_at date,
+  streak_freeze_used_at date,
+  streak_freeze_notified boolean not null default false,
+  hint_tokens integer not null default 0,
+  xp_boost_until bigint,
+  daily_xp_log jsonb not null default '{}',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

@@ -140,7 +140,7 @@ function SidebarInner({
                   )}
                 </>
               ) : (
-                <div className="h-3.5 w-20 bg-[var(--border)] rounded animate-pulse" />
+                <span className="h-3.5 w-20 bg-[var(--border)] rounded animate-pulse inline-block" />
               )}
             </p>
             <p className="text-[10px] font-bold text-[var(--fg-muted)] leading-tight">
@@ -179,9 +179,13 @@ function SidebarInner({
             <Gem size={10} />
             {profile?.gems || 0}
           </div>
-          <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-[var(--danger-bg)] text-[var(--danger)] text-[10px] font-black">
-            <Heart size={10} className="text-red-400" fill="currentColor" />
-            {profile?.hearts ?? 5}/{profile?.maxHearts ?? 5}
+          <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-black ${
+            isPremiumActive()
+              ? "bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-950/40 dark:to-orange-950/40 text-yellow-600 dark:text-yellow-400"
+              : "bg-[var(--danger-bg)] text-[var(--danger)]"
+          }`}>
+            <Heart size={10} className={isPremiumActive() ? "text-yellow-500" : "text-red-400"} fill="currentColor" />
+            {isPremiumActive() ? "∞" : `${profile?.hearts ?? 5}/${profile?.maxHearts ?? 5}`}
           </div>
         </div>
       </div>
