@@ -33,18 +33,19 @@ export interface UserProfile {
   streakFreezeNotified: boolean;
   hintTokens: number;
   xpBoostUntil: number | null;
+  dailyXpLog: Record<string, number>;
   _lastHeartTime?: number;
 }
 
-export const STORAGE_KEY = "belajar-mtk-profile";
+export const STORAGE_KEY = "matika-profile";
 
 function getProfileKey(): string {
   if (typeof window === "undefined") return STORAGE_KEY;
   try {
-    const raw = localStorage.getItem("belajarmtk_session");
+    const raw = localStorage.getItem("matika_session");
     if (raw) {
       const session = JSON.parse(raw);
-      if (session.id) return `belajar-mtk-profile-${session.id}`;
+      if (session.id) return `matika-profile-${session.id}`;
     }
   } catch {}
   return STORAGE_KEY;
@@ -195,6 +196,7 @@ export function getDefaultProfile(): UserProfile {
     streakFreezeNotified: false,
     hintTokens: 0,
     xpBoostUntil: null,
+    dailyXpLog: {},
   };
 }
 
@@ -243,6 +245,15 @@ export function addXp(amount: number): UserProfile {
   // Track daily XP history for heatmap
   const todayStr = new Date().toISOString().split("T")[0];
   profile.dailyXpHistory[todayStr] = (profile.dailyXpHistory[todayStr] || 0) + amount;
+
+  // Track daily XP log for monthly chart
+  if (!profile.dailyXpLog) profile.dailyXpLog = {};
+  profile.dailyXpLog[todayStr] = (profile.dailyXpLog[todayStr] || 0) + amount;
+  // Prune entries older than 90 days
+  const cutoff = new Date(Date.now() - 90 * 86400000).toISOString().split("T")[0];
+  for (const key of Object.keys(profile.dailyXpLog)) {
+    if (key < cutoff) delete profile.dailyXpLog[key];
+  }
 
   checkBadges(profile);
   saveProfile(profile);
@@ -467,7 +478,7 @@ export function getLeaderboard(
   period: "weekly" | "alltime" = "weekly"
 ): { name: string; xp: number; level: number; streak: number; weeklyXpTotal?: number }[] {
   const entries = Object.keys(localStorage)
-    .filter((k) => k.startsWith("belajar-mtk-lb-"))
+    .filter((k) => k.startsWith("matika-lb-"))
     .map((k) => JSON.parse(localStorage.getItem(k)!));
 
   const myProfile = getProfile();
@@ -601,11 +612,11 @@ export function getAllUserProfiles(): Record<string, UserProfile> {
 
   // Read from user registry
   try {
-    const registryRaw = localStorage.getItem("belajarmtk_user_registry");
+    const registryRaw = localStorage.getItem("matika_user_registry");
     if (registryRaw) {
       const registry: { id: string; email: string; name: string }[] = JSON.parse(registryRaw);
       for (const reg of registry) {
-        const profileKey = `belajar-mtk-profile-${reg.id}`;
+        const profileKey = `matika-profile-${reg.id}`;
         const stored = localStorage.getItem(profileKey);
         if (stored) {
           result[reg.id] = { ...getDefaultProfile(), ...JSON.parse(stored), name: reg.name };
@@ -616,7 +627,7 @@ export function getAllUserProfiles(): Record<string, UserProfile> {
 
   // Fallback: current user from session
   const current = getProfile();
-  const sessionRaw = localStorage.getItem("belajarmtk_session");
+  const sessionRaw = localStorage.getItem("matika_session");
   let sessionKey = "current";
   try {
     if (sessionRaw) {

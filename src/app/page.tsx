@@ -56,7 +56,7 @@ import {
   Pointer,
   Snowflake,
 } from "lucide-react";
-import { renderIcon, InlineIcon } from "@/lib/iconMap";
+import { InlineIcon } from "@/lib/iconMap";
 import Onboarding from "@/components/Onboarding";
 import { isFlagEnabled } from "@/lib/admin/flags";
 import type { Topic } from "@/lib/types";
@@ -64,6 +64,9 @@ import type { UserProfile } from "@/lib/gamification";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import Confetti from "@/components/ui/Confetti";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
+import EventCalendar from "@/components/home/EventCalendar";
+import ContinueLearning from "@/components/home/ContinueLearning";
+import MonthlyProgressChart from "@/components/home/MonthlyProgressChart";
 
 const MINI_GAMES = [
   {
@@ -390,6 +393,7 @@ function HomeContent() {
   const [claimedQuests, setClaimedQuests] = useState<Set<number>>(new Set());
   const [showConfetti, setShowConfetti] = useState(false);
   const [showStreakFreezeToast, setShowStreakFreezeToast] = useState(false);
+  const [chartView, setChartView] = useState<"weekly" | "monthly">("weekly");
   const mascotState = useMascot();
 
   const checkDailyReward = (prof: UserProfile) => {
@@ -410,13 +414,13 @@ function HomeContent() {
 
     // Load claimed quests for today
     const today = new Date().toISOString().split("T")[0];
-    const claimedKey = `belajar-mtk-claimed-quests-${today}`;
+    const claimedKey = `matika-claimed-quests-${today}`;
     try {
       const saved: number[] = JSON.parse(localStorage.getItem(claimedKey) || "[]");
       setClaimedQuests(new Set(saved));
     } catch {}
 
-    const onboardingDone = localStorage.getItem("belajar-mtk-onboarding");
+    const onboardingDone = localStorage.getItem("matika-onboarding");
     if (!onboardingDone && isFlagEnabled("onboarding")) {
       setShowOnboarding(true);
     } else {
@@ -443,7 +447,7 @@ function HomeContent() {
     const updated = addXp(xpReward);
     setProfile(updated);
     const today = new Date().toISOString().split("T")[0];
-    const claimedKey = `belajar-mtk-claimed-quests-${today}`;
+    const claimedKey = `matika-claimed-quests-${today}`;
     const newClaimed = new Set(claimedQuests);
     newClaimed.add(questIdx);
     setClaimedQuests(newClaimed);
@@ -482,7 +486,6 @@ function HomeContent() {
   const gems = profile.gems || 0;
   const completedCount = profile.completedTopics?.length || 0;
   const totalTopics = topics.length;
-  const progressPct = totalTopics > 0 ? Math.round((completedCount / totalTopics) * 100) : 0;
   const totalStudyMinutes = Math.floor((profile.totalStudyTime || 0) / 60);
   const averageAccuracy = profile.weeklyAccuracy?.length
     ? Math.round(profile.weeklyAccuracy.reduce((a, b) => a + b, 0) / profile.weeklyAccuracy.filter((x) => x > 0).length || 0)
@@ -725,74 +728,14 @@ function HomeContent() {
             <ActivityHeatmap dailyXpHistory={profile.dailyXpHistory || {}} />
           </motion.div>
 
-          {/* ===== TWO COLUMN: CONTINUE + WEEKLY CHART ===== */}
+          {/* ===== EVENT CALENDAR ===== */}
+          <EventCalendar />
+
+          {/* ===== TWO COLUMN: CONTINUE + CHART ===== */}
           <div className="grid lg:grid-cols-5 gap-5 mb-7">
-            {nextTopic && (
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 }}
-                className="lg:col-span-3"
-              >
-                <Link href={`/topic/${nextTopic.slug}`}>
-                  <motion.div
-                    className="relative bg-gradient-to-br from-[var(--primary)] via-[var(--primary)] to-[var(--duo-green-dark)] rounded-[28px] p-6 text-white overflow-hidden cursor-pointer shadow-xl"
-                    whileHover={{ scale: 1.015, y: -3 }}
-                    whileTap={{ scale: 0.99 }}
-                    transition={springGentle}
-                  >
-                    <div className="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full blur-2xl" />
-                    <div className="absolute -right-4 -bottom-12 w-40 h-40 bg-white/10 rounded-full" />
-                    <div className="absolute left-4 top-4 opacity-10"><BookOpen size={48} /></div>
-
-                    <div className="relative flex items-center gap-5">
-                      <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-sm flex items-center justify-center border-2 border-white/30 shrink-0 transition-transform duration-200 hover:rotate-[-6deg] hover:scale-105">
-                        {renderIcon(nextTopic.icon, 36, "text-white")}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-white/80 text-xs font-black uppercase tracking-wider mb-1.5">
-                          <Rocket size={14} className="inline" /> Materi Selanjutnya
-                        </p>
-                        <h3 className="text-2xl font-black mb-1">{nextTopic.title}</h3>
-                        <p className="text-white/70 text-sm mb-4 line-clamp-1">{nextTopic.description}</p>
-                        <div className="flex items-center gap-4">
-                          <div className="flex items-center gap-1.5">
-                            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                              <Zap size={14} />
-                            </div>
-                            <span className="text-sm font-bold">+25 XP</span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                              <Gem size={14} />
-                            </div>
-                            <span className="text-sm font-bold">+5 <Gem size={12} className="inline" /></span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl shrink-0 transition-transform duration-200 hover:scale-110 active:scale-95">
-                        <Play size={28} className="text-[var(--primary)] ml-1.5" fill="currentColor" />
-                      </div>
-                    </div>
-
-                    <div className="mt-5">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-bold text-white/70">Progress Keseluruhan</span>
-                        <span className="text-xs font-black text-white">{progressPct}%</span>
-                      </div>
-                      <div className="h-3 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm">
-                        <motion.div
-                          className="h-full bg-white rounded-full progress-glow"
-                          initial={{ width: 0 }}
-                          animate={{ width: `${progressPct}%` }}
-                          transition={{ delay: 0.6, type: "spring", stiffness: 100, damping: 20 }}
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-                </Link>
-              </motion.div>
-            )}
+            <div className="lg:col-span-3">
+              <ContinueLearning profile={profile} />
+            </div>
 
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -800,7 +743,35 @@ function HomeContent() {
               transition={{ delay: 0.15 }}
               className="lg:col-span-2"
             >
-              <WeeklyChart data={weeklyXp} />
+              {/* Chart toggle */}
+              <div className="flex items-center gap-1 mb-3 bg-[var(--border-subtle)] rounded-xl p-1">
+                <button
+                  onClick={() => setChartView("weekly")}
+                  className={`flex-1 py-1.5 text-[10px] font-black rounded-lg transition-all ${
+                    chartView === "weekly"
+                      ? "bg-white dark:bg-[var(--surface)] text-[var(--fg)] shadow-sm"
+                      : "text-[var(--fg-muted)]"
+                  }`}
+                >
+                  Mingguan
+                </button>
+                <button
+                  onClick={() => setChartView("monthly")}
+                  className={`flex-1 py-1.5 text-[10px] font-black rounded-lg transition-all ${
+                    chartView === "monthly"
+                      ? "bg-white dark:bg-[var(--surface)] text-[var(--fg)] shadow-sm"
+                      : "text-[var(--fg-muted)]"
+                  }`}
+                >
+                  Bulanan
+                </button>
+              </div>
+
+              {chartView === "weekly" ? (
+                <WeeklyChart data={weeklyXp} />
+              ) : (
+                <MonthlyProgressChart profile={profile} />
+              )}
             </motion.div>
           </div>
 
