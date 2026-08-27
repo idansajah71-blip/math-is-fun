@@ -14,9 +14,9 @@ function formatDate(date: Date): string {
 
 function getIntensityClass(xp: number): string {
   if (xp === 0) return "bg-[var(--border)]";
-  if (xp < 30) return "bg-[var(--primary)] opacity-30";
-  if (xp < 80) return "bg-[var(--primary)] opacity-50";
-  if (xp < 150) return "bg-[var(--primary)] opacity-75";
+  if (xp < 30) return "bg-[#1B4620] dark:bg-[#0E2611]";
+  if (xp < 80) return "bg-[#256B2E] dark:bg-[#1B4620]";
+  if (xp < 150) return "bg-[#2FA83D] dark:bg-[#256B2E]";
   return "bg-[var(--primary)]";
 }
 
@@ -98,12 +98,10 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
         {/* Legend */}
         <div className="flex items-center gap-1.5 text-[10px] text-[var(--fg-muted)]">
           <span>Kurang</span>
-          {[0, 20, 60, 120].map((threshold) => (
-            <div
-              key={threshold}
-              className={`w-3 h-3 rounded-sm ${getIntensityClass(threshold + 1)}`}
-            />
-          ))}
+          <div className="w-3 h-3 rounded-sm bg-[#1B4620] dark:bg-[#0E2611]" />
+          <div className="w-3 h-3 rounded-sm bg-[#256B2E] dark:bg-[#1B4620]" />
+          <div className="w-3 h-3 rounded-sm bg-[#2FA83D] dark:bg-[#256B2E]" />
+          <div className="w-3 h-3 rounded-sm bg-[var(--primary)]" />
           <span>Lebih</span>
         </div>
       </div>
