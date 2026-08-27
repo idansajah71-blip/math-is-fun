@@ -135,9 +135,15 @@ export default function AdminUsersPage() {
         { isPremium: false }, { isPremium: true, days });
     }
 
+    // Update state directly so UI reflects immediately
+    setUsers((prev) =>
+      prev.map((u) =>
+        u.id === userId ? { ...u, isPremium: true, profile: { ...u.profile!, ...profile } } : u
+      )
+    );
+
     setUpgraded(userId);
     setTimeout(() => setUpgraded(null), 3000);
-    loadUsers();
   }
 
   function handleRemovePremium(userId: string) {
@@ -161,7 +167,13 @@ export default function AdminUsersPage() {
       logAudit(session.email, session.name, "remove_premium", "user", userId,
         { isPremium: true }, { isPremium: false });
     }
-    loadUsers();
+
+    // Update state directly so UI reflects immediately
+    setUsers((prev) =>
+      prev.map((u) =>
+        u.id === userId ? { ...u, isPremium: false } : u
+      )
+    );
   }
 
   const filtered = users.filter((u) => {
