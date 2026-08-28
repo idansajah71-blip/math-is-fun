@@ -4,7 +4,6 @@ import type { QuizQuestion } from "@/lib/types";
 import { getAllQuizzes } from "@/lib/data";
 
 const PARTICIPANTS_KEY = "matika_event_participants";
-const RESULTS_KEY = "matika_event_results";
 
 export type EventType =
   | "boss_battle"
@@ -87,6 +86,14 @@ export function getActiveEvents(): EventData[] {
 }
 
 export function getAllEvents(): EventData[] {
+  try {
+    return JSON.parse(localStorage.getItem("matika-admin-events") || "[]");
+  } catch {
+    return [];
+  }
+}
+
+export function syncEventStatuses(): EventData[] {
   try {
     const events: EventData[] = JSON.parse(localStorage.getItem("matika-admin-events") || "[]");
     const now = new Date();

@@ -11,6 +11,7 @@ import { staggerContainer, staggerItem } from "@/lib/animations";
 
 interface ChallengeWeekProps {
   event: EventData;
+  userId: string;
   onComplete: (score: number, isWin: boolean) => void;
 }
 
@@ -39,7 +40,7 @@ function saveState(userId: string, state: Record<number, DayState>) {
   localStorage.setItem(getStorageKey(userId), JSON.stringify(state));
 }
 
-export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps) {
+export default function ChallengeWeek({ event, userId, onComplete }: ChallengeWeekProps) {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentDay, setCurrentDay] = useState(1);
   const [currentQIdx, setCurrentQIdx] = useState(0);
@@ -55,14 +56,13 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
 
   useEffect(() => {
     setQuestions(getEventQuestions(event));
-    const userId = typeof window !== "undefined" ? localStorage.getItem("matika-profile-userid") || "local" : "local";
     const saved = loadState(userId);
     setDayStates(saved);
     const total = Object.values(saved).reduce((sum, d) => sum + d.score, 0);
     setTotalScore(total);
     const nextDay = Array.from({ length: TOTAL_DAYS }, (_, i) => i + 1).find((d) => !saved[d]?.completed) || TOTAL_DAYS;
     setCurrentDay(nextDay);
-  }, [event]);
+  }, [event, userId]);
 
   const dayQuestions = questions.slice(
     (currentDay - 1) * QUESTIONS_PER_DAY,
@@ -89,7 +89,6 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
       setShowResult(false);
       if (currentQIdx + 1 >= QUESTIONS_PER_DAY) {
         const dayScore = dayScoreRef.current;
-        const userId = localStorage.getItem("matika-profile-userid") || "local";
         const newStates = { ...dayStates, [currentDay]: { completed: true, score: dayScore } };
         setDayStates(newStates);
         saveState(userId, newStates);

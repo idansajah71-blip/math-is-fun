@@ -4,7 +4,7 @@ import { use, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
-import { getRoomByCode, startRoom, joinRoom, deleteRoom } from "@/lib/rooms";
+import { getRoomByCode, startRoom, deleteRoom } from "@/lib/rooms";
 import type { Room } from "@/lib/rooms";
 import { EVENT_TYPES } from "@/lib/events";
 import { Crown, Users, Copy, Check, Play, Trash2, ArrowLeft, Swords, Zap, Timer, Brain, Skull, Dice6, CalendarDays, Target } from "lucide-react";

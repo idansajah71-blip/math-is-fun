@@ -1,6 +1,6 @@
 "use client";
 
-import type { EventData } from "@/app/admin/events/page";
+import type { EventData } from "@/lib/events";
 import { getLocalDateStr } from "@/lib/gamification";
 
 const EVENTS_KEY = "matika-admin-events";

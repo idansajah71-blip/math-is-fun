@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Calendar, ChevronRight, Zap, Gem, Clock } from "lucide-react";
 import { getVisibleEvents } from "@/lib/admin/events";
 import { getLocalDateStr } from "@/lib/gamification";
-import type { EventData } from "@/app/admin/events/page";
+import type { EventData } from "@/lib/events";
 
 const MAX_SHOW = 4;
 

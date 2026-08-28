@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { getRoomByCode, finishPlayer, getRoomResults } from "@/lib/rooms";
 import type { Room } from "@/lib/rooms";
 import RoomChallenge from "@/components/events/RoomChallenge";
-import { Crown, Trophy, Clock, ArrowLeft, RotateCcw } from "lucide-react";
+import { Crown, Trophy, Clock, ArrowLeft } from "lucide-react";
 import { addXp, saveProfile } from "@/lib/gamification";
 import toast from "react-hot-toast";
 

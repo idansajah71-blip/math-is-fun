@@ -22,6 +22,7 @@ interface ResultData {
   xpEarned: number;
   gemsEarned: number;
   badgeEarned: string | null;
+  isWin: boolean;
 }
 
 export default function EventPlayPage({ params }: { params: Promise<{ id: string }> }) {
@@ -82,6 +83,7 @@ export default function EventPlayPage({ params }: { params: Promise<{ id: string
       xpEarned: rewards.xp,
       gemsEarned: rewards.gems,
       badgeEarned: rewards.badge,
+      isWin,
     });
     setPhase("result");
   };
@@ -114,7 +116,7 @@ export default function EventPlayPage({ params }: { params: Promise<{ id: string
             xpEarned={resultData.xpEarned}
             gemsEarned={resultData.gemsEarned}
             badgeEarned={resultData.badgeEarned}
-            isWin={resultData.score > resultData.totalQuestions / 2}
+            isWin={resultData.isWin}
             onBack={handleBackToEvent}
           />
         </main>
@@ -137,7 +139,7 @@ export default function EventPlayPage({ params }: { params: Promise<{ id: string
       case "mystery":
         return <MysteryEvent event={event} onComplete={handleComplete} />;
       case "challenge_week":
-        return <ChallengeWeek event={event} onComplete={handleComplete} />;
+        return <ChallengeWeek event={event} userId={user?.id || "local"} onComplete={handleComplete} />;
       default:
         return (
           <div className="text-center py-16">

@@ -7,26 +7,7 @@ import {
   Heart, Target, Timer, Brain, Skull, Dice6, CalendarDays,
   ChevronLeft, ChevronRight, Check, Users, Flame,
 } from "lucide-react";
-
-export interface EventData {
-  id: string;
-  name: string;
-  type: "boss_battle" | "speed_blitz" | "marathon" | "trivia_night" | "elimination" | "mystery" | "challenge_week";
-  description: string;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
-  topics: string[];
-  difficulty: "easy" | "medium" | "hard";
-  questionsCount: number;
-  lives: number;
-  rewards: { xp: number; gems: number; badge: string | null };
-  maxParticipants: number;
-  status: "draft" | "scheduled" | "active" | "ended";
-  createdBy: string;
-  createdAt: string;
-}
+import type { EventData } from "@/lib/events";
 
 const EVENT_TYPES: {
   id: EventData["type"];
@@ -157,7 +138,7 @@ export default function AdminEventsPage() {
       lives: form.lives,
       rewards: { xp: form.xpReward, gems: form.gemsReward, badge: form.badgeReward || null },
       maxParticipants: form.maxParticipants,
-      status: form.startDate ? "scheduled" : "draft",
+      status: editing ? (events.find((e) => e.id === editing)?.status || (form.startDate ? "scheduled" : "draft")) : (form.startDate ? "scheduled" : "draft"),
       createdBy: "admin@matika.com",
       createdAt: editing ? (events.find((e) => e.id === editing)?.createdAt || now) : now,
     };

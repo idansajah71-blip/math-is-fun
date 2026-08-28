@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import EventCard from "@/components/events/EventCard";
-import { getAllEvents, isEventJoined, getEventParticipants } from "@/lib/events";
+import { getAllEvents, syncEventStatuses, isEventJoined, getEventParticipants } from "@/lib/events";
 import type { EventData } from "@/lib/events";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";

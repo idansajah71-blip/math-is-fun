@@ -104,8 +104,13 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
     finishGame(bossHp <= 0, scoreRef.current);
   };
 
+  useEffect(() => {
+    if (!currentQuestion && !gameOver && questions.length > 0) {
+      handleQuestionExhausted();
+    }
+  }, [currentQuestion, gameOver, questions.length]);
+
   if (!currentQuestion && !gameOver) {
-    handleQuestionExhausted();
     return (
       <div className="flex items-center justify-center min-h-[300px]">
         <motion.div
