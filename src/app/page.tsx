@@ -71,7 +71,8 @@ import Confetti from "@/components/ui/Confetti";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import EventCalendar from "@/components/home/EventCalendar";
 import ContinueLearning from "@/components/home/ContinueLearning";
-import MonthlyProgressChart from "@/components/home/MonthlyProgressChart";
+import dynamic from "next/dynamic";
+const MonthlyProgressChart = dynamic(() => import("@/components/home/MonthlyProgressChart"), { ssr: false });
 
 const MINI_GAMES = [
   {

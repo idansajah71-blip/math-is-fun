@@ -45,10 +45,11 @@ function autoSeedAdminContent(): void {
   localStorage.setItem(SEEDED_KEY, "true");
 }
 
-// Auto-seed on module load
-autoSeedAdminContent();
+// Auto-seed on module load (lazy — only runs once per session)
+let _seeded = false;
 
 export function getAllTopics(): Topic[] {
+  if (!_seeded) { _seeded = true; autoSeedAdminContent(); }
   const adminTopics = getAdminTopics();
   const staticTopics = topicsData as Topic[];
 
@@ -258,6 +259,7 @@ function generateHints(q: QuizQuestion): string[] {
 }
 
 export function getAllQuizzes(): QuizQuestion[] {
+  if (!_seeded) { _seeded = true; autoSeedAdminContent(); }
   const adminQuestions = getAdminQuestions();
   const publishedAdmin = adminQuestions.filter((q) => q.isPublished);
 

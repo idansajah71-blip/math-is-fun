@@ -3,7 +3,11 @@
 import { createClient } from "@/lib/supabase/client";
 import { UserProfile, getDefaultProfile, STORAGE_KEY, getLocalDateStr } from "@/lib/gamification";
 
-const supabase = createClient();
+let _client: ReturnType<typeof createClient> | null = null;
+function getClient() {
+  if (!_client) _client = createClient();
+  return _client;
+}
 
 /** Convert snake_case DB row → camelCase UserProfile */
 function rowToProfile(row: Record<string, unknown>): UserProfile {
@@ -88,10 +92,10 @@ function profileToRow(profile: UserProfile) {
  * Returns the merged profile (Supabase wins on conflict).
  */
 export async function pullProfile(): Promise<UserProfile | null> {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await getClient().auth.getUser();
   if (!user) return null;
 
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from("profiles")
     .select("*")
     .eq("id", user.id)
@@ -122,12 +126,12 @@ export async function pullProfile(): Promise<UserProfile | null> {
  * Call this after every profile mutation (addXp, completeTopic, etc.)
  */
 export async function pushProfile(profile: UserProfile): Promise<void> {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await getClient().auth.getUser();
   if (!user) return;
 
   const row = profileToRow(profile);
 
-  const { error } = await supabase
+  const { error } = await getClient()
     .from("profiles")
     .upsert({ id: user.id, ...row }, { onConflict: "id" });
 
@@ -154,7 +158,7 @@ export async function syncProfile(): Promise<UserProfile> {
 export async function fetchLeaderboard(type: "weekly" | "alltime" = "weekly") {
   const viewName = type === "weekly" ? "leaderboard_weekly" : "leaderboard_alltime";
 
-  const { data, error } = await supabase
+  const { data, error } = await getClient()
     .from(viewName)
     .select("*")
     .limit(50);
