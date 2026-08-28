@@ -14,7 +14,7 @@ interface MysteryEventProps {
   onComplete: (score: number, isWin: boolean) => void;
 }
 
-const TOTAL_QUESTIONS = 5;
+const TOTAL_QUESTIONS_DEFAULT = 5;
 
 export default function MysteryEvent({ event, onComplete }: MysteryEventProps) {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
@@ -24,10 +24,12 @@ export default function MysteryEvent({ event, onComplete }: MysteryEventProps) {
   const [revealed, setRevealed] = useState(false);
   const [finished, setFinished] = useState(false);
   const scoreRef = useRef(0);
+  const [displayScore, setDisplayScore] = useState(0);
+  const totalQuestions = event.questionsCount || TOTAL_QUESTIONS_DEFAULT;
 
   useEffect(() => {
-    setQuestions(getEventQuestions(event).slice(0, TOTAL_QUESTIONS));
-  }, [event]);
+    setQuestions(getEventQuestions(event).slice(0, totalQuestions));
+  }, [event, totalQuestions]);
 
   const handleReveal = () => {
     setRevealed(true);
@@ -42,6 +44,7 @@ export default function MysteryEvent({ event, onComplete }: MysteryEventProps) {
       if (i === questions[currentIdx].correctIndex) {
         playCorrectSound();
         scoreRef.current += 1;
+        setDisplayScore(scoreRef.current);
       } else {
         playWrongSound();
       }
@@ -50,7 +53,7 @@ export default function MysteryEvent({ event, onComplete }: MysteryEventProps) {
         setSelected(null);
         setShowResult(false);
         setRevealed(false);
-        if (currentIdx + 1 >= TOTAL_QUESTIONS) {
+        if (currentIdx + 1 >= totalQuestions) {
           playCompleteSound();
           setFinished(true);
           onComplete(scoreRef.current, true);
@@ -81,9 +84,9 @@ export default function MysteryEvent({ event, onComplete }: MysteryEventProps) {
       {/* Progress */}
       <div className="flex items-center justify-between mb-4">
         <span className="text-xs font-bold text-[var(--duo-text-muted)]">
-          Soal {currentIdx + 1}/{TOTAL_QUESTIONS}
+          Soal {currentIdx + 1}/{totalQuestions}
         </span>
-        <span className="text-xs font-bold text-[var(--duo-text)]">Skor: {scoreRef.current}</span>
+        <span className="text-xs font-bold text-[var(--duo-text)]">Skor: {displayScore}</span>
       </div>
 
       {/* Question Card */}
@@ -193,7 +196,7 @@ export default function MysteryEvent({ event, onComplete }: MysteryEventProps) {
                         : "text-[var(--duo-red)]"
                     }`}
                   >
-                    {selected === currentQuestion.correctIndex ? "Benar!" : "Dilewati!"}
+                    {selected === currentQuestion.correctIndex ? "Benar!" : "Salah!"}
                   </p>
                   <p className="text-xs text-[var(--duo-text-muted)] mt-1">{currentQuestion.explanation}</p>
                 </motion.div>

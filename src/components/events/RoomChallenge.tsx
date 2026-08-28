@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getRoomByCode, getRoomQuestions, finishPlayer } from "@/lib/rooms";
+import { getRoomQuestions } from "@/lib/rooms";
 import type { Room } from "@/lib/rooms";
 import type { QuizQuestion } from "@/lib/types";
 import { Check, X, Trophy, Clock, Zap } from "lucide-react";
-import toast from "react-hot-toast";
 
 interface Props {
   room: Room;
@@ -16,14 +15,16 @@ interface Props {
 }
 
 export default function RoomChallenge({ room, userId, userName, onComplete }: Props) {
-  const questions = useMemo(() => getRoomQuestions(room), [room]);
+  const questions = useMemo(() => getRoomQuestions(room), [room.code, room.config.type, room.config.topics.join(","), room.config.difficulty, room.config.questionsCount]);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
+  const [displayScore, setDisplayScore] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [answered, setAnswered] = useState(false);
   const [startTime] = useState(Date.now());
   const [elapsed, setElapsed] = useState(0);
   const [done, setDone] = useState(false);
+  const scoreRef = useRef(0);
 
   useEffect(() => {
     if (done) return;
@@ -43,13 +44,14 @@ export default function RoomChallenge({ room, userId, userName, onComplete }: Pr
     setAnswered(true);
 
     if (idx === q?.correctIndex) {
-      setScore((s) => s + 1);
+      scoreRef.current += 1;
+      setDisplayScore(scoreRef.current);
     }
   }
 
   function handleNext() {
     if (current + 1 >= total) {
-      const finalScore = score;
+      const finalScore = scoreRef.current;
       const finalTime = Math.floor((Date.now() - startTime) / 1000);
       setDone(true);
       onComplete(finalScore, finalTime);
@@ -83,7 +85,7 @@ export default function RoomChallenge({ room, userId, userName, onComplete }: Pr
         </div>
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1 text-xs font-bold text-[var(--duo-text)]">
-            <Trophy size={12} className="text-yellow-400" /> {score}
+            <Trophy size={12} className="text-yellow-400" /> {displayScore}
           </span>
           <span className="flex items-center gap-1 text-xs font-bold text-[var(--duo-text-muted)]">
             <Clock size={12} /> {formatTime(elapsed)}

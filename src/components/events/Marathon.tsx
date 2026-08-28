@@ -23,6 +23,7 @@ export default function Marathon({ event, onComplete }: MarathonProps) {
   const [shaking, setShaking] = useState(false);
   const [gameOver, setGameOver] = useState<"victory" | "defeat" | null>(null);
   const scoreRef = useRef(0);
+  const [displayScore, setDisplayScore] = useState(0);
   const maxLives = event.lives || 3;
   const totalQuestions = event.questionsCount || 20;
 
@@ -41,6 +42,7 @@ export default function Marathon({ event, onComplete }: MarathonProps) {
       if (isCorrect) {
         playCorrectSound();
         scoreRef.current += 1;
+        setDisplayScore(scoreRef.current);
       } else {
         playWrongSound();
         setShaking(true);
@@ -118,7 +120,7 @@ export default function Marathon({ event, onComplete }: MarathonProps) {
             transition={{ type: "spring", stiffness: 100, damping: 15 }}
           />
         </div>
-        <p className="text-[10px] text-[var(--duo-text-muted)] mt-1 text-center">Skor: {scoreRef.current}</p>
+        <p className="text-[10px] text-[var(--duo-text-muted)] mt-1 text-center">Skor: {displayScore}</p>
       </div>
 
       {/* Question */}

@@ -96,18 +96,10 @@ export function getAllEvents(): EventData[] {
     const updated = events.map((e) => {
       if (e.status === "scheduled" && e.startDate && (e.startDate < today || (e.startDate === today && e.startTime <= currentTime))) {
         changed = true;
-        try {
-          const { addNotification } = require("@/lib/notifications");
-          addNotification("event_active", `Event "${e.name}" dimulai!`, `Event ${e.type} sudah aktif. Ayo ikut sekarang!`, `/events/${e.id}`);
-        } catch {}
         return { ...e, status: "active" as const };
       }
       if (e.status === "active" && e.endDate && (e.endDate < today || (e.endDate === today && e.endTime <= currentTime))) {
         changed = true;
-        try {
-          const { addNotification } = require("@/lib/notifications");
-          addNotification("event_done", `Event "${e.name}" selesai`, `Event sudah berakhir. Lihat hasilnya!`, `/events/${e.id}`);
-        } catch {}
         return { ...e, status: "ended" as const };
       }
       return e;

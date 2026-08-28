@@ -21,6 +21,7 @@ export default function TriviaNight({ event, onComplete }: TriviaNightProps) {
   const [showResult, setShowResult] = useState(false);
   const [finished, setFinished] = useState(false);
   const scoreRef = useRef(0);
+  const [displayScore, setDisplayScore] = useState(0);
   const totalQuestions = event.questionsCount || 15;
 
   useEffect(() => {
@@ -37,6 +38,7 @@ export default function TriviaNight({ event, onComplete }: TriviaNightProps) {
       if (isCorrect) {
         playCorrectSound();
         scoreRef.current += 1;
+        setDisplayScore(scoreRef.current);
       } else {
         playWrongSound();
       }
@@ -81,7 +83,7 @@ export default function TriviaNight({ event, onComplete }: TriviaNightProps) {
         </div>
         <div className="flex items-center gap-2">
           <CheckCircle2 size={14} className="text-[var(--duo-green)]" />
-          <span className="text-xs font-bold text-[var(--duo-text)]">{scoreRef.current} benar</span>
+          <span className="text-xs font-bold text-[var(--duo-text)]">{displayScore} benar</span>
         </div>
       </div>
 

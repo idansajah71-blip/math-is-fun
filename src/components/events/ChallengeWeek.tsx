@@ -16,24 +16,27 @@ interface ChallengeWeekProps {
 
 const QUESTIONS_PER_DAY = 3;
 const TOTAL_DAYS = 7;
-const STORAGE_KEY = "matika_challenge_week";
 
 interface DayState {
   completed: boolean;
   score: number;
 }
 
-function loadState(): Record<number, DayState> {
+function getStorageKey(userId: string): string {
+  return `matika_challenge_week_${userId}`;
+}
+
+function loadState(userId: string): Record<number, DayState> {
   if (typeof window === "undefined") return {};
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    return JSON.parse(localStorage.getItem(getStorageKey(userId)) || "{}");
   } catch {
     return {};
   }
 }
 
-function saveState(state: Record<number, DayState>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+function saveState(userId: string, state: Record<number, DayState>) {
+  localStorage.setItem(getStorageKey(userId), JSON.stringify(state));
 }
 
 export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps) {
@@ -47,14 +50,15 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
   const [dayStates, setDayStates] = useState<Record<number, DayState>>({});
   const [dayComplete, setDayComplete] = useState(false);
   const [allComplete, setAllComplete] = useState(false);
-  const totalScoreRef = useRef(0);
+  const [displayScore, setDisplayScore] = useState(0);
+  const dayScoreRef = useRef(0);
 
   useEffect(() => {
     setQuestions(getEventQuestions(event));
-    const saved = loadState();
+    const userId = typeof window !== "undefined" ? localStorage.getItem("matika-profile-userid") || "local" : "local";
+    const saved = loadState(userId);
     setDayStates(saved);
     const total = Object.values(saved).reduce((sum, d) => sum + d.score, 0);
-    totalScoreRef.current = total;
     setTotalScore(total);
     const nextDay = Array.from({ length: TOTAL_DAYS }, (_, i) => i + 1).find((d) => !saved[d]?.completed) || TOTAL_DAYS;
     setCurrentDay(nextDay);
@@ -74,7 +78,8 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
     const isCorrect = i === currentQuestion.correctIndex;
     if (isCorrect) {
       playCorrectSound();
-      setScore((s) => s + 1);
+      dayScoreRef.current += 1;
+      setDisplayScore(dayScoreRef.current);
     } else {
       playWrongSound();
     }
@@ -83,12 +88,12 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
       setSelected(null);
       setShowResult(false);
       if (currentQIdx + 1 >= QUESTIONS_PER_DAY) {
-        const dayScore = score + (isCorrect ? 1 : 0);
+        const dayScore = dayScoreRef.current;
+        const userId = localStorage.getItem("matika-profile-userid") || "local";
         const newStates = { ...dayStates, [currentDay]: { completed: true, score: dayScore } };
         setDayStates(newStates);
-        saveState(newStates);
-        const newTotal = totalScoreRef.current + dayScore;
-        totalScoreRef.current = newTotal;
+        saveState(userId, newStates);
+        const newTotal = totalScore + dayScore;
         setTotalScore(newTotal);
         playCompleteSound();
         setDayComplete(true);
@@ -107,7 +112,8 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
 
   const handleNextDay = () => {
     setDayComplete(false);
-    setScore(0);
+    dayScoreRef.current = 0;
+    setDisplayScore(0);
     setCurrentQIdx(0);
     setCurrentDay((d) => Math.min(d + 1, TOTAL_DAYS));
   };
@@ -122,7 +128,7 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
         >
           <Calendar size={64} className="text-[var(--duo-green)] mx-auto mb-4" />
           <h2 className="text-2xl font-black text-[var(--duo-text)] mb-2">Challenge Week Selesai!</h2>
-          <p className="text-sm text-[var(--duo-text-muted)]">Total skor: {totalScoreRef.current}/{TOTAL_DAYS * QUESTIONS_PER_DAY}</p>
+          <p className="text-sm text-[var(--duo-text-muted)]">Total skor: {totalScore}/{TOTAL_DAYS * QUESTIONS_PER_DAY}</p>
         </motion.div>
       </div>
     );
@@ -153,7 +159,7 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
       {/* Total Score */}
       <div className="text-center mb-4">
         <span className="text-xs font-bold text-[var(--duo-text-muted)]">
-          Hari {currentDay}/{TOTAL_DAYS} | Soal {currentQIdx + 1}/{QUESTIONS_PER_DAY} | Skor: {totalScoreRef.current}
+          Hari {currentDay}/{TOTAL_DAYS} | Soal {currentQIdx + 1}/{QUESTIONS_PER_DAY} | Skor: {totalScore}
         </span>
       </div>
 
@@ -169,7 +175,7 @@ export default function ChallengeWeek({ event, onComplete }: ChallengeWeekProps)
             <CheckCircle2 size={48} className="text-[var(--duo-green)] mx-auto mb-3" />
             <h3 className="text-lg font-black text-[var(--duo-text)]">Hari {currentDay} Selesai!</h3>
             <p className="text-sm text-[var(--duo-text-muted)] mb-4">
-              Skor hari ini: {score}/{QUESTIONS_PER_DAY}
+              Skor hari ini: {displayScore}/{QUESTIONS_PER_DAY}
             </p>
             <motion.button
               onClick={handleNextDay}

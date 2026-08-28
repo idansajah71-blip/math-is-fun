@@ -25,6 +25,7 @@ export default function SpeedBlitz({ event, onComplete }: SpeedBlitzProps) {
   const [showResult, setShowResult] = useState(false);
   const [finished, setFinished] = useState(false);
   const [showTimeUp, setShowTimeUp] = useState(false);
+  const [displayScore, setDisplayScore] = useState(0);
 
   useEffect(() => {
     const qs = getEventQuestions(event);
@@ -77,6 +78,7 @@ export default function SpeedBlitz({ event, onComplete }: SpeedBlitzProps) {
     if (i === questions[currentIdx].correctIndex) {
       playCorrectSound();
       scoreRef.current++;
+      setDisplayScore(scoreRef.current);
     } else {
       playWrongSound();
     }
@@ -145,7 +147,7 @@ export default function SpeedBlitz({ event, onComplete }: SpeedBlitzProps) {
       {/* Score */}
       <div className="flex items-center justify-center gap-2 mb-4">
         <Zap size={16} className="text-[var(--duo-orange)]" />
-        <span className="text-sm font-bold text-[var(--duo-text)]">{scoreRef.current} jawaban benar</span>
+        <span className="text-sm font-bold text-[var(--duo-text)]">{displayScore} jawaban benar</span>
         <span className="text-xs text-[var(--duo-text-muted)]">/ {currentIdx} dijawab</span>
       </div>
 
@@ -231,7 +233,7 @@ export default function SpeedBlitz({ event, onComplete }: SpeedBlitzProps) {
               </motion.div>
               <h2 className="text-2xl font-black text-[var(--duo-text)] mb-2">Waktu Habis!</h2>
               <p className="text-sm text-[var(--duo-text-muted)]">
-                Skor akhir: {scoreRef.current}
+                Skor akhir: {displayScore}
               </p>
             </motion.div>
           </motion.div>

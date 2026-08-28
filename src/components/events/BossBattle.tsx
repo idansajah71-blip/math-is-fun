@@ -40,6 +40,8 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
   const [shaking, setShaking] = useState(false);
   const [gameOver, setGameOver] = useState<"victory" | "defeat" | null>(null);
   const [finalScore, setFinalScore] = useState(0);
+  const [displayScore, setDisplayScore] = useState(0);
+  const [lastDamage, setLastDamage] = useState(0);
 
   useEffect(() => {
     setQuestions(getEventQuestions(event));
@@ -70,7 +72,9 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
         BOSS_HP_DAMAGE[0];
       const newHp = Math.max(0, bossHp - damage);
       setBossHp(newHp);
+      setLastDamage(damage);
       scoreRef.current++;
+      setDisplayScore(scoreRef.current);
 
       if (newHp <= 0) {
         setTimeout(() => finishGame(true, scoreRef.current), 1200);
@@ -95,7 +99,13 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
     }, 1500);
   };
 
+  const handleQuestionExhausted = () => {
+    if (completedRef.current || gameOver) return;
+    finishGame(bossHp <= 0, scoreRef.current);
+  };
+
   if (!currentQuestion && !gameOver) {
+    handleQuestionExhausted();
     return (
       <div className="flex items-center justify-center min-h-[300px]">
         <motion.div
@@ -134,7 +144,7 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
           <span className="text-[10px] text-[var(--duo-text-muted)]">
             Soal {currentIdx + 1}/{questions.length}
           </span>
-          <span className="text-[10px] text-[var(--duo-text-muted)]">Skor: {scoreRef.current}</span>
+          <span className="text-[10px] text-[var(--duo-text-muted)]">Skor: {displayScore}</span>
         </div>
       </div>
 
@@ -234,8 +244,8 @@ export default function BossBattle({ event, onComplete }: BossBattleProps) {
               }`}
             >
               {selected === currentQuestion.correctIndex
-                ? <span className="flex items-center gap-1"><Swords size={14} className="text-[var(--duo-green)]" /> Boss terkena serangan! -{Math.floor(Math.random() * 11) + 15} HP</span>
-                : <span className="flex items-center gap-1"><Heart size={14} className="text-red-500" /> Boss menyerang! Kehilangan 1 nyawa!</span>}
+                ? <span className="flex items-center gap-1"><Swords size={14} className="text-[var(--duo-green)]" /> Boss terkena serangan! -{lastDamage} HP</span>
+                : <span className="flex items-center gap-1"><Skull size={14} className="text-red-500" /> Boss menyerang! Kehilangan 1 nyawa!</span>}
             </p>
             <p className="text-xs text-[var(--duo-text-muted)] mt-1">
               {currentQuestion.explanation}

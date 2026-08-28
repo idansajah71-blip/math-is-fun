@@ -96,11 +96,6 @@ export function joinRoom(code: string, userId: string, name: string): { room?: R
   rooms[idx] = room;
   saveRooms(rooms);
 
-  try {
-    const { addNotification } = require("@/lib/notifications");
-    addNotification("room_invite", `${name} join room ${code}`, `${name} ingin challenge kamu!`, `/rooms/${code}`);
-  } catch {}
-
   return { room };
 }
 
@@ -134,10 +129,6 @@ export function finishPlayer(code: string, userId: string, score: number, timeSp
   const allFinished = room.players.every((p) => p.status === "finished");
   if (allFinished) {
     room.status = "finished";
-    try {
-      const { addNotification } = require("@/lib/notifications");
-      addNotification("room_result", "Room selesai!", `Semua pemain sudah selesai. Lihat hasilnya!`, `/rooms/${code}/play`);
-    } catch {}
   }
 
   rooms[idx] = room;

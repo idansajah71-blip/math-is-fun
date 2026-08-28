@@ -35,6 +35,7 @@ export default function Elimination({ event, onComplete }: EliminationProps) {
   const [gameOver, setGameOver] = useState<"victory" | "defeat" | null>(null);
   const [eliminated, setEliminated] = useState<Record<number, number[]>>({});
   const scoreRef = useRef(0);
+  const [displayScore, setDisplayScore] = useState(0);
 
   useEffect(() => {
     const qs = getEventQuestions(event).map((q) => ensureOptions(q, 6));
@@ -64,6 +65,7 @@ export default function Elimination({ event, onComplete }: EliminationProps) {
     if (i === questions[currentIdx].correctIndex) {
       playCorrectSound();
       scoreRef.current += 1;
+      setDisplayScore(scoreRef.current);
       setTimeout(() => advanceQuestion(), 1500);
     } else {
       setShaking(true);
@@ -94,6 +96,7 @@ export default function Elimination({ event, onComplete }: EliminationProps) {
 
       if (remainingOpts.length === 1 && remainingOpts[0] === currentQ.correctIndex) {
         scoreRef.current += 1;
+        setDisplayScore(scoreRef.current);
         setEliminated((prev) => ({
           ...prev,
           [currentIdx]: newEliminated,
@@ -149,7 +152,7 @@ export default function Elimination({ event, onComplete }: EliminationProps) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-[var(--duo-text)]">Opsi tersisa: {remainingOptions}</span>
-          <span className="text-xs font-bold text-[var(--duo-text)]">Skor: {scoreRef.current}</span>
+          <span className="text-xs font-bold text-[var(--duo-text)]">Skor: {displayScore}</span>
         </div>
       </div>
 
