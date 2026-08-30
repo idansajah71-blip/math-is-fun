@@ -8,6 +8,7 @@ import {
   ChevronLeft, ChevronRight, Check, Users, Flame,
 } from "lucide-react";
 import type { EventData } from "@/lib/events";
+import { syncEventStatuses } from "@/lib/events";
 
 const EVENT_TYPES: {
   id: EventData["type"];
@@ -106,7 +107,10 @@ export default function AdminEventsPage() {
     maxParticipants: 100,
   });
 
-  const load = useCallback(() => { setEvents(getEvents()); }, []);
+  const load = useCallback(() => {
+    syncEventStatuses();
+    setEvents(getEvents());
+  }, []);
   useEffect(() => { load(); }, [load]);
 
   function resetForm() {
@@ -122,10 +126,15 @@ export default function AdminEventsPage() {
   }
 
   function handleSubmit() {
+    if (!form.name.trim()) return;
+    if (form.startDate && form.endDate && form.startDate > form.endDate) return;
+    if (form.questionsCount < 1) return;
+    if (form.lives < 1) return;
+
     const now = new Date().toISOString();
     const eventData: EventData = {
       id: editing || `evt-${Date.now()}`,
-      name: form.name,
+      name: form.name.trim(),
       type: form.type,
       description: form.description,
       startDate: form.startDate,
@@ -169,6 +178,7 @@ export default function AdminEventsPage() {
   }
 
   function handleDelete(id: string) {
+    if (!confirm("Yakin ingin menghapus event ini?")) return;
     const updated = events.filter((e) => e.id !== id);
     saveEvents(updated);
     setEvents(updated);
@@ -420,7 +430,7 @@ export default function AdminEventsPage() {
                       Selanjutnya <ChevronRight size={14} />
                     </button>
                   ) : (
-                    <button onClick={handleSubmit} disabled={!form.name}
+                    <button onClick={handleSubmit} disabled={!form.name.trim() || (form.startDate && form.endDate && form.startDate > form.endDate) || form.questionsCount < 1 || form.lives < 1}
                       className="px-6 py-2.5 bg-gradient-to-r from-[var(--purple)] to-[var(--pink)] text-white rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all disabled:opacity-40 flex items-center gap-2">
                       <Check size={14} /> {editing ? "Simpan Perubahan" : "Buat Event"}
                     </button>

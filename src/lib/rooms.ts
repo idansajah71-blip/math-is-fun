@@ -40,10 +40,25 @@ function generateCode(): string {
   return code;
 }
 
+function cleanupOldRooms(rooms: Room[]): Room[] {
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 7);
+  const cutoffStr = cutoff.toISOString();
+  return rooms.filter((r) => {
+    if (r.status !== "finished") return true;
+    return r.createdAt > cutoffStr;
+  });
+}
+
 function getRooms(): Room[] {
   if (typeof window === "undefined") return [];
   try {
-    return JSON.parse(localStorage.getItem(ROOMS_KEY) || "[]");
+    const rooms: Room[] = JSON.parse(localStorage.getItem(ROOMS_KEY) || "[]");
+    const cleaned = cleanupOldRooms(rooms);
+    if (cleaned.length !== rooms.length) {
+      localStorage.setItem(ROOMS_KEY, JSON.stringify(cleaned));
+    }
+    return cleaned;
   } catch {
     return [];
   }

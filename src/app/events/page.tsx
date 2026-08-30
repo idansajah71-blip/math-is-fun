@@ -27,7 +27,10 @@ export default function EventsPage() {
   const { user } = useAuth();
   const router = useRouter();
 
-  const allEvents = useMemo(() => getAllEvents(), []);
+  const allEvents = useMemo(() => {
+    syncEventStatuses();
+    return getAllEvents().filter((e) => e.status !== "draft");
+  }, []);
 
   const filteredEvents = useMemo(() => {
     let events = allEvents;

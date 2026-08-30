@@ -32,6 +32,62 @@ export interface EventData {
   status: "draft" | "scheduled" | "active" | "ended";
   createdBy: string;
   createdAt: string;
+  hasTimer?: boolean;
+  hasLives?: boolean;
+  hasBossHp?: boolean;
+  hasElimination?: boolean;
+  hasReveal?: boolean;
+  hasDailyProgression?: boolean;
+  questionsPerDay?: number;
+  totalDays?: number;
+}
+
+export interface EventModeConfig {
+  hasTimer: boolean;
+  hasLives: boolean;
+  hasBossHp: boolean;
+  hasElimination: boolean;
+  hasReveal: boolean;
+  hasDailyProgression: boolean;
+  questionsPerDay: number;
+  totalDays: number;
+  isAlwaysWin: boolean;
+}
+
+export function getEventModeConfig(event: EventData): EventModeConfig {
+  if (event.hasTimer !== undefined || event.hasLives !== undefined || event.hasBossHp !== undefined) {
+    const hasLives = event.hasLives || false;
+    return {
+      hasTimer: event.hasTimer || false,
+      hasLives,
+      hasBossHp: event.hasBossHp || false,
+      hasElimination: event.hasElimination || false,
+      hasReveal: event.hasReveal || false,
+      hasDailyProgression: event.hasDailyProgression || false,
+      questionsPerDay: event.questionsPerDay || 3,
+      totalDays: event.totalDays || 7,
+      isAlwaysWin: !hasLives && !event.hasBossHp,
+    };
+  }
+
+  switch (event.type) {
+    case "boss_battle":
+      return { hasTimer: false, hasLives: true, hasBossHp: true, hasElimination: false, hasReveal: false, hasDailyProgression: false, questionsPerDay: 3, totalDays: 7, isAlwaysWin: false };
+    case "speed_blitz":
+      return { hasTimer: true, hasLives: false, hasBossHp: false, hasElimination: false, hasReveal: false, hasDailyProgression: false, questionsPerDay: 3, totalDays: 7, isAlwaysWin: true };
+    case "marathon":
+      return { hasTimer: false, hasLives: true, hasBossHp: false, hasElimination: false, hasReveal: false, hasDailyProgression: false, questionsPerDay: 3, totalDays: 7, isAlwaysWin: false };
+    case "trivia_night":
+      return { hasTimer: false, hasLives: false, hasBossHp: false, hasElimination: false, hasReveal: false, hasDailyProgression: false, questionsPerDay: 3, totalDays: 7, isAlwaysWin: true };
+    case "elimination":
+      return { hasTimer: false, hasLives: true, hasBossHp: false, hasElimination: true, hasReveal: false, hasDailyProgression: false, questionsPerDay: 3, totalDays: 7, isAlwaysWin: false };
+    case "mystery":
+      return { hasTimer: false, hasLives: false, hasBossHp: false, hasElimination: false, hasReveal: true, hasDailyProgression: false, questionsPerDay: 3, totalDays: 7, isAlwaysWin: true };
+    case "challenge_week":
+      return { hasTimer: false, hasLives: false, hasBossHp: false, hasElimination: false, hasReveal: false, hasDailyProgression: true, questionsPerDay: 3, totalDays: 7, isAlwaysWin: true };
+    default:
+      return { hasTimer: false, hasLives: false, hasBossHp: false, hasElimination: false, hasReveal: false, hasDailyProgression: false, questionsPerDay: 3, totalDays: 7, isAlwaysWin: true };
+  }
 }
 
 export interface EventParticipant {
@@ -202,24 +258,20 @@ export function getEventLeaderboard(eventId: string): EventParticipant[] {
 
 export function getEventQuestions(event: EventData): QuizQuestion[] {
   const allQuizzes = getAllQuizzes();
-  let pool = allQuizzes.filter((q) => event.topics.includes(q.topicSlug));
+  if (allQuizzes.length === 0) return [];
 
-  if (pool.length === 0) {
-    pool = [...allQuizzes];
-  }
+  let pool = allQuizzes.filter((q) => event.topics.includes(q.topicSlug));
+  if (pool.length === 0) pool = [...allQuizzes];
 
   const diffFiltered = pool.filter((q) => q.difficulty === event.difficulty);
-  if (diffFiltered.length >= event.questionsCount) {
-    pool = diffFiltered;
-  }
+  if (diffFiltered.length >= event.questionsCount) pool = diffFiltered;
 
-  // Fisher-Yates shuffle
   for (let i = pool.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [pool[i], pool[j]] = [pool[j], pool[i]];
   }
 
-  return pool.slice(0, event.questionsCount);
+  return pool.slice(0, Math.min(event.questionsCount, pool.length));
 }
 
 export function calculateRewards(

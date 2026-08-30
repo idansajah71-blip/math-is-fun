@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { useAuth } from "@/contexts/AuthContext";
@@ -47,10 +47,12 @@ export default function RoomsPage() {
     questionsCount: 10,
   });
 
-  const myRooms = useMemo(() => {
-    if (!user) return [];
-    return getUserRooms(user.id);
+  const [myRooms, setMyRooms] = useState<import("@/lib/rooms").Room[]>([]);
+  const refreshRooms = useCallback(() => {
+    if (user) setMyRooms(getUserRooms(user.id));
   }, [user]);
+
+  useEffect(() => { refreshRooms(); }, [refreshRooms]);
 
   function handleCreate() {
     if (!user) return;
@@ -61,6 +63,7 @@ export default function RoomsPage() {
       questionsCount: form.questionsCount,
     });
     toast.success(`Room ${room.code} dibuat!`);
+    refreshRooms();
     router.push(`/rooms/${room.code}`);
   }
 
@@ -83,6 +86,7 @@ export default function RoomsPage() {
 
   function handleDelete(code: string) {
     deleteRoom(code);
+    refreshRooms();
     toast.success("Room dihapus");
   }
 

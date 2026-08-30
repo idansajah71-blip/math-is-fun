@@ -6,7 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import { getRoomByCode, finishPlayer, getRoomResults } from "@/lib/rooms";
 import type { Room } from "@/lib/rooms";
-import RoomChallenge from "@/components/events/RoomChallenge";
+import RoomChallenge from "@/components/rooms/RoomChallenge";
 import { Crown, Trophy, Clock, ArrowLeft } from "lucide-react";
 import { addXp, saveProfile } from "@/lib/gamification";
 import toast from "react-hot-toast";

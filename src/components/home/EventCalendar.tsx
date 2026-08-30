@@ -21,7 +21,7 @@ function EventCalendar() {
     const now = new Date();
     const today = getLocalDateStr();
     return getVisibleEvents()
-      .filter((e) => e.startDate >= today)
+      .filter((e) => e.status === "active" || e.startDate >= today)
       .sort((a, b) => a.startDate.localeCompare(b.startDate));
   }, []);
 
