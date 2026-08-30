@@ -19,6 +19,7 @@ const DEFAULT_FLAGS: FeatureFlag[] = [
   { key: "spaced-repetition", label: "Ulangan Berkala", description: "Spaced repetition review", isEnabled: true, category: "learning" },
   { key: "friends", label: "Teman", description: "Fitur pertemanan & challenge", isEnabled: true, category: "social" },
   { key: "events", label: "Events", description: "Event & kompetisi", isEnabled: true, category: "engagement" },
+  { key: "learning-path", label: "Peta Belajar", description: "Visualisasi graf belajar interaktif", isEnabled: true, category: "learning" },
   { key: "sound", label: "Sound Effects", description: "Efek suara interaktif", isEnabled: true, category: "ux" },
   { key: "onboarding", label: "Onboarding", description: "Tutorial untuk user baru", isEnabled: true, category: "ux" },
   { key: "guest-mode", label: "Guest Mode", description: "Izinkan akses tanpa login", isEnabled: true, category: "access" },
