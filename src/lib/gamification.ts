@@ -93,7 +93,9 @@ export const LEVEL_COLORS = [
   "#BA75FF", "#FFC629", "#FF5252", "#FFC629", "#FF5252",
 ];
 
-export const BADGES = [
+type BadgeDef = { id: string; name: string; icon: string; desc: string; rarity: "common" | "rare" | "epic" | "legendary"; condition: (p: UserProfile) => boolean };
+
+export const BADGES: BadgeDef[] = [
   { id: "first-lesson", name: "Langkah Pertama", icon: "Sprout", desc: "Selesaikan materi pertama", rarity: "common" as const, condition: (p: UserProfile) => p.completedTopics.length >= 1 },
   { id: "five-lessons", name: "Semangat Belajar", icon: "Flame", desc: "Selesaikan 5 materi", rarity: "common" as const, condition: (p: UserProfile) => p.completedTopics.length >= 5 },
   { id: "ten-lessons", name: "Rajin Belajar", icon: "Star", desc: "Selesaikan 10 materi", rarity: "rare" as const, condition: (p: UserProfile) => p.completedTopics.length >= 10 },
@@ -109,6 +111,31 @@ export const BADGES = [
   { id: "gem-collector", name: "Gem Collector", icon: "Diamond", desc: "Kumpulkan 500 gems", rarity: "rare" as const, condition: (p: UserProfile) => p.gems >= 500 },
   { id: "speed-demon", name: "Speed Demon", icon: "Zap", desc: "Selesaikan quiz dengan skor 100%", rarity: "epic" as const, condition: (p: UserProfile) => Object.values(p.quizScores).some(s => s === 100) },
   { id: "perfect-week", name: "Perfect Week", icon: "Sparkles", desc: "Streak 7 hari dan selesaikan 7+ materi", rarity: "legendary" as const, condition: (p: UserProfile) => p.streak >= 7 && p.completedTopics.length >= 7 },
+
+  // === HARD-TO-GET BADGES ===
+
+  // Streak & Konsistensi
+  { id: "streak-60", name: "Iron Will", icon: "Shield", desc: "Belajar 60 hari berturut-turut tanpa henti", rarity: "legendary" as const, condition: (p: UserProfile) => p.streak >= 60 },
+  { id: "streak-100", name: "Centurion", icon: "Swords", desc: "Belajar 100 hari berturut-turut — legenda hidup", rarity: "legendary" as const, condition: (p: UserProfile) => p.streak >= 100 },
+
+  // Mastery & Perfect
+  { id: "perfect-all-quiz", name: "Flawless Mind", icon: "Target", desc: "Quiz 100% di 20+ topik berbeda", rarity: "legendary" as const, condition: (p: UserProfile) => Object.values(p.quizScores).filter(s => s === 100).length >= 20 },
+  { id: "zero-wrong-20", name: "Perfectionist", icon: "CheckCircle2", desc: "Selesaikan 20 materi dengan total 0 jawaban salah", rarity: "epic" as const, condition: (p: UserProfile) => p.completedTopics.length >= 20 && Object.values(p.wrongAnswers).reduce((a, b) => a + b, 0) === 0 },
+  { id: "quiz-streak-20", name: "Unstoppable", icon: "FlameKindling", desc: "Jawab 20 quiz berturut-turut tanpa pernah salah", rarity: "epic" as const, condition: (p: UserProfile) => { const scores = Object.values(p.quizScores); return scores.length >= 20 && scores.every(s => s >= 80); } },
+  { id: "all-smp-master", name: "Master SMP", icon: "GraduationCap", desc: "Quiz 100% di semua materi SMP", rarity: "epic" as const, condition: (p: UserProfile) => { const smpScores = Object.entries(p.quizScores).filter(([k]) => k.startsWith("smp-")); return smpScores.length >= 15 && smpScores.every(([, s]) => s === 100); } },
+
+  // Time & Dedication
+  { id: "study-50h", name: "Scholar of Time", icon: "Hourglass", desc: "Total waktu belajar mencapai 50 jam", rarity: "legendary" as const, condition: (p: UserProfile) => p.totalStudyTime >= 180000 },
+  { id: "study-100h", name: "Time Lord", icon: "Clock", desc: "Total waktu belajar mencapai 100 jam — waktu tidak lagi relevan", rarity: "legendary" as const, condition: (p: UserProfile) => p.totalStudyTime >= 360000 },
+  { id: "level-15", name: "Grandmaster", icon: "Crown", desc: "Mencapai level 15 — di atas rata-rata manusia", rarity: "legendary" as const, condition: (p: UserProfile) => p.level >= 15 },
+  { id: "xp-25000", name: "XP Titan", icon: "Mountain", desc: "Kumpulkan 25.000 XP — gunung yang mustahil didaki", rarity: "legendary" as const, condition: (p: UserProfile) => p.xp >= 25000 },
+
+  // Koleksi & Eksplorasi
+  { id: "all-topics", name: "Mathemagician", icon: "Sparkles", desc: "Selesaikan SEMUA 90+ materi — pencapaian tertinggi", rarity: "legendary" as const, condition: (p: UserProfile) => p.completedTopics.length >= 90 },
+  { id: "all-badges", name: "Ultimate Collector", icon: "Trophy", desc: "Unlock SEMUA badge lainnya — mustahil tanpa dedikasi total", rarity: "legendary" as const, condition: (p: UserProfile) => p.badges.length >= 29 },
+  { id: "shopaholic", name: "Shopaholic", icon: "ShoppingBag", desc: "Beli semua item di shop — butuh ribuan gems", rarity: "epic" as const, condition: (p: UserProfile) => p.purchasedItems.length >= SHOP_ITEMS.length },
+  { id: "bookmark-20", name: "Curious Mind", icon: "BookmarkCheck", desc: "Bookmark 20+ topik — selalu ingin tahu lebih banyak", rarity: "rare" as const, condition: (p: UserProfile) => p.bookmarkedTopics.length >= 20 },
+  { id: "review-50", name: "Review Wizard", icon: "RotateCcw", desc: "Lakukan 50+ review spaced repetition — otakmu patut diacungi jempol", rarity: "rare" as const, condition: (p: UserProfile) => Object.values(p.spacedRepetition).reduce((a, b) => a + (b.reviewCount || 0), 0) >= 50 },
 ];
 
 export const SHOP_ITEMS = [

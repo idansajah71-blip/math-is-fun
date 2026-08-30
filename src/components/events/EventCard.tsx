@@ -19,20 +19,9 @@ const difficultyConfig = {
   hard: { label: "Sulit", color: "bg-red-500/15 text-red-500" },
 };
 
-const gradientMap: Record<string, string> = {
-  "from-red-500 to-orange-500": "from-red-500 to-orange-500",
-  "from-yellow-500 to-amber-500": "from-yellow-500 to-amber-500",
-  "from-blue-500 to-cyan-500": "from-blue-500 to-cyan-500",
-  "from-purple-500 to-pink-500": "from-purple-500 to-pink-500",
-  "from-gray-700 to-gray-900": "from-gray-700 to-gray-900",
-  "from-emerald-500 to-teal-500": "from-emerald-500 to-teal-500",
-  "from-indigo-500 to-violet-500": "from-indigo-500 to-violet-500",
-};
-
 export default function EventCard({ event, isJoined, participantCount, onClick }: EventCardProps) {
   const eventType = EVENT_TYPES[event.type];
   const diff = difficultyConfig[event.difficulty];
-  const gradientClass = gradientMap[eventType.gradient] || "from-gray-500 to-gray-700";
 
   return (
     <motion.div
@@ -42,7 +31,7 @@ export default function EventCard({ event, isJoined, participantCount, onClick }
       onClick={onClick}
       className="relative bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] overflow-hidden cursor-pointer transition-shadow hover:shadow-lg"
     >
-      <div className={`h-1 bg-gradient-to-r ${gradientClass}`} />
+      <div className={`h-1 bg-gradient-to-r ${eventType.gradient}`} />
 
       <div className="p-5">
         <div className="flex items-center gap-2 mb-3">

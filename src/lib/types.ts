@@ -73,3 +73,53 @@ export interface UserProgress {
   bookmarkedTopics: string[];
   quizScores: Record<string, number>;
 }
+
+/* ── Formula Interactive Types ── */
+
+export interface FormulaVariable {
+  name: string;
+  label: string;
+  defaultValue: number;
+  min: number;
+  max: number;
+  step: number;
+}
+
+export interface FormulaPractice {
+  question: string;
+  variables: Record<string, number>;
+  answer: number;
+  answerFormatted: string;
+  options: string[];
+  explanation: string;
+}
+
+export type FormulaVisual =
+  | "triangle" | "right-triangle" | "circle" | "rectangle" | "square"
+  | "trapezoid" | "rhombus" | "parallelogram"
+  | "pyramid" | "prism" | "cylinder" | "cone" | "sphere"
+  | "exponent" | "angle" | "sector"
+  | "number-line" | "pie-chart" | "venn"
+  | "vector-2d" | "unit-circle" | "function-graph"
+  | "coordinate-plane" | "matrix-grid" | "sequence"
+  | "curve" | "area-under-curve" | "histogram"
+  | "normal-curve" | "gradient-3d" | "cube-3d"
+  | "box-3d" | "transformation" | "tree-diagram";
+
+export interface FormulaStep {
+  label: string;
+  detail: string;
+}
+
+export interface FormulaMeta {
+  formula: string;
+  description: string;
+  variables: FormulaVariable[];
+  outputLabel: string;
+  compute: (vars: Record<string, number>) => number;
+  formatResult: (result: number) => string;
+  examples: { input: Record<string, number>; result: number; formatted: string }[];
+  practice: FormulaPractice[];
+  visual?: FormulaVisual;
+  stepByStep?: (vars: Record<string, number>) => FormulaStep[];
+}

@@ -15,7 +15,7 @@ export default function Loading() {
           animate={{ rotate: [0, 10, -10, 0] }}
           transition={{ duration: 1, repeat: Infinity }}
         >
-          <span className="text-white font-black text-2xl">M</span>
+          <span className="text-white font-black text-3xl">Σ</span>
         </motion.div>
 
         <div className="flex items-center gap-2 justify-center">

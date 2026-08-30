@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import {
   SparklesIcon, StarIcon, HeartIcon, PartyIcon, SmileIcon, HandClickIcon, TrophyIcon, ZapIcon, CrownIcon,
 } from "@/components/icons/CustomIcons";
@@ -319,6 +319,9 @@ export default function Mascot({
   const [clickReaction, setClickReaction] = useState<ClickReactionDef | null>(null);
   const [floatingParticles, setFloatingParticles] = useState<FloatingParticle[]>([]);
   const [blinkScale, setBlinkScale] = useState(1);
+  const [pupilOffset, setPupilOffset] = useState({ x: 0, y: 0 });
+  const mascotRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     if (!clickReaction) {
@@ -345,6 +348,39 @@ export default function Mascot({
   const expr = expressions[displayMood];
   const evo = getEvolution(level);
   const effectiveSize = size * evo.size;
+
+  useEffect(() => {
+    const trackedShapes = new Set(["round", "slantDown", "slantUp"]);
+    const skipMoods = new Set(["closed", "sleepy", "dot"]);
+    const maxOffset = 3;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (skipMoods.has(expr.eyes.left) || skipMoods.has(expr.eyes.right)) return;
+      if (!trackedShapes.has(expr.eyes.left) && !trackedShapes.has(expr.eyes.right)) return;
+
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        if (!mascotRef.current) return;
+        const rect = mascotRef.current.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const clamped = Math.min(dist / 80, 1);
+        setPupilOffset({
+          x: (dx / (dist || 1)) * maxOffset * clamped,
+          y: (dy / (dist || 1)) * maxOffset * clamped,
+        });
+      });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, [expr.eyes.left, expr.eyes.right]);
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
@@ -385,7 +421,7 @@ export default function Mascot({
 
   return (
     <div className={`flex flex-col items-center gap-2 ${className}`}>
-      <div className="relative">
+      <div className="relative" ref={mascotRef}>
         <div
           onClick={handleClick}
           className={`mascot-${displayMood} ${interactive ? "cursor-pointer select-none" : ""}`}
@@ -464,20 +500,24 @@ export default function Mascot({
             <ellipse cx="110" cy="135" rx="46" ry="42" fill={`url(#${shineId})`} />
 
             <g style={{ transform: `scaleY(${blinkScale})`, transformOrigin: "110px 108px" }}>
-              <EyeShapeRenderer
-                shape={expr.eyes.left}
-                cx={80}
-                cy={108}
-                pupilScale={expr.eyes.pupilScale}
-                exprColor={expr.color}
-              />
-              <EyeShapeRenderer
-                shape={expr.eyes.right}
-                cx={140}
-                cy={108}
-                pupilScale={expr.eyes.pupilScale}
-                exprColor={expr.color}
-              />
+              <g style={{ transform: `translate(${pupilOffset.x}px, ${pupilOffset.y}px)` }}>
+                <EyeShapeRenderer
+                  shape={expr.eyes.left}
+                  cx={80}
+                  cy={108}
+                  pupilScale={expr.eyes.pupilScale}
+                  exprColor={expr.color}
+                />
+              </g>
+              <g style={{ transform: `translate(${pupilOffset.x}px, ${pupilOffset.y}px)` }}>
+                <EyeShapeRenderer
+                  shape={expr.eyes.right}
+                  cx={140}
+                  cy={108}
+                  pupilScale={expr.eyes.pupilScale}
+                  exprColor={expr.color}
+                />
+              </g>
               {expr.eyes.brow && expr.eyes.brow !== "none" && (
                 <>
                   <EyeBrowRenderer type={expr.eyes.brow} cx={80} cy={108} color={expr.color} />

@@ -1,0 +1,10 @@
+▲ Next.js 16.3.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.102.228.76:3000
+- Environments: .env.local
+✓ Ready in 1763ms
+✓ Running next.config.ts took 148ms
+
+○ Compiling / ...
+ GET /icon-192.png 404 in 10.7s (next.js: 9.2s, application-code: 1481ms)
+ GET / 200 in 13.5s (next.js: 12.3s, application-code: 1190ms)

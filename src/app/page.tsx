@@ -1036,8 +1036,8 @@ function HomeContent() {
               className="grid grid-cols-2 lg:grid-cols-4 gap-3"
             >
               {MINI_GAMES.map((game, i) => (
+                <Link key={game.id} href={`/games/${game.id}`}>
                 <motion.div
-                  key={game.id}
                   variants={staggerItem}
                   whileHover={{ scale: 1.04, y: -5 }}
                   whileTap={{ scale: 0.97 }}
@@ -1067,6 +1067,7 @@ function HomeContent() {
                     </div>
                   </div>
                 </motion.div>
+                </Link>
               ))}
             </motion.div>
           </motion.div>

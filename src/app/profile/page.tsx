@@ -64,7 +64,7 @@ export default function ProfilePage() {
     { icon: Clock, label: "Waktu Belajar", value: `${Math.round(profile.totalStudyTime / 60)}j`, color: "text-[var(--duo-orange)]", bg: "bg-orange-50 dark:bg-orange-950/30" },
   ];
 
-  const shareText = `Matika Progress\n\nLevel: ${LEVEL_NAMES[profile.level]}\nXP: ${profile.xp}\nStreak: ${profile.streak} hari\nMateri: ${completed}/${total}\nBadge: ${badges.length}/${BADGES.length}\n\nKuy join M=atika belajar emtekuy!\nlink:matika.co.id`;
+  const shareText = `Matika Progress\n\nLevel: ${LEVEL_NAMES[profile.level]}\nXP: ${profile.xp}\nStreak: ${profile.streak} hari\nMateri: ${completed}/${total}\nBadge: ${badges.length}/${BADGES.length}\n\nHalo Alisya Kuy join Sigmatika belajar matematika!\nlink:Sigmatika.co.id`;
 
   const handleShare = () => {
     if (navigator.share) {

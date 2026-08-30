@@ -12,10 +12,10 @@ interface ActivityHeatmapProps {
 
 function getIntensityClass(xp: number): string {
   if (xp === 0) return "bg-[var(--border)]";
-  if (xp < 30) return "bg-[#1B4620] dark:bg-[#0E2611]";
-  if (xp < 80) return "bg-[#256B2E] dark:bg-[#1B4620]";
-  if (xp < 150) return "bg-[#2FA83D] dark:bg-[#256B2E]";
-  return "bg-[var(--primary)]";
+  if (xp < 30) return "heatmap-1";
+  if (xp < 80) return "heatmap-2";
+  if (xp < 150) return "heatmap-3";
+  return "heatmap-4";
 }
 
 const DAY_LABELS = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
@@ -140,10 +140,10 @@ export default function ActivityHeatmap({ dailyXpHistory, totalDays = 91 }: Acti
           {/* Legend */}
           <div className="flex items-center gap-1.5 text-[10px] text-[var(--fg-muted)]">
             <span>Kurang</span>
-            <div className="w-3 h-3 rounded-sm bg-[#1B4620] dark:bg-[#0E2611]" />
-            <div className="w-3 h-3 rounded-sm bg-[#256B2E] dark:bg-[#1B4620]" />
-            <div className="w-3 h-3 rounded-sm bg-[#2FA83D] dark:bg-[#256B2E]" />
-            <div className="w-3 h-3 rounded-sm bg-[var(--primary)]" />
+            <div className="w-3 h-3 rounded-sm heatmap-1" />
+            <div className="w-3 h-3 rounded-sm heatmap-2" />
+            <div className="w-3 h-3 rounded-sm heatmap-3" />
+            <div className="w-3 h-3 rounded-sm heatmap-4" />
             <span>Lebih</span>
           </div>
         </div>

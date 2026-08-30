@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Confetti from "./Confetti";
-import { Star, Award, Check, Sparkles, Trophy, Crown, Flame, Brain, Gem, Zap, Sprout, Dumbbell, Medal, Diamond, PartyPopper } from "lucide-react";
+import { Star, Award, Check, Sparkles, Trophy, Crown, Flame, Brain, Gem, Zap, Sprout, Dumbbell, Medal, Diamond, PartyPopper, Shield, Swords, CheckCircle2, FlameKindling, Hourglass, Mountain, ShoppingBag, BookmarkCheck, RotateCcw, Clock, Target, GraduationCap } from "lucide-react";
 import AnimatedButton from "./AnimatedButton";
 import { InlineIcon } from "@/lib/iconMap";
 import Link from "next/link";
@@ -74,6 +74,17 @@ const iconMap: Record<string, React.ElementType> = {
   Diamond,
   Zap,
   Sparkles,
+  Shield,
+  Swords,
+  CheckCircle2,
+  FlameKindling,
+  Hourglass,
+  Mountain,
+  ShoppingBag,
+  BookmarkCheck,
+  RotateCcw,
+  Clock,
+  Target,
 };
 
 export default function BadgeUnlockModal({ show, badge, onClose }: BadgeUnlockModalProps) {

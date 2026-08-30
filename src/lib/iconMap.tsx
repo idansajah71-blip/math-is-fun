@@ -7,6 +7,8 @@ import {
   Shapes, Ruler, Pi, Percent, Hash, ArrowRight, BarChart2, Activity, CircleDot,
   Box, Package, Clock, FileText, Compass, Triangle, Hexagon, Pentagon, Scale, Timer,
   Pointer, Gamepad2, Dices, ThumbsUp, Coffee, CheckCircle, XCircle, MousePointerClick,
+  Shield, Swords, CheckCircle2, FlameKindling, Hourglass, Mountain, ShoppingBag,
+  BookmarkCheck, RotateCcw, Infinity, CircleDashed,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import React from "react";
@@ -22,6 +24,47 @@ import {
   SmileIcon,
 } from "@/components/icons/CustomIcons";
 
+// Phosphor Icons — bold weight for world map nodes
+import {
+  NumberCircleOne as PhNumberCircleOne,
+  CirclesThree as PhCirclesThree,
+  Function as PhFunction,
+  Scales as PhScales,
+  WarningCircle as PhWarningCircle,
+  Ruler as PhRuler,
+  Coins as PhCoins,
+  ListNumbers as PhListNumbers,
+  Link as PhLink,
+  Graph as PhGraph,
+  CompassTool as PhCompassTool,
+  Triangle as PhTriangle,
+  PencilRuler as PhPencilRuler,
+  Circle as PhCircle,
+  Cube as PhCube,
+  Sphere as PhSphere,
+  ChartBar as PhChartBar,
+  DiceSix as PhDiceSix,
+  Compass as PhCompass,
+  Rocket as PhRocket,
+  Calculator as PhCalculator,
+  Warning as PhWarning,
+  CirclesFour as PhCirclesFour,
+  Magnet as PhMagnet,
+  Tilde as PhTilde,
+  WaveTriangle as PhWaveTriangle,
+  TrendUp as PhTrendUp,
+  RocketLaunch as PhRocketLaunch,
+  Infinity as PhInfinity,
+  ChartBarHorizontal as PhChartBarHorizontal,
+  ChartLine as PhChartLine,
+  Lightbulb as PhLightbulb,
+  CircleNotch as PhCircleNotch,
+  Atom as PhAtom,
+  Sigma as PhSigma,
+  LightbulbFilament as PhLightbulbFilament,
+  ChartDonut as PhChartDonut,
+} from "@phosphor-icons/react";
+
 const NAME_TO_ICON: Record<string, LucideIcon | React.FC<any>> = {
   Sprout, Flame, Star, GraduationCap, Trophy, Dumbbell, Crown, Gem, Medal, Award,
   Brain, Diamond, Zap, Sparkles, Snowflake, Heart, Bot, Rabbit, Smile, Wind, PartyPopper,
@@ -29,6 +72,8 @@ const NAME_TO_ICON: Record<string, LucideIcon | React.FC<any>> = {
   Shapes, Ruler, Pi, Percent, Hash, ArrowRight, BarChart2, Activity, CircleDot,
   Box, Package, Clock, FileText, Compass, Triangle, Hexagon, Pentagon, Scale, Timer,
   Pointer, Gamepad2, Dices, ThumbsUp, Coffee, CheckCircle, XCircle, MousePointerClick,
+  Shield, Swords, CheckCircle2, FlameKindling, Hourglass, Mountain, ShoppingBag,
+  BookmarkCheck, RotateCcw, Infinity, CircleDashed,
   Numbers: NumbersIcon,
   NumbersAlt: AlgebraIcon,
   Chart: ChartIcon,
@@ -75,6 +120,47 @@ const NAME_TO_ICON: Record<string, LucideIcon | React.FC<any>> = {
   TriangleCustom: TriangleIcon,
   ScaleCustom: ScaleSvg,
   Algebra: AlgebraIcon,
+};
+
+// Phosphor icon mapping — used for world map topic icons
+const PHOSPHOR_ICONS: Record<string, React.FC<any>> = {
+  NumberCircleOne: PhNumberCircleOne,
+  CirclesThree: PhCirclesThree,
+  Function: PhFunction,
+  Scales: PhScales,
+  WarningCircle: PhWarningCircle,
+  Ruler: PhRuler,
+  Coins: PhCoins,
+  ListNumbers: PhListNumbers,
+  Link: PhLink,
+  Graph: PhGraph,
+  CompassTool: PhCompassTool,
+  Triangle: PhTriangle,
+  PencilRuler: PhPencilRuler,
+  Circle: PhCircle,
+  Cube: PhCube,
+  Sphere: PhSphere,
+  ChartBar: PhChartBar,
+  DiceSix: PhDiceSix,
+  Compass: PhCompass,
+  Rocket: PhRocket,
+  Calculator: PhCalculator,
+  Warning: PhWarning,
+  CirclesFour: PhCirclesFour,
+  Magnet: PhMagnet,
+  Tilde: PhTilde,
+  WaveTriangle: PhWaveTriangle,
+  TrendUp: PhTrendUp,
+  RocketLaunch: PhRocketLaunch,
+  Infinity: PhInfinity,
+  ChartBarHorizontal: PhChartBarHorizontal,
+  ChartLine: PhChartLine,
+  Lightbulb: PhLightbulb,
+  CircleNotch: PhCircleNotch,
+  Atom: PhAtom,
+  Sigma: PhSigma,
+  LightbulbFilament: PhLightbulbFilament,
+  ChartDonut: PhChartDonut,
 };
 
 const EMOJI_TO_ICON: Record<string, LucideIcon | React.FC<any>> = {
@@ -129,13 +215,19 @@ const EMOJI_TO_ICON: Record<string, LucideIcon | React.FC<any>> = {
 };
 
 export function getIcon(name: string): LucideIcon | React.FC<any> {
-  return EMOJI_TO_ICON[name] ?? NAME_TO_ICON[name] ?? CircleDot;
+  return PHOSPHOR_ICONS[name] ?? EMOJI_TO_ICON[name] ?? NAME_TO_ICON[name] ?? CircleDot;
 }
 
 export function renderIcon(name: string, size?: number, className?: string, strokeWidth: number = 2.2) {
   const Icon = getIcon(name);
+  const isPhosphor = name in PHOSPHOR_ICONS;
   const isCustom = Object.values(NAME_TO_ICON).slice(56).includes(Icon as any) ||
     Object.values(EMOJI_TO_ICON).includes(Icon as any);
+
+  if (isPhosphor) {
+    const PhComp = Icon as React.FC<any>;
+    return <PhComp size={size} className={className} weight="bold" />;
+  }
 
   if (isCustom) {
     const CustomComp = Icon as React.FC<any>;
@@ -157,6 +249,7 @@ interface InlineIconProps {
 }
 export function InlineIcon({ emoji, size = 14, className = "", strokeWidth = 2.4 }: InlineIconProps) {
   const Comp = getIcon(emoji);
+  const isPhosphor = emoji in PHOSPHOR_ICONS;
   const isCustom = Object.values(NAME_TO_ICON).slice(56).includes(Comp as any) ||
     Object.values(EMOJI_TO_ICON).includes(Comp as any);
 
@@ -167,7 +260,9 @@ export function InlineIcon({ emoji, size = 14, className = "", strokeWidth = 2.4
       style={{ width: size, height: size, lineHeight: 1 }}
       aria-hidden="true"
     >
-      {isCustom ? (
+      {isPhosphor ? (
+        <RenderComp size={size} weight="bold" />
+      ) : isCustom ? (
         <RenderComp size={size} />
       ) : (
         <RenderComp size={size} strokeWidth={strokeWidth} />

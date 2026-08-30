@@ -6,6 +6,7 @@ import Sidebar from "@/components/Sidebar";
 import MathContent from "@/components/MathContent";
 import HeartBar from "@/components/ui/HeartBar";
 import XpPopup from "@/components/ui/XpPopup";
+import GemPopup from "@/components/ui/GemPopup";
 import Confetti from "@/components/ui/Confetti";
 import LevelUpModal from "@/components/ui/LevelUpModal";
 import BadgeUnlockModal from "@/components/ui/BadgeUnlockModal";
@@ -60,8 +61,11 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const [currentQ, setCurrentQ] = useState(0);
   const [showXp, setShowXp] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showGemPopup, setShowGemPopup] = useState(false);
   const [breaking, setBreaking] = useState(false);
+
   const [xpGained, setXpGained] = useState(0);
+  const [gemsGained, setGemsGained] = useState(0);
   const [combo, setCombo] = useState(0);
   const [maxCombo, setMaxCombo] = useState(0);
   const [lastAnswerCorrect, setLastAnswerCorrect] = useState<boolean | null>(null);
@@ -204,6 +208,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
     recordReview(topic.slug, pct >= 80 ? 5 : pct >= 60 ? 4 : pct >= 40 ? 3 : pct >= 20 ? 2 : 1);
 
     let totalXp = 0;
+    let totalGems = 0;
     if (pct >= 80) {
       const reward = completeTopic(topic.slug);
       const isDoubleXp = consumeDoubleXp();
@@ -218,6 +223,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
       }
 
       totalXp = Math.round(reward.xp * xpMultiplier);
+      totalGems = reward.gems;
 
       if (hasXpBoost) {
         const boostBonus = Math.round(reward.xp * 0.5);
@@ -236,7 +242,11 @@ export default function LessonClient({ topic }: LessonClientProps) {
     }
 
     setXpGained(totalXp);
+    setGemsGained(totalGems);
     setTimeout(() => setShowXp(true), 400);
+    if (totalGems > 0) {
+      setTimeout(() => setShowGemPopup(true), 800);
+    }
 
     const newProfile = getProfile();
     checkNewBadges(oldBadges, newProfile.badges);
@@ -812,6 +822,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
         <>
           <Confetti show={pct >= 80} duration={5000} particleCount={200} />
           <XpPopup amount={xpGained} show={showXp} onComplete={() => setShowXp(false)} />
+          <GemPopup amount={gemsGained} show={showGemPopup} onComplete={() => setShowGemPopup(false)} />
 
           <main className="flex-1 ml-[260px] flex items-center justify-center p-6 pb-24 lg:pb-0">
             <motion.div
@@ -998,7 +1009,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                           </div>
                           <div className="text-left">
                             <p className="text-xs font-bold text-[var(--fg-muted)]">Gems Bonus</p>
-                            <p className="text-xl font-black text-[var(--duo-purple)]">+{pct >= 80 ? 5 : 0}</p>
+                            <p className="text-xl font-black text-[var(--duo-purple)]">+{gemsGained}</p>
                           </div>
                         </div>
                       </div>

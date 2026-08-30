@@ -7,6 +7,7 @@ import { quizzes as staticQuizzes } from "./quizzes";
 const TOPICS_KEY = "matika_admin_topics";
 const QUESTIONS_KEY = "matika_admin_questions";
 const SEEDED_KEY = "matika_content_seeded";
+const SEED_VERSION = "v3";
 
 function getAdminTopics(): { slug: string; title: string; level: Level; section: string; icon: string; content: string; description: string; isPublished: boolean }[] {
   if (typeof window === "undefined") return [];
@@ -24,7 +25,7 @@ function getAdminQuestions(): (QuizQuestion & { isPublished: boolean; createdBy?
 
 function autoSeedAdminContent(): void {
   if (typeof window === "undefined") return;
-  if (localStorage.getItem(SEEDED_KEY)) return;
+  if (localStorage.getItem(SEEDED_KEY) === SEED_VERSION) return;
 
   const topics = (topicsData as Topic[]).map((t) => ({
     ...t,
@@ -42,7 +43,7 @@ function autoSeedAdminContent(): void {
 
   localStorage.setItem(TOPICS_KEY, JSON.stringify(topics));
   localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questions));
-  localStorage.setItem(SEEDED_KEY, "true");
+  localStorage.setItem(SEEDED_KEY, SEED_VERSION);
 }
 
 // Auto-seed on module load (lazy — only runs once per session)

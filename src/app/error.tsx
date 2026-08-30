@@ -2,8 +2,9 @@
 
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { AlertTriangle, RefreshCcw, Home } from "lucide-react";
+import { RefreshCcw, Home } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import Mascot from "@/components/game/Mascot";
 import Link from "next/link";
 
 interface ErrorProps {
@@ -24,13 +25,9 @@ export default function Error({ error, reset }: ErrorProps) {
         className="max-w-md w-full text-center"
       >
         <div className="bg-white dark:bg-[var(--duo-card)] rounded-[28px] border-2 border-[var(--duo-border)] p-8 shadow-lg">
-          <motion.div
-            className="w-20 h-20 mx-auto mb-6 rounded-full bg-red-50 dark:bg-red-950/30 flex items-center justify-center"
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <AlertTriangle size={36} className="text-[var(--duo-danger)]" />
-          </motion.div>
+          <div className="flex justify-center mb-4">
+            <Mascot mood="surprised" size={110} interactive={false} message="Ups! Ada masalah nih." />
+          </div>
 
           <h1 className="text-2xl font-black text-[var(--duo-text)] mb-2">Ups! Ada Error</h1>
           <p className="text-sm text-[var(--duo-text-muted)] mb-6">

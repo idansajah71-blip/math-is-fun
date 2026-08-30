@@ -4,13 +4,14 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
-import MathContent from "@/components/MathContent";
+import TopicContent from "@/components/TopicContent";
 import LessonClient from "@/components/lesson/LessonClient";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { getTopicBySlug, getTopicsByLevel, getAllTopics, getTopicStatus } from "@/lib/data";
 import { toggleBookmark, getProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
 import { Bookmark, Play, ChevronRight, StickyNote, Save } from "lucide-react";
+import { renderIcon } from "@/lib/iconMap";
 import type { Topic } from "@/lib/types";
 
 export default function TopicPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -89,12 +90,17 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
             </nav>
 
             <div className="flex items-start justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <div className={`w-2.5 h-2.5 rounded-full ${levelDot}`} />
-                  <span className="text-xs font-bold text-[var(--duo-text-muted)]">{levelLabel}</span>
+              <div className="flex items-start gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-[var(--duo-green)]/10 dark:bg-[var(--duo-green)]/20 border-2 border-[var(--duo-green)]/20 flex items-center justify-center shrink-0 mt-1">
+                  {renderIcon(topic.icon, 28, "text-[var(--duo-green)]")}
                 </div>
-                <h1 className="text-2xl font-black text-[var(--duo-text)]">{topic.title}</h1>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className={`w-2.5 h-2.5 rounded-full ${levelDot}`} />
+                    <span className="text-xs font-bold text-[var(--duo-text-muted)]">{levelLabel}</span>
+                  </div>
+                  <h1 className="text-2xl font-black text-[var(--duo-text)] leading-tight">{topic.title}</h1>
+                </div>
               </div>
 
               <div className="flex items-center gap-2">
@@ -124,23 +130,27 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
         </div>
 
         {/* Content */}
-        <div className="max-w-4xl mx-auto px-8 py-8">
+        <div className="max-w-4xl mx-auto px-8 py-8 space-y-6">
           {/* Article */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] border-2 border-[var(--duo-border)] p-8 mb-6"
+            className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] border-2 border-[var(--duo-border)] p-8"
           >
-            <MathContent content={topic.content} />
+            <TopicContent content={topic.content} slug={slug} />
           </motion.div>
 
           {/* Related Topics */}
           {related.length > 0 && (
-            <div className="mb-6">
-              <h2 className="text-sm font-bold text-[var(--duo-text-muted)] uppercase tracking-wider mb-3">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <h2 className="text-xs font-extrabold text-[var(--duo-text-muted)] uppercase tracking-widest mb-3">
                 Topik Terkait
               </h2>
-              <div className="space-y-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {related.map((rt) => (
                   <Link key={rt.id} href={`/topic/${rt.slug}`}>
                     <motion.div
@@ -148,16 +158,18 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
                       whileHover={{ x: 4, y: -2 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <span className="text-xl">{rt.icon}</span>
+                      <span className="w-9 h-9 rounded-xl bg-[var(--duo-green)]/10 flex items-center justify-center shrink-0">
+                        {renderIcon(rt.icon, 20, "text-[var(--duo-green)]")}
+                      </span>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-[var(--duo-text)] truncate">{rt.title}</p>
                       </div>
-                      <ChevronRight size={16} className="text-[var(--duo-text-muted)]" />
+                      <ChevronRight size={16} className="text-[var(--duo-text-muted)] shrink-0" />
                     </motion.div>
                   </Link>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* Notes */}

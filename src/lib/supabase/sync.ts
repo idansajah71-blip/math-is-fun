@@ -164,7 +164,7 @@ export async function fetchLeaderboard(type: "weekly" | "alltime" = "weekly") {
     .limit(50);
 
   if (error) {
-    console.error("[sync] fetchLeaderboard failed:", error.message);
+    console.warn("[sync] fetchLeaderboard skipped (Supabase not configured)");
     return [];
   }
 
