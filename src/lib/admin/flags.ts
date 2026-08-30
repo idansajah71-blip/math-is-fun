@@ -16,6 +16,7 @@ const DEFAULT_FLAGS: FeatureFlag[] = [
   { key: "daily-reward", label: "Daily Reward", description: "Reward harian login", isEnabled: true, category: "gamification" },
   { key: "bookmarks", label: "Bookmark", description: "Tandai topik favorit", isEnabled: true, category: "learning" },
   { key: "daily-quiz", label: "Quiz Harian", description: "Quiz acak harian", isEnabled: true, category: "learning" },
+  { key: "daily-challenge", label: "Tantangan Harian", description: "1 soal/hari + leaderboard kompetitif", isEnabled: true, category: "learning" },
   { key: "spaced-repetition", label: "Ulangan Berkala", description: "Spaced repetition review", isEnabled: true, category: "learning" },
   { key: "friends", label: "Teman", description: "Fitur pertemanan & challenge", isEnabled: true, category: "social" },
   { key: "events", label: "Events", description: "Event & kompetisi", isEnabled: true, category: "engagement" },
