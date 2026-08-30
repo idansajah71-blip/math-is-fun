@@ -36,6 +36,7 @@ import {
   Heart,
   Users,
   Map,
+  BarChart3,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import XPBar from "./ui/XPBar";
@@ -64,6 +65,7 @@ const NAV = [
   { href: "/events", label: "Event", icon: Calendar },
   { href: "/rooms", label: "Room", icon: Users },
   { href: "/learning-path", label: "Peta Belajar", icon: Map },
+  { href: "/analytics", label: "Analisis", icon: BarChart3 },
   { href: "/profile", label: "Profil", icon: User },
   { href: "/admin", label: "Admin", icon: Shield, hidden: true },
 ];
@@ -85,6 +87,7 @@ const NAV_COLORS: Record<string, string> = {
   "/events": "var(--primary)",
   "/rooms": "var(--info)",
   "/learning-path": "var(--duo-green)",
+  "/analytics": "var(--info)",
   "/profile": "var(--primary)",
   "/admin": "var(--danger)",
 };
