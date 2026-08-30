@@ -45,6 +45,11 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     hintTokens: (row.hint_tokens as number) ?? 0,
     xpBoostUntil: (row.xp_boost_until as number) ?? null,
     dailyXpLog: (row.daily_xp_log as Record<string, number>) ?? {},
+    topicMastery: (row.topic_mastery as Record<string, number>) ?? {},
+    hourlyActivity: (row.hourly_activity as Record<number, number>) ?? {},
+    pomodoroSessions: (row.pomodoro_sessions as number) ?? 0,
+    pomodoroSettings: (row.pomodoro_settings as { workMin: number; breakMin: number; longBreakMin: number; sessionsBeforeLong: number }) ?? { workMin: 25, breakMin: 5, longBreakMin: 15, sessionsBeforeLong: 4 },
+    dailyChallengeDate: (row.daily_challenge_date as string) ?? null,
   };
 }
 
@@ -84,6 +89,11 @@ function profileToRow(profile: UserProfile) {
     hint_tokens: profile.hintTokens,
     xp_boost_until: profile.xpBoostUntil,
     daily_xp_log: profile.dailyXpLog,
+    topic_mastery: profile.topicMastery,
+    hourly_activity: profile.hourlyActivity,
+    pomodoro_sessions: profile.pomodoroSessions,
+    pomodoro_settings: profile.pomodoroSettings,
+    daily_challenge_date: profile.dailyChallengeDate,
   };
 }
 

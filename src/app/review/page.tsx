@@ -7,6 +7,7 @@ import XpPopup from "@/components/ui/XpPopup";
 import { getAllTopics, getAllQuizzes } from "@/lib/data";
 import { getProfile, saveQuizScore, addXp, UserProfile } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
+import { updateMastery } from "@/lib/mastery";
 import { AlertTriangle, CheckCircle2, XCircle, RotateCcw, ChevronRight, BookOpen, Filter, Brain, ArrowRight, PartyPopper, ThumbsUp, Dumbbell } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { renderIcon } from "@/lib/iconMap";
@@ -97,8 +98,10 @@ export default function ReviewPage() {
     if (correct) {
       setScore((s) => s + 1);
       playCorrectSound();
+      updateMastery(quizTopicSlug, true);
     } else {
       playWrongSound();
+      updateMastery(quizTopicSlug, false);
     }
   }
 

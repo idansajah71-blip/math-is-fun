@@ -26,6 +26,7 @@ import {
   consumeDoubleXp, addXp, BADGES, LEVEL_NAMES, recordReview,
   consumeHintToken, isXpBoostActive, getXpBoostRemainingMs,
 } from "@/lib/gamification";
+import { updateMastery } from "@/lib/mastery";
 import { getAllQuizzes, getAllTopics } from "@/lib/data";
 import {
   ArrowLeft, ArrowRight, CheckCircle2, RotateCcw,
@@ -131,6 +132,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
   const handleCorrect = useCallback(() => {
     playCorrectSound();
+    updateMastery(topic.slug, true);
     setScore((s) => s + 1);
     setCombo((c) => {
       const newCombo = c + 1;
@@ -147,6 +149,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const handleWrong = useCallback(() => {
     playWrongSound();
     trackWrongAnswer(topic.slug);
+    updateMastery(topic.slug, false);
     setBreaking(true);
     setTimeout(() => setBreaking(false), 500);
     setCombo(0);

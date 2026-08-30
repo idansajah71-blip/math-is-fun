@@ -12,6 +12,8 @@ import { toggleBookmark, getProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
 import { Bookmark, Play, ChevronRight, StickyNote, Save } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
+import MasteryBar from "@/components/ui/MasteryBar";
+import { getMastery } from "@/lib/mastery";
 import type { Topic } from "@/lib/types";
 
 export default function TopicPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -23,6 +25,7 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
   const [showLesson, setShowLesson] = useState(false);
   const [notes, setNotes] = useState("");
   const [savedNotes, setSavedNotes] = useState(false);
+  const [mastery, setMastery] = useState(0);
 
   useEffect(() => {
     const found = getTopicBySlug(slug);
@@ -41,6 +44,7 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
       setTopic(found);
       setRelated(getTopicsByLevel(found.level).filter((t) => t.slug !== slug).slice(0, 5));
       setIsBookmarked(p.bookmarkedTopics.includes(slug));
+      setMastery(getMastery(slug));
       const savedNotes = localStorage.getItem(`note-${slug}`) || "";
       setNotes(savedNotes);
     }
@@ -100,6 +104,9 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
                     <span className="text-xs font-bold text-[var(--duo-text-muted)]">{levelLabel}</span>
                   </div>
                   <h1 className="text-2xl font-black text-[var(--duo-text)] leading-tight">{topic.title}</h1>
+                  <div className="mt-2 max-w-xs">
+                    <MasteryBar slug={slug} mastery={mastery} size="sm" />
+                  </div>
                 </div>
               </div>
 

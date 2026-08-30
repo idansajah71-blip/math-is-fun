@@ -7,6 +7,7 @@ import Hearts from "@/components/Hearts";
 import { getAllQuizzes } from "@/lib/data";
 import { saveQuizScore, addXp } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
+import { updateMastery } from "@/lib/mastery";
 import { CheckCircle2, XCircle, ChevronRight, Timer, Trophy, RotateCcw } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import type { QuizQuestion } from "@/lib/types";
@@ -64,8 +65,9 @@ export default function TryOutPage() {
     setShowResult(true);
     const correct = !!shuffled && i === shuffled.correctIndex;
     setAnswers([...answers, correct]);
-    if (correct) { setScore((s) => s + 1); if (soundOn) playCorrectSound(); }
-    else { setLives((l) => { if (l <= 1) { setStep("result"); return 0; } return l - 1; }); if (soundOn) playWrongSound(); }
+    const topicSlug = questions[currentQ]?.topicSlug;
+    if (correct) { setScore((s) => s + 1); if (soundOn) playCorrectSound(); if (topicSlug) updateMastery(topicSlug, true); }
+    else { setLives((l) => { if (l <= 1) { setStep("result"); return 0; } return l - 1; }); if (soundOn) playWrongSound(); if (topicSlug) updateMastery(topicSlug, false); }
   };
 
   const handleNext = () => {

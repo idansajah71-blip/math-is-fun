@@ -7,6 +7,7 @@ import { getProfile, getDueTopics, getUpcomingReviews, recordReview, addXp } fro
 import { getTopicBySlug, getAllQuizzes } from "@/lib/data";
 import { renderIcon } from "@/lib/iconMap";
 import { playCorrectSound, playWrongSound } from "@/lib/sounds";
+import { updateMastery } from "@/lib/mastery";
 import { motion } from "framer-motion";
 import { Brain, CheckCircle2, XCircle, ChevronRight, Calendar, Clock, Sparkles, AlertTriangle, ArrowRight } from "lucide-react";
 import FeatureGuard from "@/components/admin/FeatureGuard";
@@ -50,8 +51,10 @@ export default function SpacedRepetitionPage() {
     if (i === currentQuiz.correctIndex) {
       setScore((s) => s + 1);
       playCorrectSound();
+      if (currentSlug) updateMastery(currentSlug, true);
     } else {
       playWrongSound();
+      if (currentSlug) updateMastery(currentSlug, false);
     }
   }
 

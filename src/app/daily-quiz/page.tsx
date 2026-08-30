@@ -7,6 +7,7 @@ import XpPopup from "@/components/ui/XpPopup";
 import { getAllQuizzes } from "@/lib/data";
 import { getProfile, saveProfile, addXp, getWeakTopics, getLocalDateStr } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
+import { updateMastery } from "@/lib/mastery";
 import { CheckCircle2, XCircle, Timer, RotateCcw, Calendar, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import type { QuizQuestion } from "@/lib/types";
@@ -128,11 +129,14 @@ export default function DailyQuizPage() {
     setShowResult(true);
     const correct = !!shuffled && i === shuffled.correctIndex;
     setAnswers([...answers, correct]);
+    const topicSlug = questions[currentQ]?.topicSlug;
     if (correct) {
       setScore((s) => s + 1);
       playCorrectSound();
+      if (topicSlug) updateMastery(topicSlug, true);
     } else {
       playWrongSound();
+      if (topicSlug) updateMastery(topicSlug, false);
     }
   };
 

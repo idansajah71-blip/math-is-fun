@@ -7,6 +7,8 @@ import { Play, Zap, AlertTriangle, Lock } from "lucide-react";
 import { getAllTopics, getTopicStatus } from "@/lib/data";
 import { getWeakTopics } from "@/lib/gamification";
 import { renderIcon } from "@/lib/iconMap";
+import MasteryBar from "@/components/ui/MasteryBar";
+import { getMastery } from "@/lib/mastery";
 import type { UserProfile } from "@/lib/gamification";
 import type { Topic } from "@/lib/types";
 
@@ -87,7 +89,11 @@ function ContinueLearning({ profile }: { profile: UserProfile }) {
               <h3 className={`text-xs font-black mb-1 line-clamp-2 min-h-[32px] ${
                 isLocked ? "text-gray-400 dark:text-gray-500" : "text-[var(--fg)]"
               }`}>{topic.title}</h3>
-              <p className="text-[9px] text-[var(--fg-muted)] mb-3 line-clamp-1">{topic.description}</p>
+              <p className="text-[9px] text-[var(--fg-muted)] mb-2 line-clamp-1">{topic.description}</p>
+
+              <div className="mb-3">
+                <MasteryBar slug={topic.slug} mastery={getMastery(topic.slug)} size="sm" showLabel={false} showPct={false} />
+              </div>
 
               <div className="flex items-center justify-between">
                 <span className={`flex items-center gap-1 text-[10px] font-black ${

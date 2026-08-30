@@ -34,6 +34,11 @@ export interface UserProfile {
   hintTokens: number;
   xpBoostUntil: number | null;
   dailyXpLog: Record<string, number>;
+  topicMastery: Record<string, number>;
+  hourlyActivity: Record<number, number>;
+  pomodoroSessions: number;
+  pomodoroSettings: { workMin: number; breakMin: number; longBreakMin: number; sessionsBeforeLong: number };
+  dailyChallengeDate: string | null;
   _lastHeartTime?: number;
 }
 
@@ -132,10 +137,14 @@ export const BADGES: BadgeDef[] = [
 
   // Koleksi & Eksplorasi
   { id: "all-topics", name: "Mathemagician", icon: "Sparkles", desc: "Selesaikan SEMUA 90+ materi — pencapaian tertinggi", rarity: "legendary" as const, condition: (p: UserProfile) => p.completedTopics.length >= 90 },
-  { id: "all-badges", name: "Ultimate Collector", icon: "Trophy", desc: "Unlock SEMUA badge lainnya — mustahil tanpa dedikasi total", rarity: "legendary" as const, condition: (p: UserProfile) => p.badges.length >= 29 },
+  { id: "all-badges", name: "Ultimate Collector", icon: "Trophy", desc: "Unlock SEMUA badge lainnya — mustahil tanpa dedikasi total", rarity: "legendary" as const, condition: (p: UserProfile) => p.badges.length >= 31 },
   { id: "shopaholic", name: "Shopaholic", icon: "ShoppingBag", desc: "Beli semua item di shop — butuh ribuan gems", rarity: "epic" as const, condition: (p: UserProfile) => p.purchasedItems.length >= SHOP_ITEMS.length },
   { id: "bookmark-20", name: "Curious Mind", icon: "BookmarkCheck", desc: "Bookmark 20+ topik — selalu ingin tahu lebih banyak", rarity: "rare" as const, condition: (p: UserProfile) => p.bookmarkedTopics.length >= 20 },
   { id: "review-50", name: "Review Wizard", icon: "RotateCcw", desc: "Lakukan 50+ review spaced repetition — otakmu patut diacungi jempol", rarity: "rare" as const, condition: (p: UserProfile) => Object.values(p.spacedRepetition).reduce((a, b) => a + (b.reviewCount || 0), 0) >= 50 },
+
+  // Mastery
+  { id: "mastery-1", name: "Mastery Pioneer", icon: "Target", desc: "Capai mastery 90% di 1 topik", rarity: "common" as const, condition: (p: UserProfile) => Object.values(p.topicMastery || {}).filter(v => v >= 90).length >= 1 },
+  { id: "mastery-10", name: "Mastery Master", icon: "Crown", desc: "Capai mastery 90% di 10 topik", rarity: "legendary" as const, condition: (p: UserProfile) => Object.values(p.topicMastery || {}).filter(v => v >= 90).length >= 10 },
 ];
 
 export const SHOP_ITEMS = [
@@ -251,6 +260,11 @@ export function getDefaultProfile(): UserProfile {
     hintTokens: 0,
     xpBoostUntil: null,
     dailyXpLog: {},
+    topicMastery: {},
+    hourlyActivity: {},
+    pomodoroSessions: 0,
+    pomodoroSettings: { workMin: 25, breakMin: 5, longBreakMin: 15, sessionsBeforeLong: 4 },
+    dailyChallengeDate: null,
   };
 }
 
@@ -304,6 +318,11 @@ export function addXp(amount: number): UserProfile {
   // Track daily XP log for monthly chart
   if (!profile.dailyXpLog) profile.dailyXpLog = {};
   profile.dailyXpLog[todayStr] = (profile.dailyXpLog[todayStr] || 0) + xpGain;
+
+  // Track hourly activity for study analytics
+  if (!profile.hourlyActivity) profile.hourlyActivity = {};
+  const currentHour = new Date().getHours();
+  profile.hourlyActivity[currentHour] = (profile.hourlyActivity[currentHour] || 0) + 1;
   // Prune entries older than 90 days
   const cutoff = getLocalDateStr(new Date(Date.now() - 90 * 86400000));
   for (const key of Object.keys(profile.dailyXpLog)) {
