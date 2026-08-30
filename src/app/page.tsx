@@ -73,6 +73,7 @@ import EventCalendar from "@/components/home/EventCalendar";
 import ContinueLearning from "@/components/home/ContinueLearning";
 import dynamic from "next/dynamic";
 const MonthlyProgressChart = dynamic(() => import("@/components/home/MonthlyProgressChart"), { ssr: false });
+const PomodoroTimer = dynamic(() => import("@/components/pomodoro/PomodoroTimer"), { ssr: false });
 
 const MINI_GAMES = [
   {
@@ -1108,6 +1109,9 @@ function HomeContent() {
           interactive={true}
         />
       </motion.div>
+
+      {/* ===== POMODORO TIMER ===== */}
+      {isFlagEnabled("pomodoro") && <PomodoroTimer />}
 
     </div>
   );

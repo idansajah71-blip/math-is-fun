@@ -18,6 +18,7 @@ const DEFAULT_FLAGS: FeatureFlag[] = [
   { key: "daily-quiz", label: "Quiz Harian", description: "Quiz acak harian", isEnabled: true, category: "learning" },
   { key: "daily-challenge", label: "Tantangan Harian", description: "1 soal/hari + leaderboard kompetitif", isEnabled: true, category: "learning" },
   { key: "study-analytics", label: "Analisis Belajar", description: "Grafik pola belajar & rekomendasi", isEnabled: true, category: "learning" },
+  { key: "pomodoro", label: "Pomodoro Timer", description: "Timer fokus 25+5 menit dengan XP bonus", isEnabled: true, category: "ux" },
   { key: "spaced-repetition", label: "Ulangan Berkala", description: "Spaced repetition review", isEnabled: true, category: "learning" },
   { key: "friends", label: "Teman", description: "Fitur pertemanan & challenge", isEnabled: true, category: "social" },
   { key: "events", label: "Events", description: "Event & kompetisi", isEnabled: true, category: "engagement" },
