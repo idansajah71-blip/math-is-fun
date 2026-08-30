@@ -129,7 +129,7 @@ export default function QuizBuilder({ userId, userName, onCreated }: QuizBuilder
               {(["easy", "medium", "hard"] as const).map((d) => (
                 <button
                   key={d}
-                  onClick={() => setDifficulty(d)}
+                  onClick={() => { setDifficulty(d); setSelectedIds(new Set()); }}
                   className={`px-4 py-2 rounded-xl text-xs font-bold border-2 transition ${
                     difficulty === d
                       ? "border-[var(--duo-green)] bg-[var(--duo-green)]/10 text-[var(--duo-green)]"

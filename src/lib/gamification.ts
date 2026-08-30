@@ -35,7 +35,7 @@ export interface UserProfile {
   xpBoostUntil: number | null;
   dailyXpLog: Record<string, number>;
   topicMastery: Record<string, number>;
-  hourlyActivity: Record<number, number>;
+  hourlyActivity: Record<string, number>;
   pomodoroSessions: number;
   pomodoroSettings: { workMin: number; breakMin: number; longBreakMin: number; sessionsBeforeLong: number };
   dailyChallengeDate: string | null;
@@ -325,7 +325,7 @@ export function addXp(amount: number): UserProfile {
   // Track hourly activity for study analytics
   if (!profile.hourlyActivity) profile.hourlyActivity = {};
   const currentHour = new Date().getHours();
-  profile.hourlyActivity[currentHour] = (profile.hourlyActivity[currentHour] || 0) + 1;
+  profile.hourlyActivity[String(currentHour)] = (profile.hourlyActivity[String(currentHour)] || 0) + 1;
   // Prune entries older than 90 days
   const cutoff = getLocalDateStr(new Date(Date.now() - 90 * 86400000));
   for (const key of Object.keys(profile.dailyXpLog)) {

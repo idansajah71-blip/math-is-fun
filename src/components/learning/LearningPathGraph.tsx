@@ -7,7 +7,6 @@ import { buildPathData, LEVEL_CONFIG, type PathNode } from "@/lib/learningPath";
 import { getTopicStatus } from "@/lib/data";
 import { getMastery } from "@/lib/mastery";
 import { getMasteryLevel } from "@/lib/mastery";
-import { renderIcon } from "@/lib/iconMap";
 import { getAllTopics } from "@/lib/data";
 import type { UserProfile } from "@/lib/gamification";
 import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
@@ -54,7 +53,7 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
   }, [nodes, statusMap]);
 
   // Calculate SVG dimensions
-  const maxRow = Math.max(...nodes.map((n) => n.row));
+  const maxRow = nodes.length > 0 ? Math.max(...nodes.map((n) => n.row)) : 0;
   const svgWidth = PADDING * 2 + COL_WIDTH * 3 - COL_GAP;
   const svgHeight = PADDING * 2 + (maxRow + 1) * (NODE_H + ROW_GAP);
 

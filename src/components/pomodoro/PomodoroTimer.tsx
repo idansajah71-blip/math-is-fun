@@ -23,11 +23,21 @@ export default function PomodoroTimer() {
   const [lastXp, setLastXp] = useState(0);
   const [settings, setSettings] = useState<PomodoroSettings>({ workMin: 25, breakMin: 5, longBreakMin: 15, sessionsBeforeLong: 4 });
   const [minimized, setMinimized] = useState(false);
+  const [pausedMode, setPausedMode] = useState<PomodoroMode>("idle");
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const completeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setSettings(getPomodoroSettings());
   }, []);
+
+  useEffect(() => {
+    return () => {
+      if (completeTimeoutRef.current) clearTimeout(completeTimeoutRef.current);
+    };
+  }, []);
+
+  const handleTimerCompleteRef = useRef<() => void>(() => {});
 
   // Timer logic
   useEffect(() => {
@@ -37,7 +47,7 @@ export default function PomodoroTimer() {
       setTimeLeft((t) => {
         if (t <= 1) {
           if (timerRef.current) clearInterval(timerRef.current);
-          handleTimerComplete();
+          setTimeout(() => handleTimerCompleteRef.current(), 0);
           return 0;
         }
         return t - 1;
@@ -57,7 +67,7 @@ export default function PomodoroTimer() {
       setShowComplete(true);
       playCompleteSound();
 
-      setTimeout(() => {
+      completeTimeoutRef.current = setTimeout(() => {
         setShowComplete(false);
         if (result.isLongBreak) {
           startBreak(settings.longBreakMin);
@@ -71,6 +81,8 @@ export default function PomodoroTimer() {
       playCorrectSound();
     }
   }, [mode, settings]);
+
+  handleTimerCompleteRef.current = handleTimerComplete;
 
   const startWork = () => {
     const secs = settings.workMin * 60;
@@ -89,11 +101,12 @@ export default function PomodoroTimer() {
 
   const pause = () => {
     if (timerRef.current) clearInterval(timerRef.current);
+    setPausedMode(mode);
     setMode("idle");
   };
 
   const resume = () => {
-    if (timeLeft > 0) setMode("work");
+    if (timeLeft > 0 && pausedMode !== "idle") setMode(pausedMode);
   };
 
   const reset = () => {
@@ -210,7 +223,7 @@ export default function PomodoroTimer() {
           <div className="flex items-center gap-3 mt-4">
             {isRunning ? (
               <button
-                onClick={mode === "work" ? pause : undefined}
+                onClick={pause}
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${
                   isWork ? "bg-blue-500 hover:bg-blue-600" : "bg-[var(--duo-green)] hover:opacity-90"
                 }`}
@@ -288,7 +301,7 @@ export default function PomodoroTimer() {
                     min={15}
                     max={60}
                     value={settings.workMin}
-                    onChange={(e) => setSettings({ ...settings, workMin: Number(e.target.value) })}
+                    onChange={(e) => setSettings({ ...settings, workMin: Math.max(15, Math.min(60, Number(e.target.value) || 25)) })}
                     className="w-full mt-1 px-3 py-1.5 text-sm rounded-lg border border-[var(--duo-border)] bg-gray-50 dark:bg-gray-800"
                   />
                 </div>
@@ -299,7 +312,7 @@ export default function PomodoroTimer() {
                     min={3}
                     max={15}
                     value={settings.breakMin}
-                    onChange={(e) => setSettings({ ...settings, breakMin: Number(e.target.value) })}
+                    onChange={(e) => setSettings({ ...settings, breakMin: Math.max(3, Math.min(15, Number(e.target.value) || 5)) })}
                     className="w-full mt-1 px-3 py-1.5 text-sm rounded-lg border border-[var(--duo-border)] bg-gray-50 dark:bg-gray-800"
                   />
                 </div>
@@ -310,7 +323,7 @@ export default function PomodoroTimer() {
                     min={10}
                     max={30}
                     value={settings.longBreakMin}
-                    onChange={(e) => setSettings({ ...settings, longBreakMin: Number(e.target.value) })}
+                    onChange={(e) => setSettings({ ...settings, longBreakMin: Math.max(10, Math.min(30, Number(e.target.value) || 15)) })}
                     className="w-full mt-1 px-3 py-1.5 text-sm rounded-lg border border-[var(--duo-border)] bg-gray-50 dark:bg-gray-800"
                   />
                 </div>

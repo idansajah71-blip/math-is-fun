@@ -80,6 +80,10 @@ export function submitAnswer(
   timeMs: number
 ): { xpEarned: number; isCorrect: boolean } {
   const today = getLocalDateStr();
+
+  // Prevent duplicate submissions
+  if (hasSubmittedToday(userId)) return { xpEarned: 0, isCorrect: false };
+
   const q = getDailyChallengeQuestion();
   if (!q) return { xpEarned: 0, isCorrect: false };
 
@@ -128,7 +132,7 @@ export function getDailyLeaderboard(): (DailyChallengeSubmission & { rank: numbe
 
 export function getTodayStats(): { total: number; correct: number; avgTimeMs: number } {
   const today = getLocalDateStr();
-  const subs = getSubmissions().filter((s) => s.date === today);
+  const subs = getSubmissions().filter((s) => s.date === today && s.timeMs < 60000);
   if (subs.length === 0) return { total: 0, correct: 0, avgTimeMs: 0 };
 
   const correct = subs.filter((s) => s.isCorrect).length;

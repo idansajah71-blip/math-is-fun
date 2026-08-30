@@ -223,7 +223,9 @@ export default function FormulaRushGame({ onExit }: FormulaRushGameProps) {
     }, 700);
   }, [selectedAnswer, question, gameState, timer, streak, correctCount, generateNewQuestion]);
 
-  const highScore = Number(localStorage.getItem("formula-rush-highscore") || "0");
+  const highScore = typeof window !== "undefined"
+    ? Number(localStorage.getItem("formula-rush-highscore") || "0")
+    : 0;
   const isNewHighScore = score > highScore && gameState === "result";
 
   useEffect(() => {

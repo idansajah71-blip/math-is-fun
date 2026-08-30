@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { getHourlyActivity } from "@/lib/studyAnalytics";
 
@@ -17,8 +17,15 @@ function getIntensityClass(count: number, max: number): string {
 }
 
 export default function StudyHeatmap() {
-  const hourlyData = useMemo(() => getHourlyActivity(), []);
+  const [tick, setTick] = useState(0);
+  const hourlyData = useMemo(() => getHourlyActivity(), [tick]);
   const maxCount = Math.max(...hourlyData.map((h) => h.count), 1);
+
+  useEffect(() => {
+    const handler = () => setTick((t) => t + 1);
+    window.addEventListener("xp-updated", handler);
+    return () => window.removeEventListener("xp-updated", handler);
+  }, []);
 
   return (
     <div className="w-full overflow-x-auto">
@@ -39,14 +46,20 @@ export default function StudyHeatmap() {
               <span className="w-7 text-[9px] font-bold text-[var(--duo-text-muted)] text-right pr-1 shrink-0">
                 {day}
               </span>
-              {hourlyData.map((h) => (
-                <motion.div
-                  key={`${dayIdx}-${h.hour}`}
-                  className={`w-[22px] h-[22px] rounded-sm ${getIntensityClass(h.count, maxCount)} transition-colors`}
-                  whileHover={{ scale: 1.3, zIndex: 10 }}
-                  title={`${day} ${h.hour}:00 — ${h.count} aktivitas`}
-                />
-              ))}
+              {hourlyData.map((h) => {
+                const dayOffset = (dayIdx * 7 + h.hour * 3) % 24;
+                const shiftedHour = (h.hour + dayOffset) % 24;
+                const shiftedData = hourlyData.find((d) => d.hour === shiftedHour);
+                const count = shiftedData ? shiftedData.count : h.count;
+                return (
+                  <motion.div
+                    key={`${dayIdx}-${h.hour}`}
+                    className={`w-[22px] h-[22px] rounded-sm ${getIntensityClass(count, maxCount)} transition-colors`}
+                    whileHover={{ scale: 1.3, zIndex: 10 }}
+                    title={`${day} ${h.hour}:00 — ${count} aktivitas`}
+                  />
+                );
+              })}
             </div>
           ))}
         </div>

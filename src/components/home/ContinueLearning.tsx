@@ -92,7 +92,7 @@ function ContinueLearning({ profile }: { profile: UserProfile }) {
               <p className="text-[9px] text-[var(--fg-muted)] mb-2 line-clamp-1">{topic.description}</p>
 
               <div className="mb-3">
-                <MasteryBar slug={topic.slug} mastery={getMastery(topic.slug)} size="sm" showLabel={false} showPct={false} />
+                <MasteryBar mastery={getMastery(topic.slug)} size="sm" showLabel={false} showPct={false} />
               </div>
 
               <div className="flex items-center justify-between">

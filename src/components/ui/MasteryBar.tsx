@@ -4,14 +4,13 @@ import { motion } from "framer-motion";
 import { getMasteryLevel, type MasteryInfo } from "@/lib/mastery";
 
 interface MasteryBarProps {
-  slug: string;
   mastery?: number;
   size?: "sm" | "md" | "lg";
   showLabel?: boolean;
   showPct?: boolean;
 }
 
-export default function MasteryBar({ slug, mastery: masteryProp, size = "md", showLabel = true, showPct = true }: MasteryBarProps) {
+export default function MasteryBar({ mastery: masteryProp, size = "md", showLabel = true, showPct = true }: MasteryBarProps) {
   const pct = masteryProp ?? 0;
   const info: MasteryInfo = getMasteryLevel(pct);
 

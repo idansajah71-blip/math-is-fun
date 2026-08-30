@@ -29,7 +29,7 @@ export function getHourlyActivity(): HourlyData[] {
 
   return Array.from({ length: 24 }, (_, i) => ({
     hour: i,
-    count: activity[i] || 0,
+    count: activity[String(i)] || 0,
     label: HOUR_LABELS[i],
   }));
 }

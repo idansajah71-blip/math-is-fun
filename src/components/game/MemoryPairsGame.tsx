@@ -191,7 +191,9 @@ export default function MemoryPairsGame({ onExit }: MemoryPairsGameProps) {
     }
   }, [matchCount, gameState, level]);
 
-  const highScore = Number(localStorage.getItem("memory-pairs-highscore") || "0");
+  const highScore = typeof window !== "undefined"
+    ? Number(localStorage.getItem("memory-pairs-highscore") || "0")
+    : 0;
   const isNewHighScore = score > highScore && gameState === "result";
 
   useEffect(() => {

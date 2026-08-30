@@ -35,16 +35,13 @@ export function completePomodoroSession(): { xpEarned: number; sessions: number;
 
   let xpEarned = 15;
   if (isPremiumActive()) xpEarned = Math.round(xpEarned * 1.5);
-
-  // Bonus every 4 sessions
-  if (sessions % settings.sessionsBeforeLong === 0) {
-    xpEarned += 25;
-  }
+  if (sessions % settings.sessionsBeforeLong === 0) xpEarned += 25;
 
   saveProfile(profile);
-  addXp(xpEarned);
+  const updatedProfile = addXp(xpEarned);
+  updatedProfile.pomodoroSessions = sessions;
+  saveProfile(updatedProfile);
 
   const isLongBreak = sessions % settings.sessionsBeforeLong === 0;
-
   return { xpEarned, sessions, isLongBreak };
 }

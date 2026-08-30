@@ -25,6 +25,7 @@ import {
   completeTopic, saveQuizScore, getProfile, trackWrongAnswer, useHeart,
   consumeDoubleXp, addXp, BADGES, LEVEL_NAMES, recordReview,
   consumeHintToken, isXpBoostActive, getXpBoostRemainingMs,
+  saveProfile,
 } from "@/lib/gamification";
 import { updateMastery } from "@/lib/mastery";
 import { getAllQuizzes, getAllTopics } from "@/lib/data";
@@ -205,7 +206,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
     const studyMinutes = Math.floor((Date.now() - startTime) / 60000);
     const updatedProfile = { ...oldProfile, totalStudyTime: (oldProfile.totalStudyTime || 0) + studyMinutes };
-    require("@/lib/gamification").saveProfile(updatedProfile);
+    saveProfile(updatedProfile);
 
     saveQuizScore(topic.slug, pct, true);
     recordReview(topic.slug, pct >= 80 ? 5 : pct >= 60 ? 4 : pct >= 40 ? 3 : pct >= 20 ? 2 : 1);

@@ -46,7 +46,7 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     xpBoostUntil: (row.xp_boost_until as number) ?? null,
     dailyXpLog: (row.daily_xp_log as Record<string, number>) ?? {},
     topicMastery: (row.topic_mastery as Record<string, number>) ?? {},
-    hourlyActivity: (row.hourly_activity as Record<number, number>) ?? {},
+    hourlyActivity: (row.hourly_activity as Record<string, number>) ?? {},
     pomodoroSessions: (row.pomodoro_sessions as number) ?? 0,
     pomodoroSettings: (row.pomodoro_settings as { workMin: number; breakMin: number; longBreakMin: number; sessionsBeforeLong: number }) ?? { workMin: 25, breakMin: 5, longBreakMin: 15, sessionsBeforeLong: 4 },
     dailyChallengeDate: (row.daily_challenge_date as string) ?? null,

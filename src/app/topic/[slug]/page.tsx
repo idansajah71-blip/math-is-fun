@@ -105,7 +105,7 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
                   </div>
                   <h1 className="text-2xl font-black text-[var(--duo-text)] leading-tight">{topic.title}</h1>
                   <div className="mt-2 max-w-xs">
-                    <MasteryBar slug={slug} mastery={mastery} size="sm" />
+                    <MasteryBar mastery={mastery} size="sm" />
                   </div>
                 </div>
               </div>

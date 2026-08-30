@@ -80,21 +80,33 @@ export default function QuizEditorPage() {
 
   const nextQuestion = () => {
     if (!activeQuiz) return;
-    if (currentQ + 1 >= activeQuiz.questions.length) {
-      const pct = Math.round((score / activeQuiz.questions.length) * 100);
-      if (pct >= 80) playCompleteSound();
-      const p = addXp(score * 5);
-      saveProfile(p);
-      setView("result");
-    } else {
-      setCurrentQ((c) => c + 1);
-      setSelected(null);
-      setShowResult(false);
-    }
+    setScore((currentScore) => {
+      if (currentQ + 1 >= activeQuiz.questions.length) {
+        const pct = Math.round((currentScore / activeQuiz.questions.length) * 100);
+        if (pct >= 80) playCompleteSound();
+        const p = addXp(currentScore * 5);
+        saveProfile(p);
+        setView("result");
+      } else {
+        setCurrentQ((c) => c + 1);
+        setSelected(null);
+        setShowResult(false);
+      }
+      return currentScore;
+    });
   };
 
-  const copyCode = (code: string) => {
-    navigator.clipboard.writeText(code);
+  const copyCode = async (code: string) => {
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = code;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
     setCopiedCode(code);
     setTimeout(() => setCopiedCode(null), 2000);
   };

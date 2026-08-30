@@ -31,7 +31,11 @@ function getAll(): UserQuiz[] {
 }
 
 function saveAll(quizzes: UserQuiz[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(quizzes));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(quizzes));
+  } catch {
+    console.warn("Failed to save quizzes: storage quota exceeded");
+  }
 }
 
 function generateCode(): string {

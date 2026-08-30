@@ -71,8 +71,6 @@ const SHORT_TITLES: Record<string, string> = {
   "h-topik-lanjutan": "Topik Lanjut",
 };
 
-const LEVEL_COL: Record<string, number> = { sma: 1, kuliah: 2 };
-
 export function buildPathData(topics: Topic[]): { nodes: PathNode[]; edges: PathEdge[] } {
   const nodes: PathNode[] = [];
   const smpTopics = topics.filter((t) => t.level === "smp");

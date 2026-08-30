@@ -37,11 +37,12 @@ export default function DailyChallengePage() {
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
   const startTimeRef = useRef<number>(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const resultTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
-      router.replace("/daily-challenge");
+      router.replace("/");
       return;
     }
 
@@ -63,7 +64,7 @@ export default function DailyChallengePage() {
       setTimeLeft((t) => {
         if (t <= 1) {
           if (timerRef.current) clearInterval(timerRef.current);
-          handleTimeout();
+          setTimeout(() => handleTimeoutRef.current(), 0);
           return 0;
         }
         return t - 1;
@@ -88,6 +89,15 @@ export default function DailyChallengePage() {
     setPhase("result");
   }, [user, question]);
 
+  const handleTimeoutRef = useRef(handleTimeout);
+  handleTimeoutRef.current = handleTimeout;
+
+  useEffect(() => {
+    return () => {
+      if (resultTimeoutRef.current) clearTimeout(resultTimeoutRef.current);
+    };
+  }, []);
+
   const startQuiz = () => {
     startTimeRef.current = Date.now();
     setTimeLeft(60);
@@ -103,7 +113,7 @@ export default function DailyChallengePage() {
     const elapsed = Date.now() - startTimeRef.current;
     setTimeMs(elapsed);
 
-    const res = submitAnswer(user.id, user.id, i, elapsed);
+    const res = submitAnswer(user.id, user.name, i, elapsed);
     setResult(res);
 
     if (res.isCorrect) {
@@ -119,13 +129,14 @@ export default function DailyChallengePage() {
     setLeaderboard(getDailyLeaderboard());
     setStats(getTodayStats());
 
-    setTimeout(() => setPhase("result"), 1200);
+    resultTimeoutRef.current = setTimeout(() => setPhase("result"), 1200);
   };
 
   const formatTime = (ms: number) => {
-    const s = Math.floor(ms / 1000);
-    const m = Math.floor((ms % 1000) / 1000 / 60);
-    return `${m}:${String(s % 60).padStart(2, "0")}`;
+    const totalSec = Math.floor(ms / 1000);
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    return `${m}:${String(s).padStart(2, "0")}`;
   };
 
   const formatTimeMs = (ms: number) => `${(ms / 1000).toFixed(1)}s`;

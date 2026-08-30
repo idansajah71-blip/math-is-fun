@@ -40,6 +40,11 @@ create table public.profiles (
   hint_tokens integer not null default 0,
   xp_boost_until bigint,
   daily_xp_log jsonb not null default '{}',
+  topic_mastery jsonb not null default '{}',
+  hourly_activity jsonb not null default '{}',
+  pomodoro_sessions integer not null default 0,
+  pomodoro_settings jsonb not null default '{"workMin":25,"breakMin":5,"longBreakMin":15,"sessionsBeforeLong":4}',
+  daily_challenge_date text not null default '',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

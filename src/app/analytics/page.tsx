@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Sidebar from "@/components/Sidebar";
 import FeatureGuard from "@/components/admin/FeatureGuard";
 import StudyHeatmap from "@/components/analytics/StudyHeatmap";
@@ -43,13 +43,18 @@ export default function AnalyticsPage() {
     );
   }
 
-  const bestHours = getBestStudyHours();
-  const weeklyPattern = getWeeklyPattern();
-  const recommendations = getStudyRecommendations();
-  const totalSessions = getTotalSessions();
-  const totalStudyMinutes = Math.round((profile.totalStudyTime || 0) / 60000);
-  const activeDays = Object.keys(profile.dailyXpHistory || {}).length;
-  const avgXpPerDay = activeDays > 0 ? Math.round(profile.xp / activeDays) : 0;
+  const analytics = useMemo(() => {
+    const bestHours = getBestStudyHours();
+    const weeklyPattern = getWeeklyPattern();
+    const recommendations = getStudyRecommendations();
+    const totalSessions = getTotalSessions();
+    const totalStudyMinutes = Math.round((profile.totalStudyTime || 0) / 60000);
+    const activeDays = Object.keys(profile.dailyXpHistory || {}).length;
+    const avgXpPerDay = activeDays > 0 ? Math.round(profile.xp / activeDays) : 0;
+    return { bestHours, weeklyPattern, recommendations, totalSessions, totalStudyMinutes, activeDays, avgXpPerDay };
+  }, [profile]);
+
+  const { bestHours, weeklyPattern, recommendations, totalSessions, totalStudyMinutes, activeDays, avgXpPerDay } = analytics;
 
   return (
     <FeatureGuard flag="study-analytics">
