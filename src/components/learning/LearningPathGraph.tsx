@@ -207,9 +207,9 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
                 />
               );
             } else {
-              // Right node: connector from spine to left edge
+              // Right node: connector from spine to left edge, stop before node
               const x1 = SPINE_X;
-              const x2 = pos.x;
+              const x2 = pos.x - 8;
               return (
                 <line
                   key={`conn-${node.slug}`}
