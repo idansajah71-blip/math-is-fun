@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -346,7 +346,7 @@ export default function WorldMap({ nodes }: WorldMapProps) {
          *  - ROW_H = vertical gap between node centers
          */
         const ROW_H       = 96;   // px per node row
-        const CARD_PCT    = 46;   // card takes 46% of width on each side
+        const CARD_PCT    = 48;   // card takes 48% of width on each side (matches CSS right:52%/left:52%)
         const totalH      = ROW_H * sec.items.length;
 
         return (
@@ -387,10 +387,10 @@ export default function WorldMap({ nodes }: WorldMapProps) {
                   const y1 = ROW_H * (i - 1) + ROW_H / 2;   // prev node cy
                   const y2 = ROW_H * i + ROW_H / 2;          // curr node cy
 
-                  // horizontal from prev card edge to spine (offset 3% inward to avoid lock icon)
-                  const x1 = prevSide === "left" ? `${CARD_PCT - 3}%` : `${100 - CARD_PCT + 3}%`;
-                  // horizontal from spine to current card edge (offset 3% inward to avoid lock icon)
-                  const x2 = curSide  === "left" ? `${CARD_PCT - 3}%` : `${100 - CARD_PCT + 3}%`;
+                  // horizontal from prev card edge to spine (endpoint at card edge)
+                  const x1 = prevSide === "left" ? `${CARD_PCT}%` : `${100 - CARD_PCT}%`;
+                  // horizontal from spine to current card edge (endpoint at card edge)
+                  const x2 = curSide  === "left" ? `${CARD_PCT}%` : `${100 - CARD_PCT}%`;
 
                   return (
                     <g key={node.slug}>
