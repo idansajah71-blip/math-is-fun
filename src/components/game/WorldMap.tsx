@@ -268,16 +268,16 @@ function NodeModal({ node, onClose }: { node: WorldMapNode; onClose: () => void 
           </div>
         </div>
         {/* body */}
-        <div className="px-6 pt-5 pb-7">
-          <div className="grid grid-cols-3 gap-2 mb-6">
+        <div className="px-6 pt-6 pb-9">
+          <div className="grid grid-cols-3 gap-3 mb-7">
             {[
               { icon: BookOpen, label: "Level",  val: cfg.label },
               { icon: Zap,      label: "Reward", val: "+100 XP" },
               { icon: isDone ? Star : isLocked ? Lock : Target, label: "Status",
                 val: isDone ? "Selesai" : isLocked ? "Terkunci" : "Baru" },
             ].map((s) => (
-              <div key={s.label} className="flex flex-col items-center p-3 rounded-xl bg-white/5 border border-white/10">
-                <s.icon size={15} className="mb-1 text-white/40" />
+              <div key={s.label} className="flex flex-col items-center p-4 rounded-xl bg-white/5 border border-white/10">
+                <s.icon size={16} className="mb-1.5 text-white/40" />
                 <p className="text-[12px] font-black text-white/80">{s.val}</p>
                 <p className="text-[9px] text-white/30 uppercase tracking-wide">{s.label}</p>
               </div>
