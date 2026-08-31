@@ -180,9 +180,9 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
             );
             if (!nextInCol) return null;
             const nextPos = getNodePos(nextInCol);
-            const x1 = pos.x + NODE_W / 2;
+            const x1 = pos.x + NODE_W * 0.4;
             const y1 = pos.y + NODE_H;
-            const x2 = nextPos.x + NODE_W / 2;
+            const x2 = nextPos.x + NODE_W * 0.4;
             const y2 = nextPos.y;
             const midY = (y1 + y2) / 2;
             const d = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
@@ -211,7 +211,7 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
             const to = getNodePos(firstNode);
             const x1 = from.x + NODE_W;
             const y1 = from.y + NODE_H / 2;
-            const x2 = to.x;
+            const x2 = to.x + 40;
             const y2 = to.y + NODE_H / 2;
             const cpX = (x1 + x2) / 2;
             const d = `M ${x1} ${y1} C ${cpX} ${y1}, ${cpX} ${y2}, ${x2} ${y2}`;
