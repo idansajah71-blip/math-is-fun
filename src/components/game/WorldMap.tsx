@@ -379,6 +379,7 @@ export default function WorldMap({ nodes }: WorldMapProps) {
                    *   nx  = the x where the horizontal line meets the card edge
                    *         left card  → right edge  ≈ CARD_PCT %
                    *         right card → left edge   ≈ (100 - CARD_PCT) %
+                   *   Offset: connectors stop ~35px before card edge to avoid lock icon
                    */
                   if (i === 0) return null; // no line before first node
                   const prevSide = (i - 1) % 2 === 0 ? "left" : "right";
@@ -386,10 +387,10 @@ export default function WorldMap({ nodes }: WorldMapProps) {
                   const y1 = ROW_H * (i - 1) + ROW_H / 2;   // prev node cy
                   const y2 = ROW_H * i + ROW_H / 2;          // curr node cy
 
-                  // horizontal from prev card edge to spine
-                  const x1 = prevSide === "left" ? `${CARD_PCT}%` : `${100 - CARD_PCT}%`;
-                  // horizontal from spine to current card edge
-                  const x2 = curSide  === "left" ? `${CARD_PCT}%` : `${100 - CARD_PCT}%`;
+                  // horizontal from prev card edge to spine (offset 3% inward to avoid lock icon)
+                  const x1 = prevSide === "left" ? `${CARD_PCT - 3}%` : `${100 - CARD_PCT + 3}%`;
+                  // horizontal from spine to current card edge (offset 3% inward to avoid lock icon)
+                  const x2 = curSide  === "left" ? `${CARD_PCT - 3}%` : `${100 - CARD_PCT + 3}%`;
 
                   return (
                     <g key={node.slug}>
