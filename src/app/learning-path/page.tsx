@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Sidebar from "@/components/Sidebar";
 import LearningPathGraph from "@/components/learning/LearningPathGraph";
 import FeatureGuard from "@/components/admin/FeatureGuard";
 import { getProfile } from "@/lib/gamification";
+import { getAllTopics, getTopicStatus } from "@/lib/data";
+import { getMastery } from "@/lib/mastery";
 import { motion } from "framer-motion";
-import { Map, Route } from "lucide-react";
+import { Map, Route, BookOpen } from "lucide-react";
+import { LEVEL_CONFIG } from "@/lib/learningPath";
 import type { UserProfile } from "@/lib/gamification";
 
 export default function LearningPathPage() {
@@ -15,6 +18,25 @@ export default function LearningPathPage() {
   useEffect(() => {
     setProfile(getProfile());
   }, []);
+
+  const allTopics = useMemo(() => getAllTopics(), []);
+  const statusMap = useMemo(() => {
+    if (!profile) return null;
+    return getTopicStatus(allTopics, profile.completedTopics || []);
+  }, [allTopics, profile]);
+
+  const levelStats = useMemo(() => {
+    const levels = ["smp", "sma", "kuliah"] as const;
+    return levels.map((level) => {
+      const topics = allTopics.filter((t) => t.level === level);
+      const completed = topics.filter((t) => {
+        const s = statusMap?.get(t.slug);
+        return s === "completed";
+      }).length;
+      const mastered = topics.filter((t) => getMastery(t.slug) >= 90).length;
+      return { level, total: topics.length, completed, mastered };
+    });
+  }, [allTopics, statusMap]);
 
   if (!profile) {
     return (
@@ -41,17 +63,56 @@ export default function LearningPathPage() {
                 </div>
                 <div>
                   <h1 className="text-xl font-black text-[var(--duo-text)]">Peta Belajar</h1>
-                  <p className="text-xs text-[var(--duo-text-muted)]">Visualisasi alur belajarmu dari SMP hingga Universitas</p>
+                  <p className="text-xs text-[var(--duo-text-muted)]">Ikuti jalur dari SMP — SMA — Universitas</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Content */}
-          <div className="max-w-6xl mx-auto px-8 py-6">
+          <div className="max-w-6xl mx-auto px-8 py-6 space-y-5">
+            {/* Level section headers */}
+            {levelStats.map((ls, i) => {
+              const cfg = LEVEL_CONFIG[ls.level];
+              const pct = ls.total > 0 ? Math.round((ls.completed / ls.total) * 100) : 0;
+              return (
+                <motion.div
+                  key={ls.level}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="rounded-2xl overflow-hidden"
+                  style={{ background: `linear-gradient(135deg, ${cfg.color}cc, ${cfg.color}88)` }}
+                >
+                  <div className="px-6 py-4 flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+                      <BookOpen size={22} className="text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] font-bold text-white/60 uppercase tracking-wider">
+                        Bagian {i + 1} · {ls.level.toUpperCase()}
+                      </p>
+                      <p className="text-base font-black text-white">{cfg.label}</p>
+                      <div className="mt-2 h-1.5 bg-white/20 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-white rounded-full transition-all duration-500"
+                          style={{ width: `${pct}%` }}
+                        />
+                      </div>
+                    </div>
+                    <span className="text-xs font-bold text-white/70 shrink-0">
+                      {ls.completed}/{ls.total}
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            })}
+
+            {/* Graph */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
             >
               <LearningPathGraph profile={profile} />
             </motion.div>
@@ -60,8 +121,8 @@ export default function LearningPathPage() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="mt-6 flex flex-wrap items-center gap-4 px-2"
+              transition={{ delay: 0.4 }}
+              className="flex flex-wrap items-center gap-4 px-2 py-3"
             >
               <span className="text-[10px] font-bold text-[var(--duo-text-muted)] uppercase tracking-wider">Legend:</span>
               <div className="flex items-center gap-1.5">

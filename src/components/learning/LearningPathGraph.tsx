@@ -15,10 +15,10 @@ interface LearningPathGraphProps {
   profile: UserProfile;
 }
 
-const NODE_W = 140;
-const NODE_H = 56;
-const COL_GAP = 60;
-const ROW_GAP = 16;
+const NODE_W = 200;
+const NODE_H = 64;
+const COL_GAP = 80;
+const ROW_GAP = 28;
 const COL_WIDTH = NODE_W + COL_GAP;
 const PADDING = 40;
 
@@ -135,21 +135,40 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
         <svg
           ref={svgRef}
           width="100%"
-          height={Math.min(svgHeight * zoom + 40, 600)}
+          height={svgHeight * zoom + 40}
           viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           style={{
             transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
             transformOrigin: "top left",
           }}
         >
+          <defs>
+            <filter id="nodeShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#000" floodOpacity="0.25" />
+            </filter>
+            <filter id="nodeShadowHover" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#000" floodOpacity="0.35" />
+            </filter>
+          </defs>
           {/* Column headers */}
           {(["smp", "sma", "kuliah"] as const).map((level, colIdx) => {
             const cfg = LEVEL_CONFIG[level];
             const x = PADDING + colIdx * COL_WIDTH + NODE_W / 2;
             return (
-              <text key={level} x={x} y={20} textAnchor="middle" fill={cfg.color} fontSize={11} fontWeight={800}>
-                {cfg.label}
-              </text>
+              <g key={level}>
+                <rect
+                  x={x - 60}
+                  y={6}
+                  width={120}
+                  height={24}
+                  rx={12}
+                  fill={cfg.color}
+                  opacity={0.15}
+                />
+                <text x={x} y={22} textAnchor="middle" fill={cfg.color} fontSize={11} fontWeight={800}>
+                  {cfg.label}
+                </text>
+              </g>
             );
           })}
 
@@ -161,16 +180,21 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
             );
             if (!nextInCol) return null;
             const nextPos = getNodePos(nextInCol);
+            const x1 = pos.x + NODE_W / 2;
+            const y1 = pos.y + NODE_H;
+            const x2 = nextPos.x + NODE_W / 2;
+            const y2 = nextPos.y;
+            const midY = (y1 + y2) / 2;
+            const d = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
             return (
-              <line
+              <path
                 key={`edge-${node.slug}`}
-                x1={pos.x + NODE_W / 2}
-                y1={pos.y + NODE_H}
-                x2={nextPos.x + NODE_W / 2}
-                y2={nextPos.y}
-                stroke="var(--duo-border)"
+                d={d}
+                fill="none"
+                stroke={node.status === "locked" ? "#4B5563" : LEVEL_CONFIG[node.level].color}
                 strokeWidth={2}
-                strokeDasharray={node.status === "locked" ? "4 4" : "none"}
+                strokeDasharray={node.status === "locked" ? "6 4" : "none"}
+                opacity={node.status === "locked" ? 0.4 : 0.6}
               />
             );
           })}
@@ -185,16 +209,21 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
             const firstNode = nextLevelNodes[0];
             const from = getNodePos(lastNode);
             const to = getNodePos(firstNode);
+            const x1 = from.x + NODE_W;
+            const y1 = from.y + NODE_H / 2;
+            const x2 = to.x;
+            const y2 = to.y + NODE_H / 2;
+            const cpX = (x1 + x2) / 2;
+            const d = `M ${x1} ${y1} C ${cpX} ${y1}, ${cpX} ${y2}, ${x2} ${y2}`;
             return (
-              <line
+              <path
                 key={`cross-${level}`}
-                x1={from.x + NODE_W}
-                y1={from.y + NODE_H / 2}
-                x2={to.x}
-                y2={to.y + NODE_H / 2}
-                stroke="var(--duo-border)"
+                d={d}
+                fill="none"
+                stroke={LEVEL_CONFIG[nextLevel].color}
                 strokeWidth={2}
-                strokeDasharray="6 4"
+                strokeDasharray="8 4"
+                opacity={0.5}
               />
             );
           })}
@@ -212,29 +241,56 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
                 style={{ cursor: isClickable ? "pointer" : "not-allowed" }}
                 className="group"
               >
+                {/* Shadow layer */}
                 <rect
                   x={pos.x}
                   y={pos.y}
                   width={NODE_W}
                   height={NODE_H}
-                  rx={12}
+                  rx={14}
+                  fill="transparent"
+                  filter="url(#nodeShadow)"
+                  opacity={node.status === "locked" ? 0.2 : 0.5}
+                />
+                {/* Main node */}
+                <rect
+                  x={pos.x}
+                  y={pos.y}
+                  width={NODE_W}
+                  height={NODE_H}
+                  rx={14}
                   fill={colors.fill}
                   stroke={colors.stroke}
                   strokeWidth={2}
                   opacity={node.status === "locked" ? 0.5 : 1}
+                  className="transition-all duration-200"
                 />
+                {/* Hover overlay */}
+                {isClickable && (
+                  <rect
+                    x={pos.x}
+                    y={pos.y}
+                    width={NODE_W}
+                    height={NODE_H}
+                    rx={14}
+                    fill="white"
+                    opacity={0}
+                    className="group-hover:opacity-10 transition-opacity duration-200"
+                    style={{ pointerEvents: "none" }}
+                  />
+                )}
                 {/* Mastery glow for mastered topics */}
                 {node.status === "mastered" && (
                   <rect
-                    x={pos.x - 2}
-                    y={pos.y - 2}
-                    width={NODE_W + 4}
-                    height={NODE_H + 4}
-                    rx={14}
+                    x={pos.x - 3}
+                    y={pos.y - 3}
+                    width={NODE_W + 6}
+                    height={NODE_H + 6}
+                    rx={17}
                     fill="none"
                     stroke="#F59E0B"
                     strokeWidth={2}
-                    opacity={0.5}
+                    opacity={0.4}
                   />
                 )}
                 {/* Short title */}
@@ -244,7 +300,7 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
                   textAnchor="middle"
                   dominantBaseline="middle"
                   fill={colors.text}
-                  fontSize={11}
+                  fontSize={12}
                   fontWeight={700}
                   style={{ pointerEvents: "none" }}
                 >
@@ -254,17 +310,17 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
                 {node.masteryPct > 0 && (
                   <>
                     <rect
-                      x={pos.x + 8}
-                      y={pos.y + NODE_H - 10}
-                      width={NODE_W - 16}
+                      x={pos.x + 12}
+                      y={pos.y + NODE_H - 12}
+                      width={NODE_W - 24}
                       height={4}
                       rx={2}
                       fill="rgba(255,255,255,0.2)"
                     />
                     <rect
-                      x={pos.x + 8}
-                      y={pos.y + NODE_H - 10}
-                      width={(NODE_W - 16) * (node.masteryPct / 100)}
+                      x={pos.x + 12}
+                      y={pos.y + NODE_H - 12}
+                      width={(NODE_W - 24) * (node.masteryPct / 100)}
                       height={4}
                       rx={2}
                       fill={getMasteryLevel(node.masteryPct).color}
