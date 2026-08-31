@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef } from "react";
 import katex from "katex";
@@ -52,6 +52,7 @@ export default function MathContent({ content, className = "" }: MathContentProp
     if (!containerRef.current) return;
 
     containerRef.current.querySelectorAll<HTMLElement>("code.katex-inline").forEach((el) => {
+      if (el.querySelector(".katex")) return;
       try {
         katex.render(el.textContent || "", el, { throwOnError: false, displayMode: false });
       } catch {
@@ -60,6 +61,7 @@ export default function MathContent({ content, className = "" }: MathContentProp
     });
 
     containerRef.current.querySelectorAll<HTMLElement>("div.katex-block").forEach((el) => {
+      if (el.querySelector(".katex")) return;
       try {
         katex.render(el.getAttribute("data-formula") || "", el, { throwOnError: false, displayMode: true });
       } catch {
@@ -122,9 +124,11 @@ function SectionBlock({ section }: { section: ParsedSection }) {
         ref={(el) => {
           if (!el) return;
           el.querySelectorAll<HTMLElement>("code.katex-inline").forEach((c) => {
+            if (c.querySelector(".katex")) return;
             try { katex.render(c.textContent || "", c, { throwOnError: false, displayMode: false }); } catch { /* skip */ }
           });
           el.querySelectorAll<HTMLElement>("div.katex-block").forEach((d) => {
+            if (d.querySelector(".katex")) return;
             try { katex.render(d.getAttribute("data-formula") || "", d, { throwOnError: false, displayMode: true }); } catch { /* skip */ }
           });
         }}
@@ -146,9 +150,11 @@ function SectionBlock({ section }: { section: ParsedSection }) {
         ref={(el) => {
           if (!el) return;
           el.querySelectorAll<HTMLElement>("code.katex-inline").forEach((c) => {
+            if (c.querySelector(".katex")) return;
             try { katex.render(c.textContent || "", c, { throwOnError: false, displayMode: false }); } catch { /* skip */ }
           });
           el.querySelectorAll<HTMLElement>("div.katex-block").forEach((d) => {
+            if (d.querySelector(".katex")) return;
             try { katex.render(d.getAttribute("data-formula") || "", d, { throwOnError: false, displayMode: true }); } catch { /* skip */ }
           });
         }}
