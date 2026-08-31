@@ -60,6 +60,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const profileRef = useRef(getProfile());
   const [lives, setLives] = useState(profileRef.current.hearts);
   const [score, setScore] = useState(0);
+  const scoreRef = useRef(0);
   const [currentQ, setCurrentQ] = useState(0);
   const [showXp, setShowXp] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -90,6 +91,8 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const progress = totalQuestions > 0 ? ((currentQ) / totalQuestions) * 100 : 0;
 
   const isCompleted = profileRef.current.completedTopics?.includes(topic.slug);
+
+  useEffect(() => { scoreRef.current = score; }, [score]);
 
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
@@ -199,7 +202,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
   const finishLesson = useCallback(() => {
     setStep("complete");
-    const pct = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
+    const pct = totalQuestions > 0 ? Math.round((scoreRef.current / totalQuestions) * 100) : 0;
     const oldProfile = getProfile();
     const oldBadges = [...oldProfile.badges];
     const oldLevel = oldProfile.level;
