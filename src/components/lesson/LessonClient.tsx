@@ -345,20 +345,22 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
               <div className="relative">
                 <motion.div
-                  className={`w-28 h-28 mx-auto mb-5 rounded-[28px] bg-gradient-to-br ${levelColor} flex items-center justify-center shadow-2xl relative overflow-hidden ring-4 ring-white/10`}
-                  animate={{ y: [0, -10, 0], rotate: [0, -2, 2, 0] }}
-                  transition={{ duration: 2.5, repeat: Infinity }}
+                  className={`w-32 h-32 mx-auto mb-5 rounded-[32px] bg-gradient-to-br ${levelColor} flex items-center justify-center relative overflow-hidden`}
+                  style={{ boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 60px ${topic.level === "smp" ? "rgba(61,211,76,0.3)" : topic.level === "sma" ? "rgba(28,176,246,0.3)" : "rgba(186,117,255,0.3)"}` }}
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent" />
-                  <div className="relative text-white">
-                    {renderIcon(topic.icon, 52)}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/10" />
+                  <div className="relative text-white drop-shadow-lg">
+                    {renderIcon(topic.icon, 56)}
                   </div>
                   <motion.div
-                    className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[var(--duo-xp)] flex items-center justify-center border-2 border-white shadow-lg"
-                    animate={{ scale: [1, 1.15, 1], rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="absolute -top-1 -right-1 w-9 h-9 rounded-full flex items-center justify-center border-[2.5px] border-white shadow-lg"
+                    style={{ background: "linear-gradient(135deg, #FFD700, #FFA500)" }}
+                    animate={{ scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
                   >
-                    <Star size={14} className="text-[#8B6914]" fill="#fff7" />
+                    <Star size={15} className="text-white" fill="#fff" />
                   </motion.div>
                 </motion.div>
 
@@ -372,23 +374,26 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
                 <div className="grid grid-cols-3 gap-3 mb-7">
                   {[
-                    { icon: BookOpen, label: "Materi", value: "1", gradient: "linear-gradient(135deg, var(--primary), var(--duo-green-light))" },
-                    { icon: Target, label: "Soal", value: `${totalQuestions}`, gradient: "linear-gradient(135deg, var(--duo-info), #4DC9FF)" },
-                    { icon: Zap, label: "XP", value: isCompleted ? <Check size={14} className="text-white" /> : "+25", gradient: "linear-gradient(135deg, var(--duo-xp), var(--duo-orange))" },
+                    { icon: BookOpen, label: "Materi", value: "1", bg: "rgba(61,211,76,0.15)", border: "rgba(61,211,76,0.4)", iconColor: "var(--primary)" },
+                    { icon: Target, label: "Soal", value: `${totalQuestions}`, bg: "rgba(28,176,246,0.15)", border: "rgba(28,176,246,0.4)", iconColor: "var(--duo-info)" },
+                    { icon: Zap, label: "XP", value: isCompleted ? <Check size={14} className="text-white" /> : "+25", bg: "rgba(255,198,41,0.15)", border: "rgba(255,198,41,0.4)", iconColor: "var(--duo-xp)" },
                   ].map((info, i) => (
                     <motion.div
                       key={info.label}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 + i * 0.1 }}
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      className="relative p-[2px] rounded-2xl shadow-xl cursor-pointer"
-                      style={{ background: info.gradient }}
+                      whileHover={{ scale: 1.05, y: -3 }}
+                      className="relative rounded-2xl p-[1.5px] cursor-pointer"
+                      style={{ background: `linear-gradient(135deg, ${info.border}, transparent)` }}
                     >
-                      <div className="bg-white dark:bg-[var(--surface)] rounded-[14px] p-3 w-full h-full">
-                        <info.icon size={20} className="mx-auto mb-1.5" style={{ color: i === 0 ? "var(--primary)" : i === 1 ? "var(--duo-info)" : "var(--duo-xp)" }} />
-                        <p className="text-xl font-black text-[var(--fg)]">{info.value}</p>
-                        <p className="text-[10px] text-[var(--fg-muted)] font-semibold">{info.label}</p>
+                      <div
+                        className="rounded-[15px] p-4 text-center backdrop-blur-sm"
+                        style={{ background: info.bg, border: `1px solid ${info.border}` }}
+                      >
+                        <info.icon size={22} className="mx-auto mb-2" style={{ color: info.iconColor }} />
+                        <p className="text-2xl font-black text-[var(--fg)] leading-none mb-1">{info.value}</p>
+                        <p className="text-[10px] text-[var(--fg-muted)] font-bold uppercase tracking-wider">{info.label}</p>
                       </div>
                     </motion.div>
                   ))}
