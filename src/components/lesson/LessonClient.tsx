@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,7 +33,7 @@ import {
   ArrowLeft, ArrowRight, CheckCircle2, RotateCcw,
   Home, Star, Zap, Trophy, BookOpen, Flame, Target,
   Sparkles, Crown, Gem, Rocket, Brain, XCircle, Heart,
-  Check, Lightbulb,
+  Check, Lightbulb, ThumbsUp, Dumbbell, Ruler, Hash, Edit,
 } from "lucide-react";
 import Link from "next/link";
 import type { Topic } from "@/lib/types";
@@ -345,7 +345,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
               <div className="relative">
                 <motion.div
-                  className={`w-28 h-28 mx-auto mb-5 rounded-[28px] bg-gradient-to-br ${levelColor} flex items-center justify-center shadow-2xl relative overflow-hidden`}
+                  className={`w-28 h-28 mx-auto mb-5 rounded-[28px] bg-gradient-to-br ${levelColor} flex items-center justify-center shadow-2xl relative overflow-hidden ring-4 ring-white/10`}
                   animate={{ y: [0, -10, 0], rotate: [0, -2, 2, 0] }}
                   transition={{ duration: 2.5, repeat: Infinity }}
                 >
@@ -358,7 +358,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                     animate={{ scale: [1, 1.15, 1], rotate: [0, 10, -10, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   >
-                    <Zap size={14} className="text-[#8B6914]" fill="#fff7" />
+                    <Star size={14} className="text-[#8B6914]" fill="#fff7" />
                   </motion.div>
                 </motion.div>
 
@@ -372,19 +372,21 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
                 <div className="grid grid-cols-3 gap-3 mb-7">
                   {[
-                    { icon: BookOpen, label: "Materi", value: "1", color: "from-[var(--primary)] to-[var(--duo-green-light)]" },
-                    { icon: Target, label: "Soal", value: `${totalQuestions}`, color: "from-[var(--duo-info)] to-[#4DC9FF]" },
-                    { icon: Zap, label: "XP", value: isCompleted ? <Check size={14} className="text-white" /> : "+25", color: "from-[var(--duo-xp)] to-[var(--duo-orange)]" },
+                    { icon: BookOpen, label: "Materi", value: "1", gradient: "linear-gradient(135deg, var(--primary), var(--duo-green-light))" },
+                    { icon: Target, label: "Soal", value: `${totalQuestions}`, gradient: "linear-gradient(135deg, var(--duo-info), #4DC9FF)" },
+                    { icon: Zap, label: "XP", value: isCompleted ? <Check size={14} className="text-white" /> : "+25", gradient: "linear-gradient(135deg, var(--duo-xp), var(--duo-orange))" },
                   ].map((info, i) => (
                     <motion.div
                       key={info.label}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 + i * 0.1 }}
-                      className={`relative p-4 rounded-2xl bg-gradient-to-br ${info.color} p-[2px] shadow-lg`}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      className="relative p-[2px] rounded-2xl shadow-xl cursor-pointer"
+                      style={{ background: info.gradient }}
                     >
                       <div className="bg-white dark:bg-[var(--surface)] rounded-[14px] p-3 w-full h-full">
-                        <info.icon size={18} className={`mx-auto mb-1.5 bg-gradient-to-br ${info.color} bg-clip-text text-transparent`} style={{ color: i === 0 ? "var(--primary)" : i === 1 ? "var(--duo-info)" : "var(--duo-xp)" }} />
+                        <info.icon size={20} className="mx-auto mb-1.5" style={{ color: i === 0 ? "var(--primary)" : i === 1 ? "var(--duo-info)" : "var(--duo-xp)" }} />
                         <p className="text-xl font-black text-[var(--fg)]">{info.value}</p>
                         <p className="text-[10px] text-[var(--fg-muted)] font-semibold">{info.label}</p>
                       </div>
@@ -416,7 +418,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                   glow
                   icon={<Rocket size={20} />}
                 >
-                  <span className="flex items-center gap-1.5">Mulai Petualangan! <InlineIcon emoji="🚀" size={16} /></span>
+                  Mulai Petualangan!
                 </AnimatedButton>
               </div>
             </div>
@@ -637,13 +639,13 @@ export default function LessonClient({ topic }: LessonClientProps) {
                             <div>
                               <span className="text-[10px] font-black uppercase tracking-wider text-[var(--fg-muted)]">Soal {currentQ + 1}</span>
                               <p className="text-[10px] font-bold text-[var(--duo-info)] flex items-center gap-1">
-                                {q.type === "graph" ? (<><InlineIcon emoji="📍" size={10} /> Graf</>)
-                                 : q.type === "numberline" ? (<><InlineIcon emoji="📏" size={10} /> Number Line</>)
-                                 : q.type === "sorting" ? (<><InlineIcon emoji="🔢" size={10} /> Sorting</>)
-                                 : q.type === "equation" ? (<><InlineIcon emoji="📝" size={10} /> Persamaan</>)
-                                 : quizType === "fill" ? (<><InlineIcon emoji="✍️" size={10} /> Isian</>)
-                                 : quizType === "truefalse" ? (<><InlineIcon emoji="✅" size={10} /> Benar/Salah</>)
-                                 : (<><InlineIcon emoji="🎯" size={10} /> Pilihan Ganda</>)}
+                                {q.type === "graph" ? (<><Target size={10} /> Graf</>)
+                                 : q.type === "numberline" ? (<><Ruler size={10} /> Number Line</>)
+                                 : q.type === "sorting" ? (<><Hash size={10} /> Sorting</>)
+                                 : q.type === "equation" ? (<><Edit size={10} /> Persamaan</>)
+                                 : quizType === "fill" ? (<><Edit size={10} /> Isian</>)
+                                 : quizType === "truefalse" ? (<><CheckCircle2 size={10} /> Benar/Salah</>)
+                                 : (<><Target size={10} /> Pilihan Ganda</>)}
                               </p>
                             </div>
                           </div>
@@ -754,6 +756,45 @@ export default function LessonClient({ topic }: LessonClientProps) {
                     );
                   })()}
 
+                  {/* Water Ripple Effect — shows on correct answer */}
+                  <AnimatePresence>
+                    {questionAnimated === "correct" && (
+                      <div className="absolute inset-0 pointer-events-none z-5 overflow-hidden rounded-[28px]">
+                        {[0, 1, 2].map((i) => (
+                          <motion.div
+                            key={`ripple-${i}`}
+                            className="absolute rounded-full border-2 border-[var(--primary)]"
+                            style={{ left: "50%", top: "50%" }}
+                            initial={{ width: 0, height: 0, opacity: 0.6, x: "-50%", y: "-50%" }}
+                            animate={{
+                              width: [0, 300],
+                              height: [0, 300],
+                              opacity: [0.6, 0],
+                              x: ["-50%", "-50%"],
+                              y: ["-50%", "-50%"],
+                            }}
+                            transition={{
+                              duration: 1,
+                              delay: i * 0.15,
+                              ease: "easeOut",
+                            }}
+                          />
+                        ))}
+                        {/* Water flow line downward */}
+                        <motion.div
+                          className="absolute left-1/2 -translate-x-1/2 h-[3px] rounded-full"
+                          style={{
+                            background: "linear-gradient(180deg, var(--primary), var(--info), transparent)",
+                            top: "50%",
+                          }}
+                          initial={{ width: 0, opacity: 0 }}
+                          animate={{ width: "60%", opacity: [0, 0.7, 0] }}
+                          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                        />
+                      </div>
+                    )}
+                  </AnimatePresence>
+
                   <AnimatePresence>
                     {questionAnimated && (
                       <motion.div
@@ -790,7 +831,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                               </motion.div>
                               <div>
                                 <p className="text-xl font-black">SALAH</p>
-                                <p className="text-xs font-bold opacity-90 flex items-center gap-1">Ayo coba lagi! <InlineIcon emoji="💪" size={11} /></p>
+                                <p className="text-xs font-bold opacity-90">Ayo coba lagi!</p>
                               </div>
                             </>
                           )}
@@ -903,14 +944,14 @@ export default function LessonClient({ topic }: LessonClientProps) {
                     transition={{ delay: 0.3 }}
                   >
                     <h1 className="text-3xl font-black text-[var(--fg)] mb-2 tracking-tight flex items-center justify-center gap-2">
-                      {pct >= 100 ? (<><InlineIcon emoji="🌟" size={28} /> SEMPURNA!</>)
-                       : pct >= 80 ? (<><InlineIcon emoji="🏆" size={26} /> Luar Biasa!</>)
-                       : pct >= 50 ? (<><InlineIcon emoji="👍" size={24} /> Bagus!</>)
-                       : (<><InlineIcon emoji="💪" size={24} /> Ayo Coba Lagi!</>)}
+                      {pct >= 100 ? (<><Sparkles size={28} className="text-[var(--accent-xp)]" /> SEMPURNA!</>)
+                       : pct >= 80 ? (<><Trophy size={26} className="text-[var(--accent-xp)]" /> Luar Biasa!</>)
+                       : pct >= 50 ? (<><ThumbsUp size={24} className="text-[var(--primary)]" /> Bagus!</>)
+                       : (<><Dumbbell size={24} className="text-[var(--info)]" /> Ayo Coba Lagi!</>)}
                     </h1>
                     <p className="text-sm text-[var(--fg-secondary)] mb-6 max-w-xs mx-auto leading-relaxed">
                       {pct >= 100
-                        ? (<span className="flex items-center justify-center gap-1">Wah kamu menjawab semua soal dengan benar! Hebat banget! <InlineIcon emoji="✨" size={12} /></span>)
+                        ? "Wah kamu menjawab semua soal dengan benar! Hebat banget!"
                         : pct >= 80
                         ? "Kamu menyelesaikan quiz dengan hasil yang sangat memuaskan!"
                         : pct >= 50
