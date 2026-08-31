@@ -1,12 +1,10 @@
 "use client";
 
 import { useMemo, useState, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { buildPathData, LEVEL_CONFIG, type PathNode } from "@/lib/learningPath";
 import { getTopicStatus } from "@/lib/data";
-import { getMastery } from "@/lib/mastery";
-import { getMasteryLevel } from "@/lib/mastery";
+import { getMastery, getMasteryLevel } from "@/lib/mastery";
 import { getAllTopics } from "@/lib/data";
 import type { UserProfile } from "@/lib/gamification";
 import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
@@ -17,10 +15,11 @@ interface LearningPathGraphProps {
 
 const NODE_W = 200;
 const NODE_H = 64;
-const COL_GAP = 80;
 const ROW_GAP = 28;
-const COL_WIDTH = NODE_W + COL_GAP;
-const PADDING = 40;
+const SIDE_OFFSET = 60;
+const SPINE_X = 320;
+const PADDING_TOP = 50;
+const PADDING_SIDE = 40;
 
 const STATUS_COLORS: Record<string, { fill: string; stroke: string; text: string }> = {
   locked: { fill: "#1E2330", stroke: "#2D3548", text: "#6B7280" },
@@ -46,21 +45,24 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
     return nodes.map((n) => {
       const status = statusMap.get(n.slug) || "locked";
       const masteryPct = getMastery(n.slug);
-      const masteryInfo = getMasteryLevel(masteryPct);
       const effectiveStatus = masteryPct >= 90 ? "mastered" : status;
       return { ...n, status: effectiveStatus, masteryPct };
     });
   }, [nodes, statusMap]);
 
-  // Calculate SVG dimensions
-  const maxRow = nodes.length > 0 ? Math.max(...nodes.map((n) => n.row)) : 0;
-  const svgWidth = PADDING * 2 + COL_WIDTH * 3 - COL_GAP;
-  const svgHeight = PADDING * 2 + (maxRow + 1) * (NODE_H + ROW_GAP);
+  // Zigzag positioning: alternating left/right per row
+  const getNodePos = useCallback((node: PathNode) => {
+    const isLeft = node.row % 2 === 0;
+    const x = isLeft
+      ? PADDING_SIDE
+      : SPINE_X + SIDE_OFFSET;
+    const y = PADDING_TOP + node.row * (NODE_H + ROW_GAP);
+    return { x, y, isLeft };
+  }, []);
 
-  const getNodePos = (node: PathNode) => ({
-    x: PADDING + node.col * COL_WIDTH,
-    y: PADDING + node.row * (NODE_H + ROW_GAP),
-  });
+  const svgWidth = SPINE_X + SIDE_OFFSET + NODE_W + PADDING_SIDE;
+  const maxRow = nodes.length > 0 ? Math.max(...nodes.map((n) => n.row)) : 0;
+  const svgHeight = PADDING_TOP + (maxRow + 1) * (NODE_H + ROW_GAP) + 20;
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
@@ -94,6 +96,13 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
   const totalTopics = nodesWithStatus.length;
   const completedCount = nodesWithStatus.filter((n) => n.status === "completed" || n.status === "mastered").length;
   const masteredCount = nodesWithStatus.filter((n) => n.status === "mastered").length;
+
+  // Group nodes by level for section rendering
+  const levels = ["smp", "sma", "kuliah"] as const;
+  const levelGroups = levels.map((level) => ({
+    level,
+    nodes: nodesWithStatus.filter((n) => n.level === level),
+  })).filter((g) => g.nodes.length > 0);
 
   return (
     <div className="w-full">
@@ -146,84 +155,90 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
             <filter id="nodeShadow" x="-20%" y="-20%" width="140%" height="140%">
               <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#000" floodOpacity="0.25" />
             </filter>
-            <filter id="nodeShadowHover" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#000" floodOpacity="0.35" />
-            </filter>
           </defs>
-          {/* Column headers */}
-          {(["smp", "sma", "kuliah"] as const).map((level, colIdx) => {
-            const cfg = LEVEL_CONFIG[level];
-            const x = PADDING + colIdx * COL_WIDTH + NODE_W / 2;
-            return (
-              <g key={level}>
-                <rect
-                  x={x - 60}
-                  y={6}
-                  width={120}
-                  height={24}
-                  rx={12}
-                  fill={cfg.color}
-                  opacity={0.15}
-                />
-                <text x={x} y={22} textAnchor="middle" fill={cfg.color} fontSize={11} fontWeight={800}>
-                  {cfg.label}
-                </text>
-              </g>
-            );
-          })}
 
-          {/* Edges */}
-          {nodesWithStatus.map((node) => {
-            const pos = getNodePos(node);
-            const nextInCol = nodesWithStatus.find(
-              (n) => n.col === node.col && n.row === node.row + 1
-            );
-            if (!nextInCol) return null;
-            const nextPos = getNodePos(nextInCol);
-            const x1 = pos.x + NODE_W * 0.4;
-            const y1 = pos.y + NODE_H;
-            const x2 = nextPos.x + NODE_W * 0.4;
-            const y2 = nextPos.y;
-            const midY = (y1 + y2) / 2;
-            const d = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
+          {/* Central spine line */}
+          {levelGroups.map((group) => {
+            const firstNode = group.nodes[0];
+            const lastNode = group.nodes[group.nodes.length - 1];
+            const firstPos = getNodePos(firstNode);
+            const lastPos = getNodePos(lastNode);
+            const cfg = LEVEL_CONFIG[group.level];
+            const startY = firstPos.y + NODE_H / 2;
+            const endY = lastPos.y + NODE_H / 2;
             return (
-              <path
-                key={`edge-${node.slug}`}
-                d={d}
-                fill="none"
-                stroke={node.status === "locked" ? "#4B5563" : LEVEL_CONFIG[node.level].color}
+              <line
+                key={`spine-${group.level}`}
+                x1={SPINE_X}
+                y1={startY}
+                x2={SPINE_X}
+                y2={endY}
+                stroke={cfg.color}
                 strokeWidth={2}
-                strokeDasharray={node.status === "locked" ? "6 4" : "none"}
-                opacity={node.status === "locked" ? 0.4 : 0.6}
+                opacity={0.25}
+                strokeDasharray="6 4"
               />
             );
           })}
 
-          {/* Cross-level edges */}
-          {(["smp", "sma"] as const).map((level) => {
-            const levelNodes = nodesWithStatus.filter((n) => n.level === level);
-            const nextLevel = level === "smp" ? "sma" : "kuliah";
-            const nextLevelNodes = nodesWithStatus.filter((n) => n.level === nextLevel);
-            if (levelNodes.length === 0 || nextLevelNodes.length === 0) return null;
-            const lastNode = levelNodes[levelNodes.length - 1];
-            const firstNode = nextLevelNodes[0];
-            const from = getNodePos(lastNode);
-            const to = getNodePos(firstNode);
-            const x1 = from.x + NODE_W;
-            const y1 = from.y + NODE_H / 2;
-            const x2 = to.x + 40;
-            const y2 = to.y + NODE_H / 2;
-            const cpX = (x1 + x2) / 2;
-            const d = `M ${x1} ${y1} C ${cpX} ${y1}, ${cpX} ${y2}, ${x2} ${y2}`;
+          {/* Horizontal connectors from nodes to spine */}
+          {nodesWithStatus.map((node) => {
+            const pos = getNodePos(node);
+            const cfg = LEVEL_CONFIG[node.level];
+            const nodeCenterY = pos.y + NODE_H / 2;
+            const connectorColor = node.status === "locked" ? "#4B5563" : cfg.color;
+            const connectorOpacity = node.status === "locked" ? 0.3 : 0.5;
+
+            if (pos.isLeft) {
+              // Left node: connector from right edge to spine
+              const x1 = pos.x + NODE_W;
+              const x2 = SPINE_X;
+              return (
+                <line
+                  key={`conn-${node.slug}`}
+                  x1={x1}
+                  y1={nodeCenterY}
+                  x2={x2}
+                  y2={nodeCenterY}
+                  stroke={connectorColor}
+                  strokeWidth={2}
+                  strokeDasharray={node.status === "locked" ? "4 4" : "none"}
+                  opacity={connectorOpacity}
+                />
+              );
+            } else {
+              // Right node: connector from spine to left edge
+              const x1 = SPINE_X;
+              const x2 = pos.x;
+              return (
+                <line
+                  key={`conn-${node.slug}`}
+                  x1={x1}
+                  y1={nodeCenterY}
+                  x2={x2}
+                  y2={nodeCenterY}
+                  stroke={connectorColor}
+                  strokeWidth={2}
+                  strokeDasharray={node.status === "locked" ? "4 4" : "none"}
+                  opacity={connectorOpacity}
+                />
+              );
+            }
+          })}
+
+          {/* Spine dots at connector junctions */}
+          {nodesWithStatus.map((node) => {
+            const pos = getNodePos(node);
+            const cfg = LEVEL_CONFIG[node.level];
+            const nodeCenterY = pos.y + NODE_H / 2;
             return (
-              <path
-                key={`cross-${level}`}
-                d={d}
-                fill="none"
-                stroke={LEVEL_CONFIG[nextLevel].color}
-                strokeWidth={2}
-                strokeDasharray="8 4"
-                opacity={0.5}
+              <circle
+                key={`dot-${node.slug}`}
+                cx={SPINE_X}
+                cy={nodeCenterY}
+                r={4}
+                fill={node.status === "locked" ? "#4B5563" : cfg.color}
+                opacity={node.status === "locked" ? 0.4 : 0.7}
               />
             );
           })}
@@ -241,7 +256,7 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
                 style={{ cursor: isClickable ? "pointer" : "not-allowed" }}
                 className="group"
               >
-                {/* Shadow layer */}
+                {/* Shadow */}
                 <rect
                   x={pos.x}
                   y={pos.y}
@@ -250,7 +265,7 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
                   rx={14}
                   fill="transparent"
                   filter="url(#nodeShadow)"
-                  opacity={node.status === "locked" ? 0.15 : 0.5}
+                  opacity={0.3}
                 />
                 {/* Main node */}
                 <rect
@@ -278,7 +293,7 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
                     style={{ pointerEvents: "none" }}
                   />
                 )}
-                {/* Mastery glow for mastered topics */}
+                {/* Mastery glow */}
                 {node.status === "mastered" && (
                   <rect
                     x={pos.x - 3}
@@ -292,7 +307,7 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
                     opacity={0.4}
                   />
                 )}
-                {/* Short title */}
+                {/* Title */}
                 <text
                   x={pos.x + NODE_W / 2}
                   y={pos.y + NODE_H / 2 + 1}
