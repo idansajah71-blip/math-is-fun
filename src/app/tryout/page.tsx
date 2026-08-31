@@ -36,7 +36,9 @@ export default function TryOutPage() {
   }, [currentQ, questions]);
 
   const startTryOut = useCallback(() => {
-    const pool = [...getAllQuizzes()].sort(() => Math.random() - 0.5).slice(0, 20);
+    const allQuizzes = getAllQuizzes();
+    const mcQuizzes = allQuizzes.filter(q => (!q.type || q.type === "choice") && q.options && q.options.length > 0);
+    const pool = [...mcQuizzes].sort(() => Math.random() - 0.5).slice(0, 20);
     setQuestions(pool);
     setCurrentQ(0);
     setScore(0);
