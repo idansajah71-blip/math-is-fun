@@ -1,244 +1,143 @@
 "use client";
 
 import {
-  Sprout, Flame, Star, GraduationCap, Trophy, Dumbbell, Crown, Gem, Medal, Award,
-  Brain, Diamond, Zap, Sparkles, Snowflake, Heart, Bot, Rabbit, Smile, Wind, PartyPopper,
-  BookOpen, Calculator, Sigma, TrendingUp, BarChart3, Target, Lightbulb, Rocket,
-  Shapes, Ruler, Pi, Percent, Hash, ArrowRight, BarChart2, Activity, CircleDot,
-  Box, Package, Clock, FileText, Compass, Triangle, Hexagon, Pentagon, Scale, Timer,
-  Pointer, Gamepad2, Dices, ThumbsUp, Coffee, CheckCircle, XCircle, MousePointerClick,
-  Shield, Swords, CheckCircle2, FlameKindling, Hourglass, Mountain, ShoppingBag,
-  BookmarkCheck, RotateCcw, Infinity, CircleDashed,
+  // Math & Education
+  Sigma, Calculator, Pi, Percent, Hash, Ruler, Compass, Triangle, Shapes, Hexagon, Pentagon, Circle,
+  Variable, Divide, Plus, Minus, ListOrdered,
+  // Science
+  FlaskConical, Atom, Microscope, Zap, Waves, Magnet,
+  // Academic
+  BookOpen, BookMarked, GraduationCap, School, Library, FileText, Notebook, Pen, Pencil, Edit,
+  // Charts & Data
+  BarChart2, BarChart3, LineChart, PieChart, TrendingUp, TrendingDown, Activity,
+  // UI & Navigation
+  ArrowRight, ArrowLeft, ArrowUp, ArrowDown, ChevronRight, ChevronLeft,
+  Target, Lightbulb, Rocket, Star, Sparkles, Crown, Trophy, Medal, Award, Flag,
+  // Social & Emotion
+  Heart, ThumbsUp, Smile, PartyPopper, Gift,
+  // Objects
+  Gem, Diamond, Flame, Snowflake, Sun, Moon, Clock, Timer, Bell, Coffee,
+  Coins, Link, Infinity,
+  // Status
+  CheckCircle, CheckCircle2, XCircle, AlertCircle, Info, Lock, Unlock,
+  // Gamification
+  Gamepad2, Dices, Brain, Pointer,
+  // Person
+  User, UserCheck, Bot, Rabbit, Sprout, Dumbbell, Wind,
+  // Misc
+  Box, Package, Layers, Grid, Map, Navigation, Route, Footprints,
+  MousePointerClick, Equal, PencilRuler,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import React from "react";
-import {
-  NumbersIcon, ChartIcon, AlgebraIcon, ScaleIcon as ScaleSvg, TriangleIcon,
-  RulerIcon, CoinIcon, LinkIcon, GraphIcon, FormulaIcon, GeometryIcon,
-  StatIcon, MatrixIcon, CircleIcon, ProbabilityIcon, FunctionIcon, VectorIcon,
-  DerivativeIcon, IntegralIcon, LimitIcon, SparklesIcon, TrophyIcon as TrophySvg,
-  CrownIcon as CrownSvg, HeartIcon, ZapIcon, FlameIcon, GiftIcon, BookIcon,
-  BrainIcon, RocketIcon, TargetIcon, StarIcon, CalendarIcon, GemIcon as GemSvg,
-  MedalIcon as MedalSvg, CheckIcon, XIcon, HandClickIcon, PartyIcon,
-  CoffeeIcon as CoffeeSvg, DiceIcon, GamepadIcon, LightbulbIcon, PlayIcon,
-  SmileIcon,
-} from "@/components/icons/CustomIcons";
 
-// Phosphor Icons — bold weight for world map nodes
-import {
-  NumberCircleOne as PhNumberCircleOne,
-  CirclesThree as PhCirclesThree,
-  Function as PhFunction,
-  Scales as PhScales,
-  WarningCircle as PhWarningCircle,
-  Ruler as PhRuler,
-  Coins as PhCoins,
-  ListNumbers as PhListNumbers,
-  Link as PhLink,
-  Graph as PhGraph,
-  CompassTool as PhCompassTool,
-  Triangle as PhTriangle,
-  PencilRuler as PhPencilRuler,
-  Circle as PhCircle,
-  Cube as PhCube,
-  Sphere as PhSphere,
-  ChartBar as PhChartBar,
-  DiceSix as PhDiceSix,
-  Compass as PhCompass,
-  Rocket as PhRocket,
-  Calculator as PhCalculator,
-  Warning as PhWarning,
-  CirclesFour as PhCirclesFour,
-  Magnet as PhMagnet,
-  Tilde as PhTilde,
-  WaveTriangle as PhWaveTriangle,
-  TrendUp as PhTrendUp,
-  RocketLaunch as PhRocketLaunch,
-  Infinity as PhInfinity,
-  ChartBarHorizontal as PhChartBarHorizontal,
-  ChartLine as PhChartLine,
-  Lightbulb as PhLightbulb,
-  CircleNotch as PhCircleNotch,
-  Atom as PhAtom,
-  Sigma as PhSigma,
-  LightbulbFilament as PhLightbulbFilament,
-  ChartDonut as PhChartDonut,
-} from "@phosphor-icons/react";
+// ── Name → Icon ───────────────────────────────────────────────────────────────
+const NAME_TO_ICON: Record<string, LucideIcon> = {
+  Sigma, Calculator, Pi, Percent, Hash, Ruler, Compass, Triangle, Shapes, Hexagon, Pentagon, Circle,
+  Variable, Divide, Plus, Minus, Equal,
+  FlaskConical, Atom, Microscope, Zap, Waves, Magnet,
+  BookOpen, BookMarked, GraduationCap, School, Library, FileText, Notebook, Pen, Pencil, Edit,
+  BarChart2, BarChart3, LineChart, PieChart, TrendingUp, TrendingDown, Activity,
+  ArrowRight, ArrowLeft, ArrowUp, ArrowDown, ChevronRight, ChevronLeft,
+  Target, Lightbulb, Rocket, Star, Sparkles, Crown, Trophy, Medal, Award, Flag,
+  Heart, ThumbsUp, Smile, PartyPopper, Gift,
+  Gem, Diamond, Flame, Snowflake, Sun, Moon, Clock, Timer, Bell, Coffee,
+  CheckCircle, CheckCircle2, XCircle, AlertCircle, Info, Lock, Unlock,
+  Gamepad2, Dices, Brain, Pointer,
+  User, UserCheck, Bot, Rabbit, Sprout, Dumbbell, Wind,
+  Box, Package, Layers, Grid, Map, Navigation, Route, Footprints,
+  MousePointerClick,
 
-const NAME_TO_ICON: Record<string, LucideIcon | React.FC<any>> = {
-  Sprout, Flame, Star, GraduationCap, Trophy, Dumbbell, Crown, Gem, Medal, Award,
-  Brain, Diamond, Zap, Sparkles, Snowflake, Heart, Bot, Rabbit, Smile, Wind, PartyPopper,
-  BookOpen, Calculator, Sigma, TrendingUp, BarChart3, Target, Lightbulb, Rocket,
-  Shapes, Ruler, Pi, Percent, Hash, ArrowRight, BarChart2, Activity, CircleDot,
-  Box, Package, Clock, FileText, Compass, Triangle, Hexagon, Pentagon, Scale, Timer,
-  Pointer, Gamepad2, Dices, ThumbsUp, Coffee, CheckCircle, XCircle, MousePointerClick,
-  Shield, Swords, CheckCircle2, FlameKindling, Hourglass, Mountain, ShoppingBag,
-  BookmarkCheck, RotateCcw, Infinity, CircleDashed,
-  Numbers: NumbersIcon,
-  NumbersAlt: AlgebraIcon,
-  Chart: ChartIcon,
-  Graph: GraphIcon,
-  Formula: FormulaIcon,
-  Geometry: GeometryIcon,
-  Stat: StatIcon,
-  Matrix: MatrixIcon,
-  Circle: CircleIcon,
-  Probability: ProbabilityIcon,
-  Function: FunctionIcon,
-  Vector: VectorIcon,
-  Derivative: DerivativeIcon,
-  Integral: IntegralIcon,
-  Limit: LimitIcon,
-  SparklesCustom: SparklesIcon,
-  TrophyCustom: TrophySvg,
-  CrownCustom: CrownSvg,
-  HeartCustom: HeartIcon,
-  ZapCustom: ZapIcon,
-  FlameCustom: FlameIcon,
-  GiftCustom: GiftIcon,
-  BookCustom: BookIcon,
-  BrainCustom: BrainIcon,
-  RocketCustom: RocketIcon,
-  TargetCustom: TargetIcon,
-  StarCustom: StarIcon,
-  CalendarCustom: CalendarIcon,
-  GemCustom: GemSvg,
-  MedalCustom: MedalSvg,
-  CheckCustom: CheckIcon,
-  XCustom: XIcon,
-  HandClick: HandClickIcon,
-  PartyCustom: PartyIcon,
-  CoffeeCustom: CoffeeSvg,
-  DiceCustom: DiceIcon,
-  GamepadCustom: GamepadIcon,
-  LightbulbCustom: LightbulbIcon,
-  PlayCustom: PlayIcon,
-  SmileCustom: SmileIcon,
-  Coin: CoinIcon,
-  Link: LinkIcon,
-  RulerCustom: RulerIcon,
-  TriangleCustom: TriangleIcon,
-  ScaleCustom: ScaleSvg,
-  Algebra: AlgebraIcon,
+  // ── Phosphor Icons → Lucide equivalents (used in topics.json) ────────────
+  // Exact matches
+  PencilRuler,        // PencilRuler (Lucide has this)
+  Infinity,           // Infinity
+  // Mapped names
+  NumberCircleOne:  ListOrdered,
+  CirclesThree:     Shapes,
+  CirclesFour:      Shapes,
+  Function:         Sigma,
+  Scales:           Layers,
+  WarningCircle:    AlertCircle,
+  Warning:          AlertCircle,
+  ListNumbers:      ListOrdered,
+  Graph:            LineChart,
+  CompassTool:      Compass,
+  ChartBar:         BarChart3,
+  ChartBarHorizontal: BarChart2,
+  ChartDonut:       PieChart,
+  ChartLine:        LineChart,
+  CircleNotch:      Circle,
+  DiceSix:          Dices,
+  LightbulbFilament: Lightbulb,
+  RocketLaunch:     Rocket,
+  Sphere:           Circle,
+  TrendUp:          TrendingUp,
+  WaveTriangle:     Waves,
+  Cube:             Box,
+  Tilde:            Sigma,
 };
 
-// Phosphor icon mapping — used for world map topic icons
-const PHOSPHOR_ICONS: Record<string, React.FC<any>> = {
-  NumberCircleOne: PhNumberCircleOne,
-  CirclesThree: PhCirclesThree,
-  Function: PhFunction,
-  Scales: PhScales,
-  WarningCircle: PhWarningCircle,
-  Ruler: PhRuler,
-  Coins: PhCoins,
-  ListNumbers: PhListNumbers,
-  Link: PhLink,
-  Graph: PhGraph,
-  CompassTool: PhCompassTool,
-  Triangle: PhTriangle,
-  PencilRuler: PhPencilRuler,
-  Circle: PhCircle,
-  Cube: PhCube,
-  Sphere: PhSphere,
-  ChartBar: PhChartBar,
-  DiceSix: PhDiceSix,
-  Compass: PhCompass,
-  Rocket: PhRocket,
-  Calculator: PhCalculator,
-  Warning: PhWarning,
-  CirclesFour: PhCirclesFour,
-  Magnet: PhMagnet,
-  Tilde: PhTilde,
-  WaveTriangle: PhWaveTriangle,
-  TrendUp: PhTrendUp,
-  RocketLaunch: PhRocketLaunch,
-  Infinity: PhInfinity,
-  ChartBarHorizontal: PhChartBarHorizontal,
-  ChartLine: PhChartLine,
-  Lightbulb: PhLightbulb,
-  CircleNotch: PhCircleNotch,
-  Atom: PhAtom,
-  Sigma: PhSigma,
-  LightbulbFilament: PhLightbulbFilament,
-  ChartDonut: PhChartDonut,
+// ── Emoji → Icon ──────────────────────────────────────────────────────────────
+const EMOJI_TO_ICON: Record<string, LucideIcon> = {
+  "➕": Plus, "➖": Minus, "✖️": Calculator, "➗": Divide, "=": Equal,
+  "📊": BarChart3, "📈": TrendingUp, "📉": TrendingDown,
+  "📐": Ruler, "📏": Ruler, "🧮": Calculator, "🔢": Hash, "🔣": Sigma,
+  "📖": BookOpen, "📚": BookOpen, "📓": Notebook, "📝": Edit, "🖊️": Pen, "✏️": Pencil, "📄": FileText,
+  "⚗️": FlaskConical, "🔬": Microscope, "⚛️": Atom, "🧪": FlaskConical,
+  "🔺": Triangle, "🔻": Triangle, "⬛": Box, "🔷": Diamond, "🔶": Diamond, "⭕": Circle, "🔵": Circle,
+  "✅": CheckCircle2, "❌": XCircle, "⚠️": AlertCircle, "ℹ️": Info, "🔒": Lock, "🔓": Unlock,
+  "🏆": Trophy, "🥇": Medal, "🥈": Medal, "🥉": Medal, "🏅": Award,
+  "⭐": Star, "🌟": Sparkles, "💫": Sparkles, "✨": Sparkles, "👑": Crown, "💎": Gem,
+  "🎁": Gift, "🎊": PartyPopper, "🎉": PartyPopper, "🎓": GraduationCap,
+  "🔥": Flame, "❤️": Heart, "💜": Heart, "💙": Heart, "💚": Heart, "💛": Heart,
+  "👍": ThumbsUp, "😊": Smile, "😄": Smile, "☕": Coffee,
+  "🕐": Clock, "⏱️": Timer, "⏰": Clock, "🧠": Brain, "💡": Lightbulb, "🚀": Rocket,
+  "⚡": Zap, "🎯": Target, "🎮": Gamepad2, "🎲": Dices,
+  "❄️": Snowflake, "☀️": Sun, "🌙": Moon, "🔔": Bell,
+  "👆": Pointer, "☝️": Pointer, "👉": ArrowRight, "👋": Wind,
+  "💪": Dumbbell, "🤖": Bot, "🐰": Rabbit, "🌱": Sprout,
+  "🗺️": Map, "🧭": Compass, "📍": Target, "🚩": Flag,
+  "🪙": Gem, "💰": Gem,
+  // Common Indonesian edu app emojis
+  "😀": Smile, "😃": Smile, "😁": Smile, "🙂": Smile, "🤩": Sparkles,
+  "🤝": ThumbsUp, "🙌": ThumbsUp,
+  "📌": Target, "🗒️": Notebook, "🗂️": Layers, "📋": FileText,
+  "🔑": Unlock, "🗝️": Unlock, "🧩": Shapes, "🎨": Shapes, "🎪": Gamepad2,
+  "🎭": Shapes, "🎬": Gamepad2, "🎤": Bell, "🎵": Bell, "🎶": Bell,
+  "🌈": Sparkles, "🌅": Sun, "🌄": Sun, "🌇": Sun, "🌃": Moon, "🌆": Sun,
+  "🏔️": Triangle, "⛰️": Triangle, "🌋": Triangle,
+  "📡": Navigation, "🛸": Rocket, "🚁": Navigation,
 };
 
-const EMOJI_TO_ICON: Record<string, LucideIcon | React.FC<any>> = {
-  "🔢": NumbersIcon,
-  "📊": ChartIcon,
-  "📈": StatIcon,
-  "⚖️": ScaleSvg,
-  "📐": TriangleIcon,
-  "📏": RulerIcon,
-  "💰": CoinIcon,
-  "🔗": LinkIcon,
-  "📖": BookIcon,
-  "📚": BookIcon,
-  "🔤": AlgebraIcon,
-  "🧭": TargetIcon,
-  "💯": TargetIcon,
-  "⭐": StarIcon,
-  "🌟": SparklesIcon,
-  "💫": SparklesIcon,
-  "✨": SparklesIcon,
-  "🎯": TargetIcon,
-  "🏆": TrophySvg,
-  "🥇": MedalSvg,
-  "🏅": MedalSvg,
-  "👑": CrownSvg,
-  "💎": GemSvg,
-  "🔥": FlameIcon,
-  "⚡": ZapIcon,
-  "❤️": HeartIcon,
-  "💪": BrainIcon,
-  "🎉": PartyIcon,
-  "🎊": PartyIcon,
-  "🎁": GiftIcon,
-  "👆": HandClickIcon,
-  "🚀": RocketIcon,
-  "🎮": GamepadIcon,
-  "💡": LightbulbIcon,
-  "🎲": DiceIcon,
-  "👍": CheckIcon,
-  "☕": CoffeeSvg,
-  "✅": CheckIcon,
-  "❌": XIcon,
-  "🧠": BrainIcon,
-  "⏱️": CalendarIcon,
-  "📍": TargetIcon,
-  "🪙": CoinIcon,
-  "📝": FormulaIcon,
-  "✍️": FormulaIcon,
-  "🎓": TrophySvg,
-  "😊": SmileIcon,
-  "😉": SmileIcon,
-};
+const FALLBACK: LucideIcon = Circle;
 
-export function getIcon(name: string): LucideIcon | React.FC<any> {
-  return PHOSPHOR_ICONS[name] ?? EMOJI_TO_ICON[name] ?? NAME_TO_ICON[name] ?? CircleDot;
+/* ─────────────────────────────────────────────
+   PUBLIC API
+───────────────────────────────────────────── */
+
+export function getIcon(name: string): LucideIcon {
+  if (!name) return FALLBACK;
+  if (NAME_TO_ICON[name]) return NAME_TO_ICON[name];
+  if (EMOJI_TO_ICON[name]) return EMOJI_TO_ICON[name];
+  const lower = name.toLowerCase();
+  const nameKey = Object.keys(NAME_TO_ICON).find((k) => k.toLowerCase() === lower);
+  if (nameKey) return NAME_TO_ICON[nameKey];
+  return FALLBACK;
 }
 
-export function renderIcon(name: string, size?: number, className?: string, strokeWidth: number = 2.2) {
+export function renderIcon(
+  name: string,
+  size?: number,
+  className?: string,
+  strokeWidth = 2.2
+): React.ReactElement {
   const Icon = getIcon(name);
-  const isPhosphor = name in PHOSPHOR_ICONS;
-  const isCustom = Object.values(NAME_TO_ICON).slice(56).includes(Icon as any) ||
-    Object.values(EMOJI_TO_ICON).includes(Icon as any);
-
-  if (isPhosphor) {
-    const PhComp = Icon as React.FC<any>;
-    return <PhComp size={size} className={className} weight="bold" />;
-  }
-
-  if (isCustom) {
-    const CustomComp = Icon as React.FC<any>;
-    return <CustomComp size={size} className={className} />;
-  }
-  const LucideComp = Icon as LucideIcon;
-  return <LucideComp size={size} className={className} strokeWidth={strokeWidth} />;
+  return <Icon size={size} className={className} strokeWidth={strokeWidth} />;
 }
 
-export function renderTopicIcon(emoji: string, size: number = 24, className?: string) {
-  return renderIcon(emoji, size, className);
+export function renderTopicIcon(icon: string, size = 24, className?: string) {
+  return renderIcon(icon, size, className, 2.2);
 }
 
 interface InlineIconProps {
@@ -247,26 +146,22 @@ interface InlineIconProps {
   className?: string;
   strokeWidth?: number;
 }
-export function InlineIcon({ emoji, size = 14, className = "", strokeWidth = 2.4 }: InlineIconProps) {
-  const Comp = getIcon(emoji);
-  const isPhosphor = emoji in PHOSPHOR_ICONS;
-  const isCustom = Object.values(NAME_TO_ICON).slice(56).includes(Comp as any) ||
-    Object.values(EMOJI_TO_ICON).includes(Comp as any);
 
-  const RenderComp = Comp as React.FC<any>;
+/** Drop-in replacement for any raw emoji in JSX */
+export function InlineIcon({
+  emoji,
+  size = 14,
+  className = "",
+  strokeWidth = 2.4,
+}: InlineIconProps) {
+  const Comp = getIcon(emoji);
   return (
     <span
-      className={`inline-flex items-center justify-center align-middle ${className}`}
+      className={`inline-flex items-center justify-center align-middle shrink-0 ${className}`}
       style={{ width: size, height: size, lineHeight: 1 }}
       aria-hidden="true"
     >
-      {isPhosphor ? (
-        <RenderComp size={size} weight="bold" />
-      ) : isCustom ? (
-        <RenderComp size={size} />
-      ) : (
-        <RenderComp size={size} strokeWidth={strokeWidth} />
-      )}
+      <Comp size={size} strokeWidth={strokeWidth} />
     </span>
   );
 }
