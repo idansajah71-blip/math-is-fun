@@ -357,14 +357,14 @@ export default function LessonClient({ topic }: LessonClientProps) {
                   <div className="relative text-white drop-shadow-lg">
                     {renderIcon(topic.icon, 56)}
                   </div>
-                  <motion.div
-                    className="absolute -top-1 -right-1 w-9 h-9 rounded-full flex items-center justify-center border-[2.5px] border-white shadow-lg"
-                    style={{ background: "linear-gradient(135deg, #FFD700, #FFA500)" }}
-                    animate={{ scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Star size={15} className="text-white" fill="#fff" />
-                  </motion.div>
+                </motion.div>
+                <motion.div
+                  className="absolute -top-1 right-[calc(50%-4.5rem)] w-9 h-9 rounded-full flex items-center justify-center border-[2.5px] border-white shadow-lg z-10"
+                  style={{ background: "linear-gradient(135deg, #FFD700, #FFA500)" }}
+                  animate={{ scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <Star size={15} className="text-white" fill="#fff" />
                 </motion.div>
 
                 <div className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-black mb-4 border-2 ${levelBadgeBg} ${levelTextColor}`}>
