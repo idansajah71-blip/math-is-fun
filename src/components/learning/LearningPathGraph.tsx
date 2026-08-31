@@ -23,8 +23,8 @@ const COL_WIDTH = NODE_W + COL_GAP;
 const PADDING = 40;
 
 const STATUS_COLORS: Record<string, { fill: string; stroke: string; text: string }> = {
-  locked: { fill: "#374151", stroke: "#4B5563", text: "#9CA3AF" },
-  available: { fill: "#1E40AF", stroke: "#3B82F6", text: "#DBEAFE" },
+  locked: { fill: "#1E2330", stroke: "#2D3548", text: "#6B7280" },
+  available: { fill: "#1E3A5F", stroke: "#3B82F6", text: "#DBEAFE" },
   completed: { fill: "#065F46", stroke: "#10B981", text: "#D1FAE5" },
   mastered: { fill: "#92400E", stroke: "#F59E0B", text: "#FEF3C7" },
 };
@@ -250,7 +250,7 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
                   rx={14}
                   fill="transparent"
                   filter="url(#nodeShadow)"
-                  opacity={node.status === "locked" ? 0.2 : 0.5}
+                  opacity={node.status === "locked" ? 0.15 : 0.5}
                 />
                 {/* Main node */}
                 <rect
@@ -262,7 +262,6 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
                   fill={colors.fill}
                   stroke={colors.stroke}
                   strokeWidth={2}
-                  opacity={node.status === "locked" ? 0.5 : 1}
                   className="transition-all duration-200"
                 />
                 {/* Hover overlay */}
