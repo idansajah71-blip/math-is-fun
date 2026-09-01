@@ -44,9 +44,32 @@ function saveStoredQuestions(questions: ManagedQuestion[]) {
   localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questions));
 }
 
+function hasDuplicatePattern(text: string, windowSize = 20, maxRepeats = 5): boolean {
+  if (text.length < windowSize * maxRepeats) return false;
+  for (let i = 0; i <= text.length - windowSize * maxRepeats; i++) {
+    const chunk = text.substring(i, i + windowSize);
+    let repeats = 0;
+    for (let j = i; j <= text.length - windowSize; j += windowSize) {
+      if (text.substring(j, j + windowSize) === chunk) repeats++;
+      else break;
+    }
+    if (repeats >= maxRepeats) return true;
+  }
+  return false;
+}
+
+export function sanitizeContent(content: string, fallback: string): string {
+  if (!content) return fallback;
+  if (hasDuplicatePattern(content)) {
+    console.warn("[content] Duplicate pattern detected, using fallback");
+    return fallback;
+  }
+  return content;
+}
+
 export function seedContentFromStaticFiles(staticTopics: Topic[], staticQuizzes: QuizQuestion[]): void {
   if (typeof window === "undefined") return;
-  if (localStorage.getItem(INITIAL_SEEDED_KEY)) return;
+  if (localStorage.getItem(INITIAL_SEEDED_KEY) === "v3") return;
 
   const topics: ManagedTopic[] = staticTopics.map((t) => ({
     ...t,
@@ -64,7 +87,7 @@ export function seedContentFromStaticFiles(staticTopics: Topic[], staticQuizzes:
 
   saveStoredTopics(topics);
   saveStoredQuestions(questions);
-  localStorage.setItem(INITIAL_SEEDED_KEY, "true");
+  localStorage.setItem(INITIAL_SEEDED_KEY, "v3");
 }
 
 export function getAllTopics(): ManagedTopic[] {
@@ -91,7 +114,13 @@ export function updateTopic(slug: string, updates: Partial<ManagedTopic>): Manag
   const topics = getStoredTopics();
   const idx = topics.findIndex((t) => t.slug === slug);
   if (idx === -1) return null;
-  topics[idx] = { ...topics[idx], ...updates, updatedAt: new Date().toISOString() };
+  const existing = topics[idx];
+  const merged = { ...existing, ...updates, updatedAt: new Date().toISOString() };
+  if (merged.content && hasDuplicatePattern(merged.content)) {
+    console.warn(`[content] Rejected duplicate content for topic "${slug}"`);
+    merged.content = existing.content;
+  }
+  topics[idx] = merged;
   saveStoredTopics(topics);
   return topics[idx];
 }

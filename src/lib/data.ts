@@ -41,16 +41,11 @@ function autoSeedAdminContent(): void {
     updatedAt: new Date().toISOString(),
   }));
 
-  // Defer heavy localStorage writes to avoid blocking main thread
-  const writeData = () => {
-    try {
-      localStorage.setItem(TOPICS_KEY, JSON.stringify(topics));
-      localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questions));
-      localStorage.setItem(SEEDED_KEY, SEED_VERSION);
-    } catch {}
-  };
-
-  setTimeout(writeData, 0);
+  try {
+    localStorage.setItem(TOPICS_KEY, JSON.stringify(topics));
+    localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questions));
+    localStorage.setItem(SEEDED_KEY, SEED_VERSION);
+  } catch {}
 }
 
 // Auto-seed on module load (lazy — only runs once per session)
@@ -64,13 +59,15 @@ export function getAllTopics(): Topic[] {
   if (adminTopics.length === 0) return staticTopics;
 
   const adminMap = new Map(adminTopics.filter((t) => t.isPublished).map((t) => [t.slug, t]));
-  const adminSlugs = new Set(adminTopics.map((t) => t.slug));
+  const staticSlugs = new Set(staticTopics.map((t) => t.slug));
 
   const merged: Topic[] = [];
 
   for (const t of staticTopics) {
     const adminOverride = adminMap.get(t.slug);
     if (adminOverride) {
+      // Auto-clean: if admin content is wildly longer than static, fall back to static
+      const contentOk = !adminOverride.content || adminOverride.content.length <= t.content.length * 5;
       merged.push({
         id: t.id,
         slug: t.slug,
@@ -78,7 +75,7 @@ export function getAllTopics(): Topic[] {
         level: adminOverride.level || t.level,
         section: adminOverride.section || t.section,
         icon: adminOverride.icon || t.icon,
-        content: adminOverride.content || t.content,
+        content: contentOk ? (adminOverride.content || t.content) : t.content,
         description: adminOverride.description || t.description,
       });
     } else {
@@ -87,7 +84,7 @@ export function getAllTopics(): Topic[] {
   }
 
   for (const t of adminTopics) {
-    if (t.isPublished && !adminSlugs.has(t.slug)) {
+    if (t.isPublished && !staticSlugs.has(t.slug)) {
       merged.push({
         id: `admin-${t.slug}`,
         slug: t.slug,
