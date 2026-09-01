@@ -36,6 +36,7 @@ import {
   Trophy,
   Zap,
   BookOpen,
+  Heart,
   Star,
   Clock,
   Gift,
@@ -138,10 +139,29 @@ function DailyRewardModal({
   const currentReward = getDailyReward(streak);
   const nextReward = getDailyReward(streak + 1);
 
-  // Build path: show 3 past + current + 3 future
   const pathDays: number[] = [];
   for (let i = Math.max(0, streak - 3); i <= streak + 3; i++) {
     pathDays.push(i);
+  }
+
+  const DAY_ICONS = [Gift, Target, Zap, Flame, Gem, Trophy, Crown];
+  const DAY_COLORS = [
+    "from-green-400 to-emerald-500",
+    "from-blue-400 to-cyan-500",
+    "from-yellow-400 to-amber-500",
+    "from-orange-400 to-red-500",
+    "from-purple-400 to-violet-500",
+    "from-amber-400 to-yellow-500",
+    "from-yellow-300 to-amber-400",
+  ];
+
+  function getDayIcon(dayInWeek: number) {
+    const Icon = DAY_ICONS[dayInWeek] || Gift;
+    return Icon;
+  }
+
+  function getDayColor(dayInWeek: number) {
+    return DAY_COLORS[dayInWeek] || "from-gray-400 to-gray-500";
   }
 
   return (
@@ -184,7 +204,10 @@ function DailyRewardModal({
                   transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
                   className="w-20 h-20 mb-4 rounded-3xl bg-white/20 flex items-center justify-center backdrop-blur-sm"
                 >
-                  <span className="text-4xl">{currentReward.icon}</span>
+                  {(() => {
+                    const HeaderIcon = getDayIcon(currentReward.dayInWeek);
+                    return <HeaderIcon size={36} strokeWidth={2.5} />;
+                  })()}
                 </motion.div>
                 <motion.h2
                   initial={{ opacity: 0, y: 10 }}
@@ -205,7 +228,6 @@ function DailyRewardModal({
                     : `Hari ke-${currentReward.dayNumber} — terus semangat!`}
                 </motion.p>
 
-                {/* Streak counter */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -218,9 +240,9 @@ function DailyRewardModal({
               </div>
             </div>
 
-            {/* Reward Path */}
+            {/* Content */}
             <div className="p-6 -mt-6">
-              {/* Current reward highlight */}
+              {/* Current reward */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -240,37 +262,44 @@ function DailyRewardModal({
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl ${
-                      currentReward.isMilestone
-                        ? "bg-gradient-to-br from-amber-400 to-orange-400"
-                        : "bg-gradient-to-br from-[var(--duo-xp)] to-[var(--duo-orange)]"
-                    }`}>
-                      {currentReward.icon}
+                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${getDayColor(currentReward.dayInWeek)} flex items-center justify-center text-white`}>
+                      {(() => {
+                        const RewardIcon = getDayIcon(currentReward.dayInWeek);
+                        return <RewardIcon size={24} />;
+                      })()}
                     </div>
                     <div>
                       <p className="text-xs font-bold text-[var(--fg-muted)]">{currentReward.label}</p>
                       <p className="text-lg font-black text-[var(--fg)]">+{currentReward.xp} XP</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-black text-[var(--duo-purple)]">+{currentReward.gems} <InlineIcon emoji="💎" size={12} /></p>
+                  <div className="text-right space-y-1">
+                    <div className="flex items-center gap-1 justify-end">
+                      <Gem size={14} className="text-[var(--duo-purple)]" />
+                      <span className="text-sm font-black text-[var(--duo-purple)]">+{currentReward.gems}</span>
+                    </div>
                     {currentReward.hearts > 0 && (
-                      <p className="text-xs font-bold text-[var(--duo-danger)]">+{currentReward.hearts} <InlineIcon emoji="❤️" size={10} /></p>
+                      <div className="flex items-center gap-1 justify-end">
+                        <Heart size={12} className="text-[var(--duo-danger)]" fill="currentColor" />
+                        <span className="text-xs font-bold text-[var(--duo-danger)]">+{currentReward.hearts}</span>
+                      </div>
                     )}
                     {currentReward.hintTokens > 0 && (
-                      <p className="text-xs font-bold text-amber-500">+{currentReward.hintTokens} <InlineIcon emoji="💡" size={10} /></p>
+                      <div className="flex items-center gap-1 justify-end">
+                        <Lightbulb size={12} className="text-amber-500" />
+                        <span className="text-xs font-bold text-amber-500">+{currentReward.hintTokens}</span>
+                      </div>
                     )}
                   </div>
                 </div>
 
-                {/* Next reward preview */}
                 <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-[var(--fg-muted)]">
-                  <span>Besok: +{nextReward.xp} XP, +{nextReward.gems} 💎</span>
+                  <span>Besok: +{nextReward.xp} XP, +{nextReward.gems} <Gem size={10} className="inline" /></span>
                   {nextReward.isMilestone && <span className="text-amber-500 font-bold">Milestone!</span>}
                 </div>
               </motion.div>
 
-              {/* Path visualization */}
+              {/* Path */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -286,7 +315,7 @@ function DailyRewardModal({
                     const r = getDailyReward(dayIdx);
                     const isPast = dayIdx < streak;
                     const isCurrent = dayIdx === streak;
-                    const isFuture = dayIdx > streak;
+                    const PathIcon = getDayIcon(r.dayInWeek);
 
                     return (
                       <motion.div
@@ -302,7 +331,11 @@ function DailyRewardModal({
                             : "bg-gray-50 dark:bg-gray-800/50 border-[var(--border-subtle)] opacity-50"
                         }`}
                       >
-                        <span className="text-lg mb-0.5">{r.icon}</span>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-0.5 ${
+                          isPast ? "bg-[var(--primary)]" : isCurrent ? `bg-gradient-to-br ${getDayColor(r.dayInWeek)}` : "bg-gray-200 dark:bg-gray-700"
+                        }`}>
+                          <PathIcon size={14} className={isPast || isCurrent ? "text-white" : "text-gray-400"} />
+                        </div>
                         <span className={`text-[9px] font-black ${
                           isPast ? "text-[var(--primary)]" : isCurrent ? "text-[var(--duo-orange)]" : "text-[var(--fg-muted)]"
                         }`}>
@@ -373,7 +406,7 @@ function DailyRewardModal({
                     <CheckCircle2 size={18} />
                     Hadiah hari ini sudah diklaim!
                   </p>
-                  <p className="text-xs text-[var(--fg-muted)] mt-1 flex items-center justify-center gap-1">Sampai jumpa besok ya! <InlineIcon emoji="😊" size={12} /></p>
+                  <p className="text-xs text-[var(--fg-muted)] mt-1">Sampai jumpa besok ya!</p>
                 </div>
               )}
             </div>

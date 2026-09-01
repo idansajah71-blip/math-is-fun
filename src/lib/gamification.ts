@@ -173,17 +173,17 @@ export interface DailyRewardResult {
   dayNumber: number;
   weekNumber: number;
   label: string;
-  icon: string;
+  dayInWeek: number;
 }
 
 const DAILY_BASE_REWARDS = [
-  { xp: 20,  gems: 5,  icon: "🎁" },
-  { xp: 30,  gems: 10, icon: "🎯" },
-  { xp: 40,  gems: 15, icon: "⚡" },
-  { xp: 50,  gems: 20, icon: "🔥" },
-  { xp: 60,  gems: 25, icon: "💎" },
-  { xp: 80,  gems: 30, icon: "🏆" },
-  { xp: 100, gems: 50, icon: "👑" },
+  { xp: 20,  gems: 5 },
+  { xp: 30,  gems: 10 },
+  { xp: 40,  gems: 15 },
+  { xp: 50,  gems: 20 },
+  { xp: 60,  gems: 25 },
+  { xp: 80,  gems: 30 },
+  { xp: 100, gems: 50 },
 ];
 
 function isMilestoneDay(streak: number): boolean {
@@ -219,7 +219,7 @@ export function getDailyReward(streak: number): DailyRewardResult {
     dayNumber,
     weekNumber,
     label: milestone ? `Minggu ${weekNumber}` : `Hari ${dayNumber}`,
-    icon: base.icon,
+    dayInWeek,
   };
 }
 
