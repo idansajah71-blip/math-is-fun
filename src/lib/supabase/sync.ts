@@ -50,6 +50,7 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     pomodoroSessions: (row.pomodoro_sessions as number) ?? 0,
     pomodoroSettings: (row.pomodoro_settings as { workMin: number; breakMin: number; longBreakMin: number; sessionsBeforeLong: number }) ?? { workMin: 25, breakMin: 5, longBreakMin: 15, sessionsBeforeLong: 4 },
     dailyChallengeDate: (row.daily_challenge_date as string) ?? null,
+    dailyRewardHistory: (row.daily_reward_history as Record<string, number>) ?? {},
   };
 }
 
@@ -94,6 +95,7 @@ function profileToRow(profile: UserProfile) {
     pomodoro_sessions: profile.pomodoroSessions,
     pomodoro_settings: profile.pomodoroSettings,
     daily_challenge_date: profile.dailyChallengeDate,
+    daily_reward_history: profile.dailyRewardHistory,
   };
 }
 

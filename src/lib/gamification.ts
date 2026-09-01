@@ -39,6 +39,7 @@ export interface UserProfile {
   pomodoroSessions: number;
   pomodoroSettings: { workMin: number; breakMin: number; longBreakMin: number; sessionsBeforeLong: number };
   dailyChallengeDate: string | null;
+  dailyRewardHistory: Record<string, number>;
   _lastHeartTime?: number;
 }
 
@@ -163,15 +164,64 @@ export const SHOP_ITEMS = [
   { id: "title-myth", name: "Title: Mitos", icon: "Crown", description: "Gelar 'Mitos' — untuk yang benar-benar legenda", price: 5000, category: "effect" as const },
 ];
 
-export const DAILY_REWARDS = [
-  { day: 1, xp: 20, gems: 5, label: "Hari 1" },
-  { day: 2, xp: 30, gems: 10, label: "Hari 2" },
-  { day: 3, xp: 40, gems: 15, label: "Hari 3" },
-  { day: 4, xp: 50, gems: 20, label: "Hari 4" },
-  { day: 5, xp: 60, gems: 25, label: "Hari 5" },
-  { day: 6, xp: 80, gems: 30, label: "Hari 6" },
-  { day: 7, xp: 100, gems: 50, label: "Hari 7" },
+export interface DailyRewardResult {
+  xp: number;
+  gems: number;
+  hearts: number;
+  hintTokens: number;
+  isMilestone: boolean;
+  dayNumber: number;
+  weekNumber: number;
+  label: string;
+  icon: string;
+}
+
+const DAILY_BASE_REWARDS = [
+  { xp: 20,  gems: 5,  icon: "🎁" },
+  { xp: 30,  gems: 10, icon: "🎯" },
+  { xp: 40,  gems: 15, icon: "⚡" },
+  { xp: 50,  gems: 20, icon: "🔥" },
+  { xp: 60,  gems: 25, icon: "💎" },
+  { xp: 80,  gems: 30, icon: "🏆" },
+  { xp: 100, gems: 50, icon: "👑" },
 ];
+
+function isMilestoneDay(streak: number): boolean {
+  const day = streak + 1;
+  return day === 7 || day === 14 || day === 21 || day === 30 || day % 30 === 0;
+}
+
+function getMilestoneBonus(streak: number): { hearts: number; hintTokens: number } {
+  const day = streak + 1;
+  if (day >= 30) return { hearts: 10, hintTokens: 5 };
+  if (day >= 21) return { hearts: 5, hintTokens: 3 };
+  if (day >= 14) return { hearts: 5, hintTokens: 2 };
+  return { hearts: 3, hintTokens: 1 };
+}
+
+export function getDailyReward(streak: number): DailyRewardResult {
+  const weekIndex = Math.floor(streak / 7);
+  const dayInWeek = streak % 7;
+  const base = DAILY_BASE_REWARDS[dayInWeek];
+  const multiplier = weekIndex === 0 ? 1 : weekIndex === 1 ? 1.5 : weekIndex === 2 ? 2 : 2.5;
+  const milestone = isMilestoneDay(streak);
+  const bonus = milestone ? getMilestoneBonus(streak) : { hearts: 0, hintTokens: 0 };
+
+  const dayNumber = streak + 1;
+  const weekNumber = weekIndex + 1;
+
+  return {
+    xp: Math.round(base.xp * multiplier),
+    gems: Math.round(base.gems * multiplier),
+    hearts: bonus.hearts,
+    hintTokens: bonus.hintTokens,
+    isMilestone: milestone,
+    dayNumber,
+    weekNumber,
+    label: milestone ? `Minggu ${weekNumber}` : `Hari ${dayNumber}`,
+    icon: base.icon,
+  };
+}
 
 let _profileCache: UserProfile | null = null;
 let _profileCacheKey = "";
@@ -290,6 +340,7 @@ export function getDefaultProfile(): UserProfile {
     pomodoroSessions: 0,
     pomodoroSettings: { workMin: 25, breakMin: 5, longBreakMin: 15, sessionsBeforeLong: 4 },
     dailyChallengeDate: null,
+    dailyRewardHistory: {},
   };
 }
 
@@ -396,7 +447,7 @@ export function refillHearts(): UserProfile {
   return profile;
 }
 
-export function claimDailyReward(): { profile: UserProfile; reward: typeof DAILY_REWARDS[0] } | null {
+export function claimDailyReward(): { profile: UserProfile; reward: DailyRewardResult } | null {
   const profile = getProfile();
   const today = getLocalDateStr();
 
@@ -405,19 +456,22 @@ export function claimDailyReward(): { profile: UserProfile; reward: typeof DAILY
   const yesterday = getLocalDateStr(new Date(Date.now() - 86400000));
 
   if (profile.dailyRewardClaimed === yesterday) {
-    profile.dailyRewardStreak = Math.min(profile.dailyRewardStreak + 1, 6);
+    profile.dailyRewardStreak += 1;
   } else if (profile.dailyRewardClaimed !== today) {
     profile.dailyRewardStreak = 0;
   }
 
-  const dayIndex = profile.dailyRewardStreak;
-  const reward = DAILY_REWARDS[dayIndex];
+  const reward = getDailyReward(profile.dailyRewardStreak);
   const xpGain = isPremiumActive() ? reward.xp * 2 : reward.xp;
   const gemBonus = isPremiumActive() ? 50 : 0;
+
   profile.xp += xpGain;
   profile.gems += reward.gems + gemBonus;
+  profile.hearts = Math.min(profile.hearts + reward.hearts, profile.maxHearts);
+  profile.hintTokens += reward.hintTokens;
   profile.level = getLevelForXp(profile.xp);
   profile.dailyRewardClaimed = today;
+  profile.dailyRewardHistory[today] = profile.dailyRewardStreak;
   checkBadges(profile);
   saveProfile(profile);
 

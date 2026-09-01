@@ -20,7 +20,7 @@ import {
   getXpForCurrentLevel,
   getXpForNextLevel,
   claimDailyReward,
-  DAILY_REWARDS,
+  getDailyReward,
   saveProfile,
   addXp,
   getStreakFreezeNotification,
@@ -126,15 +126,23 @@ function DailyRewardModal({
   show,
   onClose,
   onClaim,
-  claimedDay,
+  streak,
+  canClaim,
 }: {
   show: boolean;
   onClose: () => void;
-  onClaim: (day: number) => void;
-  claimedDay: number | null;
+  onClaim: () => void;
+  streak: number;
+  canClaim: boolean;
 }) {
-  const todayIndex = new Date().getDay();
-  const adjustedIndex = (todayIndex + 6) % 7;
+  const currentReward = getDailyReward(streak);
+  const nextReward = getDailyReward(streak + 1);
+
+  // Build path: show 3 past + current + 3 future
+  const pathDays: number[] = [];
+  for (let i = Math.max(0, streak - 3); i <= streak + 3; i++) {
+    pathDays.push(i);
+  }
 
   return (
     <AnimatePresence>
@@ -152,7 +160,7 @@ function DailyRewardModal({
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.8, y: 40, opacity: 0 }}
             transition={springBounce}
-            className="relative bg-white dark:bg-[var(--surface)] rounded-[32px] border-2 border-[var(--border)] w-full max-w-lg shadow-2xl overflow-hidden"
+            className="relative bg-white dark:bg-[var(--surface)] rounded-[32px] border-2 border-[var(--border)] w-full max-w-lg shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <Confetti show={true} />
@@ -164,6 +172,7 @@ function DailyRewardModal({
               <X size={18} />
             </button>
 
+            {/* Header */}
             <div className="bg-gradient-to-br from-[var(--duo-xp)] via-[var(--duo-orange)] to-[var(--duo-danger)] p-8 pb-12 relative overflow-hidden">
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full" />
               <div className="absolute -bottom-16 -left-10 w-48 h-48 bg-white/10 rounded-full" />
@@ -175,7 +184,7 @@ function DailyRewardModal({
                   transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
                   className="w-20 h-20 mb-4 rounded-3xl bg-white/20 flex items-center justify-center backdrop-blur-sm"
                 >
-                  <Calendar size={40} strokeWidth={2.5} />
+                  <span className="text-4xl">{currentReward.icon}</span>
                 </motion.div>
                 <motion.h2
                   initial={{ opacity: 0, y: 10 }}
@@ -183,7 +192,7 @@ function DailyRewardModal({
                   transition={{ delay: 0.2 }}
                   className="text-2xl font-black mb-1"
                 >
-                  Hadiah Harian! <InlineIcon emoji="🎁" size={22} className="ml-1" />
+                  Hadiah Harian!
                 </motion.h2>
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
@@ -191,81 +200,170 @@ function DailyRewardModal({
                   transition={{ delay: 0.25 }}
                   className="text-white/80 text-sm font-semibold"
                 >
-                  Masuk setiap hari untuk dapat hadiah lebih besar
+                  {currentReward.isMilestone
+                    ? `Milestone! Minggu ke-${currentReward.weekNumber} tercapai!`
+                    : `Hari ke-${currentReward.dayNumber} — terus semangat!`}
                 </motion.p>
+
+                {/* Streak counter */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="mt-4 flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2"
+                >
+                  <Flame size={18} className="text-white" />
+                  <span className="text-sm font-black">{streak} Hari Berturut-turut!</span>
+                </motion.div>
               </div>
             </div>
 
+            {/* Reward Path */}
             <div className="p-6 -mt-6">
-              <div className="relative z-10 bg-white dark:bg-[var(--surface)] rounded-2xl border-2 border-[var(--border)] p-4 mb-5 shadow-lg">
-                <div className="grid grid-cols-7 gap-2">
-                  {DAILY_REWARDS.map((reward, idx) => {
-                    const isClaimed = claimedDay !== null && idx <= claimedDay;
-                    const isToday = idx === adjustedIndex;
-                    const isLocked = idx > adjustedIndex;
+              {/* Current reward highlight */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className={`relative z-10 rounded-2xl border-2 p-5 mb-5 shadow-lg ${
+                  currentReward.isMilestone
+                    ? "bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-950/30 dark:to-amber-950/30 border-amber-400"
+                    : "bg-white dark:bg-[var(--surface)] border-[var(--border)]"
+                }`}
+              >
+                {currentReward.isMilestone && (
+                  <div className="flex items-center gap-1.5 mb-3">
+                    <Crown size={14} className="text-amber-500" />
+                    <span className="text-[10px] font-black text-amber-600 uppercase tracking-wider">Milestone</span>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl ${
+                      currentReward.isMilestone
+                        ? "bg-gradient-to-br from-amber-400 to-orange-400"
+                        : "bg-gradient-to-br from-[var(--duo-xp)] to-[var(--duo-orange)]"
+                    }`}>
+                      {currentReward.icon}
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-[var(--fg-muted)]">{currentReward.label}</p>
+                      <p className="text-lg font-black text-[var(--fg)]">+{currentReward.xp} XP</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-black text-[var(--duo-purple)]">+{currentReward.gems} <InlineIcon emoji="💎" size={12} /></p>
+                    {currentReward.hearts > 0 && (
+                      <p className="text-xs font-bold text-[var(--duo-danger)]">+{currentReward.hearts} <InlineIcon emoji="❤️" size={10} /></p>
+                    )}
+                    {currentReward.hintTokens > 0 && (
+                      <p className="text-xs font-bold text-amber-500">+{currentReward.hintTokens} <InlineIcon emoji="💡" size={10} /></p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Next reward preview */}
+                <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-[var(--fg-muted)]">
+                  <span>Besok: +{nextReward.xp} XP, +{nextReward.gems} 💎</span>
+                  {nextReward.isMilestone && <span className="text-amber-500 font-bold">Milestone!</span>}
+                </div>
+              </motion.div>
+
+              {/* Path visualization */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="mb-5"
+              >
+                <div className="flex items-center gap-1.5 mb-3">
+                  <Flame size={12} className="text-[var(--duo-orange)]" />
+                  <span className="text-[10px] font-black text-[var(--fg-muted)] uppercase tracking-wider">Jalur Hadiah</span>
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                  {pathDays.map((dayIdx) => {
+                    const r = getDailyReward(dayIdx);
+                    const isPast = dayIdx < streak;
+                    const isCurrent = dayIdx === streak;
+                    const isFuture = dayIdx > streak;
 
                     return (
                       <motion.div
-                        key={reward.day}
-                        initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 25, delay: 0.3 + idx * 0.05 }}
-                        className={`relative flex flex-col items-center p-2.5 rounded-xl border-2 transition-all ${
-                          isClaimed
-                            ? "bg-[var(--primary-bg)] border-[var(--primary)]/40"
-                            : isToday
-                            ? "bg-gradient-to-br from-[var(--duo-xp)]/20 to-[var(--duo-orange)]/20 border-[var(--duo-xp)] pulse-ring"
-                            : "bg-gray-50 dark:bg-gray-800/50 border-[var(--border-subtle)]"
+                        key={dayIdx}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.45 + (dayIdx - Math.max(0, streak - 3)) * 0.05 }}
+                        className={`relative flex-shrink-0 w-16 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${
+                          isPast
+                            ? "bg-[var(--primary-bg)] border-[var(--primary)]/30 opacity-70"
+                            : isCurrent
+                            ? "bg-gradient-to-br from-[var(--duo-xp)]/20 to-[var(--duo-orange)]/20 border-[var(--duo-xp)] shadow-md"
+                            : "bg-gray-50 dark:bg-gray-800/50 border-[var(--border-subtle)] opacity-50"
                         }`}
                       >
-                        <span
-                          className={`text-[10px] font-black mb-1.5 ${
-                            isClaimed ? "text-[var(--primary)]" : isToday ? "text-[var(--duo-orange)]" : "text-[var(--fg-muted)]"
-                          }`}
-                        >
-                          H{reward.day}
+                        <span className="text-lg mb-0.5">{r.icon}</span>
+                        <span className={`text-[9px] font-black ${
+                          isPast ? "text-[var(--primary)]" : isCurrent ? "text-[var(--duo-orange)]" : "text-[var(--fg-muted)]"
+                        }`}>
+                          H{r.dayNumber}
                         </span>
-
-                        <div
-                          className={`w-9 h-9 rounded-xl flex items-center justify-center mb-1 ${
-                            isClaimed ? "bg-[var(--primary)]" : isToday ? "bg-[var(--duo-xp)] animate-pulse" : "bg-[var(--border-subtle)]"
-                          }`}
-                        >
-                          {isClaimed ? (
-                            <CheckCircle2 size={18} className="text-white" />
-                          ) : isLocked ? (
-                            <Gem size={16} className="text-[var(--fg-muted)] opacity-40" />
-                          ) : (
-                            <Zap size={16} className={isToday ? "text-[#8B6914]" : "text-[var(--fg-muted)]"} />
-                          )}
-                        </div>
-
-                        <div className="text-center leading-tight">
-                          <p
-                            className={`text-[10px] font-black ${
-                              isClaimed ? "text-[var(--primary)]" : isToday ? "text-[var(--duo-orange)]" : "text-[var(--fg-muted)]"
-                            }`}
-                          >
-                            {reward.xp} XP
-                          </p>
-                          <p className={`text-[9px] font-bold ${isClaimed ? "text-[var(--primary)]/70" : "text-[var(--fg-muted)]"} flex items-center justify-center gap-0.5`}>
-                            {reward.gems}<InlineIcon emoji="💎" size={10} />
-                          </p>
-                        </div>
+                        <span className={`text-[8px] font-bold ${
+                          isPast ? "text-[var(--primary)]" : isCurrent ? "text-[var(--duo-orange)]" : "text-[var(--fg-muted)]"
+                        }`}>
+                          {r.xp}xp
+                        </span>
+                        {isPast && <CheckCircle2 size={10} className="text-[var(--primary)] mt-0.5" />}
+                        {isCurrent && canClaim && (
+                          <motion.div
+                            animate={{ scale: [1, 1.2, 1] }}
+                            transition={{ repeat: Infinity, duration: 1.5 }}
+                            className="w-2 h-2 rounded-full bg-[var(--duo-xp)] mt-0.5"
+                          />
+                        )}
                       </motion.div>
                     );
                   })}
                 </div>
-              </div>
+              </motion.div>
 
-              {claimedDay === null || claimedDay < adjustedIndex ? (
+              {/* History */}
+              {Object.keys(getProfile().dailyRewardHistory || {}).length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="mb-5"
+                >
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <Calendar size={12} className="text-[var(--fg-muted)]" />
+                    <span className="text-[10px] font-black text-[var(--fg-muted)] uppercase tracking-wider">Riwayat</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {Object.entries(getProfile().dailyRewardHistory)
+                      .sort(([a], [b]) => b.localeCompare(a))
+                      .slice(0, 14)
+                      .map(([date, day]) => (
+                        <div
+                          key={date}
+                          className="px-2 py-1 rounded-lg bg-[var(--primary-bg)] border border-[var(--primary)]/20 text-[9px] font-bold text-[var(--primary)]"
+                        >
+                          {date.slice(5)} → H{day + 1}
+                        </div>
+                      ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Claim button */}
+              {canClaim ? (
                 <AnimatedButton
                   fullWidth
                   variant="primary"
                   size="xl"
                   glow
                   icon={<Gift size={20} />}
-                  onClick={() => onClaim(adjustedIndex)}
+                  onClick={onClaim}
                 >
                   Klaim Hadiah Hari Ini
                 </AnimatedButton>
@@ -442,7 +540,6 @@ function HomeContent() {
   const [xpAmount, setXpAmount] = useState(0);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showDailyReward, setShowDailyReward] = useState(false);
-  const [claimedDay, setClaimedDay] = useState<number | null>(null);
   const [claimedQuests, setClaimedQuests] = useState<Set<number>>(new Set());
   const [showConfetti, setShowConfetti] = useState(false);
   const [showStreakFreezeToast, setShowStreakFreezeToast] = useState(false);
@@ -464,8 +561,6 @@ function HomeContent() {
     if (prof.dailyRewardClaimed !== today) {
       const timer = setTimeout(() => setShowDailyReward(true), 800);
       return () => clearTimeout(timer);
-    } else {
-      setClaimedDay(prof.dailyRewardStreak);
     }
   };
 
@@ -505,8 +600,6 @@ function HomeContent() {
               if (!cancelled) setShowDailyReward(true);
             }, 800);
             cleanupXp = () => clearTimeout(timer);
-          } else {
-            if (!cancelled) setClaimedDay(prof.dailyRewardStreak);
           }
         }
       }
@@ -579,11 +672,10 @@ function HomeContent() {
     setTimeout(() => setShowXp(false), 1500);
   };
 
-  const handleClaimReward = (dayIdx: number) => {
+  const handleClaimReward = () => {
     const result = claimDailyReward();
     if (result) {
       setProfile(result.profile);
-      setClaimedDay(dayIdx);
       setXpAmount(result.reward.xp);
       setShowXp(true);
       setTimeout(() => setShowDailyReward(false), 1500);
@@ -687,7 +779,8 @@ function HomeContent() {
         show={showDailyReward}
         onClose={() => setShowDailyReward(false)}
         onClaim={handleClaimReward}
-        claimedDay={claimedDay}
+        streak={profile?.dailyRewardStreak ?? 0}
+        canClaim={profile?.dailyRewardClaimed !== getLocalDateStr()}
       />
 
       {/* Streak Freeze Notification Toast */}
