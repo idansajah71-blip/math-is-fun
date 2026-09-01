@@ -186,6 +186,16 @@ export default function LessonClient({ topic }: LessonClientProps) {
     });
   }, [topic.slug, currentQ]);
 
+  const handlePartial = useCallback(() => {
+    updateMastery(topic.slug, true);
+    setScore((s) => s + 0.5);
+    setCombo(0);
+    setLastAnswerCorrect(false);
+    setQuestionAnimated("correct");
+    setAnswered(true);
+    setTimeout(() => setQuestionAnimated(null), 600);
+  }, [topic.slug]);
+
   const checkNewBadges = useCallback((oldBadges: string[], newBadges: string[]) => {
     const diff = newBadges.filter((b) => !oldBadges.includes(b));
     if (diff.length > 0) {
@@ -741,6 +751,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                             explanation={q.explanation}
                             onCorrect={handleCorrect}
                             onWrong={handleWrong}
+                            onPartial={handlePartial}
                             onNext={handleNextQuestion}
                           />
                         ) : quizType === "truefalse" ? (

@@ -66,6 +66,14 @@ export interface QuizQuestion {
   geometry?: { shapes: { type: string; points?: { x: number; y: number }[]; radius?: number; center?: { x: number; y: number }; showMeasurements?: boolean }[]; question: string };
   // For venn type
   venn?: { setLabels: [string, string]; regionValues: [number, number, number, number]; universe?: number };
+  // For approach detection (per-question custom patterns)
+  approachPatterns?: ApproachPattern[];
+}
+
+export interface ApproachPattern {
+  match: string;
+  feedback: string;
+  credit: number;
 }
 
 export interface UserProgress {

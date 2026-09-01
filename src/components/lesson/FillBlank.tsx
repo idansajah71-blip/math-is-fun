@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, XCircle, ChevronRight, Pencil } from "lucide-react";
+import { CheckCircle2, XCircle, AlertTriangle, ChevronRight, Pencil } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { playCorrectSound, playWrongSound } from "@/lib/sounds";
-import { isAnswerClose } from "@/lib/answerMatcher";
+import { analyzeAnswer } from "@/lib/answerMatcher";
 
 interface FillBlankProps {
   question: string;
@@ -13,6 +13,7 @@ interface FillBlankProps {
   explanation: string;
   onCorrect: () => void;
   onWrong: () => void;
+  onPartial: () => void;
   onNext: () => void;
 }
 
@@ -22,23 +23,29 @@ export default function FillBlank({
   explanation,
   onCorrect,
   onWrong,
+  onPartial,
   onNext,
 }: FillBlankProps) {
   const [answer, setAnswer] = useState("");
   const [showResult, setShowResult] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
+  const [resultStatus, setResultStatus] = useState<"correct" | "close" | "wrong">("wrong");
+  const [feedback, setFeedback] = useState("");
   const [shaking, setShaking] = useState(false);
 
   const handleSubmit = () => {
     if (!answer.trim()) return;
 
-    const correct = isAnswerClose(answer, correctAnswer);
-    setIsCorrect(correct);
+    const result = analyzeAnswer(answer, correctAnswer);
+    setResultStatus(result.status);
+    setFeedback(result.feedback);
     setShowResult(true);
 
-    if (correct) {
+    if (result.status === "correct") {
       playCorrectSound();
       onCorrect();
+    } else if (result.status === "close") {
+      playCorrectSound();
+      onPartial();
     } else {
       setShaking(true);
       playWrongSound();
@@ -107,26 +114,45 @@ export default function FillBlank({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className={`p-4 rounded-2xl mb-4 flex items-start gap-3 ${
-            isCorrect
-              ? "bg-[var(--duo-green-bg)] border border-[var(--duo-green)]/30"
-              : "bg-red-50 dark:bg-red-950/30 border border-[var(--duo-danger)]/30"
-          }`}>
-            {isCorrect ? (
+          {/* Correct */}
+          {resultStatus === "correct" && (
+            <div className="p-4 rounded-2xl mb-4 flex items-start gap-3 bg-[var(--duo-green-bg)] border border-[var(--duo-green)]/30">
               <CheckCircle2 size={20} className="text-[var(--duo-green)] mt-0.5 shrink-0" />
-            ) : (
-              <XCircle size={20} className="text-[var(--duo-danger)] mt-0.5 shrink-0" />
-            )}
-            <div>
-              <p className={`text-sm font-bold mb-1 ${isCorrect ? "text-[var(--duo-green)]" : "text-[var(--duo-danger)]"}`}>
-                {isCorrect ? "Benar! +10 XP" : `Salah! Jawaban: ${Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer}`}
-              </p>
-              <p className="text-xs text-[var(--duo-text-muted)]">{explanation}</p>
+              <div>
+                <p className="text-sm font-bold mb-1 text-[var(--duo-green)]">Benar! +10 XP</p>
+                <p className="text-xs text-[var(--duo-text-muted)]">{explanation}</p>
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Close */}
+          {resultStatus === "close" && (
+            <div className="p-4 rounded-2xl mb-4 flex items-start gap-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-400/30">
+              <AlertTriangle size={20} className="text-amber-500 mt-0.5 shrink-0" />
+              <div>
+                <p className="text-sm font-bold mb-1 text-amber-600 dark:text-amber-400">Hampir! +5 XP</p>
+                {feedback && <p className="text-xs font-semibold text-amber-700 dark:text-amber-300 mb-1">{feedback}</p>}
+                <p className="text-xs text-[var(--duo-text-muted)]">Jawaban: {Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer}</p>
+                <p className="text-xs text-[var(--duo-text-muted)] mt-1">{explanation}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Wrong */}
+          {resultStatus === "wrong" && (
+            <div className="p-4 rounded-2xl mb-4 flex items-start gap-3 bg-red-50 dark:bg-red-950/30 border border-[var(--duo-danger)]/30">
+              <XCircle size={20} className="text-[var(--duo-danger)] mt-0.5 shrink-0" />
+              <div>
+                <p className="text-sm font-bold mb-1 text-[var(--duo-danger)]">
+                  Salah! Jawaban: {Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer}
+                </p>
+                <p className="text-xs text-[var(--duo-text-muted)]">{explanation}</p>
+              </div>
+            </div>
+          )}
 
           <AnimatedButton onClick={onNext} fullWidth size="lg" iconRight={<ChevronRight size={18} />}>
-            {isCorrect ? "Lanjut" : "Mengerti"}
+            {resultStatus === "correct" ? "Lanjut" : resultStatus === "close" ? "Lanjut" : "Mengerti"}
           </AnimatedButton>
         </motion.div>
       )}
