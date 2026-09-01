@@ -72,6 +72,8 @@ function sameNumbers(a: number[], b: number[]): boolean {
   return sortedA.every((v, i) => v === sortedB[i]);
 }
 
+import { ApproachPattern } from "./types";
+
 /**
  * Analyze user input against accepted answers with approach detection.
  * Returns status, credit, and targeted feedback.
@@ -79,12 +81,25 @@ function sameNumbers(a: number[], b: number[]): boolean {
 export function analyzeAnswer(
   userInput: string,
   acceptedAnswers: string | string[],
+  questionPatterns?: ApproachPattern[],
 ): ApproachResult {
   const alternatives = Array.isArray(acceptedAnswers) ? acceptedAnswers : [acceptedAnswers];
   const normalized = normalizeAnswer(userInput);
 
   if (!normalized) {
     return { status: "wrong", credit: 0, feedback: "" };
+  }
+
+  // 0. Per-question approach patterns (checked FIRST for specific feedback)
+  if (questionPatterns && questionPatterns.length > 0) {
+    for (const p of questionPatterns) {
+      if (normalizeAnswer(p.match) === normalized) {
+        if (p.credit >= 1) {
+          return { status: "correct", credit: 1, feedback: "" };
+        }
+        return { status: "close", credit: p.credit, feedback: p.feedback };
+      }
+    }
   }
 
   // 1. Exact match
@@ -179,7 +194,7 @@ export function analyzeAnswer(
  * Check if user input matches any accepted answer.
  * Strategy: exact match first, then fuzzy (Levenshtein) for typo tolerance.
  */
-export function isAnswerClose(userInput: string, acceptedAnswers: string | string[]): boolean {
-  const result = analyzeAnswer(userInput, acceptedAnswers);
+export function isAnswerClose(userInput: string, acceptedAnswers: string | string[], questionPatterns?: ApproachPattern[]): boolean {
+  const result = analyzeAnswer(userInput, acceptedAnswers, questionPatterns);
   return result.status === "correct" || result.status === "close";
 }

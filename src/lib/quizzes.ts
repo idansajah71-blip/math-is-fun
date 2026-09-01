@@ -10,6 +10,11 @@ export const quizzes: QuizQuestion[] = [
     options: ["23/20", "5/9", "6/20", "15/20"],
     correctIndex: 0,
     explanation: "KPK dari 4 dan 5 adalah 20. 3/4 = 15/20, 2/5 = 8/20. 15/20 + 8/20 = 23/20",
+    approachPatterns: [
+      { match: "5/9", feedback: "Kamu menjumlahkan pembilang dan penyebut langsung (3+2)/(4+5). Itu salah! Cari KPK dulu.", credit: 0 },
+      { match: "6/20", feedback: "Kamu menambah pembilang tapi tidak mengubah pecahan ke penyebut yang sama. 3/4 = 15/20, 2/5 = 8/20.", credit: 0.1 },
+      { match: "15/20", feedback: "Kamu hanya mengonversi 3/4 ke 20 tapi lupa menambah 2/5 = 8/20.", credit: 0.2 },
+    ],
   },
   {
     id: "q-bilangan-2",
@@ -443,6 +448,12 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "sin²θ + cos²θ = 1 → cos²θ = 1 - 9/25 = 16/25 → cos θ = 4/5",
     alternatives: ["4/5","0.8"],
+    approachPatterns: [
+      { match: "3/5", feedback: "Kamu menjawab sin theta lagi! cos theta = sqrt(1 - sin^2) = sqrt(1 - 9/25) = 4/5.", credit: 0 },
+      { match: "5/3", feedback: "Itu 1/sin theta (cosec), bukan cos theta. cos theta = sqrt(1 - 9/25) = 4/5.", credit: 0 },
+      { match: "5/4", feedback: "Itu 1/cos theta (sec), bukan cos theta. cos theta = 4/5.", credit: 0 },
+      { match: "3/4", feedback: "Itu tan theta, bukan cos theta. cos theta = sqrt(1 - sin^2) = 4/5.", credit: 0.1 },
+    ],
   },
 
   // Limit
@@ -660,6 +671,9 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "Jumlahkan: 2x=12 → x=6, maka y=4",
     alternatives: ["x=6, y=4"],
+    approachPatterns: [
+      { match: "x=4, y=6", feedback: "x dan y-nya tertukar. Coba substitusi ulang: kalau x=4, y=6 maka 4+6=10 (benar), tapi 4-6=-2 (salah).", credit: 0.3 },
+    ],
   },
   {
     id: "q-spldv-2",
@@ -1367,6 +1381,10 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "KPK dari 4 dan 3 adalah 12. 3/4 = 9/12, 1/3 = 4/12. 9/12 - 4/12 = 5/12",
     difficulty: "medium",
+    approachPatterns: [
+      { match: "2/1", feedback: "Kamu mengurangkan pembilang dan penyebut langsung (3-1)/(4-3). Pecahan harus disamakan penyebutnya dulu!", credit: 0 },
+      { match: "1/12", feedback: "Kurangi pembilang tapi lupa konversi ke penyebut yang sama. 3/4 = 9/12, 1/3 = 4/12.", credit: 0.1 },
+    ],
   },
 
   // --- 4-persamaan-linear-satu-variabel-plsv (6 tambahan) ---
@@ -1396,6 +1414,11 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "3x - 6 = 9 → 3x = 15 → x = 5",
     difficulty: "easy",
+    approachPatterns: [
+      { match: "3", feedback: "Kamu tidak mendistribusikan 3 ke dalam kurung. 3(x-2) = 3x - 6, bukan 3x - 2.", credit: 0.2 },
+      { match: "4", feedback: "Kamu mungkin menulis 3x-2=9 -> 3x=11 -> x=11/3. Periksa distribusi: 3(x-2) = 3x - 6.", credit: 0.2 },
+      { match: "1", feedback: "Kamu membagi 9/3=3 lalu menambah 2. Tapi pertama harus diselesaikan 3x-6=9 dulu.", credit: 0.1 },
+    ],
   },
   {
     id: "smp-plsv-004",
@@ -1414,6 +1437,10 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "6x - 2x = 12 + 4 → 4x = 16 → x = 4",
     difficulty: "medium",
+    approachPatterns: [
+      { match: "2", feedback: "Kamu mungkin mengurangkan 6x-2x=4 dan 12-4=8, lalu 4x=8. Tapi -4 dipindah jadi +4, bukan dikurangi.", credit: 0.3 },
+      { match: "8", feedback: "Kamu lupa memindahkan -4. 6x-4=2x+12 -> 4x=16 -> x=4, bukan 4x=32.", credit: 0.2 },
+    ],
   },
   {
     id: "smp-plsv-006",
@@ -1461,6 +1488,10 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "-3x > 6 → x < -2 (tanda berubah karena dibagi negatif)",
     difficulty: "medium",
+    approachPatterns: [
+      { match: "x > -2", feedback: "Tanda irisan tidak berubah! Ingat: kalau dibagi bilangan negatif, tanda > berubah jadi <.", credit: 0.3 },
+      { match: "x < 2", feedback: "Kamu tidak mengubah tanda saat memindahkan. -3x > 6 -> dibagi -3 -> x < -2 (tanda berubah DAN angka berubah).", credit: 0.2 },
+    ],
   },
   {
     id: "smp-ptlsv-005",
@@ -1479,6 +1510,10 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "-2x ≥ -6 → x ≤ 3 (tanda berubah karena dibagi negatif)",
     difficulty: "hard",
+    approachPatterns: [
+      { match: "x >= 3", feedback: "Tanda berubah karena dibagi -2! Saat membagi dengan negatif, >= berubah jadi <=.", credit: 0.3 },
+      { match: "x >= -3", feedback: "Kamu tidak mengubah tanda. -2x >= -6, dibagi -2 -> x <= 3.", credit: 0.2 },
+    ],
   },
 
   // --- 7-aritmetika-sosial (6 tambahan) ---
@@ -1611,6 +1646,10 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "Jumlahkan: 2x = 12 → x = 6. Maka 6 + 2y = 8 → 2y = 2 → y = 1",
     difficulty: "easy",
+    approachPatterns: [
+      { match: "6", feedback: "Kamu menjawab x, bukan y! Pastikan soal menanyakan variabel yang tepat.", credit: 0.2 },
+      { match: "2", feedback: "Kamu lupa membagi 2y = 2 dengan 2. Ingat: 2y = 2 maka y = 1.", credit: 0.5 },
+    ],
   },
   {
     id: "smp-spldv-003",
@@ -1620,6 +1659,10 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "Jumlahkan: 5x = 15 → x = 3. Maka 3(3) - y = 5 → y = 4",
     difficulty: "medium",
+    approachPatterns: [
+      { match: "x=4, y=3", feedback: "x dan y-nya tertukar. Coba substitusi x=4, y=3: 3(4)-3=9 bukan 5.", credit: 0.3 },
+      { match: "x=3, y=-4", feedback: "Tanda y salah. Cek: 2(3)+(-4)=2 bukan 10.", credit: 0.3 },
+    ],
   },
   {
     id: "smp-spldv-004",
@@ -2628,6 +2671,11 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "m = (−3−3)/(−1−2) = 2. y−3 = 2(x−2) → y = 2x−1.",
     difficulty: "medium",
+    approachPatterns: [
+      { match: "y=2x+1", feedback: "Gradien benar (m=2), tapi konstanta c salah. Cek: y-3=2(x-2) -> y=2x-4+3 = 2x-1.", credit: 0.5 },
+      { match: "y=x+1", feedback: "Gradien salah. m = (y2-y1)/(x2-x1) = (-3-3)/(-1-2) = -6/-3 = 2.", credit: 0.2 },
+      { match: "y=3x-3", feedback: "Gradien salah. Pastikan menggunakan rumus (y2-y1)/(x2-x1) = (-3-3)/(-1-2) = 2.", credit: 0.1 },
+    ],
   },
   {
     id: "smp-garis-t006",
@@ -2637,6 +2685,11 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "3y = −2x + 6 → y = −(2/3)x + 2. Gradien = −2/3.",
     difficulty: "medium",
+    approachPatterns: [
+      { match: "2/3", feedback: "Tanda salah. 2x + 3y = 6 -> 3y = -2x + 6, perhatikan tanda negatif pada -2x.", credit: 0.5 },
+      { match: "-3/2", feedback: "Kamu membalik. Gradien = -(koef x)/(koef y) = -2/3, bukan -3/2.", credit: 0.3 },
+      { match: "3/2", feedback: "Koefisien tertukar DAN tanda salah. Gradien garis Ax+By=C adalah -A/B = -2/3.", credit: 0.1 },
+    ],
   },
   {
     id: "smp-garis-t007",
@@ -2841,6 +2894,12 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "(x,y) → (x,−y). (3,4) → (3,−4).",
     difficulty: "easy",
+    approachPatterns: [
+      { match: "-3,4", feedback: "Kamu membalik sumbu yang salah. Refleksi terhadap sumbu-x hanya mengubah tanda y, bukan x.", credit: 0.3 },
+      { match: "-3,-4", feedback: "Kamu mengubah kedua koordinat. Refleksi terhadap sumbu-x hanya membalik tanda y.", credit: 0.1 },
+      { match: "3,4", feedback: "Jawabanmu sama dengan titik awal. Ingat, refleksi membalik posisi terhadap sumbu.", credit: 0.1 },
+      { match: "4,3", feedback: "Koordinatnya tertukar. Perhatikan: refleksi sumbu-x = (x, -y), bukan menukar x dan y.", credit: 0.2 },
+    ],
   },
   {
     id: "smp-transformasi-t002",
@@ -2850,6 +2909,10 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "(2+(−3), 5+4) = (−1, 9).",
     difficulty: "easy",
+    approachPatterns: [
+      { match: "-1,-1", feedback: "Kamu mengurangkan y bukan menjumlahkan. v = (-3, 4) berarti y ditambah 4.", credit: 0.3 },
+      { match: "-5,9", feedback: "Kamu menjumlahkan x dengan y. Translasi: x bertambah -3, y bertambah 4.", credit: 0.2 },
+    ],
   },
   {
     id: "smp-transformasi-t003",
@@ -2859,6 +2922,11 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "(x,y) → (−y,x). (1,0) → (0,1).",
     difficulty: "medium",
+    approachPatterns: [
+      { match: "0,-1", feedback: "Itu rotasi searah jarum jam. Rotasi berlawanan jarum jam: (-y, x).", credit: 0.3 },
+      { match: "-1,0", feedback: "Itu rotasi 180 derajat. Untuk 90 derajat berlawanan jarum jam gunakan rumus (-y, x).", credit: 0.2 },
+      { match: "1,0", feedback: "Jawaban sama dengan titik awal. Coba gunakan rumus rotasi (-y, x).", credit: 0.1 },
+    ],
   },
   {
     id: "smp-transformasi-t004",
@@ -2913,6 +2981,11 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "(x,y) → (y,x). (4,−3) → (−3,4).",
     difficulty: "medium",
+    approachPatterns: [
+      { match: "4,3", feedback: "Kamu hanya mengubah tanda negatif. Refleksi y=x menukar posisi x dan y.", credit: 0.2 },
+      { match: "3,-4", feedback: "Koordinatnya tertukar tapi tanda salah. Refleksi y=x: (x,y) -> (y,x), tanda tetap.", credit: 0.3 },
+      { match: "-4,3", feedback: "Kamu membalik tanda tapi tidak menukar. Refleksi y=x menukar: (x,y) -> (y,x).", credit: 0.2 },
+    ],
   },
 
   // --- 11-SPLDV (8 tambahan) ---
@@ -3375,6 +3448,11 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "x = 2, f(2) = 1. Puncak (2,1)",
     difficulty: "easy",
+    approachPatterns: [
+      { match: "2,-1", feedback: "x-nya benar, tapi f(2) = -(4)+8-3 = 1, bukan -1. Hati-hati dengan tanda negatif di depan x^2.", credit: 0.5 },
+      { match: "-2,1", feedback: "Tanda x salah. x = -b/(2a) = -4/(2*(-1)) = 2, bukan -2.", credit: 0.3 },
+      { match: "4,-3", feedback: "Itu konstanta c, bukan puncak. Gunakan x = -b/(2a) untuk mencari x puncak.", credit: 0.1 },
+    ],
   },
   {
     id: "sma-kuadrat-003",
@@ -3384,6 +3462,10 @@ export const quizzes: QuizQuestion[] = [
     correctIndex: 0,
     explanation: "D = 25-24 = 1",
     difficulty: "easy",
+    approachPatterns: [
+      { match: "25", feedback: "Kamu hanya menghitung b^2 = 25. Rumus diskriminan: D = b^2 - 4ac = 25 - 4(2)(3) = 1.", credit: 0.2 },
+      { match: "49", feedback: "Kamu mungkin menggunakan b^2 + 4ac atau b salah. D = b^2 - 4ac = (-5)^2 - 4(2)(3) = 25-24 = 1.", credit: 0.1 },
+    ],
   },
   {
     id: "sma-kuadrat-004",

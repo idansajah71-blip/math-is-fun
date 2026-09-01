@@ -6,6 +6,7 @@ import { CheckCircle2, XCircle, AlertTriangle, ChevronRight, Pencil } from "luci
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { playCorrectSound, playWrongSound } from "@/lib/sounds";
 import { analyzeAnswer } from "@/lib/answerMatcher";
+import { ApproachPattern } from "@/lib/types";
 
 interface FillBlankProps {
   question: string;
@@ -15,6 +16,7 @@ interface FillBlankProps {
   onWrong: () => void;
   onPartial: () => void;
   onNext: () => void;
+  approachPatterns?: ApproachPattern[];
 }
 
 export default function FillBlank({
@@ -25,6 +27,7 @@ export default function FillBlank({
   onWrong,
   onPartial,
   onNext,
+  approachPatterns,
 }: FillBlankProps) {
   const [answer, setAnswer] = useState("");
   const [showResult, setShowResult] = useState(false);
@@ -35,7 +38,7 @@ export default function FillBlank({
   const handleSubmit = () => {
     if (!answer.trim()) return;
 
-    const result = analyzeAnswer(answer, correctAnswer);
+    const result = analyzeAnswer(answer, correctAnswer, approachPatterns);
     setResultStatus(result.status);
     setFeedback(result.feedback);
     setShowResult(true);

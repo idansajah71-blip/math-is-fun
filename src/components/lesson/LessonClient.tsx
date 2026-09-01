@@ -753,6 +753,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                             onWrong={handleWrong}
                             onPartial={handlePartial}
                             onNext={handleNextQuestion}
+                            approachPatterns={q.approachPatterns}
                           />
                         ) : quizType === "truefalse" ? (
                           <TrueFalse
