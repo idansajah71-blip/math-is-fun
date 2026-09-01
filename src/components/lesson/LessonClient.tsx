@@ -667,8 +667,6 @@ export default function LessonClient({ topic }: LessonClientProps) {
                               </p>
                             </div>
                           </div>
-
-                          </div>
                         </div>
 
                         {q.hints && q.hints.length > 0 && (
