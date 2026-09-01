@@ -8,6 +8,7 @@ import { getContentStats, getAllQuestions, getAllTopics } from "@/lib/admin/cont
 import { getAuditStats } from "@/lib/admin/audit";
 import { getAllFlags } from "@/lib/admin/flags";
 import { getAdminSession } from "@/lib/adminAuth";
+import { Settings, Save, Check } from "lucide-react";
 
 import StatsRow from "@/components/admin/StatsRow";
 import WeeklyActivityChart from "@/components/admin/WeeklyActivityChart";
@@ -24,6 +25,26 @@ export default function AdminDashboardPage() {
   const [weeklyData, setWeeklyData] = useState<number[]>([0, 0, 0, 0, 0, 0, 0]);
   const [levelDist, setLevelDist] = useState({ smp: 0, sma: 0, kuliah: 0 });
   const [contentTarget, setContentTarget] = useState({ current: 0, target: 50 });
+  const [rewardMsg, setRewardMsg] = useState("");
+  const [rewardSaved, setRewardSaved] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("matika_site_settings");
+    if (saved) {
+      const settings = JSON.parse(saved);
+      setRewardMsg(settings.dailyRewardMessage || "Reward terus naik setiap minggu! Minggu ke-2 = 1.5x, ke-3 = 2x, ke-4+ = 2.5x");
+    } else {
+      setRewardMsg("Reward terus naik setiap minggu! Minggu ke-2 = 1.5x, ke-3 = 2x, ke-4+ = 2.5x");
+    }
+  }, []);
+
+  function saveSiteSettings() {
+    const settings = JSON.parse(localStorage.getItem("matika_site_settings") || "{}");
+    settings.dailyRewardMessage = rewardMsg;
+    localStorage.setItem("matika_site_settings", JSON.stringify(settings));
+    setRewardSaved(true);
+    setTimeout(() => setRewardSaved(false), 2000);
+  }
 
   useEffect(() => {
     // Registry stats
@@ -105,6 +126,49 @@ export default function AdminDashboardPage() {
         <RecentActivityList />
         <ProblemQuestionsTable />
       </div>
+
+      {/* Site Settings */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="bg-[var(--surface)] rounded-2xl border-2 border-[var(--border-subtle)] p-6"
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <Settings size={18} className="text-[var(--primary)]" />
+          <h2 className="text-lg font-black text-[var(--fg)]">Site Settings</h2>
+        </div>
+
+        <div className="space-y-4">
+          {/* Daily Reward Message */}
+          <div>
+            <label className="text-xs font-bold text-[var(--fg-muted)] uppercase tracking-wider block mb-1.5">
+              Daily Reward — multiplier text (bawah jalur hadiah)
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={rewardMsg}
+                onChange={(e) => setRewardMsg(e.target.value)}
+                className="flex-1 px-3 py-2 rounded-xl bg-[var(--surface-sunken)] border border-[var(--border-subtle)] text-sm font-medium text-[var(--fg)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                placeholder="Reward terus naik setiap minggu!..."
+              />
+              <button
+                onClick={saveSiteSettings}
+                className={`px-4 py-2 rounded-xl font-bold text-sm flex items-center gap-1.5 transition-all ${
+                  rewardSaved
+                    ? "bg-green-500 text-white"
+                    : "bg-[var(--primary)] text-white hover:opacity-90"
+                }`}
+              >
+                {rewardSaved ? <Check size={14} /> : <Save size={14} />}
+                {rewardSaved ? "Tersimpan!" : "Simpan"}
+              </button>
+            </div>
+            <p className="text-[10px] text-[var(--fg-muted)] mt-1">Preview: {rewardMsg}</p>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 }

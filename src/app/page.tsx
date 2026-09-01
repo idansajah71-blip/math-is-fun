@@ -156,6 +156,15 @@ function DailyRewardModal({
     "from-yellow-300 to-amber-400",
   ];
 
+  const [rewardMsg, setRewardMsg] = useState("Reward terus naik setiap minggu! Minggu ke-2 = 1.5x, ke-3 = 2x, ke-4+ = 2.5x");
+  useEffect(() => {
+    const saved = localStorage.getItem("matika_site_settings");
+    if (saved) {
+      const settings = JSON.parse(saved);
+      if (settings.dailyRewardMessage) setRewardMsg(settings.dailyRewardMessage);
+    }
+  }, [show]);
+
   function getDayIcon(dayInWeek: number) {
     const Icon = DAY_ICONS[dayInWeek] || Gift;
     return Icon;
@@ -305,7 +314,7 @@ function DailyRewardModal({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="mt-8 mb-5"
+                className="mt-14 mb-5 pt-2"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-1.5">
@@ -371,7 +380,7 @@ function DailyRewardModal({
                   </div>
                 </div>
                 <p className="text-[10px] text-[var(--fg-muted)] text-center mt-2 font-semibold">
-                  Reward terus naik setiap minggu! Minggu ke-2 = 1.5x, ke-3 = 2x, ke-4+ = 2.5x
+                  {rewardMsg}
                 </p>
               </motion.div>
 
