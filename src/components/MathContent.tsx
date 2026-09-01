@@ -169,6 +169,10 @@ function escapeHtml(str: string): string {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
+function escapeMarkdownText(text: string): string {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 function normalizeFormula(formula: string): string {
   let f = formula.trim();
   f = f.split("\\(").join("(");
@@ -201,11 +205,11 @@ function normalizeAndRenderMarkdown(md: string): string {
     return `<code class="katex-inline">${escapeHtml(normalized)}</code>`;
   });
 
-  html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
-  html = html.replace(/^## (.+)$/gm, "<h2>$1</h2>");
-  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
-  html = html.replace(/^- (.+)$/gm, "<li>$1</li>");
+  html = html.replace(/^### (.+)$/gm, (_, t) => `<h3>${escapeMarkdownText(t)}</h3>`);
+  html = html.replace(/^## (.+)$/gm, (_, t) => `<h2>${escapeMarkdownText(t)}</h2>`);
+  html = html.replace(/\*\*([^*]+)\*\*/g, (_, t) => `<strong>${escapeMarkdownText(t)}</strong>`);
+  html = html.replace(/\*([^*]+)\*/g, (_, t) => `<em>${escapeMarkdownText(t)}</em>`);
+  html = html.replace(/^- (.+)$/gm, (_, t) => `<li>${escapeMarkdownText(t)}</li>`);
   html = html.replace(/(<li>.*<\/li>\n?)+/g, (match) => `<ul>${match}</ul>`);
   html = html.replace(/^---$/gm, "<hr />");
   html = html.replace(/\n\n/g, "</p><p>");

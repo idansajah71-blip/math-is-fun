@@ -138,7 +138,7 @@ export const BADGES: BadgeDef[] = [
 
   // Koleksi & Eksplorasi
   { id: "all-topics", name: "Mathemagician", icon: "Sparkles", desc: "Selesaikan SEMUA 90+ materi — pencapaian tertinggi", rarity: "legendary" as const, condition: (p: UserProfile) => p.completedTopics.length >= 90 },
-  { id: "all-badges", name: "Ultimate Collector", icon: "Trophy", desc: "Unlock SEMUA badge lainnya — mustahil tanpa dedikasi total", rarity: "legendary" as const, condition: (p: UserProfile) => p.badges.length >= 33 },
+  { id: "all-badges", name: "Ultimate Collector", icon: "Trophy", desc: "Unlock SEMUA badge lainnya — mustahil tanpa dedikasi total", rarity: "legendary" as const, condition: (p: UserProfile) => p.badges.length >= 32 },
   { id: "shopaholic", name: "Shopaholic", icon: "ShoppingBag", desc: "Beli semua item di shop — butuh ribuan gems", rarity: "epic" as const, condition: (p: UserProfile) => p.purchasedItems.length >= SHOP_ITEMS.length },
   { id: "bookmark-20", name: "Curious Mind", icon: "BookmarkCheck", desc: "Bookmark 20+ topik — selalu ingin tahu lebih banyak", rarity: "rare" as const, condition: (p: UserProfile) => p.bookmarkedTopics.length >= 20 },
   { id: "review-50", name: "Review Wizard", icon: "RotateCcw", desc: "Lakukan 50+ review spaced repetition — otakmu patut diacungi jempol", rarity: "rare" as const, condition: (p: UserProfile) => Object.values(p.spacedRepetition).reduce((a, b) => a + (b.reviewCount || 0), 0) >= 50 },
@@ -148,7 +148,7 @@ export const BADGES: BadgeDef[] = [
   { id: "mastery-10", name: "Mastery Master", icon: "Crown", desc: "Capai mastery 90% di 10 topik", rarity: "legendary" as const, condition: (p: UserProfile) => Object.values(p.topicMastery || {}).filter(v => v >= 90).length >= 10 },
 
   // Quiz Editor
-  { id: "quiz-creator", name: "Quiz Creator", icon: "PencilLine", desc: "Buat 5 quiz sendiri", rarity: "rare" as const, condition: (p: UserProfile) => { try { const quizzes = JSON.parse(localStorage.getItem("matika_user_quizzes") || "[]"); return quizzes.filter((q: { createdBy: string }) => q.createdBy === "local" || true).length >= 5; } catch { return false; } } },
+  { id: "quiz-creator", name: "Quiz Creator", icon: "PencilLine", desc: "Buat 5 quiz sendiri", rarity: "rare" as const, condition: (p: UserProfile) => { try { const quizzes = JSON.parse(localStorage.getItem("matika_user_quizzes") || "[]"); return quizzes.filter((q: { createdBy: string }) => q.createdBy === "local").length >= 5; } catch { return false; } } },
 ];
 
 export const SHOP_ITEMS = [

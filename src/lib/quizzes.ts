@@ -941,7 +941,7 @@ export const quizzes: QuizQuestion[] = [
     question: "Hasil dari operasi perkalian bilangan bulat (-5) × (-4) adalah -20",
     options: ["Benar", "Salah"],
     correctIndex: 1,
-    explanation: "Keuntungan = (125.000/500.000) × 100% = 25%. Benar.",
+    explanation: "(-5) × (-4) = 20, bukan -20. Negatif × negatif = positif.",
   },
   {
     id: "q-sosial-4",
@@ -3037,10 +3037,10 @@ export const quizzes: QuizQuestion[] = [
   {
     id: "smp-spldv-t006",
     topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
-    question: "3x + 2y = 16 dan x − y = 1. x = ...",
+    question: "2x + y = 9 dan x − y = 3. x = ...",
     options: ["4", "3", "5", "2"],
     correctIndex: 0,
-    explanation: "x=y+1 → 3(y+1)+2y=16 → 5y=13. Koreksi: x=3.6, y=2.6. Namun x=4,y=2: 12+4=16✓, 4-2=2≠1.",
+    explanation: "Jumlahkan: 3x = 12 → x = 4. Maka 4 − y = 3 → y = 1.",
     difficulty: "medium",
   },
   {
