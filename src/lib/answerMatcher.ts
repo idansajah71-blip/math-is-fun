@@ -7,9 +7,14 @@ export function normalizeAnswer(s: string): string {
   return s
     .trim()
     .toLowerCase()
+    .replace(/[\u2212\u2012\u2013\u2014\uFE58\uFE63\uFF0D]/g, "-")
     .replace(/\s+/g, " ")
     .replace(/[×·]/g, "*")
     .replace(/\s*\*\s*/g, "*")
+    .replace(/,\s+/g, ",")
+    .replace(/\s*\(\s*/g, "(")
+    .replace(/\s*\)\s*/g, ")")
+    .replace(/--+/g, "-")
     .replace(/,(\d)/g, ".$1")
     .replace(/\s*(cm|m|mm|kg|g|hari|menit|detik|tahun|persen|%|rp|ribu|juta)\b/gi, "")
     .replace(/^\(([^()]+)\)$/, "$1")
@@ -42,9 +47,9 @@ function levenshtein(a: string, b: string): number {
 
 /** Max allowed edit distance based on answer length */
 function maxEditDistance(answerLen: number): number {
-  if (answerLen <= 2) return 0; // exact only for very short answers
-  if (answerLen <= 4) return 1;
-  return 2;
+  if (answerLen <= 2) return 0;
+  if (answerLen <= 5) return 2;
+  return 3;
 }
 
 /**

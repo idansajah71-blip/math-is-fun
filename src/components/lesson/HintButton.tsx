@@ -11,9 +11,11 @@ interface HintButtonProps {
   onUseToken: () => void;
   /** Changing this value resets the hint state (e.g. question index) */
   resetKey?: string | number;
+  /** Auto-collapse hints when answer is submitted */
+  collapsed?: boolean;
 }
 
-export default function HintButton({ hints, hintTokens, onUseToken, resetKey }: HintButtonProps) {
+export default function HintButton({ hints, hintTokens, onUseToken, resetKey, collapsed }: HintButtonProps) {
   const [visibleCount, setVisibleCount] = useState(0);
   const [expanded, setExpanded] = useState(true);
 
@@ -22,6 +24,14 @@ export default function HintButton({ hints, hintTokens, onUseToken, resetKey }: 
     setVisibleCount(0);
     setExpanded(true);
   }, [resetKey]);
+
+  // Collapse hints when answer is submitted
+  useEffect(() => {
+    if (collapsed) {
+      setVisibleCount(0);
+      setExpanded(false);
+    }
+  }, [collapsed]);
 
   if (!hints || hints.length === 0) return null;
 

@@ -658,21 +658,24 @@ export default function LessonClient({ topic }: LessonClientProps) {
                             </div>
                           </div>
 
-                          {q.hints && q.hints.length > 0 && (
-                            <div className="shrink-0">
-                              <HintButton
-                                hints={q.hints}
-                                hintTokens={hintTokens}
-                                resetKey={currentQ}
-                                onUseToken={() => {
-                                  if (consumeHintToken()) {
-                                    setHintTokens((t) => t - 1);
-                                  }
-                                }}
-                              />
-                            </div>
-                          )}
+                          </div>
                         </div>
+
+                        {q.hints && q.hints.length > 0 && (
+                          <div className="mb-4">
+                            <HintButton
+                              hints={q.hints}
+                              hintTokens={hintTokens}
+                              resetKey={currentQ}
+                              collapsed={answered}
+                              onUseToken={() => {
+                                if (consumeHintToken()) {
+                                  setHintTokens((t) => t - 1);
+                                }
+                              }}
+                            />
+                          </div>
+                        )}
 
                         {q.type === "graph" && q.graph ? (
                           <div>
