@@ -192,13 +192,13 @@ export default function MemoryPairsGame({ onExit }: MemoryPairsGameProps) {
   }, [matchCount, gameState, level]);
 
   const highScore = typeof window !== "undefined"
-    ? Number(localStorage.getItem("memory-pairs-highscore") || "0")
+    ? Number(localStorage.getItem("matika-memory-pairs-highscore") || "0")
     : 0;
   const isNewHighScore = score > highScore && gameState === "result";
 
   useEffect(() => {
     if (isNewHighScore) {
-      localStorage.setItem("memory-pairs-highscore", String(score));
+      localStorage.setItem("matika-memory-pairs-highscore", String(score));
     }
   }, [isNewHighScore, score]);
 

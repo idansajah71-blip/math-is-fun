@@ -178,12 +178,12 @@ export default function TrueFalseBlitzGame({ onExit }: TrueFalseBlitzGameProps) 
     }, 600);
   }, [selected, question, gameState, timer, streak, correctCount]);
 
-  const highScore = Number(localStorage.getItem("tf-blitz-highscore") || "0");
+  const highScore = Number(localStorage.getItem("matika-tf-blitz-highscore") || "0");
   const isNewHighScore = score > highScore && gameState === "result";
 
   useEffect(() => {
     if (isNewHighScore) {
-      localStorage.setItem("tf-blitz-highscore", String(score));
+      localStorage.setItem("matika-tf-blitz-highscore", String(score));
     }
   }, [isNewHighScore, score]);
 

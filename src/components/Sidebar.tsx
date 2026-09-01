@@ -54,7 +54,7 @@ const NAV = [
   { href: "/practice", label: "Latihan", icon: Target },
   { href: "/tryout", label: "Try Out", icon: Trophy },
   { href: "/formulas", label: "Rumus", icon: FileText },
-  { href: "/leaderboard", label: "Peringkat", icon: Trophy },
+  { href: "/leaderboard", label: "Peringkat", icon: Crown },
   { href: "/daily-quiz", label: "Quiz Harian", icon: Sparkles },
   { href: "/daily-challenge", label: "Tantangan Harian", icon: Flame },
   { href: "/shop", label: "Toko", icon: ShoppingBag },

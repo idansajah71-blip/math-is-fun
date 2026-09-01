@@ -196,12 +196,12 @@ export default function SpeedMathGame({ onExit }: SpeedMathGameProps) {
     }, 600);
   };
 
-  const highScore = Number(localStorage.getItem("speed-math-highscore") || "0");
+  const highScore = Number(localStorage.getItem("matika-speed-math-highscore") || "0");
   const isNewHighScore = score > highScore && gameState === "result";
 
   useEffect(() => {
     if (isNewHighScore) {
-      localStorage.setItem("speed-math-highscore", String(score));
+      localStorage.setItem("matika-speed-math-highscore", String(score));
     }
   }, [isNewHighScore, score]);
 

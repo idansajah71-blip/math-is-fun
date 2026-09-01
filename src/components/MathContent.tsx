@@ -50,25 +50,7 @@ export default function MathContent({ content, className = "" }: MathContentProp
 
   useEffect(() => {
     if (!containerRef.current) return;
-
-    containerRef.current.querySelectorAll<HTMLElement>("code.katex-inline").forEach((el) => {
-      if (el.querySelector(".katex")) return;
-      try {
-        katex.render(el.textContent || "", el, { throwOnError: false, displayMode: false });
-      } catch {
-        el.classList.add("text-[var(--danger)]");
-      }
-    });
-
-    containerRef.current.querySelectorAll<HTMLElement>("div.katex-block").forEach((el) => {
-      if (el.querySelector(".katex")) return;
-      try {
-        katex.render(el.getAttribute("data-formula") || "", el, { throwOnError: false, displayMode: true });
-      } catch {
-        const formula = el.getAttribute("data-formula") || "";
-        el.innerHTML = `<code class="text-[var(--danger)] text-sm">${escapeHtml(formula)}</code>`;
-      }
-    });
+    renderKaTeX(containerRef.current);
   }, [content]);
 
   if (hasSections) {
@@ -119,23 +101,7 @@ function SectionBlock({ section }: { section: ParsedSection }) {
   };
 
   if (section.type === "intro" || !config[section.type]) {
-    return (
-      <div
-        ref={(el) => {
-          if (!el) return;
-          el.querySelectorAll<HTMLElement>("code.katex-inline").forEach((c) => {
-            if (c.querySelector(".katex")) return;
-            try { katex.render(c.textContent || "", c, { throwOnError: false, displayMode: false }); } catch { /* skip */ }
-          });
-          el.querySelectorAll<HTMLElement>("div.katex-block").forEach((d) => {
-            if (d.querySelector(".katex")) return;
-            try { katex.render(d.getAttribute("data-formula") || "", d, { throwOnError: false, displayMode: true }); } catch { /* skip */ }
-          });
-        }}
-        className={PROSE_CLASSES}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-    );
+    return <KaTeXSection html={html} className={PROSE_CLASSES} />;
   }
 
   const cfg = config[section.type];
@@ -146,26 +112,34 @@ function SectionBlock({ section }: { section: ParsedSection }) {
         <span className="text-base leading-none">{cfg.icon}</span>
         <span className="text-xs font-extrabold text-[var(--duo-text)] uppercase tracking-wider">{cfg.label}</span>
       </div>
-      <div
-        ref={(el) => {
-          if (!el) return;
-          el.querySelectorAll<HTMLElement>("code.katex-inline").forEach((c) => {
-            if (c.querySelector(".katex")) return;
-            try { katex.render(c.textContent || "", c, { throwOnError: false, displayMode: false }); } catch { /* skip */ }
-          });
-          el.querySelectorAll<HTMLElement>("div.katex-block").forEach((d) => {
-            if (d.querySelector(".katex")) return;
-            try { katex.render(d.getAttribute("data-formula") || "", d, { throwOnError: false, displayMode: true }); } catch { /* skip */ }
-          });
-        }}
-        className={PROSE_CLASSES}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <KaTeXSection html={html} className={PROSE_CLASSES} />
     </div>
   );
 }
 
-function escapeHtml(str: string): string {
+function renderKaTeX(root: HTMLElement) {
+  root.querySelectorAll<HTMLElement>("code.katex-inline").forEach((el) => {
+    if (el.querySelector(".katex")) return;
+    try { katex.render(el.textContent || "", el, { throwOnError: false, displayMode: false }); } catch { /* skip */ }
+  });
+  root.querySelectorAll<HTMLElement>("div.katex-block").forEach((el) => {
+    if (el.querySelector(".katex")) return;
+    try { katex.render(el.getAttribute("data-formula") || "", el, { throwOnError: false, displayMode: true }); } catch {
+      const formula = el.getAttribute("data-formula") || "";
+      el.innerHTML = `<code class="text-[var(--danger)] text-sm">${escapeHtml(formula)}</code>`;
+    }
+  });
+}
+
+function KaTeXSection({ html, className }: { html: string; className?: string }) {
+  return (
+    <div
+      ref={renderKaTeX}
+      className={className}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+}
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-let soundEnabled = true;
+let soundEnabled = typeof window !== "undefined" ? localStorage.getItem("matika-sound") !== "0" : true;
 let audioCtx: AudioContext | null = null;
 
 function getAudioContext(): AudioContext {

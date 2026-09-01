@@ -641,7 +641,8 @@ export function getLeaderboard(
 ): { name: string; xp: number; level: number; streak: number; weeklyXpTotal?: number }[] {
   const entries = Object.keys(localStorage)
     .filter((k) => k.startsWith("matika-lb-"))
-    .map((k) => JSON.parse(localStorage.getItem(k)!));
+    .map((k) => { try { return JSON.parse(localStorage.getItem(k)!); } catch { return null; } })
+    .filter(Boolean);
 
   const myProfile = getProfile();
   const myWeeklyTotal = myProfile.weeklyXp.reduce((a, b) => a + b, 0);

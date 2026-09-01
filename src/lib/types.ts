@@ -76,12 +76,6 @@ export interface ApproachPattern {
   credit: number;
 }
 
-export interface UserProgress {
-  completedTopics: string[];
-  bookmarkedTopics: string[];
-  quizScores: Record<string, number>;
-}
-
 /* ── Formula Interactive Types ── */
 
 export interface FormulaVariable {

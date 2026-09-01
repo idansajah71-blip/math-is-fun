@@ -224,13 +224,13 @@ export default function FormulaRushGame({ onExit }: FormulaRushGameProps) {
   }, [selectedAnswer, question, gameState, timer, streak, correctCount, generateNewQuestion]);
 
   const highScore = typeof window !== "undefined"
-    ? Number(localStorage.getItem("formula-rush-highscore") || "0")
+    ? Number(localStorage.getItem("matika-formula-rush-highscore") || "0")
     : 0;
   const isNewHighScore = score > highScore && gameState === "result";
 
   useEffect(() => {
     if (isNewHighScore) {
-      localStorage.setItem("formula-rush-highscore", String(score));
+      localStorage.setItem("matika-formula-rush-highscore", String(score));
     }
   }, [isNewHighScore, score]);
 

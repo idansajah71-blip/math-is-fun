@@ -272,7 +272,7 @@ function NodeModal({ node, onClose }: { node: WorldMapNode; onClose: () => void 
           <div className="grid grid-cols-3 gap-3 mb-7">
             {[
               { icon: BookOpen, label: "Level",  val: cfg.label },
-              { icon: Zap,      label: "Reward", val: "+100 XP" },
+              { icon: Zap,      label: "Reward", val: "+25 XP" },
               { icon: isDone ? Star : isLocked ? Lock : Target, label: "Status",
                 val: isDone ? "Selesai" : isLocked ? "Terkunci" : "Baru" },
             ].map((s) => (
