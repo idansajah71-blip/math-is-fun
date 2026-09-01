@@ -117,7 +117,8 @@ function SectionBlock({ section }: { section: ParsedSection }) {
   );
 }
 
-function renderKaTeX(root: HTMLElement) {
+function renderKaTeX(root: HTMLElement | null) {
+  if (!root) return;
   root.querySelectorAll<HTMLElement>("code.katex-inline").forEach((el) => {
     if (el.querySelector(".katex")) return;
     try { katex.render(el.textContent || "", el, { throwOnError: false, displayMode: false }); } catch { /* skip */ }
@@ -140,6 +141,8 @@ function KaTeXSection({ html, className }: { html: string; className?: string })
     />
   );
 }
+
+function escapeHtml(str: string): string {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 

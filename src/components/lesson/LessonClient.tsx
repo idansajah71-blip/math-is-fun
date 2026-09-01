@@ -62,6 +62,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const [score, setScore] = useState(0);
   const scoreRef = useRef(0);
   const timersRef = useRef<number[]>([]);
+  const handleNextRef = useRef<() => void>(() => {});
 
   const scheduleTimer = (fn: () => void, ms: number) => {
     const id = window.setTimeout(() => {
@@ -134,12 +135,12 @@ export default function LessonClient({ topic }: LessonClientProps) {
           return;
         }
         e.preventDefault();
-        handleNextQuestion();
+        handleNextRef.current();
       }
     }
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [step, currentQ, questions, answered, handleNextQuestion]);
+  }, [step, currentQ, questions, answered]);
 
   const showComboToast = (comboValue: number) => {
     if (comboValue >= 3 && comboValue % 3 === 0) {
@@ -290,6 +291,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
       finishLesson();
     }
   }, [currentQ, totalQuestions, finishLesson]);
+  handleNextRef.current = handleNextQuestion;
 
   const restart = () => {
     setStep("intro");

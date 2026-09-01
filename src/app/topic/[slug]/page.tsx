@@ -53,6 +53,11 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
     setLoading(false);
   }, [slug, router]);
 
+  const handleBookmark = () => {
+    toggleBookmark(slug);
+    setIsBookmarked((prev) => !prev);
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
