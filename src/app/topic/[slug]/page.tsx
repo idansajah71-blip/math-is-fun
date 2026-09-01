@@ -27,6 +27,8 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
   const [savedNotes, setSavedNotes] = useState(false);
   const [mastery, setMastery] = useState(0);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const found = getTopicBySlug(slug);
     if (found) {
@@ -48,12 +50,22 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
       const savedNotes = localStorage.getItem(`note-${slug}`) || "";
       setNotes(savedNotes);
     }
+    setLoading(false);
   }, [slug, router]);
 
-  const handleBookmark = () => {
-    toggleBookmark(slug);
-    setIsBookmarked(!isBookmarked);
-  };
+  if (loading) {
+    return (
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
+        <Sidebar />
+        <main className="flex-1 ml-[260px] flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-8 h-8 border-3 border-[var(--duo-green)] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-sm text-[var(--duo-text-muted)]">Memuat topik...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   if (!topic) {
     return (

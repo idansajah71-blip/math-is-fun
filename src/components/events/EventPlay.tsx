@@ -99,7 +99,6 @@ export default function EventPlay({ event, userId, onComplete }: EventPlayProps)
   const dayScoreRef = useRef(0);
 
   const maxLives = event.lives || 3;
-  const totalQuestions = event.questionsCount || 10;
   const questionsPerDay = config.questionsPerDay || 3;
   const totalDays = config.totalDays || 7;
 
@@ -275,19 +274,10 @@ export default function EventPlay({ event, userId, onComplete }: EventPlayProps)
           setCurrentQIdx((p) => p + 1);
         }
       } else {
-        if (config.hasBossHp || config.hasLives || config.hasElimination) {
-          const qIdx = currentIdx;
-          if (qIdx + 1 >= activeQuestions.length) {
-            finishGame(config.isAlwaysWin);
-          } else {
-            advanceQuestion();
-          }
+        if (currentIdx + 1 >= activeQuestions.length) {
+          finishGame(config.isAlwaysWin);
         } else {
-          if (currentIdx + 1 >= activeQuestions.length) {
-            finishGame(config.isAlwaysWin);
-          } else {
-            advanceQuestion();
-          }
+          advanceQuestion();
         }
       }
     }, delay);

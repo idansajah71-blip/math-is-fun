@@ -162,7 +162,7 @@ export const quizzes: QuizQuestion[] = [
     question: "Faktorkan x² + 7x + 12",
     options: ["(x+3)(x+4)", "(x+2)(x+6)", "(x+1)(x+12)", "(x+5)(x+2)"],
     correctIndex: 0,
-    explanation: "Cari dua bilangan berjumlah 7 dan berkal12 → 3 dan 4. Maka (x+3)(x+4)",
+    explanation: "Cari dua bilangan berjumlah 7 dan berkal 12 → 3 dan 4. Maka (x+3)(x+4)",
   },
 
   // Interactive: Number line for integers

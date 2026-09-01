@@ -131,16 +131,6 @@ export function getTopicBySlug(slug: string): Topic | undefined {
   return getAllTopics().find((t) => t.slug === slug);
 }
 
-export function searchTopics(query: string): Topic[] {
-  const q = query.toLowerCase();
-  return getAllTopics().filter(
-    (t) =>
-      t.title.toLowerCase().includes(q) ||
-      t.description.toLowerCase().includes(q) ||
-      t.content.toLowerCase().includes(q)
-  );
-}
-
 function generateHints(q: QuizQuestion): string[] {
   if (q.hints && q.hints.length > 0) return q.hints;
 

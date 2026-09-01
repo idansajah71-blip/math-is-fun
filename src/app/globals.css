@@ -1349,14 +1349,6 @@ article hr { margin: 1.75rem 0; border-color: var(--border); border-width: 1.5px
 .pulse-ring-xp::after { border-color: var(--accent-xp); }
 .pulse-ring-fire::after { border-color: var(--orange); }
 .pulse-ring-purple::after { border-color: var(--purple); }
-
-/* ===== NAV ACTIVE Premium ===== */
-.nav-item-active {
-  background: var(--primary-bg);
-  color: var(--primary-ink);
-  position: relative;
-  font-weight: 800;
-}
 .nav-item-active::before {
   content: "";
   position: absolute;

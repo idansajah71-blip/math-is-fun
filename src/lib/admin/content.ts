@@ -4,7 +4,6 @@ import type { Topic, QuizQuestion, Level } from "@/lib/types";
 
 const TOPICS_KEY = "matika_admin_topics";
 const QUESTIONS_KEY = "matika_admin_questions";
-const INITIAL_SEEDED_KEY = "matika_content_seeded";
 
 export interface ManagedTopic extends Topic {
   isPublished: boolean;
@@ -58,44 +57,8 @@ function hasDuplicatePattern(text: string, windowSize = 20, maxRepeats = 5): boo
   return false;
 }
 
-export function sanitizeContent(content: string, fallback: string): string {
-  if (!content) return fallback;
-  if (hasDuplicatePattern(content)) {
-    console.warn("[content] Duplicate pattern detected, using fallback");
-    return fallback;
-  }
-  return content;
-}
-
-export function seedContentFromStaticFiles(staticTopics: Topic[], staticQuizzes: QuizQuestion[]): void {
-  if (typeof window === "undefined") return;
-  if (localStorage.getItem(INITIAL_SEEDED_KEY) === "v3") return;
-
-  const topics: ManagedTopic[] = staticTopics.map((t) => ({
-    ...t,
-    isPublished: true,
-    createdBy: "system",
-    updatedAt: new Date().toISOString(),
-  }));
-
-  const questions: ManagedQuestion[] = staticQuizzes.map((q) => ({
-    ...q,
-    isPublished: true,
-    createdBy: "system",
-    updatedAt: new Date().toISOString(),
-  }));
-
-  saveStoredTopics(topics);
-  saveStoredQuestions(questions);
-  localStorage.setItem(INITIAL_SEEDED_KEY, "v3");
-}
-
 export function getAllTopics(): ManagedTopic[] {
   return getStoredTopics();
-}
-
-export function getPublishedTopics(): ManagedTopic[] {
-  return getStoredTopics().filter((t) => t.isPublished);
 }
 
 export function getTopicBySlug(slug: string): ManagedTopic | undefined {
@@ -185,13 +148,4 @@ export function getContentStats() {
       kuliah: questions.filter((q) => topics.find((t) => t.slug === q.topicSlug)?.level === "kuliah").length,
     },
   };
-}
-
-export function exportContent(): { topics: ManagedTopic[]; questions: ManagedQuestion[] } {
-  return { topics: getStoredTopics(), questions: getStoredQuestions() };
-}
-
-export function importContent(data: { topics?: ManagedTopic[]; questions?: ManagedQuestion[] }): void {
-  if (data.topics) saveStoredTopics(data.topics);
-  if (data.questions) saveStoredQuestions(data.questions);
 }

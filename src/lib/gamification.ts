@@ -759,10 +759,6 @@ export function activatePremium(days: number): UserProfile {
   return profile;
 }
 
-export function grantTrialPremium(): UserProfile {
-  return activatePremium(7);
-}
-
 export function markStreakFreezeNotified(): void {
   const profile = getProfile();
   profile.streakFreezeNotified = true;

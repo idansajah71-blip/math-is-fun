@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProfile, getWeakTopics, LEVEL_NAMES, UserProfile } from "@/lib/gamification";
+import { getProfile, getWeakTopics, LEVEL_NAMES, saveProfile, UserProfile } from "@/lib/gamification";
 import { getAllTopics } from "@/lib/data";
 
 type MascotMood = "happy" | "thinking" | "celebrate" | "sad" | "idle" | "wink" | "love" | "surprised";
@@ -9,6 +9,7 @@ type MascotMood = "happy" | "thinking" | "celebrate" | "sad" | "idle" | "wink" |
 interface MascotState {
   mood: MascotMood;
   message: string;
+  _markSeen?: boolean;
 }
 
 const GREETINGS = [
@@ -66,9 +67,7 @@ function getMascotState(profile: UserProfile): MascotState {
   if (profile.level > profile.lastSeenLevel && profile.level > 0) {
     const newLevel = LEVEL_NAMES[profile.level];
     const msg = pickRandom(LEVEL_UP_MESSAGES).replace("{level}", newLevel);
-    // Mark as seen so it doesn't trigger again on next mount
-    profile.lastSeenLevel = profile.level;
-    return { mood: "celebrate", message: msg };
+    return { mood: "celebrate", message: msg, _markSeen: true };
   }
 
   // Streak at risk
@@ -118,12 +117,28 @@ export function useMascot(): MascotState {
   });
 
   useEffect(() => {
-    try {
-      const profile = getProfile();
-      setState(getMascotState(profile));
-    } catch {
-      // Keep default happy state
-    }
+    const refresh = () => {
+      try {
+        const profile = getProfile();
+        const newState = getMascotState(profile);
+        if (newState._markSeen) {
+          profile.lastSeenLevel = profile.level;
+          saveProfile(profile);
+          delete newState._markSeen;
+        }
+        setState(newState);
+      } catch {
+        // Keep default happy state
+      }
+    };
+
+    refresh();
+    window.addEventListener("xp-updated", refresh);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener("xp-updated", refresh);
+      window.removeEventListener("storage", refresh);
+    };
   }, []);
 
   return state;

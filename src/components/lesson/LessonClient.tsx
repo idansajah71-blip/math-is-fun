@@ -468,14 +468,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
               <HeartBar lives={lives} breaking={breaking} />
             </div>
 
-            <div className="h-3.5 bg-[var(--border)] rounded-full mb-7 overflow-hidden shadow-inner">
-              <motion.div
-                className="h-full bg-gradient-to-r from-[var(--primary)] via-[var(--duo-green-light)] to-[var(--primary)] rounded-full progress-glow shadow-lg"
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 1, type: "spring", stiffness: 80, damping: 20 }}
-              />
-            </div>
+            <div className="h-1 bg-[var(--border)] rounded-full mb-7" />
 
             <motion.div
               initial={{ opacity: 0, y: 25 }}

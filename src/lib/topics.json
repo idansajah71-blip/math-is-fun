@@ -87,7 +87,7 @@
     "section": "Matematika SMP",
     "icon": "Link",
     "content": "**Konsep:** Relasi menghubungkan anggota dua himpunan. Fungsi (pemetaan) adalah relasi khusus di mana setiap anggota domain berpasangan dengan **tepat satu** anggota kodomain.\n**Rumus Kunci:**\n- Notasi fungsi: $f: x \\to f(x)$ atau $y=f(x)$\n- Domain (daerah asal), Kodomain (daerah kawan), Range (daerah hasil)\n- Fungsi linear: $f(x)=mx+c$\n**Contoh:** $f(x)=2x+1$. Nilai $f(3)=2(3)+1=7$.",
-    "description": "Relasi menghubungkan anggota dua himpunan. Fungsi (pemetaan) adalah relasi khusus di mana setiap anggota domain berpasangan dengan **tepat satu** angg"
+    "description": "Relasi menghubungkan anggota dua himpunan. Fungsi (pemetaan) adalah relasi khusus di mana setiap anggota domain berpasangan dengan **tepat satu** anggota kodomain."
   },
   {
     "id": "10-persamaan-garis-lurus",

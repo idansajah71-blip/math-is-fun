@@ -83,7 +83,7 @@ const NAV_COLORS: Record<string, string> = {
   "/shop": "var(--pink)",
   "/badges": "var(--purple)",
   "/review": "var(--danger)",
-  "/bookmark": "var(--yellow)",
+  "/bookmark": "var(--orange)",
   "/spaced-repetition": "var(--purple)",
   "/friends": "var(--info)",
   "/events": "var(--primary)",

@@ -72,13 +72,16 @@ export default function FillBlank({
         </div>
         <h2 className="text-lg font-bold text-[var(--duo-text)]">
           {parts.length > 1 ? (
-            <>
-              {parts[0]}
-              <span className="inline-block min-w-[100px] mx-2 px-3 py-1 bg-[var(--duo-info)]/10 border-b-2 border-[var(--duo-info)] text-center text-[var(--duo-info)] font-black">
-                {showResult ? (Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer) : "..."}
+            parts.map((part, i) => (
+              <span key={i}>
+                {part}
+                {i < parts.length - 1 && (
+                  <span className="inline-block min-w-[100px] mx-2 px-3 py-1 bg-[var(--duo-info)]/10 border-b-2 border-[var(--duo-info)] text-center text-[var(--duo-info)] font-black">
+                    {showResult ? (Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer) : "..."}
+                  </span>
+                )}
               </span>
-              {parts[1]}
-            </>
+            ))
           ) : (
             question
           )}
