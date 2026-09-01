@@ -78,7 +78,7 @@ export default function FormulaSimulator({ meta, onExampleClick }: Props) {
             transition={{ delay: i * 0.06 }}
             className="rumus-input-row flex items-center gap-2.5 p-3 rounded-xl bg-[var(--bg)] border border-[var(--border)] hover:border-violet-300 dark:hover:border-violet-700 transition-colors"
           >
-            <label className="text-xs font-bold text-[var(--fg-muted)] w-20 shrink-0 leading-tight">{v.label}</label>
+            <label htmlFor={`formula-${v.name}`} className="text-xs font-bold text-[var(--fg-muted)] w-20 shrink-0 leading-tight">{v.label}</label>
             <button
               onClick={() => handleStep(v.name, -(v.step || 1))}
               className="w-9 h-9 rounded-lg bg-[var(--surface-sunken)] hover:bg-red-100 dark:hover:bg-red-900/30 flex items-center justify-center text-[var(--fg-muted)] hover:text-red-500 transition-colors shrink-0 active:scale-95"
@@ -86,6 +86,7 @@ export default function FormulaSimulator({ meta, onExampleClick }: Props) {
               <Minus size={14} />
             </button>
             <input
+              id={`formula-${v.name}`}
               type="number"
               value={values[v.name] ?? v.defaultValue}
               onChange={(e) => handleChange(v.name, e.target.value)}

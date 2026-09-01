@@ -90,8 +90,9 @@ export default function FillBlank({
 
       {/* Input */}
       <div className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-4 mb-6">
-        <label className="text-xs font-bold text-[var(--duo-text-muted)] mb-2 block">Jawaban Kamu</label>
+        <label htmlFor="fill-blank-answer" className="text-xs font-bold text-[var(--duo-text-muted)] mb-2 block">Jawaban Kamu</label>
         <input
+          id="fill-blank-answer"
           type="text"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}

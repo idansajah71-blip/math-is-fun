@@ -28,6 +28,8 @@ export default function AdminContentPage() {
   const [showQuestionForm, setShowQuestionForm] = useState(false);
   const [editingTopic, setEditingTopic] = useState<string | null>(null);
   const [editingQuestion, setEditingQuestion] = useState<string | null>(null);
+  const [savingTopic, setSavingTopic] = useState(false);
+  const [savingQuestion, setSavingQuestion] = useState(false);
 
   const [topicForm, setTopicForm] = useState({
     slug: "", title: "", level: "smp" as Level, section: "", icon: "📐",
@@ -60,22 +62,27 @@ export default function AdminContentPage() {
     setShowTopicForm(false);
   }
 
-  function handleSaveTopic() {
-    const session = getAdminSession();
-    if (editingTopic) {
-      const old = topics.find((t) => t.slug === editingTopic);
-      const updated = updateTopic(editingTopic, { ...topicForm, createdBy: session?.email || "admin", updatedAt: "" });
-      if (updated) auditLog("update_topic", "topic", editingTopic, old, updated);
-    } else {
-      const newTopic = createTopic({
-        id: `topic-${Date.now()}`,
-        ...topicForm,
-        createdBy: session?.email || "admin",
-      });
-      auditLog("create_topic", "topic", newTopic.slug, null, newTopic);
+  async function handleSaveTopic() {
+    setSavingTopic(true);
+    try {
+      const session = getAdminSession();
+      if (editingTopic) {
+        const old = topics.find((t) => t.slug === editingTopic);
+        const updated = updateTopic(editingTopic, { ...topicForm, createdBy: session?.email || "admin", updatedAt: "" });
+        if (updated) auditLog("update_topic", "topic", editingTopic, old, updated);
+      } else {
+        const newTopic = createTopic({
+          id: `topic-${Date.now()}`,
+          ...topicForm,
+          createdBy: session?.email || "admin",
+        });
+        auditLog("create_topic", "topic", newTopic.slug, null, newTopic);
+      }
+      loadData();
+      resetTopicForm();
+    } finally {
+      setSavingTopic(false);
     }
-    loadData();
-    resetTopicForm();
   }
 
   function handleEditTopic(slug: string) {
@@ -116,32 +123,37 @@ export default function AdminContentPage() {
     setShowQuestionForm(false);
   }
 
-  function handleSaveQuestion() {
-    const session = getAdminSession();
-    const payload: Omit<ManagedQuestion, "updatedAt"> = {
-      id: editingQuestion || `q-${Date.now()}`,
-      topicSlug: questionForm.topicSlug,
-      question: questionForm.question,
-      options: questionForm.options.filter(Boolean),
-      correctIndex: questionForm.correctIndex,
-      explanation: questionForm.explanation,
-      difficulty: questionForm.difficulty,
-      type: questionForm.type,
-      hints: questionForm.hints ? questionForm.hints.split(",").map((h) => h.trim()) : [],
-      isPublished: questionForm.isPublished,
-      createdBy: session?.email || "admin",
-    };
+  async function handleSaveQuestion() {
+    setSavingQuestion(true);
+    try {
+      const session = getAdminSession();
+      const payload: Omit<ManagedQuestion, "updatedAt"> = {
+        id: editingQuestion || `q-${Date.now()}`,
+        topicSlug: questionForm.topicSlug,
+        question: questionForm.question,
+        options: questionForm.options.filter(Boolean),
+        correctIndex: questionForm.correctIndex,
+        explanation: questionForm.explanation,
+        difficulty: questionForm.difficulty,
+        type: questionForm.type,
+        hints: questionForm.hints ? questionForm.hints.split(",").map((h) => h.trim()) : [],
+        isPublished: questionForm.isPublished,
+        createdBy: session?.email || "admin",
+      };
 
-    if (editingQuestion) {
-      const old = questions.find((q) => q.id === editingQuestion);
-      updateQuestion(editingQuestion, { ...payload, updatedAt: "" });
-      auditLog("update_question", "question", editingQuestion, old, payload);
-    } else {
-      createQuestion(payload);
-      auditLog("create_question", "question", payload.id, null, payload);
+      if (editingQuestion) {
+        const old = questions.find((q) => q.id === editingQuestion);
+        updateQuestion(editingQuestion, { ...payload, updatedAt: "" });
+        auditLog("update_question", "question", editingQuestion, old, payload);
+      } else {
+        createQuestion(payload);
+        auditLog("create_question", "question", payload.id, null, payload);
+      }
+      loadData();
+      resetQuestionForm();
+    } finally {
+      setSavingQuestion(false);
     }
-    loadData();
-    resetQuestionForm();
   }
 
   function handleEditQuestion(id: string) {
@@ -276,25 +288,25 @@ export default function AdminContentPage() {
                 className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-blue-200 dark:border-blue-800 p-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-black text-[var(--duo-text)]">{editingTopic ? "Edit Topik" : "Topik Baru"}</h3>
-                  <button onClick={resetTopicForm} className="p-1 text-[var(--duo-text-muted)] hover:text-red-500"><X size={18} /></button>
+                  <button onClick={resetTopicForm} aria-label="Tutup" className="p-1 text-[var(--duo-text-muted)] hover:text-red-500"><X size={18} /></button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Slug *</label>
-                    <input value={topicForm.slug} onChange={(e) => setTopicForm({ ...topicForm, slug: e.target.value })}
+                    <label htmlFor="topic-slug" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Slug *</label>
+                    <input id="topic-slug" value={topicForm.slug} onChange={(e) => setTopicForm({ ...topicForm, slug: e.target.value })}
                       disabled={!!editingTopic}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] disabled:opacity-50 focus:outline-none focus:border-blue-500"
                       placeholder="nama-topik" />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Judul *</label>
-                    <input value={topicForm.title} onChange={(e) => setTopicForm({ ...topicForm, title: e.target.value })}
+                    <label htmlFor="topic-title" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Judul *</label>
+                    <input id="topic-title" value={topicForm.title} onChange={(e) => setTopicForm({ ...topicForm, title: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-blue-500"
                       placeholder="1. Nama Topik" />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Level</label>
-                    <select value={topicForm.level} onChange={(e) => setTopicForm({ ...topicForm, level: e.target.value as Level })}
+                    <label htmlFor="topic-level" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Level</label>
+                    <select id="topic-level" value={topicForm.level} onChange={(e) => setTopicForm({ ...topicForm, level: e.target.value as Level })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-blue-500">
                       <option value="smp">SMP</option>
                       <option value="sma">SMA</option>
@@ -302,43 +314,50 @@ export default function AdminContentPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Section</label>
-                    <input value={topicForm.section} onChange={(e) => setTopicForm({ ...topicForm, section: e.target.value })}
+                    <label htmlFor="topic-section" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Section</label>
+                    <input id="topic-section" value={topicForm.section} onChange={(e) => setTopicForm({ ...topicForm, section: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-blue-500"
                       placeholder="Matematika SMP" />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Icon</label>
-                    <input value={topicForm.icon} onChange={(e) => setTopicForm({ ...topicForm, icon: e.target.value })}
+                    <label htmlFor="topic-icon" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Icon</label>
+                    <input id="topic-icon" value={topicForm.icon} onChange={(e) => setTopicForm({ ...topicForm, icon: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-blue-500"
                       placeholder="📐" />
                   </div>
                   <div className="flex items-center gap-3 pt-6">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" checked={topicForm.isPublished}
+                    <label htmlFor="topic-published" className="flex items-center gap-2 cursor-pointer">
+                      <input id="topic-published" type="checkbox" checked={topicForm.isPublished}
                         onChange={(e) => setTopicForm({ ...topicForm, isPublished: e.target.checked })}
                         className="w-4 h-4 rounded" />
                       <span className="text-sm font-bold text-[var(--duo-text)]">Published</span>
                     </label>
                   </div>
                   <div className="md:col-span-2">
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Deskripsi</label>
-                    <textarea value={topicForm.description} onChange={(e) => setTopicForm({ ...topicForm, description: e.target.value })}
+                    <label htmlFor="topic-description" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Deskripsi</label>
+                    <textarea id="topic-description" value={topicForm.description} onChange={(e) => setTopicForm({ ...topicForm, description: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-blue-500 h-16 resize-none"
                       placeholder="Deskripsi singkat topik..." />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Konten (Markdown + LaTeX)</label>
-                    <textarea value={topicForm.content} onChange={(e) => setTopicForm({ ...topicForm, content: e.target.value })}
+                    <label htmlFor="topic-content" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Konten (Markdown + LaTeX)</label>
+                    <textarea id="topic-content" value={topicForm.content} onChange={(e) => setTopicForm({ ...topicForm, content: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-mono text-[var(--duo-text)] focus:outline-none focus:border-blue-500 h-32 resize-none"
                       placeholder="**Konsep:** ...&#10;**Rumus:** ..." />
                   </div>
                 </div>
                 <div className="flex gap-3 pt-2">
                   <button onClick={resetTopicForm} className="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-[var(--duo-text)] rounded-xl text-sm font-bold">Batal</button>
-                  <button onClick={handleSaveTopic} disabled={!topicForm.slug || !topicForm.title}
+                  <button onClick={handleSaveTopic} disabled={savingTopic || !topicForm.slug || !topicForm.title}
                     className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all disabled:opacity-40 flex items-center gap-2">
-                    <Save size={14} /> {editingTopic ? "Simpan" : "Buat Topik"}
+                    {savingTopic ? (
+                      <span className="flex items-center gap-2">
+                        <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                        Menyimpan...
+                      </span>
+                    ) : (
+                      <><Save size={14} /> {editingTopic ? "Simpan" : "Buat Topik"}</>
+                    )}
                   </button>
                 </div>
               </motion.div>
@@ -379,15 +398,15 @@ export default function AdminContentPage() {
                             <p className="text-[10px] text-[var(--duo-text-muted)]">{qCount} soal · {topic.slug}</p>
                           </div>
                           <div className="flex items-center gap-1 shrink-0">
-                            <button onClick={(e) => { e.stopPropagation(); handleToggleTopicPublish(topic.slug); }}
+                            <button onClick={(e) => { e.stopPropagation(); handleToggleTopicPublish(topic.slug); }} aria-label="Toggle publikasi"
                               className="p-1.5 text-[var(--duo-text-muted)] hover:text-blue-500 rounded-lg transition-colors">
                               {topic.isPublished ? <EyeOff size={14} /> : <Eye size={14} />}
                             </button>
-                            <button onClick={(e) => { e.stopPropagation(); handleEditTopic(topic.slug); }}
+                            <button onClick={(e) => { e.stopPropagation(); handleEditTopic(topic.slug); }} aria-label="Edit"
                               className="p-1.5 text-[var(--duo-text-muted)] hover:text-blue-500 rounded-lg transition-colors">
                               <Edit3 size={14} />
                             </button>
-                            <button onClick={(e) => { e.stopPropagation(); handleDeleteTopic(topic.slug); }}
+                            <button onClick={(e) => { e.stopPropagation(); handleDeleteTopic(topic.slug); }} aria-label="Hapus"
                               className="p-1.5 text-[var(--duo-text-muted)] hover:text-red-500 rounded-lg transition-colors">
                               <Trash2 size={14} />
                             </button>
@@ -428,12 +447,12 @@ export default function AdminContentPage() {
                 className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-purple-200 dark:border-purple-800 p-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-black text-[var(--duo-text)]">{editingQuestion ? "Edit Soal" : "Soal Baru"}</h3>
-                  <button onClick={resetQuestionForm} className="p-1 text-[var(--duo-text-muted)] hover:text-red-500"><X size={18} /></button>
+                  <button onClick={resetQuestionForm} aria-label="Tutup" className="p-1 text-[var(--duo-text-muted)] hover:text-red-500"><X size={18} /></button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Topik *</label>
-                    <select value={questionForm.topicSlug} onChange={(e) => setQuestionForm({ ...questionForm, topicSlug: e.target.value })}
+                    <label htmlFor="question-topic" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Topik *</label>
+                    <select id="question-topic" value={questionForm.topicSlug} onChange={(e) => setQuestionForm({ ...questionForm, topicSlug: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-purple-500">
                       <option value="">Pilih topik...</option>
                       {topics.map((t) => <option key={t.slug} value={t.slug}>{t.title}</option>)}
@@ -441,8 +460,8 @@ export default function AdminContentPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Tipe</label>
-                      <select value={questionForm.type} onChange={(e) => setQuestionForm({ ...questionForm, type: e.target.value as typeof questionForm.type })}
+                      <label htmlFor="question-type" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Tipe</label>
+                      <select id="question-type" value={questionForm.type} onChange={(e) => setQuestionForm({ ...questionForm, type: e.target.value as typeof questionForm.type })}
                         className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-purple-500">
                         <option value="choice">Pilihan Ganda</option>
                         <option value="fill">Isian</option>
@@ -452,8 +471,8 @@ export default function AdminContentPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Difficulty</label>
-                      <select value={questionForm.difficulty} onChange={(e) => setQuestionForm({ ...questionForm, difficulty: e.target.value as typeof questionForm.difficulty })}
+                      <label htmlFor="question-difficulty" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Difficulty</label>
+                      <select id="question-difficulty" value={questionForm.difficulty} onChange={(e) => setQuestionForm({ ...questionForm, difficulty: e.target.value as typeof questionForm.difficulty })}
                         className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-purple-500">
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
@@ -462,8 +481,8 @@ export default function AdminContentPage() {
                     </div>
                   </div>
                   <div className="md:col-span-2">
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Soal *</label>
-                    <textarea value={questionForm.question} onChange={(e) => setQuestionForm({ ...questionForm, question: e.target.value })}
+                    <label htmlFor="question-text" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Soal *</label>
+                    <textarea id="question-text" value={questionForm.question} onChange={(e) => setQuestionForm({ ...questionForm, question: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-purple-500 h-20 resize-none"
                       placeholder="Tuliskan soal di sini..." />
                   </div>
@@ -488,20 +507,20 @@ export default function AdminContentPage() {
                     </div>
                   )}
                   <div className="md:col-span-2">
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Penjelasan</label>
-                    <textarea value={questionForm.explanation} onChange={(e) => setQuestionForm({ ...questionForm, explanation: e.target.value })}
+                    <label htmlFor="question-explanation" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Penjelasan</label>
+                    <textarea id="question-explanation" value={questionForm.explanation} onChange={(e) => setQuestionForm({ ...questionForm, explanation: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-purple-500 h-16 resize-none"
                       placeholder="Penjelasan jawaban..." />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Hints (koma)</label>
-                    <input value={questionForm.hints} onChange={(e) => setQuestionForm({ ...questionForm, hints: e.target.value })}
+                    <label htmlFor="question-hints" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Hints (koma)</label>
+                    <input id="question-hints" value={questionForm.hints} onChange={(e) => setQuestionForm({ ...questionForm, hints: e.target.value })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-purple-500"
                       placeholder="hint1, hint2" />
                   </div>
                   <div className="flex items-center gap-3">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" checked={questionForm.isPublished}
+                    <label htmlFor="question-published" className="flex items-center gap-2 cursor-pointer">
+                      <input id="question-published" type="checkbox" checked={questionForm.isPublished}
                         onChange={(e) => setQuestionForm({ ...questionForm, isPublished: e.target.checked })}
                         className="w-4 h-4 rounded" />
                       <span className="text-sm font-bold text-[var(--duo-text)]">Published</span>
@@ -510,9 +529,16 @@ export default function AdminContentPage() {
                 </div>
                 <div className="flex gap-3 pt-2">
                   <button onClick={resetQuestionForm} className="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-[var(--duo-text)] rounded-xl text-sm font-bold">Batal</button>
-                  <button onClick={handleSaveQuestion} disabled={!questionForm.topicSlug || !questionForm.question}
+                  <button onClick={handleSaveQuestion} disabled={savingQuestion || !questionForm.topicSlug || !questionForm.question}
                     className="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all disabled:opacity-40 flex items-center gap-2">
-                    <Save size={14} /> {editingQuestion ? "Simpan" : "Buat Soal"}
+                    {savingQuestion ? (
+                      <span className="flex items-center gap-2">
+                        <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                        Menyimpan...
+                      </span>
+                    ) : (
+                      <><Save size={14} /> {editingQuestion ? "Simpan" : "Buat Soal"}</>
+                    )}
                   </button>
                 </div>
               </motion.div>
@@ -544,15 +570,15 @@ export default function AdminContentPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-1 shrink-0">
-                      <button onClick={() => handleToggleQuestionPublish(q.id)}
+                      <button onClick={() => handleToggleQuestionPublish(q.id)} aria-label="Toggle publikasi"
                         className="p-1.5 text-[var(--duo-text-muted)] hover:text-blue-500 rounded-lg transition-colors">
                         {q.isPublished ? <EyeOff size={14} /> : <Eye size={14} />}
                       </button>
-                      <button onClick={() => handleEditQuestion(q.id)}
+                      <button onClick={() => handleEditQuestion(q.id)} aria-label="Edit"
                         className="p-1.5 text-[var(--duo-text-muted)] hover:text-blue-500 rounded-lg transition-colors">
                         <Edit3 size={14} />
                       </button>
-                      <button onClick={() => handleDeleteQuestion(q.id)}
+                      <button onClick={() => handleDeleteQuestion(q.id)} aria-label="Hapus"
                         className="p-1.5 text-[var(--duo-text-muted)] hover:text-red-500 rounded-lg transition-colors">
                         <Trash2 size={14} />
                       </button>

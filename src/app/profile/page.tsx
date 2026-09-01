@@ -18,6 +18,7 @@ export default function ProfilePage() {
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [copied, setCopied] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const p = getProfile();
@@ -25,23 +26,28 @@ export default function ProfilePage() {
     setName(p.name);
   }, []);
 
-  const handleSave = () => {
-    if (!name.trim()) {
-      setNameError("Nama tidak boleh kosong");
-      return;
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      if (!name.trim()) {
+        setNameError("Nama tidak boleh kosong");
+        return;
+      }
+      if (name.trim().length < 2) {
+        setNameError("Nama minimal 2 karakter");
+        return;
+      }
+      if (name.trim().length > 20) {
+        setNameError("Nama maksimal 20 karakter");
+        return;
+      }
+      setNameError("");
+      const updated = setProfileName(name.trim());
+      setProfile(updated);
+      setEditMode(false);
+    } finally {
+      setSaving(false);
     }
-    if (name.trim().length < 2) {
-      setNameError("Nama minimal 2 karakter");
-      return;
-    }
-    if (name.trim().length > 20) {
-      setNameError("Nama maksimal 20 karakter");
-      return;
-    }
-    setNameError("");
-    const updated = setProfileName(name.trim());
-    setProfile(updated);
-    setEditMode(false);
   };
 
   if (!profile) return null;
@@ -136,10 +142,18 @@ export default function ProfilePage() {
                     </div>
                     <motion.button
                       onClick={handleSave}
-                      className="px-4 py-2 bg-[var(--duo-green)] text-white text-xs font-black rounded-xl hover:brightness-110"
+                      disabled={saving}
+                      className="px-4 py-2 bg-[var(--duo-green)] text-white text-xs font-black rounded-xl hover:brightness-110 disabled:opacity-40"
                       whileTap={{ scale: 0.95 }}
                     >
-                      Simpan
+                      {saving ? (
+                        <span className="flex items-center gap-1.5">
+                          <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                          Menyimpan...
+                        </span>
+                      ) : (
+                        "Simpan"
+                      )}
                     </motion.button>
                     <motion.button
                       onClick={() => setEditMode(false)}
@@ -160,6 +174,7 @@ export default function ProfilePage() {
                       )}
                       <motion.button
                         onClick={() => setEditMode(true)}
+                        aria-label="Edit"
                         className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[var(--duo-text-muted)]"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}

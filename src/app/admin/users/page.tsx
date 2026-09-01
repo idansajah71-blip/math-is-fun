@@ -25,6 +25,8 @@ export default function AdminUsersPage() {
   const [stats, setStats] = useState({ totalUsers: 0, premiumUsers: 0, newUsersToday: 0, activeLastWeek: 0 });
   const [expandedUser, setExpandedUser] = useState<string | null>(null);
   const [modalUser, setModalUser] = useState<UserRow | null>(null);
+  const [removingPremium, setRemovingPremium] = useState<string | null>(null);
+  const [upgradingUser, setUpgradingUser] = useState<string | null>(null);
 
   const loadUsers = useCallback(() => {
     const registry = getAllRegistryUsers();
@@ -107,127 +109,137 @@ export default function AdminUsersPage() {
 
   useEffect(() => { loadUsers(); }, [loadUsers]);
 
-  function handleUpgrade(userId: string, days: number) {
-    let profile: UserProfile;
-
-    // Find the correct profile key by scanning ALL localStorage keys
-    let profileKey = "";
-    let rawProfile = "";
-    for (let i = 0; i < localStorage.length; i++) {
-      const k = localStorage.key(i);
-      if (k && k.startsWith("matika-profile-") && k !== "matika-profile") {
-        try {
-          const raw = localStorage.getItem(k);
-          if (raw) {
-            const parsed = JSON.parse(raw);
-            if (parsed.name?.toLowerCase() === users.find((u) => u.id === userId)?.name?.toLowerCase()
-              || k === `matika-profile-${userId}`) {
-              profileKey = k;
-              rawProfile = raw;
-              break;
-            }
-          }
-        } catch {}
-      }
-    }
-
-    // Fallback: try the userId-based key
-    if (!profileKey) {
-      profileKey = `matika-profile-${userId}`;
-      rawProfile = localStorage.getItem(profileKey) || "";
-    }
-
+  async function handleUpgrade(userId: string, days: number) {
+    setUpgradingUser(userId);
     try {
-      profile = rawProfile ? { ...getDefaultProfile(), ...JSON.parse(rawProfile) } : getDefaultProfile();
-    } catch {
-      profile = getDefaultProfile();
-    }
+      let profile: UserProfile;
 
-    profile.isPremium = true;
-    profile.premiumActivatedAt = new Date().toISOString().split("T")[0];
-    profile.premiumExpiresAt = days >= 9999 ? null : new Date(Date.now() + days * 86400000).toISOString().split("T")[0];
-    profile.maxHearts = 99;
-    profile.hearts = 99;
-    profile.hintTokens = (profile.hintTokens || 0) + 10;
-
-    // Save to the found key
-    localStorage.setItem(profileKey, JSON.stringify(profile));
-
-    // Also scan and save to ALL matika-profile-* keys that match this user
-    const userName = users.find((u) => u.id === userId)?.name?.toLowerCase() || "";
-    for (let i = 0; i < localStorage.length; i++) {
-      const k = localStorage.key(i);
-      if (k && k.startsWith("matika-profile-") && k !== "matika-profile" && k !== profileKey) {
-        try {
-          const raw = localStorage.getItem(k);
-          if (raw) {
-            const parsed = JSON.parse(raw);
-            if (parsed.name?.toLowerCase() === userName) {
-              localStorage.setItem(k, JSON.stringify(profile));
+      // Find the correct profile key by scanning ALL localStorage keys
+      let profileKey = "";
+      let rawProfile = "";
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith("matika-profile-") && k !== "matika-profile") {
+          try {
+            const raw = localStorage.getItem(k);
+            if (raw) {
+              const parsed = JSON.parse(raw);
+              if (parsed.name?.toLowerCase() === users.find((u) => u.id === userId)?.name?.toLowerCase()
+                || k === `matika-profile-${userId}`) {
+                profileKey = k;
+                rawProfile = raw;
+                break;
+              }
             }
+          } catch {}
+        }
+      }
+
+      // Fallback: try the userId-based key
+      if (!profileKey) {
+        profileKey = `matika-profile-${userId}`;
+        rawProfile = localStorage.getItem(profileKey) || "";
+      }
+
+      try {
+        profile = rawProfile ? { ...getDefaultProfile(), ...JSON.parse(rawProfile) } : getDefaultProfile();
+      } catch {
+        profile = getDefaultProfile();
+      }
+
+      profile.isPremium = true;
+      profile.premiumActivatedAt = new Date().toISOString().split("T")[0];
+      profile.premiumExpiresAt = days >= 9999 ? null : new Date(Date.now() + days * 86400000).toISOString().split("T")[0];
+      profile.maxHearts = 99;
+      profile.hearts = 99;
+      profile.hintTokens = (profile.hintTokens || 0) + 10;
+
+      // Save to the found key
+      localStorage.setItem(profileKey, JSON.stringify(profile));
+
+      // Also scan and save to ALL matika-profile-* keys that match this user
+      const userName = users.find((u) => u.id === userId)?.name?.toLowerCase() || "";
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith("matika-profile-") && k !== "matika-profile" && k !== profileKey) {
+          try {
+            const raw = localStorage.getItem(k);
+            if (raw) {
+              const parsed = JSON.parse(raw);
+              if (parsed.name?.toLowerCase() === userName) {
+                localStorage.setItem(k, JSON.stringify(profile));
+              }
+            }
+          } catch {}
+        }
+      }
+
+      // Also save to fallback key (for users without matika_session)
+      const fallbackRaw = localStorage.getItem("matika-profile");
+      if (fallbackRaw) {
+        try {
+          const fallbackParsed = JSON.parse(fallbackRaw);
+          if (fallbackParsed.name?.toLowerCase() === userName) {
+            localStorage.setItem("matika-profile", JSON.stringify(profile));
           }
         } catch {}
       }
+
+      updateUserRegistry(userId, { isPremium: true });
+
+      const session = getAdminSession();
+      if (session) {
+        logAudit(session.email, session.name, "upgrade_premium", "user", userId,
+          { isPremium: false }, { isPremium: true, days });
+      }
+
+      // Update state directly so UI reflects immediately
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.id === userId ? { ...u, isPremium: true, profile: { ...u.profile!, ...profile } } : u
+        )
+      );
+
+      setUpgraded(userId);
+      setTimeout(() => setUpgraded(null), 3000);
+    } finally {
+      setUpgradingUser(null);
     }
-
-    // Also save to fallback key (for users without matika_session)
-    const fallbackRaw = localStorage.getItem("matika-profile");
-    if (fallbackRaw) {
-      try {
-        const fallbackParsed = JSON.parse(fallbackRaw);
-        if (fallbackParsed.name?.toLowerCase() === userName) {
-          localStorage.setItem("matika-profile", JSON.stringify(profile));
-        }
-      } catch {}
-    }
-
-    updateUserRegistry(userId, { isPremium: true });
-
-    const session = getAdminSession();
-    if (session) {
-      logAudit(session.email, session.name, "upgrade_premium", "user", userId,
-        { isPremium: false }, { isPremium: true, days });
-    }
-
-    // Update state directly so UI reflects immediately
-    setUsers((prev) =>
-      prev.map((u) =>
-        u.id === userId ? { ...u, isPremium: true, profile: { ...u.profile!, ...profile } } : u
-      )
-    );
-
-    setUpgraded(userId);
-    setTimeout(() => setUpgraded(null), 3000);
   }
 
-  function handleRemovePremium(userId: string) {
-    const profileKey = `matika-profile-${userId}`;
+  async function handleRemovePremium(userId: string) {
+    setRemovingPremium(userId);
     try {
-      const raw = localStorage.getItem(profileKey);
-      if (raw) {
-        const profile: UserProfile = { ...getDefaultProfile(), ...JSON.parse(raw) };
-        profile.isPremium = false;
-        profile.premiumExpiresAt = null;
-        profile.maxHearts = 5;
-        if (profile.hearts > 5) profile.hearts = 5;
-        localStorage.setItem(profileKey, JSON.stringify(profile));
-        saveProfileForKey(userId, profile);
+      const profileKey = `matika-profile-${userId}`;
+      try {
+        const raw = localStorage.getItem(profileKey);
+        if (raw) {
+          const profile: UserProfile = { ...getDefaultProfile(), ...JSON.parse(raw) };
+          profile.isPremium = false;
+          profile.premiumExpiresAt = null;
+          profile.maxHearts = 5;
+          if (profile.hearts > 5) profile.hearts = 5;
+          localStorage.setItem(profileKey, JSON.stringify(profile));
+          saveProfileForKey(userId, profile);
+        }
+      } catch {}
+
+      updateUserRegistry(userId, { isPremium: false });
+      const session = getAdminSession();
+      if (session) {
+        logAudit(session.email, session.name, "remove_premium", "user", userId,
+          { isPremium: true }, { isPremium: false });
       }
-    } catch {}
 
-    updateUserRegistry(userId, { isPremium: false });
-    const session = getAdminSession();
-    if (session) {
-      logAudit(session.email, session.name, "remove_premium", "user", userId,
-        { isPremium: true }, { isPremium: false });
+      // Update state directly so UI reflects immediately
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.id === userId ? { ...u, isPremium: false } : u
+        )
+      );
+    } finally {
+      setRemovingPremium(null);
     }
-
-    // Update state directly so UI reflects immediately
-    setUsers((prev) =>
-      prev.map((u) =>
-        u.id === userId ? { ...u, isPremium: false } : u
-      )
-    );
   }
 
   const filtered = users.filter((u) => {
@@ -349,8 +361,16 @@ export default function AdminUsersPage() {
                       </span>
                     ) : user.isPremium ? (
                       <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleRemovePremium(user.id); }}
-                        className="px-3 py-1.5 text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-950/30 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors flex items-center gap-1 cursor-pointer">
-                        <XCircle size={11} /> Cabut
+                        disabled={removingPremium === user.id}
+                        className="px-3 py-1.5 text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-950/30 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-40">
+                        {removingPremium === user.id ? (
+                          <span className="flex items-center gap-1">
+                            <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                            Menghapus...
+                          </span>
+                        ) : (
+                          <><XCircle size={11} /> Cabut</>
+                        )}
                       </button>
                     ) : (
                       <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setModalUser(user); }}
@@ -360,6 +380,7 @@ export default function AdminUsersPage() {
                     )}
 
                     <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setExpandedUser(isExpanded ? null : user.id); }}
+                      aria-label={isExpanded ? "Ciutkan" : "Perluas"}
                       className="p-1.5 text-[var(--fg-muted)] hover:text-[var(--fg)] rounded-lg transition-colors cursor-pointer">
                       {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                     </button>
@@ -444,8 +465,13 @@ export default function AdminUsersPage() {
 
               <div className="space-y-2">
                 <button onClick={() => { handleUpgrade(modalUser.id, 7); setModalUser(null); }}
-                  className="w-full px-4 py-3 rounded-xl bg-blue-50 dark:bg-blue-950/30 border-2 border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 font-bold text-sm flex items-center gap-3 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors cursor-pointer">
-                  <ArrowUp size={18} />
+                  disabled={upgradingUser === modalUser.id}
+                  className="w-full px-4 py-3 rounded-xl bg-blue-50 dark:bg-blue-950/30 border-2 border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 font-bold text-sm flex items-center gap-3 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors cursor-pointer disabled:opacity-40">
+                  {upgradingUser === modalUser.id ? (
+                    <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <ArrowUp size={18} />
+                  )}
                   <div className="text-left flex-1">
                     <p className="font-black">7 Hari</p>
                     <p className="text-[10px] opacity-70">Trial premium selama seminggu</p>
@@ -453,8 +479,13 @@ export default function AdminUsersPage() {
                 </button>
 
                 <button onClick={() => { handleUpgrade(modalUser.id, 30); setModalUser(null); }}
-                  className="w-full px-4 py-3 rounded-xl bg-yellow-50 dark:bg-yellow-950/30 border-2 border-yellow-200 dark:border-yellow-800 text-yellow-600 dark:text-yellow-400 font-bold text-sm flex items-center gap-3 hover:bg-yellow-100 dark:hover:bg-yellow-900/50 transition-colors cursor-pointer">
-                  <Crown size={18} />
+                  disabled={upgradingUser === modalUser.id}
+                  className="w-full px-4 py-3 rounded-xl bg-yellow-50 dark:bg-yellow-950/30 border-2 border-yellow-200 dark:border-yellow-800 text-yellow-600 dark:text-yellow-400 font-bold text-sm flex items-center gap-3 hover:bg-yellow-100 dark:hover:bg-yellow-900/50 transition-colors cursor-pointer disabled:opacity-40">
+                  {upgradingUser === modalUser.id ? (
+                    <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <Crown size={18} />
+                  )}
                   <div className="text-left flex-1">
                     <p className="font-black">30 Hari</p>
                     <p className="text-[10px] opacity-70">Premium selama sebulan</p>
@@ -462,8 +493,13 @@ export default function AdminUsersPage() {
                 </button>
 
                 <button onClick={() => { handleUpgrade(modalUser.id, 9999); setModalUser(null); }}
-                  className="w-full px-4 py-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border-2 border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 font-bold text-sm flex items-center gap-3 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors cursor-pointer">
-                  <Shield size={18} />
+                  disabled={upgradingUser === modalUser.id}
+                  className="w-full px-4 py-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border-2 border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 font-bold text-sm flex items-center gap-3 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors cursor-pointer disabled:opacity-40">
+                  {upgradingUser === modalUser.id ? (
+                    <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <Shield size={18} />
+                  )}
                   <div className="text-left flex-1">
                     <p className="font-black">Selamanya</p>
                     <p className="text-[10px] opacity-70">Premium permanen</p>

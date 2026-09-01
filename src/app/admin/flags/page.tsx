@@ -87,7 +87,7 @@ export default function AdminFlagsPage() {
                   <p className="text-sm font-bold text-[var(--duo-text)]">{flag.label}</p>
                   <p className="text-[10px] text-[var(--duo-text-muted)]">{flag.description}</p>
                 </div>
-                <button onClick={() => handleToggle(flag.key)} className="shrink-0 transition-transform hover:scale-110">
+                <button onClick={() => handleToggle(flag.key)} aria-label={flag.isEnabled ? "Nonaktifkan fitur" : "Aktifkan fitur"} className="shrink-0 transition-transform hover:scale-110">
                   {flag.isEnabled ? (
                     <ToggleRight size={36} className="text-green-500" fill="currentColor" />
                   ) : (

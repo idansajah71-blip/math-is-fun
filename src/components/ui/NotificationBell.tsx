@@ -64,7 +64,7 @@ export default function NotificationBell() {
 
   return (
     <div className="relative">
-      <button onClick={handleOpen}
+      <button onClick={handleOpen} aria-label="Notifikasi"
         className="relative p-2 rounded-xl hover:bg-[var(--duo-card)] transition-colors">
         <Bell size={18} className="text-[var(--duo-text-muted)]" />
         {count > 0 && (
@@ -84,11 +84,11 @@ export default function NotificationBell() {
                 <span className="text-sm font-black text-[var(--duo-text)]">Notifikasi</span>
                 <div className="flex items-center gap-2">
                   {count > 0 && (
-                    <button onClick={handleMarkAll} className="text-[10px] font-bold text-[var(--duo-green)] hover:underline">
+                    <button onClick={handleMarkAll} aria-label="Tandai semua sudah dibaca" className="text-[10px] font-bold text-[var(--duo-green)] hover:underline">
                       <CheckCheck size={14} />
                     </button>
                   )}
-                  <button onClick={() => setOpen(false)} className="text-[var(--duo-text-muted)] hover:text-[var(--duo-text)]">
+                  <button onClick={() => setOpen(false)} aria-label="Tutup" className="text-[var(--duo-text-muted)] hover:text-[var(--duo-text)]">
                     <X size={14} />
                   </button>
                 </div>

@@ -39,6 +39,8 @@ export default function RoomsPage() {
   const [tab, setTab] = useState<"my" | "create" | "join">("my");
   const [joinCode, setJoinCode] = useState("");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [joining, setJoining] = useState(false);
 
   const [form, setForm] = useState({
     type: "boss_battle" as EventType,
@@ -54,28 +56,38 @@ export default function RoomsPage() {
 
   useEffect(() => { refreshRooms(); }, [refreshRooms]);
 
-  function handleCreate() {
+  async function handleCreate() {
     if (!user) return;
-    const room = createRoom(user.id, user.name || "Player", {
-      type: form.type,
-      topics: form.topics.split(",").map((t) => t.trim()).filter(Boolean),
-      difficulty: form.difficulty,
-      questionsCount: form.questionsCount,
-    });
-    toast.success(`Room ${room.code} dibuat!`);
-    refreshRooms();
-    router.push(`/rooms/${room.code}`);
+    setCreating(true);
+    try {
+      const room = createRoom(user.id, user.name || "Player", {
+        type: form.type,
+        topics: form.topics.split(",").map((t) => t.trim()).filter(Boolean),
+        difficulty: form.difficulty,
+        questionsCount: form.questionsCount,
+      });
+      toast.success(`Room ${room.code} dibuat!`);
+      refreshRooms();
+      router.push(`/rooms/${room.code}`);
+    } finally {
+      setCreating(false);
+    }
   }
 
-  function handleJoin() {
+  async function handleJoin() {
     if (!user || !joinCode.trim()) return;
-    const result = joinRoom(joinCode.trim(), user.id, user.name || "Player");
-    if (result.error) {
-      toast.error(result.error);
-      return;
+    setJoining(true);
+    try {
+      const result = joinRoom(joinCode.trim(), user.id, user.name || "Player");
+      if (result.error) {
+        toast.error(result.error);
+        return;
+      }
+      toast.success("Berhasil join room!");
+      router.push(`/rooms/${joinCode.trim().toUpperCase()}`);
+    } finally {
+      setJoining(false);
     }
-    toast.success("Berhasil join room!");
-    router.push(`/rooms/${joinCode.trim().toUpperCase()}`);
   }
 
   function handleCopy(code: string) {
@@ -85,6 +97,7 @@ export default function RoomsPage() {
   }
 
   function handleDelete(code: string) {
+    if (!confirm("Yakin ingin menghapus room ini?")) return;
     deleteRoom(code);
     refreshRooms();
     toast.success("Room dihapus");
@@ -163,7 +176,7 @@ export default function RoomsPage() {
                               Buka
                             </button>
                             {room.hostId === user?.id && room.status === "waiting" && (
-                              <button onClick={() => handleDelete(room.code)}
+                              <button onClick={() => handleDelete(room.code)} aria-label="Hapus room"
                                 className="p-2 text-[var(--duo-text-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors">
                                 <Trash2 size={14} />
                               </button>
@@ -197,15 +210,15 @@ export default function RoomsPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Topik (koma)</label>
-                  <input type="text" value={form.topics} onChange={(e) => setForm({ ...form, topics: e.target.value })}
+                  <label htmlFor="room-topics" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Topik (koma)</label>
+                  <input id="room-topics" type="text" value={form.topics} onChange={(e) => setForm({ ...form, topics: e.target.value })}
                     className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-[var(--duo-green)]"
                     placeholder="aljabar, geometri" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Difficulty</label>
-                    <select value={form.difficulty} onChange={(e) => setForm({ ...form, difficulty: e.target.value as "easy" | "medium" | "hard" })}
+                    <label htmlFor="room-difficulty" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Difficulty</label>
+                    <select id="room-difficulty" value={form.difficulty} onChange={(e) => setForm({ ...form, difficulty: e.target.value as "easy" | "medium" | "hard" })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-[var(--duo-green)]">
                       <option value="easy">Easy</option>
                       <option value="medium">Medium</option>
@@ -213,14 +226,21 @@ export default function RoomsPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Jumlah Soal</label>
-                    <input type="number" value={form.questionsCount} onChange={(e) => setForm({ ...form, questionsCount: parseInt(e.target.value) || 10 })}
+                    <label htmlFor="room-questions-count" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Jumlah Soal</label>
+                    <input id="room-questions-count" type="number" value={form.questionsCount} onChange={(e) => setForm({ ...form, questionsCount: parseInt(e.target.value) || 10 })}
                       className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-[var(--duo-green)]" />
                   </div>
                 </div>
-                <button onClick={handleCreate}
-                  className="w-full px-6 py-3 bg-gradient-to-r from-[var(--duo-green)] to-emerald-500 text-white rounded-xl text-sm font-black shadow-lg hover:brightness-110 transition-all flex items-center justify-center gap-2">
-                  <Plus size={16} /> Buat Room
+                <button onClick={handleCreate} disabled={creating}
+                  className="w-full px-6 py-3 bg-gradient-to-r from-[var(--duo-green)] to-emerald-500 text-white rounded-xl text-sm font-black shadow-lg hover:brightness-110 transition-all flex items-center justify-center gap-2 disabled:opacity-40">
+                  {creating ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      Membuat...
+                    </span>
+                  ) : (
+                    <><Plus size={16} /> Buat Room</>
+                  )}
                 </button>
               </motion.div>
             )}
@@ -233,9 +253,16 @@ export default function RoomsPage() {
                 <input type="text" value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
                   className="w-full px-4 py-4 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-xl font-black text-center font-mono text-[var(--duo-text)] tracking-[0.3em] focus:outline-none focus:border-[var(--duo-green)] uppercase"
                   placeholder="XXXXXX" maxLength={6} />
-                <button onClick={handleJoin} disabled={joinCode.length < 6}
+                <button onClick={handleJoin} disabled={joining || joinCode.length < 6}
                   className="w-full px-6 py-3 bg-gradient-to-r from-[var(--duo-green)] to-emerald-500 text-white rounded-xl text-sm font-black shadow-lg hover:brightness-110 transition-all disabled:opacity-40 flex items-center justify-center gap-2">
-                  <LogIn size={16} /> Join Room
+                  {joining ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      Mengirim...
+                    </span>
+                  ) : (
+                    <><LogIn size={16} /> Join Room</>
+                  )}
                 </button>
               </motion.div>
             )}

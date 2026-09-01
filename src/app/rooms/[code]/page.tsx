@@ -125,7 +125,7 @@ export default function RoomLobbyPage({ params }: { params: Promise<{ code: stri
               <p className="text-xs font-bold text-[var(--duo-text-muted)] mb-1">Kode Room</p>
               <div className="flex items-center justify-center gap-2">
                 <span className="text-3xl font-black font-mono text-[var(--duo-green)] tracking-[0.2em]">{code}</span>
-                <button onClick={handleCopy} className="p-2 hover:bg-[var(--duo-bg)] rounded-lg transition-colors">
+                <button onClick={handleCopy} aria-label="Salin kode" className="p-2 hover:bg-[var(--duo-bg)] rounded-lg transition-colors">
                   {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} className="text-[var(--duo-text-muted)]" />}
                 </button>
               </div>

@@ -89,6 +89,7 @@ export default function AdminEventsPage() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<string | null>(null);
   const [step, setStep] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     name: "",
     type: "boss_battle" as EventData["type"],
@@ -125,39 +126,44 @@ export default function AdminEventsPage() {
     setStep(0);
   }
 
-  function handleSubmit() {
-    if (!form.name.trim()) return;
-    if (form.startDate && form.endDate && form.startDate > form.endDate) return;
-    if (form.questionsCount < 1) return;
-    if (form.lives < 1) return;
+  async function handleSubmit() {
+    setSubmitting(true);
+    try {
+      if (!form.name.trim()) return;
+      if (form.startDate && form.endDate && form.startDate > form.endDate) return;
+      if (form.questionsCount < 1) return;
+      if (form.lives < 1) return;
 
-    const now = new Date().toISOString();
-    const eventData: EventData = {
-      id: editing || `evt-${Date.now()}`,
-      name: form.name.trim(),
-      type: form.type,
-      description: form.description,
-      startDate: form.startDate,
-      endDate: form.endDate,
-      startTime: form.startTime,
-      endTime: form.endTime,
-      topics: form.topics.split(",").map((t) => t.trim()).filter(Boolean),
-      difficulty: form.difficulty,
-      questionsCount: form.questionsCount,
-      lives: form.lives,
-      rewards: { xp: form.xpReward, gems: form.gemsReward, badge: form.badgeReward || null },
-      maxParticipants: form.maxParticipants,
-      status: editing ? (events.find((e) => e.id === editing)?.status || (form.startDate ? "scheduled" : "draft")) : (form.startDate ? "scheduled" : "draft"),
-      createdBy: "admin@matika.com",
-      createdAt: editing ? (events.find((e) => e.id === editing)?.createdAt || now) : now,
-    };
+      const now = new Date().toISOString();
+      const eventData: EventData = {
+        id: editing || `evt-${Date.now()}`,
+        name: form.name.trim(),
+        type: form.type,
+        description: form.description,
+        startDate: form.startDate,
+        endDate: form.endDate,
+        startTime: form.startTime,
+        endTime: form.endTime,
+        topics: form.topics.split(",").map((t) => t.trim()).filter(Boolean),
+        difficulty: form.difficulty,
+        questionsCount: form.questionsCount,
+        lives: form.lives,
+        rewards: { xp: form.xpReward, gems: form.gemsReward, badge: form.badgeReward || null },
+        maxParticipants: form.maxParticipants,
+        status: editing ? (events.find((e) => e.id === editing)?.status || (form.startDate ? "scheduled" : "draft")) : (form.startDate ? "scheduled" : "draft"),
+        createdBy: "admin@matika.com",
+        createdAt: editing ? (events.find((e) => e.id === editing)?.createdAt || now) : now,
+      };
 
-    const updated = editing
-      ? events.map((e) => (e.id === editing ? eventData : e))
-      : [...events, eventData];
-    saveEvents(updated);
-    setEvents(updated);
-    resetForm();
+      const updated = editing
+        ? events.map((e) => (e.id === editing ? eventData : e))
+        : [...events, eventData];
+      saveEvents(updated);
+      setEvents(updated);
+      resetForm();
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function handleEdit(id: string) {
@@ -185,12 +191,14 @@ export default function AdminEventsPage() {
   }
 
   function handlePublish(id: string) {
+    if (!confirm("Yakin ingin mempublish event ini?")) return;
     const updated = events.map((e) => (e.id === id ? { ...e, status: "active" as const } : e));
     saveEvents(updated);
     setEvents(updated);
   }
 
   function handleEnd(id: string) {
+    if (!confirm("Yakin ingin mengakhiri event ini?")) return;
     const updated = events.map((e) => (e.id === id ? { ...e, status: "ended" as const } : e));
     saveEvents(updated);
     setEvents(updated);
@@ -247,7 +255,7 @@ export default function AdminEventsPage() {
             <div className="px-6 pt-5 pb-3 border-b border-[var(--border-subtle)]">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-black text-[var(--fg)]">{editing ? "Edit Event" : "Event Baru"}</h3>
-                <button onClick={resetForm} className="text-[var(--fg-muted)] hover:text-[var(--danger)] transition-colors text-lg leading-none">&times;</button>
+                <button onClick={resetForm} aria-label="Tutup" className="text-[var(--fg-muted)] hover:text-[var(--danger)] transition-colors text-lg leading-none">&times;</button>
               </div>
               <div className="flex items-center gap-1">
                 {["Info Dasar", "Jadwal", "Aturan Main", "Reward"].map((label, i) => (
@@ -268,8 +276,8 @@ export default function AdminEventsPage() {
               {step === 0 && (
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Nama Event *</label>
-                    <input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    <label htmlFor="event-name" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Nama Event *</label>
+                    <input id="event-name" type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
                       className={formInputClass} placeholder="Boss Battle: Aljabar" />
                   </div>
                   <div>
@@ -298,8 +306,8 @@ export default function AdminEventsPage() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Deskripsi</label>
-                    <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
+                    <label htmlFor="event-description" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Deskripsi</label>
+                    <textarea id="event-description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
                       className={`${formInputClass} h-20 resize-none`} placeholder="Deskripsi event..." />
                   </div>
                 </div>
@@ -309,23 +317,23 @@ export default function AdminEventsPage() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Tanggal Mulai</label>
-                      <input type="date" value={form.startDate} onChange={(e) => setForm({ ...form, startDate: e.target.value })}
+                      <label htmlFor="event-start-date" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Tanggal Mulai</label>
+                      <input id="event-start-date" type="date" value={form.startDate} onChange={(e) => setForm({ ...form, startDate: e.target.value })}
                         className={formInputClass} />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Tanggal Selesai</label>
-                      <input type="date" value={form.endDate} onChange={(e) => setForm({ ...form, endDate: e.target.value })}
+                      <label htmlFor="event-end-date" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Tanggal Selesai</label>
+                      <input id="event-end-date" type="date" value={form.endDate} onChange={(e) => setForm({ ...form, endDate: e.target.value })}
                         className={formInputClass} />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Jam Mulai</label>
-                      <input type="time" value={form.startTime} onChange={(e) => setForm({ ...form, startTime: e.target.value })}
+                      <label htmlFor="event-start-time" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Jam Mulai</label>
+                      <input id="event-start-time" type="time" value={form.startTime} onChange={(e) => setForm({ ...form, startTime: e.target.value })}
                         className={formInputClass} />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Jam Selesai</label>
-                      <input type="time" value={form.endTime} onChange={(e) => setForm({ ...form, endTime: e.target.value })}
+                      <label htmlFor="event-end-time" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Jam Selesai</label>
+                      <input id="event-end-time" type="time" value={form.endTime} onChange={(e) => setForm({ ...form, endTime: e.target.value })}
                         className={formInputClass} />
                     </div>
                   </div>
@@ -340,8 +348,8 @@ export default function AdminEventsPage() {
               {step === 2 && (
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Topik (pisah koma)</label>
-                    <input type="text" value={form.topics} onChange={(e) => setForm({ ...form, topics: e.target.value })}
+                    <label htmlFor="event-topics" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Topik (pisah koma)</label>
+                    <input id="event-topics" type="text" value={form.topics} onChange={(e) => setForm({ ...form, topics: e.target.value })}
                       className={formInputClass} placeholder="aljabar, geometri" />
                   </div>
                   <div>
@@ -364,13 +372,13 @@ export default function AdminEventsPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Jumlah Soal</label>
-                      <input type="number" value={form.questionsCount} onChange={(e) => setForm({ ...form, questionsCount: parseInt(e.target.value) || 10 })}
+                      <label htmlFor="event-questions-count" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Jumlah Soal</label>
+                      <input id="event-questions-count" type="number" value={form.questionsCount} onChange={(e) => setForm({ ...form, questionsCount: parseInt(e.target.value) || 10 })}
                         className={formInputClass} min={1} max={50} />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Nyawa</label>
-                      <input type="number" value={form.lives} onChange={(e) => setForm({ ...form, lives: parseInt(e.target.value) || 3 })}
+                      <label htmlFor="event-lives" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Nyawa</label>
+                      <input id="event-lives" type="number" value={form.lives} onChange={(e) => setForm({ ...form, lives: parseInt(e.target.value) || 3 })}
                         className={formInputClass} min={1} max={10} />
                     </div>
                   </div>
@@ -381,23 +389,23 @@ export default function AdminEventsPage() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">XP Reward</label>
-                      <input type="number" value={form.xpReward} onChange={(e) => setForm({ ...form, xpReward: parseInt(e.target.value) || 100 })}
+                      <label htmlFor="event-xp-reward" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">XP Reward</label>
+                      <input id="event-xp-reward" type="number" value={form.xpReward} onChange={(e) => setForm({ ...form, xpReward: parseInt(e.target.value) || 100 })}
                         className={formInputClass} min={0} />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Gems Reward</label>
-                      <input type="number" value={form.gemsReward} onChange={(e) => setForm({ ...form, gemsReward: parseInt(e.target.value) || 50 })}
+                      <label htmlFor="event-gems-reward" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Gems Reward</label>
+                      <input id="event-gems-reward" type="number" value={form.gemsReward} onChange={(e) => setForm({ ...form, gemsReward: parseInt(e.target.value) || 50 })}
                         className={formInputClass} min={0} />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Badge (opsional)</label>
-                      <input type="text" value={form.badgeReward} onChange={(e) => setForm({ ...form, badgeReward: e.target.value })}
+                      <label htmlFor="event-badge-reward" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Badge (opsional)</label>
+                      <input id="event-badge-reward" type="text" value={form.badgeReward} onChange={(e) => setForm({ ...form, badgeReward: e.target.value })}
                         className={formInputClass} placeholder="boss-slayer" />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Max Peserta</label>
-                      <input type="number" value={form.maxParticipants} onChange={(e) => setForm({ ...form, maxParticipants: parseInt(e.target.value) || 100 })}
+                      <label htmlFor="event-max-participants" className="text-xs font-bold text-[var(--fg-muted)] block mb-1">Max Peserta</label>
+                      <input id="event-max-participants" type="number" value={form.maxParticipants} onChange={(e) => setForm({ ...form, maxParticipants: parseInt(e.target.value) || 100 })}
                         className={formInputClass} min={1} />
                     </div>
                   </div>
@@ -430,9 +438,16 @@ export default function AdminEventsPage() {
                       Selanjutnya <ChevronRight size={14} />
                     </button>
                   ) : (
-                    <button onClick={handleSubmit} disabled={!form.name.trim() || (form.startDate && form.endDate && form.startDate > form.endDate) || form.questionsCount < 1 || form.lives < 1}
+                    <button onClick={handleSubmit} disabled={submitting || !form.name.trim() || (form.startDate && form.endDate && form.startDate > form.endDate) || form.questionsCount < 1 || form.lives < 1}
                       className="px-6 py-2.5 bg-gradient-to-r from-[var(--purple)] to-[var(--pink)] text-white rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all disabled:opacity-40 flex items-center gap-2">
-                      <Check size={14} /> {editing ? "Simpan Perubahan" : "Buat Event"}
+                      {submitting ? (
+                        <span className="flex items-center gap-2">
+                          <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                          Menyimpan...
+                        </span>
+                      ) : (
+                        <><Check size={14} /> {editing ? "Simpan Perubahan" : "Buat Event"}</>
+                      )}
                     </button>
                   )}
                 </div>
@@ -492,11 +507,11 @@ export default function AdminEventsPage() {
                         Akhiri
                       </button>
                     )}
-                    <button onClick={() => handleEdit(evt.id)}
+                    <button onClick={() => handleEdit(evt.id)} aria-label="Edit"
                       className="p-2 text-[var(--fg-muted)] hover:text-[var(--info)] hover:bg-[var(--info-bg)] rounded-lg transition-colors">
                       <Edit3 size={14} />
                     </button>
-                    <button onClick={() => handleDelete(evt.id)}
+                    <button onClick={() => handleDelete(evt.id)} aria-label="Hapus"
                       className="p-2 text-[var(--fg-muted)] hover:text-[var(--danger)] hover:bg-[var(--danger-bg)] rounded-lg transition-colors">
                       <Trash2 size={14} />
                     </button>

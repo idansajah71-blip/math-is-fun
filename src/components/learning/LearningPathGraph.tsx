@@ -111,13 +111,13 @@ export default function LearningPathGraph({ profile }: LearningPathGraphProps) {
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <button onClick={() => setZoom((z) => Math.min(z + 0.1, 2))} className="p-1.5 rounded-lg bg-white dark:bg-[var(--duo-card)] border border-[var(--duo-border)] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          <button onClick={() => setZoom((z) => Math.min(z + 0.1, 2))} aria-label="Perbesar" className="p-1.5 rounded-lg bg-white dark:bg-[var(--duo-card)] border border-[var(--duo-border)] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
             <ZoomIn size={14} className="text-[var(--duo-text-muted)]" />
           </button>
-          <button onClick={() => setZoom((z) => Math.max(z - 0.1, 0.3))} className="p-1.5 rounded-lg bg-white dark:bg-[var(--duo-card)] border border-[var(--duo-border)] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          <button onClick={() => setZoom((z) => Math.max(z - 0.1, 0.3))} aria-label="Perkecil" className="p-1.5 rounded-lg bg-white dark:bg-[var(--duo-card)] border border-[var(--duo-border)] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
             <ZoomOut size={14} className="text-[var(--duo-text-muted)]" />
           </button>
-          <button onClick={resetView} className="p-1.5 rounded-lg bg-white dark:bg-[var(--duo-card)] border border-[var(--duo-border)] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+          <button onClick={resetView} aria-label="Atur ulang tampilan" className="p-1.5 rounded-lg bg-white dark:bg-[var(--duo-card)] border border-[var(--duo-border)] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
             <RotateCcw size={14} className="text-[var(--duo-text-muted)]" />
           </button>
         </div>

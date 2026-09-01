@@ -32,6 +32,7 @@ export default function AdminAnnouncementsPage() {
   const [items, setItems] = useState<Announcement[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({ title: "", body: "", audience: "all" as Announcement["audience"], isActive: true });
 
   const load = useCallback(() => { setItems(getAnnouncements()); }, []);
@@ -43,28 +44,33 @@ export default function AdminAnnouncementsPage() {
     setShowForm(false);
   }
 
-  function handleSubmit() {
-    const session = getAdminSession();
-    const data: Announcement = {
-      id: editing || `ann-${Date.now()}`,
-      title: form.title,
-      body: form.body,
-      audience: form.audience,
-      isActive: form.isActive,
-      createdBy: session?.email || "admin",
-      createdAt: editing ? (items.find((a) => a.id === editing)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
-    };
+  async function handleSubmit() {
+    setSubmitting(true);
+    try {
+      const session = getAdminSession();
+      const data: Announcement = {
+        id: editing || `ann-${Date.now()}`,
+        title: form.title,
+        body: form.body,
+        audience: form.audience,
+        isActive: form.isActive,
+        createdBy: session?.email || "admin",
+        createdAt: editing ? (items.find((a) => a.id === editing)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
+      };
 
-    let updated: Announcement[];
-    if (editing) {
-      updated = items.map((a) => (a.id === editing ? data : a));
-    } else {
-      updated = [...items, data];
+      let updated: Announcement[];
+      if (editing) {
+        updated = items.map((a) => (a.id === editing ? data : a));
+      } else {
+        updated = [...items, data];
+      }
+      saveAnnouncements(updated);
+      setItems(updated);
+      if (session) logAudit(session.email, session.name, editing ? "update_announcement" : "create_announcement", "announcement", data.id, null, data);
+      resetForm();
+    } finally {
+      setSubmitting(false);
     }
-    saveAnnouncements(updated);
-    setItems(updated);
-    if (session) logAudit(session.email, session.name, editing ? "update_announcement" : "create_announcement", "announcement", data.id, null, data);
-    resetForm();
   }
 
   function handleEdit(id: string) {
@@ -121,24 +127,24 @@ export default function AdminAnnouncementsPage() {
             className="bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-pink-200 dark:border-pink-800 p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-black text-[var(--duo-text)]">{editing ? "Edit Pengumuman" : "Pengumuman Baru"}</h3>
-              <button onClick={resetForm} className="p-1 text-[var(--duo-text-muted)] hover:text-red-500"><X size={18} /></button>
+              <button onClick={resetForm} aria-label="Tutup" className="p-1 text-[var(--duo-text-muted)] hover:text-red-500"><X size={18} /></button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
-                <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Judul *</label>
-                <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
+                <label htmlFor="announcement-title" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Judul *</label>
+                <input id="announcement-title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
                   className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-pink-500"
                   placeholder="Maintenance Notice" />
               </div>
               <div className="md:col-span-2">
-                <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Isi Pengumuman *</label>
-                <textarea value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })}
+                <label htmlFor="announcement-body" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Isi Pengumuman *</label>
+                <textarea id="announcement-body" value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })}
                   className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-pink-500 h-24 resize-none"
                   placeholder="Isi pengumuman..." />
               </div>
               <div>
-                <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Target Audience</label>
-                <select value={form.audience} onChange={(e) => setForm({ ...form, audience: e.target.value as Announcement["audience"] })}
+                <label htmlFor="announcement-audience" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Target Audience</label>
+                <select id="announcement-audience" value={form.audience} onChange={(e) => setForm({ ...form, audience: e.target.value as Announcement["audience"] })}
                   className="w-full px-4 py-2.5 bg-[var(--duo-bg)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] focus:outline-none focus:border-pink-500">
                   <option value="all">Semua User</option>
                   <option value="premium">Premium Saja</option>
@@ -146,8 +152,8 @@ export default function AdminAnnouncementsPage() {
                 </select>
               </div>
               <div className="flex items-center gap-3 pt-6">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" checked={form.isActive}
+                <label htmlFor="announcement-active" className="flex items-center gap-2 cursor-pointer">
+                  <input id="announcement-active" type="checkbox" checked={form.isActive}
                     onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
                     className="w-4 h-4 rounded" />
                   <span className="text-sm font-bold text-[var(--duo-text)]">Aktif</span>
@@ -156,9 +162,16 @@ export default function AdminAnnouncementsPage() {
             </div>
             <div className="flex gap-3 pt-2">
               <button onClick={resetForm} className="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-[var(--duo-text)] rounded-xl text-sm font-bold">Batal</button>
-              <button onClick={handleSubmit} disabled={!form.title || !form.body}
+              <button onClick={handleSubmit} disabled={submitting || !form.title || !form.body}
                 className="px-6 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl text-sm font-bold shadow-lg hover:brightness-110 transition-all disabled:opacity-40 flex items-center gap-2">
-                <Save size={14} /> {editing ? "Simpan" : "Buat"}
+                {submitting ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                    Menyimpan...
+                  </span>
+                ) : (
+                  <><Save size={14} /> {editing ? "Simpan" : "Buat"}</>
+                )}
               </button>
             </div>
           </motion.div>
@@ -187,15 +200,15 @@ export default function AdminAnnouncementsPage() {
                 <p className="text-[10px] text-[var(--duo-text-muted)] mt-1">oleh {a.createdBy} · {new Date(a.createdAt).toLocaleDateString("id-ID")}</p>
               </div>
               <div className="flex items-center gap-1 shrink-0">
-                <button onClick={() => handleToggle(a.id)}
+                <button onClick={() => handleToggle(a.id)} aria-label="Toggle publikasi"
                   className="p-2 text-[var(--duo-text-muted)] hover:text-blue-500 rounded-lg transition-colors">
                   {a.isActive ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
-                <button onClick={() => handleEdit(a.id)}
+                <button onClick={() => handleEdit(a.id)} aria-label="Edit"
                   className="p-2 text-[var(--duo-text-muted)] hover:text-blue-500 rounded-lg transition-colors">
                   <Edit3 size={14} />
                 </button>
-                <button onClick={() => handleDelete(a.id)}
+                <button onClick={() => handleDelete(a.id)} aria-label="Hapus"
                   className="p-2 text-[var(--duo-text-muted)] hover:text-red-500 rounded-lg transition-colors">
                   <Trash2 size={14} />
                 </button>

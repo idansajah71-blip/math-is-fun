@@ -33,7 +33,7 @@ export default function AdminTopbar() {
 
       <div className="flex items-center gap-2">
         {/* Notification Bell */}
-        <button className="relative w-9 h-9 rounded-xl flex items-center justify-center text-[var(--fg-muted)] hover:bg-[var(--primary-bg)] hover:text-[var(--primary)] transition-all">
+        <button aria-label="Notifikasi" className="relative w-9 h-9 rounded-xl flex items-center justify-center text-[var(--fg-muted)] hover:bg-[var(--primary-bg)] hover:text-[var(--primary)] transition-all">
           <Bell size={18} />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--danger)] rounded-full ring-2 ring-[var(--surface)]" />
         </button>

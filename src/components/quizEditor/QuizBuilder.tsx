@@ -78,8 +78,9 @@ export default function QuizBuilder({ userId, userName, onCreated }: QuizBuilder
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
           {/* Title */}
           <div>
-            <label className="text-xs font-bold text-[var(--duo-text-muted)] mb-1 block">Judul Quiz</label>
+            <label htmlFor="quiz-title" className="text-xs font-bold text-[var(--duo-text-muted)] mb-1 block">Judul Quiz</label>
             <input
+              id="quiz-title"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -91,8 +92,9 @@ export default function QuizBuilder({ userId, userName, onCreated }: QuizBuilder
 
           {/* Description */}
           <div>
-            <label className="text-xs font-bold text-[var(--duo-text-muted)] mb-1 block">Deskripsi</label>
+            <label htmlFor="quiz-description" className="text-xs font-bold text-[var(--duo-text-muted)] mb-1 block">Deskripsi</label>
             <input
+              id="quiz-description"
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}

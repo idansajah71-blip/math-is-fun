@@ -120,8 +120,8 @@ export default function PracticePage() {
             <div className="bg-[var(--duo-card)] rounded-xl border border-[var(--duo-border)] p-6 space-y-5">
               {/* Topic */}
               <div>
-                <label className="text-xs font-semibold text-[var(--duo-text-muted)] mb-2 block">Topik</label>
-                <select value={selectedTopic} onChange={(e) => setSelectedTopic(e.target.value)}
+                <label htmlFor="practice-topic" className="text-xs font-semibold text-[var(--duo-text-muted)] mb-2 block">Topik</label>
+                <select id="practice-topic" value={selectedTopic} onChange={(e) => setSelectedTopic(e.target.value)}
                   className="w-full px-3 py-2 rounded-lg border border-[var(--duo-border)] text-sm focus:outline-none focus:border-[var(--primary)]">
                   <option value="all">Semua Topik (Campur)</option>
                   {topics.map((t) => <option key={t.slug} value={t.slug}>{t.title}</option>)}

@@ -295,8 +295,9 @@ export default function PomodoroTimer() {
               </div>
               <div className="space-y-3 flex-1">
                 <div>
-                  <label className="text-[10px] font-bold text-[var(--duo-text-muted)]">Fokus (menit)</label>
+                  <label htmlFor="pomodoro-work" className="text-[10px] font-bold text-[var(--duo-text-muted)]">Fokus (menit)</label>
                   <input
+                    id="pomodoro-work"
                     type="number"
                     min={15}
                     max={60}
@@ -306,8 +307,9 @@ export default function PomodoroTimer() {
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-[var(--duo-text-muted)]">Istirahat (menit)</label>
+                  <label htmlFor="pomodoro-break" className="text-[10px] font-bold text-[var(--duo-text-muted)]">Istirahat (menit)</label>
                   <input
+                    id="pomodoro-break"
                     type="number"
                     min={3}
                     max={15}
@@ -317,8 +319,9 @@ export default function PomodoroTimer() {
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-[var(--duo-text-muted)]">Istirahat Panjang (menit)</label>
+                  <label htmlFor="pomodoro-long-break" className="text-[10px] font-bold text-[var(--duo-text-muted)]">Istirahat Panjang (menit)</label>
                   <input
+                    id="pomodoro-long-break"
                     type="number"
                     min={10}
                     max={30}

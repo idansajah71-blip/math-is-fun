@@ -141,11 +141,12 @@ export default function AdminDashboardPage() {
         <div className="space-y-4">
           {/* Daily Reward Message */}
           <div>
-            <label className="text-xs font-bold text-[var(--fg-muted)] uppercase tracking-wider block mb-1.5">
+            <label htmlFor="daily-reward-message" className="text-xs font-bold text-[var(--fg-muted)] uppercase tracking-wider block mb-1.5">
               Daily Reward — multiplier text (bawah jalur hadiah)
             </label>
             <div className="flex gap-2">
               <input
+                id="daily-reward-message"
                 type="text"
                 value={rewardMsg}
                 onChange={(e) => setRewardMsg(e.target.value)}

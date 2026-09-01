@@ -61,6 +61,7 @@ export default function FriendsPage() {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [addName, setAddName] = useState("");
   const [addError, setAddError] = useState("");
+  const [adding, setAdding] = useState(false);
   const [activeTab, setActiveTab] = useState<"friends" | "challenges">("friends");
   const [showChallengeModal, setShowChallengeModal] = useState<string | null>(null);
   const [challengeTopic, setChallengeTopic] = useState("");
@@ -97,36 +98,41 @@ export default function FriendsPage() {
     return null;
   }
 
-  function addFriend() {
+  async function addFriend() {
     const name = addName.trim();
     if (!name) return;
-    setAddError("");
-    if (friends.some(f => f.name.toLowerCase() === name.toLowerCase())) {
-      setAddError("Sudah jadi teman!");
-      return;
-    }
-    if (profile && name.toLowerCase() === profile.name.toLowerCase()) {
-      setAddError("Gak bisa tambah diri sendiri!");
-      return;
-    }
+    setAdding(true);
+    try {
+      setAddError("");
+      if (friends.some(f => f.name.toLowerCase() === name.toLowerCase())) {
+        setAddError("Sudah jadi teman!");
+        return;
+      }
+      if (profile && name.toLowerCase() === profile.name.toLowerCase()) {
+        setAddError("Gak bisa tambah diri sendiri!");
+        return;
+      }
 
-    const found = findUserByName(name);
-    const newFriend: Friend = {
-      id: Date.now().toString(),
-      userId: found?.userId,
-      name,
-      xp: found?.profile.xp ?? 0,
-      level: found?.profile.level ?? 1,
-      streak: found?.profile.streak ?? 0,
-      addedAt: new Date().toISOString().split("T")[0],
-    };
+      const found = findUserByName(name);
+      const newFriend: Friend = {
+        id: Date.now().toString(),
+        userId: found?.userId,
+        name,
+        xp: found?.profile.xp ?? 0,
+        level: found?.profile.level ?? 1,
+        streak: found?.profile.streak ?? 0,
+        addedAt: new Date().toISOString().split("T")[0],
+      };
 
-    const updated = [...friends, newFriend];
-    saveFriends(updated);
-    setFriends(updated);
-    setAddName("");
-    if (!found) {
-      setAddError("User tidak ditemukan. Mereka belum daftar.");
+      const updated = [...friends, newFriend];
+      saveFriends(updated);
+      setFriends(updated);
+      setAddName("");
+      if (!found) {
+        setAddError("User tidak ditemukan. Mereka belum daftar.");
+      }
+    } finally {
+      setAdding(false);
     }
   }
 
@@ -144,6 +150,7 @@ export default function FriendsPage() {
   }
 
   function removeFriend(id: string) {
+    if (!confirm("Yakin ingin menghapus teman ini?")) return;
     const updated = friends.filter(f => f.id !== id);
     saveFriends(updated);
     setFriends(updated);
@@ -257,10 +264,16 @@ export default function FriendsPage() {
                   className="flex-1 px-4 py-2.5 bg-white dark:bg-[var(--duo-card)] border-2 border-[var(--duo-border)] rounded-xl text-sm font-bold text-[var(--duo-text)] placeholder:text-[var(--duo-text-muted)] focus:outline-none focus:border-[var(--duo-green)]"
                 />
                 <button onClick={addFriend}
-                  disabled={!addName.trim()}
+                  disabled={adding || !addName.trim()}
                   className="px-4 py-2.5 bg-[var(--duo-green)] text-white rounded-xl text-sm font-bold shadow-[0_2px_0_var(--duo-green-dark)] hover:brightness-110 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2">
-                  <UserPlus size={14} />
-                  Tambah
+                  {adding ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      Mengirim...
+                    </span>
+                  ) : (
+                    <><UserPlus size={14} /> Tambah</>
+                  )}
                 </button>
               </div>
               {addError && (
@@ -318,7 +331,7 @@ export default function FriendsPage() {
                           <Swords size={12} />
                           Challenge
                         </button>
-                        <button onClick={() => removeFriend(friend.id)}
+                        <button onClick={() => removeFriend(friend.id)} aria-label="Hapus teman"
                           className="p-1.5 text-[var(--duo-text-muted)] hover:text-red-500 rounded-lg transition-colors">
                           <X size={14} />
                         </button>
@@ -408,8 +421,9 @@ export default function FriendsPage() {
             <p className="text-xs text-[var(--duo-text-muted)] mb-3">
               Ke: <span className="font-bold text-[var(--duo-text)]">{friends.find(f => f.id === showChallengeModal)?.name}</span>
             </p>
-            <label className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Topik (opsional)</label>
+            <label htmlFor="challenge-topic" className="text-xs font-bold text-[var(--duo-text-muted)] block mb-1">Topik (opsional)</label>
             <input
+              id="challenge-topic"
               type="text"
               value={challengeTopic}
               onChange={(e) => setChallengeTopic(e.target.value)}

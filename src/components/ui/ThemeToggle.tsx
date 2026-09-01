@@ -10,6 +10,7 @@ export default function ThemeToggle() {
   return (
     <motion.button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      aria-label="Ganti tema"
       className="relative w-14 h-8 rounded-full bg-gray-200 dark:bg-gray-700 p-1 transition-colors duration-300"
       whileTap={{ scale: 0.95 }}
     >
