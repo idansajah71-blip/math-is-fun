@@ -613,6 +613,24 @@ function HomeContent() {
     return () => clearTimeout(timer);
   }, [mounted]);
 
+  // Safety: force mounted after 3s even if init useEffect has issues
+  useEffect(() => {
+    const safety = setTimeout(() => {
+      setMounted((prev) => {
+        if (!prev) console.warn("[Matika] safety timer fired — forcing mounted");
+        return true;
+      });
+      setProfile((prev) => {
+        if (!prev) {
+          console.warn("[Matika] safety timer: profile was null, loading default");
+          try { return getProfile(); } catch { return getDefaultProfile(); }
+        }
+        return prev;
+      });
+    }, 3000);
+    return () => clearTimeout(safety);
+  }, []);
+
   const checkDailyReward = (prof: UserProfile) => {
     const today = getLocalDateStr();
     if (prof.dailyRewardClaimed !== today) {
