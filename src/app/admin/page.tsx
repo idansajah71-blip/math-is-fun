@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { getAllRegistryUsers, getRegistryStats } from "@/lib/admin/registry";
+import { getRegistryStats } from "@/lib/admin/registry";
 import { getAllUserProfiles } from "@/lib/gamification";
 import { getContentStats, getAllQuestions, getAllTopics } from "@/lib/admin/content";
 import { getAuditStats } from "@/lib/admin/audit";
@@ -48,7 +48,6 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     // Registry stats
-    const registry = getAllRegistryUsers();
     const profiles = getAllUserProfiles();
     const reg = getRegistryStats();
     setRegStats(reg);

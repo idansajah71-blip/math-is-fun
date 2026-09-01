@@ -379,21 +379,20 @@ function regenerateHearts(profile: UserProfile) {
 export function addXp(amount: number): UserProfile {
   const profile = getProfile();
   const oldLevel = profile.level;
-  const xpGain = isPremiumActive() ? amount * 2 : amount;
-  profile.xp += xpGain;
+  profile.xp += amount;
   profile.level = getLevelForXp(profile.xp);
 
   // Track weekly XP (0=Senin...6=Minggu)
   const today = (new Date().getDay() + 6) % 7;
-  profile.weeklyXp[today] = (profile.weeklyXp[today] || 0) + xpGain;
+  profile.weeklyXp[today] = (profile.weeklyXp[today] || 0) + amount;
 
   // Track daily XP history for heatmap
   const todayStr = getLocalDateStr();
-  profile.dailyXpHistory[todayStr] = (profile.dailyXpHistory[todayStr] || 0) + xpGain;
+  profile.dailyXpHistory[todayStr] = (profile.dailyXpHistory[todayStr] || 0) + amount;
 
   // Track daily XP log for monthly chart
   if (!profile.dailyXpLog) profile.dailyXpLog = {};
-  profile.dailyXpLog[todayStr] = (profile.dailyXpLog[todayStr] || 0) + xpGain;
+  profile.dailyXpLog[todayStr] = (profile.dailyXpLog[todayStr] || 0) + amount;
 
   // Track hourly activity for study analytics
   if (!profile.hourlyActivity) profile.hourlyActivity = {};
@@ -406,18 +405,18 @@ export function addXp(amount: number): UserProfile {
   }
 
   checkBadges(profile);
-  saveProfile(profile);
-
-  // Notify listeners (heatmap, charts, etc.) that XP changed
-  if (typeof window !== "undefined") {
-    window.dispatchEvent(new Event("xp-updated"));
-  }
 
   if (profile.level > oldLevel) {
     // Level up! Award gems + update lastSeenLevel
     profile.gems += 25;
     profile.lastSeenLevel = profile.level;
-    saveProfile(profile);
+  }
+
+  saveProfile(profile);
+
+  // Notify listeners (heatmap, charts, etc.) that XP changed
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("xp-updated"));
   }
 
   return profile;

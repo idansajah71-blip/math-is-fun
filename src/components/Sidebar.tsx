@@ -207,7 +207,7 @@ function SidebarInner({
         aria-label="Main navigation"
       >
         {NAV.filter((item) => !item.hidden).map((item) => {
-          const active = pathname === item.href;
+          const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
           const Icon = item.icon;
           const accentColor = NAV_COLORS[item.href] || "var(--primary)";
 
@@ -292,6 +292,14 @@ export default function Sidebar() {
 
   useEffect(() => {
     setProfile(getProfile());
+
+    const refreshProfile = () => setProfile(getProfile());
+    window.addEventListener("xp-updated", refreshProfile);
+    window.addEventListener("storage", refreshProfile);
+    return () => {
+      window.removeEventListener("xp-updated", refreshProfile);
+      window.removeEventListener("storage", refreshProfile);
+    };
   }, []);
 
   useEffect(() => {
@@ -357,7 +365,7 @@ export default function Sidebar() {
       >
         <div className="flex items-stretch justify-around h-14">
           {NAV.slice(0, 5).map((item) => {
-            const active = pathname === item.href;
+            const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             const Icon = item.icon;
             const accentColor = NAV_COLORS[item.href] || "var(--primary)";
 

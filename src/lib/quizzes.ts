@@ -664,18 +664,6 @@ export const quizzes: QuizQuestion[] = [
   // ==================== TAMBAHAN ====================
   // SMP - SPLDV
   {
-    id: "q-spldv-1",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
-    question: "Penyelesaian x+y=10 dan x-y=2 adalah...",
-    options: ["x=6, y=4", "x=5, y=5", "x=8, y=2", "x=7, y=3"],
-    correctIndex: 0,
-    explanation: "Jumlahkan: 2x=12 → x=6, maka y=4",
-    alternatives: ["x=6, y=4"],
-    approachPatterns: [
-      { match: "x=4, y=6", feedback: "x dan y-nya tertukar. Coba substitusi ulang: kalau x=4, y=6 maka 4+6=10 (benar), tapi 4-6=-2 (salah).", credit: 0.3 },
-    ],
-  },
-  {
     id: "q-spldv-2",
     topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
     question: "Jika 2x+y=7 dan x-y=2, maka x=...",
@@ -789,7 +777,7 @@ export const quizzes: QuizQuestion[] = [
     question: "Gradien garis singgung kurva y=x² di x=3 adalah...",
     options: ["6", "9", "3", "12"],
     correctIndex: 0,
-    explanation: "f'(x)=2x, f'(2)=6",
+    explanation: "f'(x)=2x, f'(3)=2(3)=6",
     alternatives: ["6"],
   },
 

@@ -263,6 +263,8 @@ export default function EventPlay({ event, userId, onComplete }: EventPlayProps)
 
           if (currentDay >= totalDays) {
             setTimeout(() => {
+              if (completedRef.current) return;
+              completedRef.current = true;
               setAllComplete(true);
               onComplete(newTotal, true);
             }, 1200);

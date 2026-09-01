@@ -61,6 +61,23 @@ export default function LessonClient({ topic }: LessonClientProps) {
   const [lives, setLives] = useState(profileRef.current.hearts);
   const [score, setScore] = useState(0);
   const scoreRef = useRef(0);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => {
+      timersRef.current.forEach((id) => clearTimeout(id));
+      timersRef.current = [];
+    };
+  }, []);
   const [currentQ, setCurrentQ] = useState(0);
   const [showXp, setShowXp] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -122,13 +139,13 @@ export default function LessonClient({ topic }: LessonClientProps) {
     }
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [step, currentQ, questions, answered]);
+  }, [step, currentQ, questions, answered, handleNextQuestion]);
 
   const showComboToast = (comboValue: number) => {
     if (comboValue >= 3 && comboValue % 3 === 0) {
       const id = Date.now();
       setComboToasts((prev) => [...prev, { id, value: comboValue }]);
-      setTimeout(() => {
+      scheduleTimer(() => {
         setComboToasts((prev) => prev.filter((t) => t.id !== id));
       }, 1500);
     }
@@ -147,7 +164,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
     setLastAnswerCorrect(true);
     setQuestionAnimated("correct");
     setAnswered(true);
-    setTimeout(() => setQuestionAnimated(null), 600);
+    scheduleTimer(() => setQuestionAnimated(null), 600);
   }, []);
 
   const handleWrong = useCallback(() => {
@@ -155,12 +172,12 @@ export default function LessonClient({ topic }: LessonClientProps) {
     trackWrongAnswer(topic.slug);
     updateMastery(topic.slug, false);
     setBreaking(true);
-    setTimeout(() => setBreaking(false), 500);
+    scheduleTimer(() => setBreaking(false), 500);
     setCombo(0);
     setLastAnswerCorrect(false);
     setQuestionAnimated("wrong");
     setAnswered(true);
-    setTimeout(() => setQuestionAnimated(null), 600);
+    scheduleTimer(() => setQuestionAnimated(null), 600);
 
     const q = questions[currentQ];
     if (q) {
@@ -179,7 +196,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
     setLives((l) => {
       if (l <= 1) {
         setOutOfHearts(true);
-        setTimeout(() => finishLesson(), 700);
+        scheduleTimer(() => finishLesson(), 700);
         return 0;
       }
       return l - 1;
@@ -193,7 +210,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
     setLastAnswerCorrect(false);
     setQuestionAnimated("correct");
     setAnswered(true);
-    setTimeout(() => setQuestionAnimated(null), 600);
+    scheduleTimer(() => setQuestionAnimated(null), 600);
   }, [topic.slug]);
 
   const checkNewBadges = useCallback((oldBadges: string[], newBadges: string[]) => {
@@ -206,7 +223,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
       newBadgeData.sort((a, b) => (rarityOrder[a.rarity] ?? 3) - (rarityOrder[b.rarity] ?? 3));
       setUnlockedBadge(newBadgeData[0]);
       setBadgeQueue(newBadgeData.slice(1));
-      setTimeout(() => setShowBadgeUnlock(true), 2000);
+      scheduleTimer(() => setShowBadgeUnlock(true), 2000);
     }
   }, []);
 
@@ -230,29 +247,19 @@ export default function LessonClient({ topic }: LessonClientProps) {
       const reward = completeTopic(topic.slug);
       const isDoubleXp = consumeDoubleXp();
       const hasXpBoost = isXpBoostActive();
-      const xpMultiplier = (isDoubleXp ? 2 : 1) * (hasXpBoost ? 1.5 : 1);
 
-      if (isDoubleXp) {
-        addXp(reward.xp);
-        addXp(reward.xp);
-      } else {
-        addXp(reward.xp);
-      }
+      let lessonXp = reward.xp;
+      if (isDoubleXp) lessonXp *= 2;
+      if (hasXpBoost) lessonXp = Math.round(lessonXp * 1.5);
 
-      totalXp = Math.round(reward.xp * xpMultiplier);
+      totalXp = lessonXp;
       totalGems = reward.gems;
 
-      if (hasXpBoost) {
-        const boostBonus = Math.round(reward.xp * 0.5);
-        addXp(boostBonus);
-        totalXp += boostBonus;
-      }
-
       const comboBonus = maxCombo >= 5 ? 20 : maxCombo >= 3 ? 10 : 0;
-      if (comboBonus > 0) {
-        addXp(comboBonus);
-        totalXp += comboBonus;
-      }
+      lessonXp += comboBonus;
+      totalXp += comboBonus;
+
+      addXp(lessonXp);
 
       setShowConfetti(true);
       playCompleteSound();
@@ -260,9 +267,9 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
     setXpGained(totalXp);
     setGemsGained(totalGems);
-    setTimeout(() => setShowXp(true), 400);
+    scheduleTimer(() => setShowXp(true), 400);
     if (totalGems > 0) {
-      setTimeout(() => setShowGemPopup(true), 800);
+      scheduleTimer(() => setShowGemPopup(true), 800);
     }
 
     const newProfile = getProfile();
@@ -270,7 +277,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
     if (newProfile.level > oldLevel) {
       setNewLevel(newProfile.level);
       playLevelUpSound();
-      setTimeout(() => setShowLevelUp(true), 1200);
+      scheduleTimer(() => setShowLevelUp(true), 1200);
     }
   }, [score, totalQuestions, topic.slug, startTime, maxCombo, checkNewBadges]);
 
