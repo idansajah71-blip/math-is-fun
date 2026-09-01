@@ -173,11 +173,16 @@ export const DAILY_REWARDS = [
   { day: 7, xp: 100, gems: 50, label: "Hari 7" },
 ];
 
+let _profileCache: UserProfile | null = null;
+let _profileCacheKey = "";
+
 export function getProfile(): UserProfile {
   if (typeof window === "undefined") {
     return getDefaultProfile();
   }
   const key = getProfileKey();
+  // Return cached profile if key hasn't changed
+  if (_profileCache && _profileCacheKey === key) return _profileCache;
   try {
     const stored = localStorage.getItem(key);
     if (stored) {
@@ -191,6 +196,8 @@ export function getProfile(): UserProfile {
       updateStreak(profile);
       regenerateHearts(profile);
       saveProfile(profile);
+      _profileCache = profile;
+      _profileCacheKey = key;
       return profile;
     }
   } catch {
@@ -204,28 +211,43 @@ export function getProfile(): UserProfile {
       if (old) {
         const profile = { ...getDefaultProfile(), ...JSON.parse(old) };
         saveProfile(profile);
+        _profileCache = profile;
+        _profileCacheKey = key;
         return profile;
       }
     } catch {}
   }
   const profile = getDefaultProfile();
   saveProfile(profile);
+  _profileCache = profile;
+  _profileCacheKey = key;
   return profile;
 }
+
+let _syncTimer: ReturnType<typeof setTimeout> | null = null;
 
 export function saveProfile(profile: UserProfile) {
   if (typeof window === "undefined") return;
   const key = getProfileKey();
   localStorage.setItem(key, JSON.stringify(profile));
-  // Background sync to Supabase (fire-and-forget)
-  import("@/lib/supabase/sync").then(({ pushProfile }) => pushProfile(profile)).catch(() => {});
+  // Update cache
+  _profileCache = profile;
+  _profileCacheKey = key;
+  // Debounced background sync to Supabase
+  if (_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => {
+    import("@/lib/supabase/sync").then(({ pushProfile }) => pushProfile(profile)).catch(() => {});
+  }, 2000);
 }
 
 export function saveProfileForKey(userId: string, profile: UserProfile) {
   if (typeof window === "undefined") return;
   const key = `matika-profile-${userId}`;
   localStorage.setItem(key, JSON.stringify(profile));
-  import("@/lib/supabase/sync").then(({ pushProfile }) => pushProfile(profile)).catch(() => {});
+  if (_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => {
+    import("@/lib/supabase/sync").then(({ pushProfile }) => pushProfile(profile)).catch(() => {});
+  }, 2000);
 }
 
 export function getDefaultProfile(): UserProfile {
