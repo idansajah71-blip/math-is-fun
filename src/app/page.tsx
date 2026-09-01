@@ -305,7 +305,7 @@ function DailyRewardModal({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="mt-6 mb-5"
+                className="mt-8 mb-5"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-1.5">
