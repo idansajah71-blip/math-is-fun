@@ -86,29 +86,35 @@ export default function HintButton({ hints, hintTokens, onUseToken, resetKey }: 
 
       {/* Hint list */}
       <AnimatePresence mode="popLayout">
-        {hints.slice(0, visibleCount).map((hint, i) => (
-          <motion.div
-            key={`${resetKey}-${i}`}
-            initial={{ opacity: 0, height: 0, y: -10 }}
-            animate={{ opacity: 1, height: "auto", y: 0 }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="overflow-hidden"
-          >
-            <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800">
-              <div className="flex items-start gap-2">
-                <span
-                  className={`w-5 h-5 rounded-full text-white text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5 ${
-                    i < freeHints ? "bg-green-400" : "bg-amber-400"
-                  }`}
-                >
-                  {i + 1}
-                </span>
-                <p className="text-xs text-amber-700 dark:text-amber-300 leading-relaxed">{hint}</p>
+        {hints.slice(0, visibleCount).map((hint, i) => {
+          const labels = ["Arahan", "Rumus", "Jawaban"];
+          const label = labels[i] || `Petunjuk ${i + 1}`;
+          const labelColors = [
+            "bg-green-400",
+            "bg-blue-400",
+            "bg-amber-400",
+          ];
+          const bgColor = i < 3 ? labelColors[i] : "bg-amber-400";
+          return (
+            <motion.div
+              key={`${resetKey}-${i}`}
+              initial={{ opacity: 0, height: 0, y: -10 }}
+              animate={{ opacity: 1, height: "auto", y: 0 }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="overflow-hidden"
+            >
+              <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800">
+                <div className="flex items-start gap-2">
+                  <span className={`px-1.5 py-0.5 rounded-md text-white text-[9px] font-black shrink-0 mt-0.5 ${bgColor}`}>
+                    {label}
+                  </span>
+                  <p className="text-xs text-amber-700 dark:text-amber-300 leading-relaxed">{hint}</p>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          );
+        })}
       </AnimatePresence>
     </div>
   );

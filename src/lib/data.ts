@@ -142,118 +142,146 @@ function generateHints(q: QuizQuestion): string[] {
 
   const question = q.question.toLowerCase();
   const explanation = q.explanation || "";
-  const hints: string[] = [];
+  const correctAnswer = (q.options && q.options[q.correctIndex]) || "";
 
   const kw = (terms: string[]) => terms.some((t) => question.includes(t));
 
+  // Each topic produces 3 hints: [Arahan, Rumus, Jawaban]
+  let arahan = "";
+  let rumus = "";
+
   // ── Specific topic hints (keyword-based) ──
   if (kw(["sederhanakan", "tambah", "kurang"]) && kw(["/", "pecahan"])) {
-    hints.push("Untuk menjumlahkan pecahan, samakan penyebutnya terlebih dahulu (cari KPK dari kedua penyebut).");
-    hints.push("Setelah penyebut sama, jumlahkan pembilangnya saja.");
+    arahan = "Samakan penyebutnya terlebih dahulu dengan mencari KPK dari kedua penyebut.";
+    rumus = "a/b + c/d = (a×d + c×b) / (b×d), lalu sederhanakan.";
   } else if (kw(["fpb", "faktor persekutuan terbesar"])) {
-    hints.push("Tuliskan semua faktor dari masing-masing bilangan.");
-    hints.push("FPB adalah faktor yang paling besar yang dimiliki kedua bilangan.");
+    arahan = "Tuliskan semua faktor dari masing-masing bilangan, lalu cari yang terbesar.";
+    rumus = "FPB = faktor terbesar yang dimiliki kedua bilangan.";
   } else if (kw(["kpk", "kelipatan persekutuan"])) {
-    hints.push("Tuliskan kelipatan-kelipatan dari masing-masing bilangan.");
-    hints.push("KPK adalah kelipatan yang paling kecil yang sama-sama dimiliki.");
+    arahan = "Tuliskan kelipatan-kelipatan dari masing-masing bilangan.";
+    rumus = "KPK = kelipatan terkecil yang sama-sama dimiliki.";
   } else if (kw(["%", "persen"])) {
-    hints.push("Ubah persen ke desimal: bagi dengan 100.");
-    hints.push("Kalikan nilai desimal dengan bilangan yang dicari.");
+    arahan = "Ubah persen ke desimal terlebih dahulu, lalu kalikan dengan bilangan yang dicari.";
+    rumus = "Persen ke desimal: bagi dengan 100. Contoh: 40% = 0,4";
   } else if (kw(["faktorkan", "faktorisasi"])) {
-    hints.push("Cari dua bilangan yang jika dijumlahkan hasilnya sama dengan koefisien x, dan jika dikalikan hasilnya sama dengan konstanta.");
-    if (explanation.includes("x²")) hints.push("Untuk x² + bx + c, cari dua angka yang berjumlah b dan berkalikan c.");
+    arahan = "Cari dua bilangan yang dijumlahkan hasilnya sama dengan koefisien x, dan dikalikan hasilnya sama dengan konstanta.";
+    rumus = "x² + bx + c = (x + p)(x + q), dimana p + q = b dan p × q = c.";
   } else if (kw(["penyelesaian", "x ="])) {
-    hints.push("Pindahkan semua konstanta ke satu ruas, sisakan yang mengandung x.");
-    if (kw(["2x", "3x", "4x", "5x"])) {
-      const match = question.match(/(\d)x/);
-      if (match) hints.push(`Bagi kedua ruas dengan ${match[1]} untuk mendapatkan nilai x.`);
-    }
+    arahan = "Pindahkan semua konstanta ke satu ruas, sisakan yang mengandung x.";
+    rumus = "Isolasi x: kalikan/behagi kedua ruas untuk mendapatkan x = ...";
   } else if (kw(["gradien", "kemiringan"])) {
-    hints.push("Gradien = (y₂ - y₁) / (x₂ - x₁). Selisih y dibagi selisih x.");
+    arahan = "Gunakan dua titik pada garis untuk menghitung gradien.";
+    rumus = "m = (y₂ - y₁) / (x₂ - x₁)";
   } else if (kw(["hipotenusa", "pythagoras", "segitiga siku"])) {
-    hints.push("Gunakan rumus Pythagoras: c² = a² + b², lalu akarkan hasilnya.");
+    arahan = "Identifikasi sisi yang diketahui, lalu gunakan rumus Pythagoras.";
+    rumus = "c² = a² + b² (c = hipotenusa, a dan b = sisi siku-siku)";
   } else if (kw(["luas"]) && kw(["lingkaran"])) {
-    hints.push("Rumus luas lingkaran: L = π × r². Kuadratkan jari-jarinya lalu kalikan π.");
+    arahan = "Cari jari-jari lingkaran terlebih dahulu, lalu masukkan ke rumus.";
+    rumus = "L = π × r² (π ≈ 3,14 atau 22/7)";
   } else if (kw(["keliling"]) && kw(["lingkaran"])) {
-    hints.push("Rumus keliling lingkaran: K = π × d atau K = 2 × π × r.");
+    arahan = "Gunakan jari-jari atau diameter untuk menghitung keliling.";
+    rumus = "K = 2 × π × r  atau  K = π × d";
   } else if (kw(["luas"]) && kw(["trapesium", "segitiga", "jajar genjang", "layang"])) {
-    hints.push("Perhatikan rumus luas bangun datar yang sesuai, lalu masukkan nilai yang diketahui.");
+    arahan = "Kenali bentuk bangun datar, lalu gunakan rumus luas yang sesuai.";
+    rumus = "Segitiga: L = ½ × a × t. Trapesium: L = ½ × (a+b) × t.";
   } else if (kw(["barisan", "suku ke"])) {
-    hints.push("Untuk barisan aritmetika: Uₙ = a + (n-1) × b. Tentukan nilai a (suku pertama) dan b (beda).");
+    arahan = "Tentukan nilai a (suku pertama) dan b (beda) dari soal.";
+    rumus = "Uₙ = a + (n-1) × b";
   } else if (kw(["perbandingan", "senilai", "berbalik nilai"])) {
-    hints.push("Untuk perbandingan senilai: a/b = c/d. Untuk berbalik nilai: a × b = c × d.");
+    arahan = "Tentukan jenis perbandingan: senilai atau berbalik nilai.";
+    rumus = "Senilai: a/b = c/d. Berbalik nilai: a × b = c × d.";
   } else if (kw(["n(a∪b)", "n(a∩b)", "himpunan"])) {
-    hints.push("Gunakan rumus: n(A∪B) = n(A) + n(B) - n(A∩B).");
+    arahan = "Identifikasi n(A), n(B), dan irisan/penyatuan dari soal.";
+    rumus = "n(A∪B) = n(A) + n(B) - n(A∩B)";
   } else if (kw(["himpunan bagian", "banyak himpunan"])) {
-    hints.push("Banyak himpunan bagian = 2^n, di mana n adalah banyak elemen.");
+    arahan = "Hitung banyak elemen dalam himpunan, lalu gunakan rumus himpunan bagian.";
+    rumus = "Banyak himpunan bagian = 2ⁿ (n = banyak elemen)";
   } else if (kw(["turunan", "f'(x)", "dx"])) {
-    hints.push("Gunakan aturan turunan: (xⁿ)' = n·xⁿ⁻¹. Turunkan pangkat lalu kurangi pangkatnya 1.");
+    arahan = "Turunkan setiap suku secara terpisah dengan aturan pangkat.";
+    rumus = "(xⁿ)' = n × xⁿ⁻¹  (pangkat turun, pangkat dikurangi 1)";
   } else if (kw(["integral", "∫"])) {
-    hints.push("Integral adalah kebalikan dari turunan. Untuk ∫xⁿ dx = xⁿ⁺¹/(n+1) + C.");
+    arahan = "Integral adalah kebalikan dari turunan. Tambahkan pangkat lalu bagi.";
+    rumus = "∫xⁿ dx = xⁿ⁺¹/(n+1) + C";
   } else if (kw(["sin", "cos", "trigonometri"])) {
-    hints.push("Ingat identitas trigonometri dasar: sin²θ + cos²θ = 1.");
+    arahan = "Gunakan identitas trigonometri dasar untuk menyederhanakan.";
+    rumus = "sin²θ + cos²θ = 1";
   } else if (kw(["limit"])) {
-    hints.push("Substitusikan nilai x langsung ke dalam fungsi jika fungsi kontinu di titik tersebut.");
+    arahan = "Coba substitusikan nilai x langsung ke dalam fungsi.";
+    rumus = "Jika f(a) terdefinisi, maka lim(x→a) f(x) = f(a).";
   } else if (kw(["matriks", "determinan"])) {
-    hints.push("Untuk matriks 2×2: det = ad - bc.");
+    arahan = "Kalikan elemen diagonal utama, kurangi elemen diagonal samping.";
+    rumus = "det 2×2: |a b; c d| = ad - bc";
   } else if (kw(["vektor", "│v│"])) {
-    hints.push("Panjang vector = √(x² + y²). Kuadratkan setiap komponen, jumlahkan, lalu akarkan.");
+    arahan = "Kuadratkan setiap komponen vektor, jumlahkan, lalu akarkan.";
+    rumus = "|v| = √(x² + y²)";
   } else if (kw(["diskon", "harga"])) {
-    hints.push("Harga setelah diskon = harga asli × (100% - %diskon) / 100%.");
+    arahan = "Hitung jumlah diskon, lalu kurangi dari harga asli.";
+    rumus = "Harga akhir = harga asli × (100% - %diskon) / 100%";
   } else if (kw(["pajak"])) {
-    hints.push("Pajak = harga × %pajak / 100%. Harga bersih = harga - pajak.");
+    arahan = "Hitung jumlah pajak dari harga, lalu tambahkan ke harga asli.";
+    rumus = "Pajak = harga × %pajak / 100%";
   } else if (kw(["keuntungan", "rugi"])) {
-    hints.push("Untung/rugi = (harga jual - harga beli) / harga beli × 100%.");
+    arahan = "Bandingkan harga jual dengan harga beli.";
+    rumus = "Untung/rugi = (harga jual - harga beli) / harga beli × 100%";
   } else if (kw(["fungsi", "f(x)"])) {
-    hints.push("Masukkan nilai x ke dalam rumus fungsi untuk mencari f(x).");
+    arahan = "Masukkan nilai x ke dalam rumus fungsi untuk mencari f(x).";
+    rumus = "f(x) = ... (ganti x dengan nilai yang diminta)";
   } else if (kw(["peluang", "kemungkinan"])) {
-    hints.push("Peluang = banyak kejadian menguntungkan / banyak seluruh kemungkinan.");
+    arahan = "Hitung banyak kejadian menguntungkan dan total kemungkinan.";
+    rumus = "P = banyak menguntungkan / banyak seluruh kemungkinan";
   } else if (kw(["mean", "rata-rata"])) {
-    hints.push("Rata-rata = jumlah seluruh data / banyak data.");
+    arahan = "Jumlahkan seluruh data, lalu bagi dengan banyak data.";
+    rumus = "Rata-rata = Σx / n";
   } else if (kw(["median"])) {
-    hints.push("Median adalah nilai tengah setelah data diurutkan dari kecil ke besar.");
+    arahan = "Urutkan data dari kecil ke besar, lalu cari nilai tengah.";
+    rumus = "Median = nilai tengah (ganjil) atau rata-rata dua nilai tengah (genap).";
   } else if (kw(["modus"])) {
-    hints.push("Modus adalah nilai yang paling sering muncul.");
+    arahan = "Cari nilai yang paling sering muncul dalam data.";
+    rumus = "Modus = nilai dengan frekuensi tertinggi.";
   } else if (kw(["z-score", "standar deviasi"])) {
-    hints.push("z = (x - mean) / σ. Kurangi rata-rata, lalu bagi dengan standar deviasi.");
+    arahan = "Kurangi nilai dengan rata-rata, lalu bagi dengan standar deviasi.";
+    rumus = "z = (x - mean) / σ";
   } else if (kw(["grenel", "eliminasi"])) {
-    hints.push("Kalikan salah satu persamaan agar koefisien salah satu variabel sama, lalu eliminasi.");
+    arahan = "Kalikan salah satu persamaan agar koefisien salah satu variabel sama.";
+    rumus = "Eliminasi: samakan koefisien lalu kurangkan kedua persamaan.";
   } else if (kw(["persamaan garis", "y = mx"])) {
-    hints.push("Gradien m = (y₂-y₁)/(x₂-x₁). Persamaan garis: y - y₁ = m(x - x₁).");
+    arahan = "Hitung gradien dari dua titik yang diketahui.";
+    rumus = "m = (y₂-y₁)/(x₂-x₁),  y - y₁ = m(x - x₁)";
   }
 
-  // ── Fallback: build hints from explanation + question + options ──
-  if (hints.length === 0) {
-    // Hint 1: always give a strategy hint
-    if (q.options && q.options.length > 0) {
-      hints.push("Coba eliminasi jawaban yang jelas tidak masuk akal terlebih dahulu, lalu fokus pada sisa pilihan.");
-    } else {
-      hints.push("Baca soal dengan teliti dan identifikasi informasi yang diketahui vs yang dicari.");
-    }
+  // Build the 3 hints
+  const hints: string[] = [];
 
-    // Hint 2: extract from explanation
+  // Hint 1: Arahan (always present)
+  if (arahan) {
+    hints.push(arahan);
+  } else if (q.options && q.options.length > 0) {
+    hints.push("Coba eliminasi jawaban yang jelas tidak masuk akal terlebih dahulu, lalu fokus pada sisa pilihan.");
+  } else {
+    hints.push("Baca soal dengan teliti dan identifikasi informasi yang diketahui vs yang dicari.");
+  }
+
+  // Hint 2: Rumus (always present)
+  if (rumus) {
+    hints.push(rumus);
+  } else {
+    // Fallback: extract a key sentence from explanation
     const sentences = explanation
       .split(/[.!]\s+/)
-      .map((s) => s.trim())
-      .filter((s) => s.length > 10 && !s.startsWith("Jawaban") && !s.startsWith("Jadi"));
-
-    if (sentences.length >= 1) {
-      hints.push(`Perhatikan: ${sentences[0]}.`);
-    }
-    if (sentences.length >= 2) {
-      hints.push(`Langkah berikutnya: ${sentences[1]}.`);
-    }
-
-    // Hint 3: extract numbers from question for calculation hints
-    const numbers = question.match(/\d+/g);
-    if (numbers && numbers.length >= 2) {
-      hints.push(`Coba gunakan angka ${numbers.slice(0, 3).join(", ")} dari soal dalam rumus yang sesuai.`);
-    }
+      .map((s: string) => s.trim())
+      .filter((s: string) => s.length > 10 && !s.startsWith("Jawaban") && !s.startsWith("Jadi"));
+    hints.push(sentences.length >= 1 ? sentences[0] : "Perhatikan langkah penyelesaian pada penjelasan.");
   }
 
-  // Absolute minimum: always at least 1 hint
-  if (hints.length === 0) {
-    hints.push("Baca penjelasan setelah menjawab untuk memahami konsepnya lebih lanjut.");
+  // Hint 3: Jawaban (always present)
+  if (correctAnswer) {
+    hints.push(correctAnswer);
+  } else if (explanation) {
+    // Extract the last sentence as the answer
+    const sentences = explanation.split(/[.!]\s+/).filter((s: string) => s.trim().length > 0);
+    hints.push(sentences.length > 0 ? sentences[sentences.length - 1] : "Lihat penjelasan untuk jawaban.");
+  } else {
+    hints.push("Jawaban ada di opsi yang tersedia.");
   }
 
   return hints;
