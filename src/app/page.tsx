@@ -251,7 +251,7 @@ function DailyRewardModal({
             </div>
 
             {/* Content */}
-            <div className="p-6 -mt-6">
+            <div className="p-6 mt-2">
               {/* Current reward */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
