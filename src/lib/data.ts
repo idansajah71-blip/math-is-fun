@@ -43,16 +43,14 @@ function autoSeedAdminContent(): void {
 
   // Defer heavy localStorage writes to avoid blocking main thread
   const writeData = () => {
-    localStorage.setItem(TOPICS_KEY, JSON.stringify(topics));
-    localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questions));
-    localStorage.setItem(SEEDED_KEY, SEED_VERSION);
+    try {
+      localStorage.setItem(TOPICS_KEY, JSON.stringify(topics));
+      localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questions));
+      localStorage.setItem(SEEDED_KEY, SEED_VERSION);
+    } catch {}
   };
 
-  if (typeof requestIdleCallback !== "undefined") {
-    requestIdleCallback(writeData);
-  } else {
-    setTimeout(writeData, 0);
-  }
+  setTimeout(writeData, 0);
 }
 
 // Auto-seed on module load (lazy — only runs once per session)

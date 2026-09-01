@@ -623,7 +623,7 @@ function HomeContent() {
 
   useEffect(() => {
     let cancelled = false;
-    let cleanupXp: (() => void) | undefined;
+    const cleanups: (() => void)[] = [];
 
     try {
       const topicList = getAllTopics();
@@ -656,7 +656,7 @@ function HomeContent() {
             const timer = setTimeout(() => {
               if (!cancelled) setShowDailyReward(true);
             }, 800);
-            cleanupXp = () => clearTimeout(timer);
+            cleanups.push(() => clearTimeout(timer));
           }
         }
       }
@@ -664,17 +664,19 @@ function HomeContent() {
       // Check streak freeze notification
       const sfNotif = getStreakFreezeNotification();
       if (sfNotif.show) {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           if (!cancelled) setShowStreakFreezeToast(true);
         }, 1500);
+        cleanups.push(() => clearTimeout(timer));
       }
 
       // Check for locked topic redirect
       if (searchParams.get("msg") === "topic-locked") {
         if (!cancelled) setShowLockedToast(true);
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           if (!cancelled) setShowLockedToast(false);
         }, 4000);
+        cleanups.push(() => clearTimeout(timer));
         router.replace("/");
       }
 
@@ -696,19 +698,19 @@ function HomeContent() {
       window.addEventListener("xp-updated", onXpUpdated);
       window.addEventListener("storage", onStorage);
 
-      cleanupXp = () => {
+      cleanups.push(() => {
         window.removeEventListener("xp-updated", onXpUpdated);
         window.removeEventListener("storage", onStorage);
-      };
-    } catch {
-      // If anything throws, still mark as mounted so user isn't stuck
+      });
+    } catch (err) {
+      console.warn("[Matika] init error:", err);
     } finally {
       if (!cancelled) setMounted(true);
     }
 
     return () => {
       cancelled = true;
-      cleanupXp?.();
+      cleanups.forEach((fn) => fn());
     };
   }, []);
 

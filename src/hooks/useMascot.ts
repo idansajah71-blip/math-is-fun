@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 import { getProfile, getWeakTopics, LEVEL_NAMES, UserProfile } from "@/lib/gamification";
 import { getAllTopics } from "@/lib/data";
 
@@ -113,12 +113,16 @@ function getMascotState(profile: UserProfile): MascotState {
 }
 
 export function useMascot(): MascotState {
-  const state = useMemo(() => {
+  const [state, setState] = useState<MascotState>(() => {
+    return { mood: "happy" as MascotMood, message: pickRandom(GREETINGS) };
+  });
+
+  useEffect(() => {
     try {
       const profile = getProfile();
-      return getMascotState(profile);
+      setState(getMascotState(profile));
     } catch {
-      return { mood: "happy" as MascotMood, message: pickRandom(GREETINGS) };
+      // Keep default happy state
     }
   }, []);
 
