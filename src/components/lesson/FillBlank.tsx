@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, ChevronRight, Pencil } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { playCorrectSound, playWrongSound } from "@/lib/sounds";
+import { isAnswerClose } from "@/lib/answerMatcher";
 
 interface FillBlankProps {
   question: string;
@@ -31,20 +32,7 @@ export default function FillBlank({
   const handleSubmit = () => {
     if (!answer.trim()) return;
 
-    const normalize = (s: string) =>
-      s.trim()
-        .toLowerCase()
-        .replace(/\s+/g, " ")
-        .replace(/[×·]/g, "*")
-        .replace(/\s*\*\s*/g, "*")
-        .replace(/,(\d)/g, ".$1")
-        .replace(/\s*(cm|m|mm|kg|g|hari|menit|detik|tahun|persen|%|rp|ribu|juta)\b/gi, "")
-        .replace(/^\(([^()]+)\)$/, "$1")
-        .replace(/(\d{3})\.(\d{3})(?=[.,\s]|$)/g, "$1$2");
-
-    const normalized = normalize(answer);
-    const alternatives = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
-    const correct = alternatives.some((a) => normalize(a) === normalized);
+    const correct = isAnswerClose(answer, correctAnswer);
     setIsCorrect(correct);
     setShowResult(true);
 
