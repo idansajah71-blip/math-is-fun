@@ -139,8 +139,9 @@ function DailyRewardModal({
   const currentReward = getDailyReward(streak);
   const nextReward = getDailyReward(streak + 1);
 
+  // Always show first 7 days + current position context
   const pathDays: number[] = [];
-  for (let i = Math.max(0, streak - 3); i <= streak + 3; i++) {
+  for (let i = 0; i <= Math.max(6, streak + 2); i++) {
     pathDays.push(i);
   }
 
@@ -306,58 +307,72 @@ function DailyRewardModal({
                 transition={{ delay: 0.4 }}
                 className="mb-5"
               >
-                <div className="flex items-center gap-1.5 mb-3">
-                  <Flame size={12} className="text-[var(--duo-orange)]" />
-                  <span className="text-[10px] font-black text-[var(--fg-muted)] uppercase tracking-wider">Jalur Hadiah</span>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-1.5">
+                    <Flame size={12} className="text-[var(--duo-orange)]" />
+                    <span className="text-[10px] font-black text-[var(--fg-muted)] uppercase tracking-wider">Jalur Hadiah</span>
+                  </div>
+                  <span className="text-[10px] font-black text-[var(--duo-orange)] bg-[var(--duo-orange)]/10 px-2 py-0.5 rounded-full">
+                    Minggu ke-{currentReward.weekNumber}
+                  </span>
                 </div>
-                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                  {pathDays.map((dayIdx) => {
-                    const r = getDailyReward(dayIdx);
-                    const isPast = dayIdx < streak;
-                    const isCurrent = dayIdx === streak;
-                    const PathIcon = getDayIcon(r.dayInWeek);
+                <div className="relative">
+                  <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                    {pathDays.map((dayIdx) => {
+                      const r = getDailyReward(dayIdx);
+                      const isPast = dayIdx < streak;
+                      const isCurrent = dayIdx === streak;
+                      const PathIcon = getDayIcon(r.dayInWeek);
 
-                    return (
-                      <motion.div
-                        key={dayIdx}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.45 + (dayIdx - Math.max(0, streak - 3)) * 0.05 }}
-                        className={`relative flex-shrink-0 w-16 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${
-                          isPast
-                            ? "bg-[var(--primary-bg)] border-[var(--primary)]/30 opacity-70"
-                            : isCurrent
-                            ? "bg-gradient-to-br from-[var(--duo-xp)]/20 to-[var(--duo-orange)]/20 border-[var(--duo-xp)] shadow-md"
-                            : "bg-gray-50 dark:bg-gray-800/50 border-[var(--border-subtle)] opacity-50"
-                        }`}
-                      >
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-0.5 ${
-                          isPast ? "bg-[var(--primary)]" : isCurrent ? `bg-gradient-to-br ${getDayColor(r.dayInWeek)}` : "bg-gray-200 dark:bg-gray-700"
-                        }`}>
-                          <PathIcon size={14} className={isPast || isCurrent ? "text-white" : "text-gray-400"} />
-                        </div>
-                        <span className={`text-[9px] font-black ${
-                          isPast ? "text-[var(--primary)]" : isCurrent ? "text-[var(--duo-orange)]" : "text-[var(--fg-muted)]"
-                        }`}>
-                          H{r.dayNumber}
-                        </span>
-                        <span className={`text-[8px] font-bold ${
-                          isPast ? "text-[var(--primary)]" : isCurrent ? "text-[var(--duo-orange)]" : "text-[var(--fg-muted)]"
-                        }`}>
-                          {r.xp}xp
-                        </span>
-                        {isPast && <CheckCircle2 size={10} className="text-[var(--primary)] mt-0.5" />}
-                        {isCurrent && canClaim && (
-                          <motion.div
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ repeat: Infinity, duration: 1.5 }}
-                            className="w-2 h-2 rounded-full bg-[var(--duo-xp)] mt-0.5"
-                          />
-                        )}
-                      </motion.div>
-                    );
-                  })}
+                      return (
+                        <motion.div
+                          key={dayIdx}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.45 + dayIdx * 0.04 }}
+                          className={`relative flex-shrink-0 w-16 flex flex-col items-center p-2 rounded-xl border-2 transition-all ${
+                            isPast
+                              ? "bg-[var(--primary-bg)] border-[var(--primary)]/30 opacity-70"
+                              : isCurrent
+                              ? "bg-gradient-to-br from-[var(--duo-xp)]/20 to-[var(--duo-orange)]/20 border-[var(--duo-xp)] shadow-md"
+                              : "bg-gray-50 dark:bg-gray-800/50 border-[var(--border-subtle)] opacity-50"
+                          }`}
+                        >
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-0.5 ${
+                            isPast ? "bg-[var(--primary)]" : isCurrent ? `bg-gradient-to-br ${getDayColor(r.dayInWeek)}` : "bg-gray-200 dark:bg-gray-700"
+                          }`}>
+                            <PathIcon size={14} className={isPast || isCurrent ? "text-white" : "text-gray-400"} />
+                          </div>
+                          <span className={`text-[9px] font-black ${
+                            isPast ? "text-[var(--primary)]" : isCurrent ? "text-[var(--duo-orange)]" : "text-[var(--fg-muted)]"
+                          }`}>
+                            H{r.dayNumber}
+                          </span>
+                          <span className={`text-[8px] font-bold ${
+                            isPast ? "text-[var(--primary)]" : isCurrent ? "text-[var(--duo-orange)]" : "text-[var(--fg-muted)]"
+                          }`}>
+                            {r.xp}xp
+                          </span>
+                          {isPast && <CheckCircle2 size={10} className="text-[var(--primary)] mt-0.5" />}
+                          {isCurrent && canClaim && (
+                            <motion.div
+                              animate={{ scale: [1, 1.2, 1] }}
+                              transition={{ repeat: Infinity, duration: 1.5 }}
+                              className="w-2 h-2 rounded-full bg-[var(--duo-xp)] mt-0.5"
+                            />
+                          )}
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                  {/* Scroll hint */}
+                  <div className="absolute right-0 top-0 bottom-2 w-8 bg-gradient-to-l from-white dark:from-[var(--surface)] to-transparent pointer-events-none flex items-center justify-end">
+                    <ChevronRight size={14} className="text-[var(--fg-muted)] opacity-50" />
+                  </div>
                 </div>
+                <p className="text-[10px] text-[var(--fg-muted)] text-center mt-2 font-semibold">
+                  Reward terus naik setiap minggu! Minggu ke-2 = 1.5x, ke-3 = 2x, ke-4+ = 2.5x
+                </p>
               </motion.div>
 
               {/* History */}
