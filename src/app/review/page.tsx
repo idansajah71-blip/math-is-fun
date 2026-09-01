@@ -129,7 +129,7 @@ export default function ReviewPage() {
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
-        <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
+        <main className="flex-1 lg:ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-2xl mx-auto">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-xl bg-[var(--danger-bg)] flex items-center justify-center">
@@ -233,7 +233,7 @@ export default function ReviewPage() {
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
-        <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
+        <main className="flex-1 lg:ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-lg mx-auto">
             {showXp && <XpPopup amount={score * 5} show={true} />}
             {showConfetti && <Confetti show={true} />}
@@ -349,7 +349,7 @@ export default function ReviewPage() {
   return (
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
-      <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
+      <main className="flex-1 lg:ml-[260px] p-8 pb-24 lg:pb-0">
         <div className="max-w-lg mx-auto text-center">
           {showConfetti && <Confetti show={true} />}
           {showXp && <XpPopup amount={score * 5} show={true} />}

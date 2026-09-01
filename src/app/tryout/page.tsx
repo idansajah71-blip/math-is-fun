@@ -93,7 +93,7 @@ export default function TryOutPage() {
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
-        <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
+        <main className="flex-1 lg:ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-lg mx-auto">
             <h1 className="text-xl font-bold text-[var(--duo-text)] mb-1">Try Out</h1>
             <p className="text-sm text-[var(--duo-text-muted)] mb-8">Simulasi ujian - 20 soal campur, 30 menit, 3 nyawa</p>
@@ -138,7 +138,7 @@ export default function TryOutPage() {
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
-        <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
+        <main className="flex-1 lg:ml-[260px] p-8 pb-24 lg:pb-0">
           <div className="max-w-lg mx-auto">
             <div className="flex items-center justify-between mb-4">
               <Hearts lives={lives} maxLives={3} />
@@ -205,7 +205,7 @@ export default function TryOutPage() {
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
       <Confetti show={pct >= 75} />
-      <main className="flex-1 ml-[260px] p-8 pb-24 lg:pb-0">
+      <main className="flex-1 lg:ml-[260px] p-8 pb-24 lg:pb-0">
         <div className="max-w-lg mx-auto text-center">
           <div className="bg-[var(--duo-card)] rounded-[24px] border border-[var(--duo-border)] p-8">
             <Trophy size={40} className={`mx-auto mb-4 ${pct >= 75 ? "text-yellow-500" : "text-gray-400"}`} />

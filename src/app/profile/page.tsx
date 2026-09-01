@@ -80,7 +80,7 @@ export default function ProfilePage() {
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
 
-      <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
+      <main className="flex-1 lg:ml-[260px] pb-24 lg:pb-0">
         {/* Header */}
         <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
           <div className="max-w-2xl mx-auto px-8 py-6">

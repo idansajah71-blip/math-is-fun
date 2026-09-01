@@ -57,7 +57,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
-        <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
+        <main className="flex-1 lg:ml-[260px] pb-24 lg:pb-0">
           <div className="max-w-2xl mx-auto px-8 py-16 text-center">
             <div className="mb-4 flex justify-center">
               <div className="w-20 h-20 bg-[var(--duo-card)] rounded-full flex items-center justify-center border-2 border-[var(--duo-border)]">
@@ -217,7 +217,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
 
-      <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
+      <main className="flex-1 lg:ml-[260px] pb-24 lg:pb-0">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-3xl mx-auto px-8 py-6">
           <Link
             href="/events"

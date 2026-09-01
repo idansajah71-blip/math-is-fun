@@ -103,7 +103,7 @@ export default function FormulasPage() {
   return (
     <div className="flex min-h-screen bg-[var(--bg)]">
       <Sidebar />
-      <main className="flex-1 ml-[260px] flex flex-col min-h-screen">
+      <main className="flex-1 lg:ml-[260px] flex flex-col min-h-screen">
       {/* ══════ Top Bar ══════ */}
       <header className="sticky top-0 z-30 bg-[var(--bg)]/80 backdrop-blur-xl border-b border-[var(--border)]">
         <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between gap-4">

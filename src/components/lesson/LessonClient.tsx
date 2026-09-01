@@ -1,4 +1,4 @@
-ï»¿"use client";
+"use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,7 +22,7 @@ import GraphPlotter from "@/components/math/GraphPlotter";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { playCorrectSound, playWrongSound, playCompleteSound, playLevelUpSound } from "@/lib/sounds";
 import {
-  completeTopic, saveQuizScore, getProfile, trackWrongAnswer, useHeart,
+   completeTopic, saveQuizScore, getProfile, trackWrongAnswer, deductHeart,
   consumeDoubleXp, addXp, BADGES, LEVEL_NAMES, recordReview,
   consumeHintToken, isXpBoostActive, getXpBoostRemainingMs,
   saveProfile,
@@ -193,7 +193,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
       ]);
     }
 
-    const heartUsed = useHeart();
+    const heartUsed = deductHeart();
     setLives((l) => {
       if (l <= 1) {
         setOutOfHearts(true);
@@ -354,7 +354,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
       {/* ===== INTRO SCREEN ===== */}
       {step === "intro" && (
-        <main className="flex-1 ml-[260px] flex items-center justify-center p-6 pb-24 lg:pb-0">
+        <main className="flex-1 lg:ml-[260px] flex items-center justify-center p-6 pb-24 lg:pb-0">
           <motion.div
             initial={{ opacity: 0, scale: 0.85, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -434,7 +434,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
                 <div className="flex items-center justify-center gap-3 mb-6 text-xs text-[var(--fg-muted)] font-semibold">
                   <span className="flex items-center gap-1"><Flame size={12} className="text-[var(--duo-orange)]" /> {profileRef.current.streak} hari streak</span>
-                  <span>â€¢</span>
+                  <span>•</span>
                   <span className="flex items-center gap-1"><Gem size={12} className="text-[var(--duo-purple)]" /> {profileRef.current.gems} gems</span>
                 </div>
 
@@ -455,7 +455,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
 
       {/* ===== CONTENT SCREEN ===== */}
       {step === "content" && (
-        <main className="flex-1 ml-[260px] p-6 pb-24">
+        <main className="flex-1 lg:ml-[260px] p-6 pb-24">
           <div className="max-w-2xl mx-auto">
             <div className="flex items-center justify-between mb-5">
               <Link href="/">
@@ -571,7 +571,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
             ))}
           </AnimatePresence>
 
-          <main className="flex-1 ml-[260px] p-6 pb-24">
+          <main className="flex-1 lg:ml-[260px] p-6 pb-24">
             <div className="max-w-2xl mx-auto">
               <div className="flex items-center justify-between mb-4">
                 <motion.button
@@ -779,7 +779,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                     );
                   })()}
 
-                  {/* Water Ripple Effect â€” shows on correct answer */}
+                  {/* Water Ripple Effect — shows on correct answer */}
                   <AnimatePresence>
                     {questionAnimated === "correct" && (
                       <div className="absolute inset-0 pointer-events-none z-5 overflow-hidden rounded-[28px]">
@@ -892,7 +892,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
           <XpPopup amount={xpGained} show={showXp} onComplete={() => setShowXp(false)} />
           <GemPopup amount={gemsGained} show={showGemPopup} onComplete={() => setShowGemPopup(false)} />
 
-          <main className="flex-1 ml-[260px] flex items-center justify-center p-6 pb-24 lg:pb-0">
+          <main className="flex-1 lg:ml-[260px] flex items-center justify-center p-6 pb-24 lg:pb-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.85, y: 40 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1176,7 +1176,7 @@ export default function LessonClient({ topic }: LessonClientProps) {
                           size="lg"
                           icon={<RotateCcw size={16} />}
                         >
-                          Coba Lagi â€” Dapatkan Sempurna!
+                          Coba Lagi — Dapatkan Sempurna!
                         </AnimatedButton>
                       )}
                       <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-[var(--border)]">

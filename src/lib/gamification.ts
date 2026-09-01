@@ -430,7 +430,7 @@ export function addGems(amount: number): UserProfile {
   return profile;
 }
 
-export function useHeart(): boolean {
+export function deductHeart(): boolean {
   const profile = getProfile();
   if (isPremiumActive()) return true;
   if (profile.hearts <= 0) return false;

@@ -918,7 +918,7 @@ function HomeContent() {
         )}
       </AnimatePresence>
 
-      <main className="flex-1 ml-[260px] p-6 pb-24">
+      <main className="flex-1 lg:ml-[260px] p-6 pb-24">
         <div className="max-w-5xl mx-auto">
           {/* ===== HERO SECTION ===== */}
           <motion.div

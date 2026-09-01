@@ -172,7 +172,7 @@ export default function DailyQuizPage() {
         {showXp && <XpPopup amount={score * 5 + (score >= 8 ? 20 : score >= 5 ? 10 : 0)} show={true} onComplete={() => setShowXp(false)} />}
         {showConfetti && <Confetti show={true} />}
 
-        <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
+        <main className="flex-1 lg:ml-[260px] pb-24 lg:pb-0">
         <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
           <div className="max-w-2xl mx-auto px-8 py-6">
             <div className="flex items-center gap-3 mb-2">

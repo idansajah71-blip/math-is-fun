@@ -32,18 +32,8 @@ export default function AnalyticsPage() {
     setProfile(getProfile());
   }, []);
 
-  if (!profile) {
-    return (
-      <div className="flex min-h-screen bg-[var(--duo-bg)]">
-        <Sidebar />
-        <main className="flex-1 ml-[260px] flex items-center justify-center">
-          <div className="w-10 h-10 border-4 border-[var(--duo-green)] border-t-transparent rounded-full animate-spin" />
-        </main>
-      </div>
-    );
-  }
-
   const analytics = useMemo(() => {
+    if (!profile) return null;
     const bestHours = getBestStudyHours();
     const weeklyPattern = getWeeklyPattern();
     const recommendations = getStudyRecommendations();
@@ -54,13 +44,24 @@ export default function AnalyticsPage() {
     return { bestHours, weeklyPattern, recommendations, totalSessions, totalStudyMinutes, activeDays, avgXpPerDay };
   }, [profile]);
 
+  if (!profile || !analytics) {
+    return (
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
+        <Sidebar />
+        <main className="flex-1 lg:ml-[260px] flex items-center justify-center">
+          <div className="w-10 h-10 border-4 border-[var(--duo-green)] border-t-transparent rounded-full animate-spin" />
+        </main>
+      </div>
+    );
+  }
+
   const { bestHours, weeklyPattern, recommendations, totalSessions, totalStudyMinutes, activeDays, avgXpPerDay } = analytics;
 
   return (
     <FeatureGuard flag="study-analytics">
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
-        <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
+        <main className="flex-1 lg:ml-[260px] pb-24 lg:pb-0">
           {/* Header */}
           <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
             <div className="max-w-4xl mx-auto px-8 py-6">

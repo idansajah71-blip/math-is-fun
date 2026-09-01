@@ -62,7 +62,7 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
-        <main className="flex-1 ml-[260px] flex items-center justify-center">
+        <main className="flex-1 lg:ml-[260px] flex items-center justify-center">
           <div className="text-center">
             <div className="w-8 h-8 border-3 border-[var(--duo-green)] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             <p className="text-sm text-[var(--duo-text-muted)]">Memuat topik...</p>
@@ -76,7 +76,7 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
     return (
       <div className="flex min-h-screen bg-[var(--duo-bg)]">
         <Sidebar />
-        <main className="flex-1 ml-[260px] flex items-center justify-center">
+        <main className="flex-1 lg:ml-[260px] flex items-center justify-center">
           <div className="text-center">
             <p className="text-sm text-[var(--duo-text-muted)] mb-4">Topik tidak ditemukan</p>
             <Link href="/" className="text-sm text-[var(--duo-green)] hover:underline">Kembali ke beranda</Link>
@@ -98,7 +98,7 @@ export default function TopicPage({ params }: { params: Promise<{ slug: string }
     <div className="flex min-h-screen bg-[var(--duo-bg)]">
       <Sidebar />
 
-      <main className="flex-1 ml-[260px] pb-24 lg:pb-0">
+      <main className="flex-1 lg:ml-[260px] pb-24 lg:pb-0">
         {/* Header */}
         <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
           <div className="max-w-4xl mx-auto px-8 py-6">
