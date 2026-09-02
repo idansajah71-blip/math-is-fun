@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Brain, CheckCircle2, XCircle, Sparkles } from "lucide-react";
 import GameHeader from "@/components/game/GameHeader";
@@ -77,6 +77,16 @@ export default function MemoryPairsGame({ onExit }: MemoryPairsGameProps) {
   const [level, setLevel] = useState(1);
   const [shake, setShake] = useState(false);
   const [matchedPair, setMatchedPair] = useState<number | null>(null);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
 
   const isPremium = isPremiumActive();
 
@@ -93,6 +103,10 @@ export default function MemoryPairsGame({ onExit }: MemoryPairsGameProps) {
     setFlippedIds([]);
     setMatchedPair(null);
     setCards(generatePairs(1, 8));
+  }, []);
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
   }, []);
 
   useEffect(() => {
@@ -156,7 +170,7 @@ export default function MemoryPairsGame({ onExit }: MemoryPairsGameProps) {
         });
         setTimer((t) => Math.min(60, t + 3));
 
-        setTimeout(() => {
+        scheduleTimer(() => {
           setCards((prev) =>
             prev.map((c) => (c.pairId === first.pairId ? { ...c, matched: true } : c))
           );
@@ -168,10 +182,10 @@ export default function MemoryPairsGame({ onExit }: MemoryPairsGameProps) {
         // No match
         playWrongSound();
         setShake(true);
-        setTimeout(() => setShake(false), 400);
+        scheduleTimer(() => setShake(false), 400);
         setStreak(0);
         setTimer((t) => Math.max(0, t - 2));
-        setTimeout(() => setFlippedIds([]), 700);
+        scheduleTimer(() => setFlippedIds([]), 700);
       }
     }
   }, [flippedIds, cards]);
@@ -180,7 +194,7 @@ export default function MemoryPairsGame({ onExit }: MemoryPairsGameProps) {
   useEffect(() => {
     if (matchCount >= 8 && gameState === "playing") {
       // Generate new grid
-      setTimeout(() => {
+      scheduleTimer(() => {
         setCards(generatePairs(level, 8));
         setMatchCount(0);
         setFlippedIds([]);

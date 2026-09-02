@@ -67,6 +67,16 @@ export default function EventPlay({ event, userId, onComplete }: EventPlayProps)
   const scoreRef = useRef(0);
   const completedRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
 
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -128,6 +138,10 @@ export default function EventPlay({ event, userId, onComplete }: EventPlayProps)
   }, [config.hasTimer, finished, questions.length, event.questionsCount]);
 
   useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
+
+  useEffect(() => {
     if (!config.hasTimer || finished || questions.length === 0) return;
     timerRef.current = setInterval(() => {
       setTimer((t) => {
@@ -160,7 +174,7 @@ export default function EventPlay({ event, userId, onComplete }: EventPlayProps)
     playCompleteSound();
     setGameOver(isAlwaysWin ? "victory" : bossHp <= 0 ? "victory" : "defeat");
     setFinalScore(scoreRef.current);
-    setTimeout(() => {
+    scheduleTimer(() => {
       onComplete(scoreRef.current, isAlwaysWin || bossHp <= 0);
     }, config.hasTimer ? (timer === 0 ? 2000 : 1500) : 2500);
   }, [config.hasTimer, timer, bossHp, onComplete]);
@@ -204,7 +218,7 @@ export default function EventPlay({ event, userId, onComplete }: EventPlayProps)
         setBossHp(newHp);
         setLastDamage(damage);
         if (newHp <= 0) {
-          setTimeout(() => finishGame(true), 1200);
+          scheduleTimer(() => finishGame(true), 1200);
           return;
         }
       }
@@ -213,11 +227,11 @@ export default function EventPlay({ event, userId, onComplete }: EventPlayProps)
 
       if (config.hasBossHp || config.hasLives) {
         setShaking(true);
-        setTimeout(() => setShaking(false), 400);
+        scheduleTimer(() => setShaking(false), 400);
         const newLives = lives - 1;
         setLives(newLives);
         if (newLives <= 0) {
-          setTimeout(() => finishGame(false), 1200);
+          scheduleTimer(() => finishGame(false), 1200);
           return;
         }
       }
@@ -243,7 +257,7 @@ export default function EventPlay({ event, userId, onComplete }: EventPlayProps)
 
     const delay = config.hasTimer ? 800 : 1500;
 
-    setTimeout(() => {
+    scheduleTimer(() => {
       if (config.hasDailyProgression) {
         setSelected(null);
         setShowResult(false);
@@ -261,7 +275,7 @@ export default function EventPlay({ event, userId, onComplete }: EventPlayProps)
           setDayComplete(true);
 
           if (currentDay >= totalDays) {
-            setTimeout(() => {
+            scheduleTimer(() => {
               if (completedRef.current) return;
               completedRef.current = true;
               setAllComplete(true);

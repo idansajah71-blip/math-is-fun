@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import { useAuth } from "@/contexts/AuthContext";
@@ -41,6 +41,20 @@ export default function RoomsPage() {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [joining, setJoining] = useState(false);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   const [form, setForm] = useState({
     type: "boss_battle" as EventType,
@@ -93,7 +107,7 @@ export default function RoomsPage() {
   function handleCopy(code: string) {
     navigator.clipboard.writeText(code);
     setCopiedCode(code);
-    setTimeout(() => setCopiedCode(null), 2000);
+    scheduleTimer(() => setCopiedCode(null), 2000);
   }
 
   function handleDelete(code: string) {

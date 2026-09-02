@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { getRegistryStats } from "@/lib/admin/registry";
 import { getAllUserProfiles } from "@/lib/gamification";
@@ -27,6 +27,20 @@ export default function AdminDashboardPage() {
   const [contentTarget, setContentTarget] = useState({ current: 0, target: 50 });
   const [rewardMsg, setRewardMsg] = useState("");
   const [rewardSaved, setRewardSaved] = useState(false);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("matika_site_settings");
@@ -43,7 +57,7 @@ export default function AdminDashboardPage() {
     settings.dailyRewardMessage = rewardMsg;
     localStorage.setItem("matika_site_settings", JSON.stringify(settings));
     setRewardSaved(true);
-    setTimeout(() => setRewardSaved(false), 2000);
+    scheduleTimer(() => setRewardSaved(false), 2000);
   }
 
   useEffect(() => {

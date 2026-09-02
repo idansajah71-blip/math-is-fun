@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lightbulb, CheckCircle2, XCircle, Zap, Sparkles } from "lucide-react";
 import GameHeader from "@/components/game/GameHeader";
@@ -111,6 +111,16 @@ export default function FormulaRushGame({ onExit }: FormulaRushGameProps) {
   const [isCorrectAnswer, setIsCorrectAnswer] = useState<boolean | null>(null);
   const [level, setLevel] = useState(1);
   const [shake, setShake] = useState(false);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
 
   const isPremium = isPremiumActive();
   const allFormulas = getAllFormulaMetas();
@@ -142,6 +152,10 @@ export default function FormulaRushGame({ onExit }: FormulaRushGameProps) {
       description: f.description,
     });
   }, [allFormulas]);
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   useEffect(() => {
     if (gameState !== "playing") return;
@@ -208,12 +222,12 @@ export default function FormulaRushGame({ onExit }: FormulaRushGameProps) {
     } else {
       playWrongSound();
       setShake(true);
-      setTimeout(() => setShake(false), 400);
+      scheduleTimer(() => setShake(false), 400);
       setStreak(0);
       setTimer((t) => Math.max(0, t - 3));
     }
 
-    setTimeout(() => {
+    scheduleTimer(() => {
       if (timer > 0) {
         setSelectedAnswer(null);
         setShowResult(false);

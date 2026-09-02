@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import { getProfile, addXp, LEVEL_NAMES, getAllUserProfiles, getDefaultProfile } from "@/lib/gamification";
@@ -66,6 +66,20 @@ export default function FriendsPage() {
   const [showChallengeModal, setShowChallengeModal] = useState<string | null>(null);
   const [challengeTopic, setChallengeTopic] = useState("");
   const [simResult, setSimResult] = useState<{ winner: string; myScore: number; friendScore: number } | null>(null);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   const load = useCallback(() => {
     setProfile(getProfile());
@@ -179,7 +193,7 @@ export default function FriendsPage() {
     setChallengeTopic("");
 
     // Simulate friend accepting after 1s
-    setTimeout(() => {
+    scheduleTimer(() => {
       const friendScore = Math.floor(Math.random() * 50) + 40;
       const allChallenges = getChallenges();
       const c = allChallenges.find(ch => ch.id === challenge.id);

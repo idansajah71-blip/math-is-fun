@@ -103,6 +103,16 @@ export default function SpeedMathGame({ onExit }: SpeedMathGameProps) {
   const [shake, setShake] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const answerTimeRef = useRef<number>(Date.now());
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
 
   const isPremium = isPremiumActive();
 
@@ -121,6 +131,10 @@ export default function SpeedMathGame({ onExit }: SpeedMathGameProps) {
     setIsCorrect(null);
     setProblem(generateProblem(1));
     answerTimeRef.current = Date.now();
+  }, []);
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
   }, []);
 
   useEffect(() => {
@@ -180,12 +194,12 @@ export default function SpeedMathGame({ onExit }: SpeedMathGameProps) {
     } else {
       playWrongSound();
       setShake(true);
-      setTimeout(() => setShake(false), 400);
+      scheduleTimer(() => setShake(false), 400);
       setStreak(0);
       setTimer((t) => Math.max(0, t - 3));
     }
 
-    setTimeout(() => {
+    scheduleTimer(() => {
       if (timer > 0) {
         setSelectedAnswer(null);
         setShowResult(false);

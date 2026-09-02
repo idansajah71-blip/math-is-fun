@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useEffect } from "react";
+import { use, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
@@ -38,6 +38,20 @@ export default function RoomLobbyPage({ params }: { params: Promise<{ code: stri
   const [room, setRoom] = useState<Room | null>(null);
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   useEffect(() => {
     const r = getRoomByCode(code);
@@ -67,7 +81,7 @@ export default function RoomLobbyPage({ params }: { params: Promise<{ code: stri
   function handleCopy() {
     navigator.clipboard.writeText(code);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    scheduleTimer(() => setCopied(false), 2000);
   }
 
   function handleStart() {

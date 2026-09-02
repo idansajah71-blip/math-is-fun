@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import FeatureGuard from "@/components/admin/FeatureGuard";
@@ -40,6 +40,20 @@ export default function QuizEditorPage() {
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   useEffect(() => {
     if (authLoading) return;
@@ -108,7 +122,7 @@ export default function QuizEditorPage() {
       document.body.removeChild(textarea);
     }
     setCopiedCode(code);
-    setTimeout(() => setCopiedCode(null), 2000);
+    scheduleTimer(() => setCopiedCode(null), 2000);
   };
 
   const handleDelete = (id: string) => {

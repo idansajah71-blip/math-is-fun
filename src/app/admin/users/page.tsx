@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { getAllRegistryUsers, getRegistryStats, updateUserRegistry, type RegistryUser } from "@/lib/admin/registry";
 import { getAllUserProfiles, getDefaultProfile, saveProfileForKey, type UserProfile } from "@/lib/gamification";
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,6 +27,20 @@ export default function AdminUsersPage() {
   const [modalUser, setModalUser] = useState<UserRow | null>(null);
   const [removingPremium, setRemovingPremium] = useState<string | null>(null);
   const [upgradingUser, setUpgradingUser] = useState<string | null>(null);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   const loadUsers = useCallback(() => {
     const registry = getAllRegistryUsers();
@@ -201,7 +215,7 @@ export default function AdminUsersPage() {
       );
 
       setUpgraded(userId);
-      setTimeout(() => setUpgraded(null), 3000);
+      scheduleTimer(() => setUpgraded(null), 3000);
     } finally {
       setUpgradingUser(null);
     }

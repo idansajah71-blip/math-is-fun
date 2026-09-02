@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Sidebar from "@/components/Sidebar";
 import { getProfile, purchaseItem, SHOP_ITEMS } from "@/lib/gamification";
 import { motion } from "framer-motion";
@@ -15,6 +15,20 @@ export default function ShopPage() {
   const [buying, setBuying] = useState<string | null>(null);
   const [bought, setBought] = useState<string | null>(null);
   const [insufficient, setInsufficient] = useState<string | null>(null);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   useEffect(() => {
     setProfile(getProfile());
@@ -29,17 +43,17 @@ export default function ShopPage() {
 
     if (profile.gems < item.price) {
       setInsufficient(itemId);
-      setTimeout(() => setInsufficient(null), 2000);
+      scheduleTimer(() => setInsufficient(null), 2000);
       return;
     }
 
     setBuying(itemId);
-    setTimeout(() => {
+    scheduleTimer(() => {
       const updated = purchaseItem(itemId);
       setProfile(updated);
       setBuying(null);
       setBought(itemId);
-      setTimeout(() => setBought(null), 1500);
+      scheduleTimer(() => setBought(null), 1500);
     }, 800);
   };
 

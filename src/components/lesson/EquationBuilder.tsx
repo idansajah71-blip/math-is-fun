@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface EquationStep {
@@ -20,6 +20,20 @@ export default function EquationBuilder({ steps, onComplete }: EquationBuilderPr
   const [answers, setAnswers] = useState<(number | null)[]>(new Array(steps.length).fill(null));
   const [submitted, setSubmitted] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   const step = steps[currentStep];
   const allAnswered = answers.every((a) => a !== null);
@@ -31,7 +45,7 @@ export default function EquationBuilder({ steps, onComplete }: EquationBuilderPr
     setAnswers(newAnswers);
 
     // Auto-advance after short delay
-    setTimeout(() => {
+    scheduleTimer(() => {
       if (currentStep < steps.length - 1) {
         setCurrentStep(currentStep + 1);
       }
@@ -43,7 +57,7 @@ export default function EquationBuilder({ steps, onComplete }: EquationBuilderPr
     setSubmitted(true);
 
     const allCorrect = answers.every((a, i) => a === steps[i].correctIndex);
-    setTimeout(() => {
+    scheduleTimer(() => {
       setShowResult(true);
       onComplete(allCorrect);
     }, 500);

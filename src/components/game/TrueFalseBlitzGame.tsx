@@ -90,6 +90,16 @@ export default function TrueFalseBlitzGame({ onExit }: TrueFalseBlitzGameProps) 
   const [level, setLevel] = useState(1);
   const [shake, setShake] = useState(false);
   const answerTimeRef = useRef<number>(Date.now());
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
 
   const isPremium = isPremiumActive();
 
@@ -108,6 +118,10 @@ export default function TrueFalseBlitzGame({ onExit }: TrueFalseBlitzGameProps) 
     setIsCorrectAnswer(null);
     setQuestion(generateQuestion(1));
     answerTimeRef.current = Date.now();
+  }, []);
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
   }, []);
 
   useEffect(() => {
@@ -163,11 +177,11 @@ export default function TrueFalseBlitzGame({ onExit }: TrueFalseBlitzGameProps) 
     } else {
       playWrongSound();
       setShake(true);
-      setTimeout(() => setShake(false), 400);
+      scheduleTimer(() => setShake(false), 400);
       setStreak(0);
     }
 
-    setTimeout(() => {
+    scheduleTimer(() => {
       if (timer > 0) {
         setSelected(null);
         setShowResult(false);

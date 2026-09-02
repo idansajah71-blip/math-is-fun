@@ -322,6 +322,17 @@ export default function Mascot({
   const [pupilOffset, setPupilOffset] = useState({ x: 0, y: 0 });
   const mascotRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
+  const blinkTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
 
   useEffect(() => {
     if (!clickReaction) {
@@ -330,9 +341,16 @@ export default function Mascot({
   }, [mood, clickReaction]);
 
   useEffect(() => {
+    return () => {
+      timersRef.current.forEach(clearTimeout);
+      if (blinkTimerRef.current) clearTimeout(blinkTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
     const doBlink = () => {
       setBlinkScale(0.05);
-      setTimeout(() => setBlinkScale(1), 140);
+      blinkTimerRef.current = setTimeout(() => setBlinkScale(1), 140);
     };
     const scheduleNext = () => {
       const t = 2800 + Math.random() * 3200;
@@ -403,11 +421,11 @@ export default function Mascot({
       }));
       setFloatingParticles((prev) => [...prev, ...newParticles]);
 
-      setTimeout(() => {
+      scheduleTimer(() => {
         setFloatingParticles((prev) => prev.filter((p) => !newParticles.find((np) => np.id === p.id)));
       }, 1600);
 
-      setTimeout(() => {
+      scheduleTimer(() => {
         setClickReaction(null);
         setDisplayMood(mood);
       }, 2600);

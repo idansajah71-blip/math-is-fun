@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import Sidebar from "@/components/Sidebar";
 import Confetti from "@/components/ui/Confetti";
 import XpPopup from "@/components/ui/XpPopup";
@@ -75,6 +75,20 @@ export default function DailyQuizPage() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
   const [alreadyCompleted, setAlreadyCompleted] = useState(false);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   const todayStr = getTodayStr();
 
@@ -150,7 +164,7 @@ export default function DailyQuizPage() {
       if (score >= 5) playCompleteSound();
       if (score >= 8) {
         setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 4000);
+        scheduleTimer(() => setShowConfetti(false), 4000);
       }
       setShowXp(true);
       setStep("result");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Sidebar from "@/components/Sidebar";
 import ProgressRing from "@/components/ui/ProgressRing";
 import XPBar from "@/components/ui/XPBar";
@@ -19,6 +19,20 @@ export default function ProfilePage() {
   const [nameError, setNameError] = useState("");
   const [copied, setCopied] = useState(false);
   const [saving, setSaving] = useState(false);
+  const timersRef = useRef<number[]>([]);
+
+  const scheduleTimer = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timersRef.current = timersRef.current.filter((t) => t !== id);
+      fn();
+    }, ms);
+    timersRef.current.push(id);
+    return id;
+  };
+
+  useEffect(() => {
+    return () => { timersRef.current.forEach(clearTimeout); };
+  }, []);
 
   useEffect(() => {
     const p = getProfile();
@@ -78,7 +92,7 @@ export default function ProfilePage() {
     } else {
       navigator.clipboard.writeText(shareText);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      scheduleTimer(() => setCopied(false), 2000);
     }
   };
 
