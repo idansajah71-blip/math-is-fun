@@ -311,7 +311,7 @@ export default function DailyChallengePage() {
                         <motion.div key={entry.userId} variants={staggerItem} className="flex items-center gap-3 px-4 py-3">
                           <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black ${
                             entry.rank === 1 ? "bg-yellow-400 text-white" :
-                            entry.rank === 2 ? "bg-gray-300 text-gray-700" :
+                            entry.rank === 2 ? "bg-gray-300 dark:bg-gray-500 text-gray-700 dark:text-gray-100" :
                             entry.rank === 3 ? "bg-amber-600 text-white" :
                             "bg-gray-100 dark:bg-gray-800 text-[var(--duo-text-muted)]"
                           }`}>

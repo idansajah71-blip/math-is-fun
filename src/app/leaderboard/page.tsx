@@ -164,11 +164,11 @@ export default function LeaderboardPage() {
                     const heights = ["h-28", "h-36", "h-24"];
                     const widths = ["w-24", "w-28", "w-24"];
                     const medalIcons = [
-                      <Medal size={24} className="text-gray-400" />,
-                      <Crown size={24} className="text-[var(--duo-xp)]" />,
-                      <Award size={24} className="text-orange-400" />
+                      <Medal key="silver" size={24} className="text-gray-400" />,
+                      <Crown key="gold" size={24} className="text-[var(--duo-xp)]" />,
+                      <Award key="bronze" size={24} className="text-orange-400" />
                     ];
-                    const medalColors = ["bg-gray-400", "bg-[var(--duo-xp)]", "bg-orange-400"];
+                    const medalColors = ["bg-gray-400 dark:bg-gray-500", "bg-[var(--duo-xp)]", "bg-orange-400"];
                     const isTop3 = idx === 0;
 
                     return (
@@ -181,7 +181,7 @@ export default function LeaderboardPage() {
                       >
                         <motion.div
                           className={`w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-lg mb-2 shadow-lg ${
-                            isTop3 ? "bg-gradient-to-br from-[var(--duo-xp)] to-[var(--duo-orange)]" : "bg-gradient-to-br from-gray-400 to-gray-500"
+                            isTop3 ? "bg-gradient-to-br from-[var(--duo-xp)] to-[var(--duo-orange)]" : "bg-gradient-to-br from-gray-400 dark:from-gray-500 to-gray-500 dark:to-gray-600"
                           }`}
                           whileHover={{ scale: 1.1 }}
                         >

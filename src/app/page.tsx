@@ -613,13 +613,11 @@ function HomeContent() {
   // Safety: force mounted after 3s even if init useEffect has issues
   useEffect(() => {
     const safety = setTimeout(() => {
-      setMounted((prev) => {
-        if (!prev) console.warn("[Matika] safety timer fired — forcing mounted");
+      setMounted(() => {
         return true;
       });
       setProfile((prev) => {
         if (!prev) {
-          console.warn("[Matika] safety timer: profile was null, loading default");
           try { return getProfile(); } catch { return getDefaultProfile(); }
         }
         return prev;
@@ -717,8 +715,7 @@ function HomeContent() {
         window.removeEventListener("xp-updated", onXpUpdated);
         window.removeEventListener("storage", onStorage);
       });
-    } catch (err) {
-      console.warn("[Matika] init error:", err);
+    } catch {
     } finally {
       if (!cancelled) setMounted(true);
     }

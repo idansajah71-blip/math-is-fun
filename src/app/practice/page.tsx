@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Confetti from "@/components/ui/Confetti";
 import Hearts from "@/components/Hearts";
@@ -14,6 +15,7 @@ import AnimatedButton from "@/components/ui/AnimatedButton";
 import type { QuizQuestion } from "@/lib/types";
 
 export default function PracticePage() {
+  const router = useRouter();
   const [step, setStep] = useState<"config" | "quiz" | "result">("config");
   const [selectedTopic, setSelectedTopic] = useState("all");
   const [numQuestions, setNumQuestions] = useState(10);
@@ -135,7 +137,7 @@ export default function PracticePage() {
                   {[5, 10, 15, 20].map((n) => (
                     <button key={n} onClick={() => setNumQuestions(n)}
                       className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${
-                        numQuestions === n ? "bg-[var(--primary)] text-white border-[var(--primary)]" : "border-[var(--duo-border)] text-gray-600 hover:bg-[var(--duo-bg)]"
+                        numQuestions === n ? "bg-[var(--primary)] text-white border-[var(--primary)]" : "border-[var(--duo-border)] text-gray-600 dark:text-gray-300 hover:bg-[var(--duo-bg)]"
                       }`}>{n}</button>
                   ))}
                 </div>
@@ -148,7 +150,7 @@ export default function PracticePage() {
                   {[{ v: 0, l: "Tanpa" }, { v: 5, l: "5 min" }, { v: 10, l: "10 min" }, { v: 15, l: "15 min" }].map((t) => (
                     <button key={t.v} onClick={() => setTimeLimit(t.v)}
                       className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${
-                        timeLimit === t.v ? "bg-[var(--primary)] text-white border-[var(--primary)]" : "border-[var(--duo-border)] text-gray-600 hover:bg-[var(--duo-bg)]"
+                        timeLimit === t.v ? "bg-[var(--primary)] text-white border-[var(--primary)]" : "border-[var(--duo-border)] text-gray-600 dark:text-gray-300 hover:bg-[var(--duo-bg)]"
                       }`}>{t.l}</button>
                   ))}
                 </div>
@@ -158,7 +160,7 @@ export default function PracticePage() {
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-[var(--duo-text-muted)]">Suara</span>
                 <button onClick={() => setSoundOn(!soundOn)}
-                  className={`w-10 h-5 rounded-full transition-colors ${soundOn ? "bg-[var(--primary)]" : "bg-gray-300"} relative`}>
+                  className={`w-10 h-5 rounded-full transition-colors ${soundOn ? "bg-[var(--primary)]" : "bg-gray-300 dark:bg-gray-600"} relative`}>
                   <div className={`w-4 h-4 bg-[var(--duo-card)] rounded-full absolute top-0.5 transition-all ${soundOn ? "left-5" : "left-0.5"}`} />
                 </button>
               </div>
@@ -199,7 +201,7 @@ export default function PracticePage() {
             </div>
 
             {/* Progress */}
-            <div className="h-2 bg-gray-200 rounded-full mb-8 overflow-hidden">
+            <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full mb-8 overflow-hidden">
               <div className="h-full bg-[var(--primary)] rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
             </div>
 
@@ -268,15 +270,15 @@ export default function PracticePage() {
             <p className="text-sm text-[var(--duo-text-muted)] mb-6">{score}/{questions.length} soal benar</p>
 
             <div className="grid grid-cols-3 gap-3 mb-6">
-              <div className="p-3 bg-emerald-50 rounded-lg">
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950 rounded-lg">
                 <p className="text-lg font-bold text-emerald-600">{score}</p>
                 <p className="text-[10px] text-[var(--duo-text-muted)]">Benar</p>
               </div>
-              <div className="p-3 bg-red-50 rounded-lg">
+              <div className="p-3 bg-red-50 dark:bg-red-950 rounded-lg">
                 <p className="text-lg font-bold text-red-600">{questions.length - score}</p>
                 <p className="text-[10px] text-[var(--duo-text-muted)]">Salah</p>
               </div>
-              <div className="p-3 bg-blue-50 rounded-lg">
+              <div className="p-3 bg-blue-50 dark:bg-blue-950 rounded-lg">
                 <p className="text-lg font-bold text-[var(--primary)]">{score * 5}</p>
                 <p className="text-[10px] text-[var(--duo-text-muted)]">XP</p>
               </div>
@@ -286,7 +288,7 @@ export default function PracticePage() {
               <AnimatedButton onClick={() => setStep("config")} fullWidth variant="outline" size="lg" icon={<RotateCcw size={14} />}>
                 Ulangi
               </AnimatedButton>
-              <AnimatedButton onClick={() => window.location.href = "/"} fullWidth variant="primary" size="lg">
+              <AnimatedButton onClick={() => router.push("/")} fullWidth variant="primary" size="lg">
                 Ke Beranda
               </AnimatedButton>
             </div>

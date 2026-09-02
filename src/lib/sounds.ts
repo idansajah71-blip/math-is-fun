@@ -1,5 +1,7 @@
 "use client";
 
+import { isFlagEnabled } from "./admin/flags";
+
 let soundEnabled = typeof window !== "undefined" ? localStorage.getItem("matika-sound") !== "0" : true;
 let audioCtx: AudioContext | null = null;
 
@@ -35,10 +37,7 @@ function haptic(ms: number = 10) {
 
 export function playCorrectSound() {
   if (!soundEnabled || typeof window === "undefined") return;
-  try {
-    const { isFlagEnabled } = require("./admin/flags");
-    if (!isFlagEnabled("sound")) return;
-  } catch {}
+  if (!isFlagEnabled("sound")) return;
   haptic(10);
   const ctx = getAudioContext();
   const osc = ctx.createOscillator();
@@ -57,10 +56,7 @@ export function playCorrectSound() {
 
 export function playWrongSound() {
   if (!soundEnabled || typeof window === "undefined") return;
-  try {
-    const { isFlagEnabled } = require("./admin/flags");
-    if (!isFlagEnabled("sound")) return;
-  } catch {}
+  if (!isFlagEnabled("sound")) return;
   haptic(30);
   const ctx = getAudioContext();
   const osc = ctx.createOscillator();
@@ -78,10 +74,7 @@ export function playWrongSound() {
 
 export function playLevelUpSound() {
   if (!soundEnabled || typeof window === "undefined") return;
-  try {
-    const { isFlagEnabled } = require("./admin/flags");
-    if (!isFlagEnabled("sound")) return;
-  } catch {}
+  if (!isFlagEnabled("sound")) return;
   haptic(20);
   const ctx = getAudioContext();
   const notes = [523, 659, 784, 1047];
@@ -101,10 +94,7 @@ export function playLevelUpSound() {
 
 export function playCompleteSound() {
   if (!soundEnabled || typeof window === "undefined") return;
-  try {
-    const { isFlagEnabled } = require("./admin/flags");
-    if (!isFlagEnabled("sound")) return;
-  } catch {}
+  if (!isFlagEnabled("sound")) return;
   haptic(15);
   const ctx = getAudioContext();
   const notes = [392, 440, 523, 659, 784];
@@ -124,10 +114,7 @@ export function playCompleteSound() {
 
 export function playClickSound() {
   if (!soundEnabled || typeof window === "undefined") return;
-  try {
-    const { isFlagEnabled } = require("./admin/flags");
-    if (!isFlagEnabled("sound")) return;
-  } catch {}
+  if (!isFlagEnabled("sound")) return;
   haptic(5);
   const ctx = getAudioContext();
   const osc = ctx.createOscillator();
@@ -144,10 +131,7 @@ export function playClickSound() {
 
 export function playAchievementSound() {
   if (!soundEnabled || typeof window === "undefined") return;
-  try {
-    const { isFlagEnabled } = require("./admin/flags");
-    if (!isFlagEnabled("sound")) return;
-  } catch {}
+  if (!isFlagEnabled("sound")) return;
   haptic(25);
   const ctx = getAudioContext();
   const notes = [659, 784, 988, 1319];
@@ -167,10 +151,7 @@ export function playAchievementSound() {
 
 export function playStreakSound() {
   if (!soundEnabled || typeof window === "undefined") return;
-  try {
-    const { isFlagEnabled } = require("./admin/flags");
-    if (!isFlagEnabled("sound")) return;
-  } catch {}
+  if (!isFlagEnabled("sound")) return;
   haptic(15);
   const ctx = getAudioContext();
   const notes = [440, 554, 659];
@@ -190,10 +171,7 @@ export function playStreakSound() {
 
 export function playGemSound() {
   if (!soundEnabled || typeof window === "undefined") return;
-  try {
-    const { isFlagEnabled } = require("./admin/flags");
-    if (!isFlagEnabled("sound")) return;
-  } catch {}
+  if (!isFlagEnabled("sound")) return;
   haptic(10);
   const ctx = getAudioContext();
   const osc = ctx.createOscillator();
@@ -211,10 +189,7 @@ export function playGemSound() {
 
 export function playHeartSound() {
   if (!soundEnabled || typeof window === "undefined") return;
-  try {
-    const { isFlagEnabled } = require("./admin/flags");
-    if (!isFlagEnabled("sound")) return;
-  } catch {}
+  if (!isFlagEnabled("sound")) return;
   haptic(10);
   const ctx = getAudioContext();
   const osc = ctx.createOscillator();

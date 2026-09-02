@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
 /* ===== SEMANTIC THEME TOKENS v2.0 — Premium ===== */
@@ -242,9 +241,9 @@
   --color-duo-pink: var(--duo-pink);
   --color-card: var(--duo-card);
   --color-border: var(--duo-border);
-  --font-sans: "Outfit", "Nunito", system-ui, -apple-system, sans-serif;
-  --font-display: "Poppins", "Outfit", "Nunito", system-ui, sans-serif;
-  --font-body: "Nunito", "Outfit", system-ui, sans-serif;
+  --font-sans: var(--font-nunito), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-poppins), var(--font-nunito), system-ui, sans-serif;
+  --font-body: var(--font-nunito), system-ui, sans-serif;
   --radius-xs: var(--radius-xs);
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
@@ -1404,7 +1403,7 @@ body.app-bg-body {
 }
 
 /* ===== KATEX Premium ===== */
-.katex { font-size: 1.08em !important; font-family: "KaTeX_Main", "Nunito", serif; }
+.katex { font-size: 1.08em !important; font-family: "KaTeX_Main", var(--font-nunito), serif; }
 .katex-display {
   margin: 1.2em 0 !important;
   overflow-x: auto;

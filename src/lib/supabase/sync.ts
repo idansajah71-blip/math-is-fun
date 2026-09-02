@@ -147,9 +147,7 @@ export async function pushProfile(profile: UserProfile): Promise<void> {
     .from("profiles")
     .upsert({ id: user.id, ...row }, { onConflict: "id" });
 
-  if (error) {
-    console.error("[sync] pushProfile failed:", error.message);
-  }
+
 }
 
 /**
@@ -176,7 +174,6 @@ export async function fetchLeaderboard(type: "weekly" | "alltime" = "weekly") {
     .limit(50);
 
   if (error) {
-    console.warn("[sync] fetchLeaderboard skipped (Supabase not configured)");
     return [];
   }
 

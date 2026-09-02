@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Confetti from "@/components/ui/Confetti";
 import Hearts from "@/components/Hearts";
@@ -13,6 +14,7 @@ import AnimatedButton from "@/components/ui/AnimatedButton";
 import type { QuizQuestion } from "@/lib/types";
 
 export default function TryOutPage() {
+  const router = useRouter();
   const [step, setStep] = useState<"start" | "quiz" | "result">("start");
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentQ, setCurrentQ] = useState(0);
@@ -116,7 +118,7 @@ export default function TryOutPage() {
               <div className="flex items-center justify-between mb-4">
                 <span className="text-xs text-[var(--duo-text-muted)]">Suara</span>
                 <button onClick={() => setSoundOn(!soundOn)}
-                  className={`w-10 h-5 rounded-full transition-colors ${soundOn ? "bg-[var(--primary)]" : "bg-gray-300"} relative`}>
+                  className={`w-10 h-5 rounded-full transition-colors ${soundOn ? "bg-[var(--primary)]" : "bg-gray-300 dark:bg-gray-600"} relative`}>
                   <div className={`w-4 h-4 bg-[var(--duo-card)] rounded-full absolute top-0.5 transition-all ${soundOn ? "left-5" : "left-0.5"}`} />
                 </button>
               </div>
@@ -150,7 +152,7 @@ export default function TryOutPage() {
               </div>
             </div>
 
-            <div className="h-2 bg-gray-200 rounded-full mb-8 overflow-hidden">
+            <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full mb-8 overflow-hidden">
               <div className="h-full bg-[var(--primary)] rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
             </div>
 
@@ -230,7 +232,7 @@ export default function TryOutPage() {
               <AnimatedButton onClick={() => setStep("start")} fullWidth variant="outline" size="lg" icon={<RotateCcw size={14} />}>
                 Ulangi
               </AnimatedButton>
-              <AnimatedButton onClick={() => window.location.href = "/"} fullWidth variant="primary" size="lg">
+              <AnimatedButton onClick={() => router.push("/")} fullWidth variant="primary" size="lg">
                 Ke Beranda
               </AnimatedButton>
             </div>

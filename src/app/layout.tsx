@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from "next";
+import { Nunito, Poppins } from "next/font/google";
 import ClientProviders from "@/components/ClientProviders";
 import "./globals.css";
+
+const nunito = Nunito({ subsets: ["latin"], variable: "--font-nunito" });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"], variable: "--font-poppins" });
 
 export const metadata: Metadata = {
   title: "Matika - Matematika Seru Seperti Game",
@@ -29,12 +33,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/katex@0.18.4/dist/katex.min.css"
@@ -71,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           })();
         ` }} />
       </head>
-      <body className="min-h-screen bg-[var(--duo-bg)] text-[var(--duo-text)] antialiased font-sans">
+      <body className={`min-h-screen bg-[var(--duo-bg)] text-[var(--duo-text)] antialiased font-sans ${nunito.variable} ${poppins.variable}`}>
         <ClientProviders>{children}</ClientProviders>
       </body>
     </html>

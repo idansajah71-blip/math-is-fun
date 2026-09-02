@@ -80,7 +80,6 @@ export function updateTopic(slug: string, updates: Partial<ManagedTopic>): Manag
   const existing = topics[idx];
   const merged = { ...existing, ...updates, updatedAt: new Date().toISOString() };
   if (merged.content && hasDuplicatePattern(merged.content)) {
-    console.warn(`[content] Rejected duplicate content for topic "${slug}"`);
     merged.content = existing.content;
   }
   topics[idx] = merged;
