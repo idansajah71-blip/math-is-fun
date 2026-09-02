@@ -1,4 +1,5 @@
 export type Level = "smp" | "sma" | "kuliah";
+export type ClassLevel = "7" | "8" | "9";
 
 export interface Topic {
   id: string;
@@ -6,6 +7,7 @@ export interface Topic {
   title: string;
   level: Level;
   section: string;
+  class?: ClassLevel;
   icon: string;
   content: string;
   description: string;

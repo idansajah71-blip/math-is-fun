@@ -1,203 +1,751 @@
 [
   {
-    "id": "1-bilangan-bulat-pecahan-desimal-persen",
-    "slug": "1-bilangan-bulat-pecahan-desimal-persen",
-    "title": "1. Bilangan (Bulat, Pecahan, Desimal, Persen)",
+    "id": "7-1-bilangan-bulat",
+    "slug": "7-1-bilangan-bulat",
+    "title": "1. Bilangan Bulat",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
     "icon": "NumberCircleOne",
-    "content": "**Konsep:** Bilangan bulat $\\mathbb{Z} = \\{...,-2,-1,0,1,2,...\\}$, bilangan pecahan $\\frac{a}{b}$ dengan $b \\neq 0$, desimal, dan persen adalah representasi berbeda dari nilai yang sama.\n**Rumus Kunci:**\n- Konversi pecahan ke persen: $\\frac{a}{b} \\times 100\\%$\n- Operasi pecahan: $\\frac{a}{b} + \\frac{c}{d} = \\frac{ad+bc}{bd}$, $\\frac{a}{b} \\times \\frac{c}{d} = \\frac{ac}{bd}$, $\\frac{a}{b} \\div \\frac{c}{d} = \\frac{a}{b} \\times \\frac{d}{c}$\n- KPK dan FPB: FPB $\\times$ KPK $= a \\times b$\n- Bilangan berpangkat: $a^m \\times a^n = a^{m+n}$, $a^m \\div a^n = a^{m-n}$, $(a^m)^n = a^{mn}$\n**Contoh:** Sederhanakan $\\frac{3}{4} + \\frac{2}{5}$. Penyebut sama (KPK 4 dan 5 = 20): $\\frac{15}{20} + \\frac{8}{20} = \\frac{23}{20} = 1\\frac{3}{20}$.",
-    "description": "Bilangan bulat , bilangan pecahan  dengan , desimal, dan persen adalah representasi berbeda dari nilai yang sama."
+    "content": "**Konsep:** Bilangan bulat $\\athbb{Z} = \\{...,-2,-1,0,1,2,...\\}$ terdiri dari bilangan positif, nol, dan negatif.\\**Rumus Kunci:**\\- Penjumlahan bilangan bulat: $a + b$\\- Pengurangan: $a - b = a + (-b)$\\- Perkalian: positif $\\imes$ positif = positif, positif $\\imes$ negatif = negatif\\- Pembagian: aturan tanda sama dengan perkalian\\**Contoh:** $(-3) + 5 = 2$, $(-4) \\imes 3 = -12$, $(-6) \\iv (-2) = 3$.",
+    "description": "Bilangan bulat terdiri dari bilangan positif, nol, dan negatif."
   },
   {
-    "id": "2-himpunan",
-    "slug": "2-himpunan",
-    "title": "2. Himpunan",
+    "id": "7-2-bilangan-rasional",
+    "slug": "7-2-bilangan-rasional",
+    "title": "2. Bilangan Rasional",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
+    "icon": "Divide",
+    "content": "**Konsep:** Bilangan rasional adalah bilangan yang dapat ditulis sebagai $\\rac{a}{b}$ dengan $a, b$ bilangan bulat dan $b \\eq 0$.\\**Rumus Kunci:**\\- Konversi pecahan ke desimal: bagi pembilang dengan penyebut\\- Konversi desimal ke pecahan: tuliskan sebagai $\\rac{\\ext{desimal}}{10^n}$\\- Membandingkan pecahan: samakan penyebut atau konversi ke desimal\\**Contoh:** $\\rac{3}{4} = 0{,}75$, $0{,}25 = \\rac{1}{4}$.",
+    "description": "Bilangan rasional adalah bilangan yang dapat ditulis sebagai pecahan a/b."
+  },
+  {
+    "id": "7-3-pecahan-desimal-persen",
+    "slug": "7-3-pecahan-desimal-persen",
+    "title": "3. Pecahan, Desimal, dan Persen",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "7",
+    "icon": "Percent",
+    "content": "**Konsep:** Pecahan, desimal, dan persen adalah representasi berbeda dari nilai yang sama.\\**Rumus Kunci:**\\- Pecahan ke persen: $\\rac{a}{b} \\imes 100\\%$\\- Persen ke pecahan: bagi dengan 100, sederhanakan\\- Operasi pecahan: $\\rac{a}{b} + \\rac{c}{d} = \\rac{ad+bc}{bd}$\\**Contoh:** $\\rac{3}{4} = 75\\%$, $0{,}8 = \\rac{4}{5} = 80\\%$.",
+    "description": "Pecahan, desimal, dan persen adalah representasi berbeda dari nilai yang sama."
+  },
+  {
+    "id": "7-4-fpb-dan-kpk",
+    "slug": "7-4-fpb-dan-kpk",
+    "title": "4. FPB dan KPK",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "7",
+    "icon": "TreeStructure",
+    "content": "**Konsep:** FPB (Faktor Persekutuan Terbesar) dan KPK (Kelipatan Persekutuan Terkecil) dari dua atau lebih bilangan.\\**Rumus Kunci:**\\- FPB: faktor persekutuan terbesar dari dua bilangan\\- KPK: kelipatan persekutuan terkecil dari dua bilangan\\- Hubungan: $\\ext{FPB}(a,b) \\imes \\ext{KPK}(a,b) = a \\imes b$\\**Contoh:** FPB(12,18) = 6, KPK(12,18) = 36.",
+    "description": "FPB dan KPK adalah faktor persekutuan terbesar dan kelipatan persekutuan terkecil."
+  },
+  {
+    "id": "7-5-himpunan",
+    "slug": "7-5-himpunan",
+    "title": "5. Himpunan",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "7",
     "icon": "CirclesThree",
-    "content": "**Konsep:** Himpunan (set) adalah kumpulan objek yang terdefinisi dengan jelas. Dinotasikan dengan huruf kapital, anggotanya dengan huruf kecil atau simbol $\\in$.\n**Rumus Kunci:**\n- Irisan: $A \\cap B$ (anggota di A dan B)\n- Gabungan: $A \\cup B$ (anggota di A atau B)\n- Komplemen: $A^c$ atau $A'$ (anggota di semesta tapi bukan di A)\n- Selisih: $A - B$\n- Banyak anggota gabungan: $n(A \\cup B) = n(A) + n(B) - n(A \\cap B)$\n- Himpunan bagian: jika $A \\subseteq B$, banyak himpunan bagian dari A adalah $2^{n(A)}$\n**Contoh:** Jika $n(A)=10$, $n(B)=8$, $n(A \\cap B)=3$, maka $n(A \\cup B) = 10+8-3=15$.",
-    "description": "Himpunan (set) adalah kumpulan objek yang terdefinisi dengan jelas. Dinotasikan dengan huruf kapital, anggotanya dengan huruf kecil atau simbol ."
+    "content": "**Konsep:** Himpunan (set) adalah kumpulan objek yang terdefinisi dengan jelas.\\**Rumus Kunci:**\\- Irisan: $A \\ap B$ (anggota di A dan B)\\- Gabungan: $A \\up B$ (anggota di A atau B)\\- Komplemen: $A^c$ (anggota di semesta tapi bukan di A)\\- $n(A \\up B) = n(A) + n(B) - n(A \\ap B)$\\**Contoh:** Jika $n(A)=10$, $n(B)=8$, $n(A \\ap B)=3$, maka $n(A \\up B) = 15$.",
+    "description": "Himpunan adalah kumpulan objek yang terdefinisi dengan jelas."
   },
   {
-    "id": "3-bentuk-aljabar",
-    "slug": "3-bentuk-aljabar",
-    "title": "3. Bentuk Aljabar",
+    "id": "7-6-bentuk-aljabar",
+    "slug": "7-6-bentuk-aljabar",
+    "title": "6. Bentuk Aljabar",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
     "icon": "Function",
-    "content": "**Konsep:** Ekspresi matematika yang memuat variabel (huruf), koefisien, dan konstanta, misalnya $3x^2 + 2x - 5$.\n**Rumus Kunci — Pemfaktoran & Perkalian Istimewa:**\n- $(a+b)^2 = a^2+2ab+b^2$\n- $(a-b)^2 = a^2-2ab+b^2$\n- $a^2-b^2=(a+b)(a-b)$\n- $(a+b)^3 = a^3+3a^2b+3ab^2+b^3$\n- Pemfaktoran bentuk $ax^2+bx+c$: cari dua bilangan yang jumlahnya $b$ dan hasil kalinya $ac$\n**Contoh:** Faktorkan $x^2+7x+12$. Cari dua bilangan berjumlah 7, hasil kali 12 → 3 dan 4. Maka $(x+3)(x+4)$.",
-    "description": "Ekspresi matematika yang memuat variabel (huruf), koefisien, dan konstanta, misalnya ."
+    "content": "**Konsep:** Ekspresi matematika yang memuat variabel, koefisien, dan konstanta.\\**Rumus Kunci:**\\- $(a+b)^2 = a^2+2ab+b^2$\\- $(a-b)^2 = a^2-2ab+b^2$\\- $a^2-b^2=(a+b)(a-b)$\\- Pemfaktoran $ax^2+bx+c$: cari dua bilangan jumlahnya $b$, kalinya $ac$\\**Contoh:** Faktorkan $x^2+7x+12 \\o (x+3)(x+4)$.",
+    "description": "Ekspresi matematika yang memuat variabel, koefisien, dan konstanta."
   },
   {
-    "id": "4-persamaan-linear-satu-variabel-plsv",
-    "slug": "4-persamaan-linear-satu-variabel-plsv",
-    "title": "4. Persamaan Linear Satu Variabel (PLSV)",
+    "id": "7-7-aljabar-kalimat-matematika",
+    "slug": "7-7-aljabar-kalimat-matematika",
+    "title": "7. Aljabar dalam Kalimat Matematika",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
+    "icon": "TextAa",
+    "content": "**Konsep:** Mengubah kalimat bahasa Indonesia menjadi kalimat matematika dan sebaliknya.\\**Rumus Kunci:**\\- \"Jumlah\" berarti $+$, \"selisih\" berarti $-$\\- \"Kali\" berarti $\\imes$, \"dibagi\" berarti $\\iv$\\- \"Dua kali x\" = $2x$, \"tambah 3\" = $+3$\\**Contoh:** \"Jumlah dua bilangan adalah 10\" $\\o x + y = 10$.",
+    "description": "Mengubah kalimat bahasa menjadi kalimat matematika dan sebaliknya."
+  },
+  {
+    "id": "7-8-persamaan-linear-satu-variabel",
+    "slug": "7-8-persamaan-linear-satu-variabel",
+    "title": "8. Persamaan Linear Satu Variabel",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "7",
     "icon": "Scales",
-    "content": "**Konsep:** Persamaan berbentuk $ax+b=c$ dengan satu variabel berpangkat satu.\n**Rumus Kunci:**\n- Bentuk umum: $ax + b = c \\Rightarrow x = \\frac{c-b}{a}$\n- Prinsip: operasi yang sama pada kedua ruas tidak mengubah nilai kebenaran persamaan\n**Contoh:** $2x+5=13 \\Rightarrow 2x=8 \\Rightarrow x=4$.",
-    "description": "Persamaan berbentuk  dengan satu variabel berpangkat satu."
+    "content": "**Konsep:** Persamaan berbentuk $ax+b=c$ dengan satu variabel berpangkat satu.\\**Rumus Kunci:**\\- $ax + b = c \\ightarrow x = \\rac{c-b}{a}$\\- Prinsip: operasi sama pada kedua ruas\\**Contoh:** $2x+5=13 \\ightarrow 2x=8 \\ightarrow x=4$.",
+    "description": "Persamaan berbentuk ax+b=c dengan satu variabel berpangkat satu."
   },
   {
-    "id": "5-pertidaksamaan-linear-satu-variabel-ptlsv",
-    "slug": "5-pertidaksamaan-linear-satu-variabel-ptlsv",
-    "title": "5. Pertidaksamaan Linear Satu Variabel (PtLSV)",
+    "id": "7-9-pertidaksamaan-linear-satu-variabel",
+    "slug": "7-9-pertidaksamaan-linear-satu-variabel",
+    "title": "9. Pertidaksamaan Linear Satu Variabel",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
     "icon": "WarningCircle",
-    "content": "**Konsep:** Mirip PLSV tapi menggunakan tanda $<, \\leq, >, \\geq$.\n**Rumus Kunci:**\n- Aturan sama seperti persamaan, KECUALI: jika kedua ruas dikali/dibagi bilangan **negatif**, tanda pertidaksamaan **dibalik**\n- Solusi berupa interval/himpunan, bukan satu nilai\n**Contoh:** $-2x+4>10 \\Rightarrow -2x>6 \\Rightarrow x<-3$ (tanda dibalik karena dibagi $-2$).",
-    "description": "Mirip PLSV tapi menggunakan tanda ."
+    "content": "**Konsep:** Mirip PLSV tapi menggunakan tanda $<, \\eq, >, \\eq$.\\**Rumus Kunci:**\\- Aturan sama seperti persamaan, KECUALI jika dikali/dibagi bilangan **negatif**, tanda **dibalik**\\- Solusi berupa interval/himpunan\\**Contoh:** $-2x+4>10 \\ightarrow -2x>6 \\ightarrow x<-3$ (tanda dibalik).",
+    "description": "Mirip PLSV tapi menggunakan tanda pertidaksamaan."
   },
   {
-    "id": "6-perbandingan-senilai-berbalik-nilai",
-    "slug": "6-perbandingan-senilai-berbalik-nilai",
-    "title": "6. Perbandingan (Senilai & Berbalik Nilai)",
+    "id": "7-10-rasio-dan-perbandingan",
+    "slug": "7-10-rasio-dan-perbandingan",
+    "title": "10. Rasio dan Perbandingan",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
     "icon": "Ruler",
-    "content": "**Konsep:** Perbandingan senilai: dua besaran naik/turun bersama. Perbandingan berbalik nilai: satu naik, yang lain turun.\n**Rumus Kunci:**\n- Senilai: $\\frac{a_1}{b_1} = \\frac{a_2}{b_2}$ (grafik linear melalui origin)\n- Berbalik nilai: $a_1 \\times b_1 = a_2 \\times b_2$\n- Skala peta: skala $= \\frac{\\text{jarak pada peta}}{\\text{jarak sebenarnya}}$\n**Contoh:** 5 pekerja menyelesaikan proyek dalam 12 hari. Jika 3 pekerja, berapa hari? (berbalik nilai) $5 \\times 12 = 3 \\times d \\Rightarrow d=20$ hari.",
-    "description": "Perbandingan senilai: dua besaran naik/turun bersama. Perbandingan berbalik nilai: satu naik, yang lain turun."
+    "content": "**Konsep:** Rasio menghubungkan dua besaran. Perbandingan senilai: dua besaran naik/turun bersama.\\**Rumus Kunci:**\\- Rasio: $\\rac{a}{b}$ atau $a:b$\\- Perbandingan senilai: $\\rac{a_1}{b_1} = \\rac{a_2}{b_2}$\\- Perbandingan berbalik nilai: $a_1 \\imes b_1 = a_2 \\imes b_2$\\**Contoh:** 5 pekerja 12 hari. 3 pekerja = $\\rac{5 \\imes 12}{3} = 20$ hari.",
+    "description": "Rasio menghubungkan dua besaran. Perbandingan senilai dan berbalik nilai."
   },
   {
-    "id": "7-aritmetika-sosial",
-    "slug": "7-aritmetika-sosial",
-    "title": "7. Aritmetika Sosial",
+    "id": "7-11-perbandingan-senilai-berbalik-nilai",
+    "slug": "7-11-perbandingan-senilai-berbalik-nilai",
+    "title": "11. Perbandingan Senilai dan Berbalik Nilai",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
+    "icon": "ArrowsLeftRight",
+    "content": "**Konsep:** Perbandingan senilai: grafik linear melalui origin. Berbalik nilai: satu naik, yang lain turun.\\**Rumus Kunci:**\\- Senilai: $y = kx$ (k = konstanta)\\- Berbalik nilai: $y = \\rac{k}{x}$\\- Skala peta: $\\rac{\\ext{jarak peta}}{\\ext{jarak sebenarnya}}$\\**Contoh:** Jarak peta 5 cm, skala 1:100.000. Jarak sebenarnya = 5 km.",
+    "description": "Perbandingan senilai dan berbalik nilai dalam kehidupan sehari-hari."
+  },
+  {
+    "id": "7-12-aritmetika-sosial",
+    "slug": "7-12-aritmetika-sosial",
+    "title": "12. Aritmetika Sosial",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "7",
     "icon": "Coins",
-    "content": "**Konsep:** Penerapan matematika dalam ekonomi sehari-hari: untung, rugi, bunga, pajak, diskon.\n**Rumus Kunci:**\n- Untung $= $ Harga Jual $-$ Harga Beli (jika positif)\n- Persentase untung/rugi $= \\frac{\\text{untung/rugi}}{\\text{harga beli}} \\times 100\\%$\n- Bunga tunggal: $B = \\frac{P \\times r \\times t}{100}$ (P=modal, r=persen/tahun, t=waktu)\n- Diskon: Harga akhir $=$ Harga awal $\\times (1 - \\text{persen diskon})$\n- Bruto, Netto, Tara: Bruto $=$ Netto $+$ Tara\n**Contoh:** Barang dibeli Rp80.000, dijual Rp100.000. Untung $=$ Rp20.000, persentase untung $= \\frac{20.000}{80.000}\\times100\\% = 25\\%$.",
-    "description": "Penerapan matematika dalam ekonomi sehari-hari: untung, rugi, bunga, pajak, diskon."
+    "content": "**Konsep:** Penerapan matematika dalam ekonomi: untung, rugi, bunga, pajak, diskon.\\**Rumus Kunci:**\\- Untung = Harga Jual - Harga Beli\\- Persentase untung/rugi = $\\rac{\\ext{untung/rugi}}{\\ext{harga beli}} \\imes 100\\%$\\- Bunga tunggal: $B = \\rac{P \\imes r \\imes t}{100}$\\- Diskon: Harga akhir = Harga awal $\\imes (1 - \\ext{diskon})$\\**Contoh:** Barang Rp80.000 dijual Rp100.000. Untung = Rp20.000 (25%).",
+    "description": "Penerapan matematika dalam ekonomi: untung, rugi, bunga, pajak, diskon."
   },
   {
-    "id": "8-pola-bilangan-dan-barisan",
-    "slug": "8-pola-bilangan-dan-barisan",
-    "title": "8. Pola Bilangan dan Barisan",
+    "id": "7-13-fungsi-linear",
+    "slug": "7-13-fungsi-linear",
+    "title": "13. Fungsi Linear",
     "level": "smp",
     "section": "Matematika SMP",
-    "icon": "ListNumbers",
-    "content": "**Konsep:** Susunan bilangan yang mengikuti aturan tertentu.\n**Rumus Kunci:**\n- Barisan aritmetika: $U_n = a+(n-1)b$, dengan $b$ = beda\n- Barisan geometri: $U_n = a \\cdot r^{n-1}$, dengan $r$ = rasio\n- Pola bilangan segitiga: $\\frac{n(n+1)}{2}$\n- Pola bilangan persegi: $n^2$\n**Contoh:** Barisan $2,5,8,11,...$ punya beda $b=3$, sehingga $U_{10}=2+(10-1)(3)=29$.",
-    "description": "Susunan bilangan yang mengikuti aturan tertentu."
+    "class": "7",
+    "icon": "TrendUp",
+    "content": "**Konsep:** Fungsi linear berbentuk $f(x) = mx + c$, grafiknya garis lurus.\\**Rumus Kunci:**\\- $m$ = gradien/kemiringan, $c$ = titik potong sumbu-y\\- $m = \\rac{y_2-y_1}{x_2-x_1}$\\- Jika $m > 0$: fungsi naik. Jika $m < 0$: fungsi turun.\\**Contoh:** $f(x) = 2x + 1$. $f(3) = 7$. Gradien = 2 (naik).",
+    "description": "Fungsi linear berbentuk f(x) = mx + c, grafiknya garis lurus."
   },
   {
-    "id": "9-relasi-dan-fungsi",
-    "slug": "9-relasi-dan-fungsi",
-    "title": "9. Relasi dan Fungsi",
+    "id": "7-14-bangun-datar",
+    "slug": "7-14-bangun-datar",
+    "title": "14. Bangun Datar",
     "level": "smp",
     "section": "Matematika SMP",
-    "icon": "Link",
-    "content": "**Konsep:** Relasi menghubungkan anggota dua himpunan. Fungsi (pemetaan) adalah relasi khusus di mana setiap anggota domain berpasangan dengan **tepat satu** anggota kodomain.\n**Rumus Kunci:**\n- Notasi fungsi: $f: x \\to f(x)$ atau $y=f(x)$\n- Domain (daerah asal), Kodomain (daerah kawan), Range (daerah hasil)\n- Fungsi linear: $f(x)=mx+c$\n**Contoh:** $f(x)=2x+1$. Nilai $f(3)=2(3)+1=7$.",
-    "description": "Relasi menghubungkan anggota dua himpunan. Fungsi (pemetaan) adalah relasi khusus di mana setiap anggota domain berpasangan dengan **tepat satu** anggota kodomain."
+    "class": "7",
+    "icon": "Square",
+    "content": "**Konsep:** Bangun datar 2 dimensi: persegi, persegi panjang, segitiga, jajar genjang, trapesium, belah ketupat, layang-layang, lingkaran.\\**Rumus Kunci:**\\- Luas persegi: $s^2$; persegi panjang: $p \\imes l$\\- Luas segitiga: $\\rac{1}{2} \\imes a \\imes t$\\- Luas trapesium: $\\rac{1}{2}(a+b) \\imes t$\\- Luas jajar genjang: $a \\imes t$\\- Luas belah ketupat: $\\rac{1}{2} \\imes d_1 \\imes d_2$\\**Contoh:** Segitiga alas 10 cm, tinggi 6 cm → Luas = 30 cm².",
+    "description": "Bangun datar 2 dimensi dengan berbagai jenis dan rumus luas."
   },
   {
-    "id": "10-persamaan-garis-lurus",
-    "slug": "10-persamaan-garis-lurus",
-    "title": "10. Persamaan Garis Lurus",
+    "id": "7-15-segitiga-dan-segiempat",
+    "slug": "7-15-segitiga-dan-segiempat",
+    "title": "15. Segitiga dan Segiempat",
     "level": "smp",
     "section": "Matematika SMP",
-    "icon": "Graph",
-    "content": "**Konsep:** Representasi grafik dari fungsi linear berbentuk garis lurus pada bidang koordinat.\n**Rumus Kunci:**\n- Bentuk umum: $y=mx+c$ (m = gradien, c = titik potong sumbu-y)\n- Gradien dari 2 titik: $m = \\frac{y_2-y_1}{x_2-x_1}$\n- Persamaan garis melalui satu titik: $y-y_1=m(x-x_1)$\n- Garis sejajar: $m_1=m_2$. Garis tegak lurus: $m_1 \\times m_2=-1$\n**Contoh:** Garis melalui $(2,3)$ dan $(4,7)$: $m=\\frac{7-3}{4-2}=2$. Persamaan: $y-3=2(x-2) \\Rightarrow y=2x-1$.",
-    "description": "Representasi grafik dari fungsi linear berbentuk garis lurus pada bidang koordinat."
-  },
-  {
-    "id": "11-sistem-persamaan-linear-dua-variabel-spldv",
-    "slug": "11-sistem-persamaan-linear-dua-variabel-spldv",
-    "title": "11. Sistem Persamaan Linear Dua Variabel (SPLDV)",
-    "level": "smp",
-    "section": "Matematika SMP",
-    "icon": "Scales",
-    "content": "**Konsep:** Dua persamaan linear dengan dua variabel yang dicari solusinya secara bersamaan.\n**Rumus Kunci — Metode Penyelesaian:**\n- **Substitusi**: nyatakan satu variabel dalam variabel lain, substitusikan ke persamaan lain\n- **Eliminasi**: hilangkan salah satu variabel dengan menjumlah/mengurangkan persamaan\n- **Grafik**: titik potong dua garis adalah solusinya\n**Contoh:** $x+y=10$ dan $x-y=2$. Eliminasi: jumlahkan → $2x=12 \\Rightarrow x=6$, maka $y=4$.",
-    "description": "Dua persamaan linear dengan dua variabel yang dicari solusinya secara bersamaan."
-  },
-  {
-    "id": "12-garis-dan-sudut",
-    "slug": "12-garis-dan-sudut",
-    "title": "12. Garis dan Sudut",
-    "level": "smp",
-    "section": "Matematika SMP",
-    "icon": "CompassTool",
-    "content": "**Konsep:** Dasar geometri: hubungan antar garis dan besar sudut yang terbentuk.\n**Rumus Kunci:**\n- Sudut berpelurus (bersuplemen): jumlah $=180°$\n- Sudut berpenyiku (berkomplemen): jumlah $=90°$\n- Dua garis sejajar dipotong garis transversal: sudut sehadap sama besar, sudut dalam berseberangan sama besar, sudut dalam sepihak jumlahnya $180°$\n**Contoh:** Jika sudut A dan B berpelurus dan sudut A $=65°$, maka sudut B $=180°-65°=115°$.",
-    "description": "Dasar geometri: hubungan antar garis dan besar sudut yang terbentuk."
-  },
-  {
-    "id": "13-segitiga-dan-segiempat",
-    "slug": "13-segitiga-dan-segiempat",
-    "title": "13. Segitiga dan Segiempat",
-    "level": "smp",
-    "section": "Matematika SMP",
+    "class": "7",
     "icon": "Triangle",
-    "content": "**Konsep:** Bangun datar dasar dengan berbagai jenis dan sifat.\n**Rumus Kunci:**\n- Jumlah sudut segitiga $=180°$; segiempat $=360°$\n- Luas segitiga $=\\frac{1}{2} \\times \\text{alas} \\times \\text{tinggi}$\n- Luas persegi panjang $= p \\times l$; persegi $=s^2$\n- Luas trapesium $=\\frac{1}{2}(a+b) \\times t$\n- Luas jajar genjang $=$ alas $\\times$ tinggi\n- Luas belah ketupat $=\\frac{1}{2} \\times d_1 \\times d_2$\n- Keliling $=$ jumlah semua sisi\n**Contoh:** Segitiga dengan alas 10 cm, tinggi 6 cm → Luas $=\\frac{1}{2}\\times10\\times6=30$ cm².",
-    "description": "Bangun datar dasar dengan berbagai jenis dan sifat."
+    "content": "**Konsep:** Sifat dan klasifikasi segitiga (sama kaki, sama sisi, siku-siku) dan segiempat.\\**Rumus Kunci:**\\- Jumlah sudut segitiga = $180°$\\- Jumlah sudut segiempat = $360°$\\- Segitiga siku-siku: $a^2 + b^2 = c^2$ (Pythagoras)\\**Contoh:** Segitiga sama kaki dengan sudut puncak 40°. Sisa sudut = $\\rac{180-40}{2} = 70°$.",
+    "description": "Sifat dan klasifikasi segitiga dan segiempat."
   },
   {
-    "id": "14-teorema-pythagoras",
-    "slug": "14-teorema-pythagoras",
-    "title": "14. Teorema Pythagoras",
+    "id": "7-16-kesebangunan",
+    "slug": "7-16-kesebangunan",
+    "title": "16. Kesebangunan",
     "level": "smp",
     "section": "Matematika SMP",
-    "icon": "PencilRuler",
-    "content": "**Konsep:** Berlaku pada segitiga siku-siku: kuadrat sisi miring sama dengan jumlah kuadrat dua sisi lainnya.\n**Rumus Kunci:**\n- $c^2=a^2+b^2$ (c = sisi miring/hipotenusa)\n- Tripel Pythagoras umum: $(3,4,5)$, $(5,12,13)$, $(8,15,17)$, $(7,24,25)$\n**Contoh:** Sisi siku-siku 6 dan 8. Hipotenusa $=\\sqrt{6^2+8^2}=\\sqrt{100}=10$.",
-    "description": "Berlaku pada segitiga siku-siku: kuadrat sisi miring sama dengan jumlah kuadrat dua sisi lainnya."
+    "class": "7",
+    "icon": "Minimize",
+    "content": "**Konsep:** Dua bangun datar kesebangunan jika sudut-sudutnya sama besar dan perbandingan sisi-sisi yang bersesuaian tetap.\\**Rumus Kunci:**\\- Perbandingan sisi: $\\rac{AB}{A'B'} = \\rac{BC}{B'C'} = \\rac{AC}{A'C'} = k$ (skala)\\- Perbandingan luas = $k^2$\\- Perbandingan keliling = $k$\\**Contoh:** Segitiga A(2,1), B(4,1), C(2,4) kesebangunan dengan skala 2. Sisi baru = $2 \\imes AB$.",
+    "description": "Dua bangun datar kesebangunan jika sudut sama besar dan sisi bersesuaian sebanding."
   },
   {
-    "id": "15-lingkaran",
-    "slug": "15-lingkaran",
-    "title": "15. Lingkaran",
+    "id": "7-17-garis-dan-sudut",
+    "slug": "7-17-garis-dan-sudut",
+    "title": "17. Garis dan Sudut",
     "level": "smp",
     "section": "Matematika SMP",
-    "icon": "Circle",
-    "content": "**Konsep:** Kumpulan titik berjarak sama (jari-jari) dari satu titik pusat.\n**Rumus Kunci:**\n- Keliling $=2\\pi r = \\pi d$\n- Luas $=\\pi r^2$\n- Panjang busur $=\\frac{\\theta}{360°}\\times 2\\pi r$\n- Luas juring $=\\frac{\\theta}{360°}\\times \\pi r^2$\n- Sudut pusat $=2\\times$ sudut keliling (menghadap busur yang sama)\n**Contoh:** Lingkaran jari-jari 7 cm ($\\pi\\approx\\frac{22}{7}$): Luas $=\\frac{22}{7}\\times49=154$ cm².",
-    "description": "Kumpulan titik berjarak sama (jari-jari) dari satu titik pusat."
+    "class": "7",
+    "icon": "CompassTool",
+    "content": "**Konsep:** Hubungan antar garis dan besar sudut yang terbentuk.\\**Rumus Kunci:**\\- Sudut berpelurus: jumlah = $180°$\\- Sudut berpenyiku: jumlah = $90°$\\- Dua garis sejajar dipotong transversal: sudut sehadap sama besar, berseberangan sama besar\\**Contoh:** Sudut A dan B berpelurus, A = $65°$. Maka B = $115°$.",
+    "description": "Hubungan antar garis dan besar sudut yang terbentuk."
   },
   {
-    "id": "16-bangun-ruang-sisi-datar",
-    "slug": "16-bangun-ruang-sisi-datar",
-    "title": "16. Bangun Ruang Sisi Datar",
+    "id": "7-18-bangun-ruang",
+    "slug": "7-18-bangun-ruang",
+    "title": "18. Bangun Ruang",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
     "icon": "Cube",
-    "content": "**Konsep:** Bangun 3 dimensi dengan permukaan datar: kubus, balok, prisma, limas.\n**Rumus Kunci:**\n- Kubus: Volume $=s^3$, Luas permukaan $=6s^2$\n- Balok: Volume $=p\\times l\\times t$, Luas permukaan $=2(pl+pt+lt)$\n- Prisma: Volume $=$ Luas alas $\\times$ tinggi\n- Limas: Volume $=\\frac{1}{3}\\times$ Luas alas $\\times$ tinggi\n**Contoh:** Balok $5\\times4\\times3$ cm → Volume $=60$ cm³.",
-    "description": "Bangun 3 dimensi dengan permukaan datar: kubus, balok, prisma, limas."
+    "content": "**Konsep:** Bangun 3 dimensi: kubus, balok, prisma, limas, tabung, kerucut, bola.\\**Rumus Kunci:**\\- Kubus: Volume = $s^3$, LP = $6s^2$\\- Balok: Volume = $p \\imes l \\imes t$, LP = $2(pl+pt+lt)$\\- Tabung: Volume = $\\i r^2 t$, LP = $2\\i r(r+t)$\\**Contoh:** Balok $5 \\imes 4 \\imes 3$ cm → Volume = 60 cm³.",
+    "description": "Bangun 3 dimensi dengan berbagai jenis dan sifat."
   },
   {
-    "id": "17-bangun-ruang-sisi-lengkung",
-    "slug": "17-bangun-ruang-sisi-lengkung",
-    "title": "17. Bangun Ruang Sisi Lengkung",
+    "id": "7-19-koordinat-kartesius",
+    "slug": "7-19-koordinat-kartesius",
+    "title": "19. Koordinat Kartesius",
     "level": "smp",
     "section": "Matematika SMP",
-    "icon": "Sphere",
-    "content": "**Konsep:** Bangun 3 dimensi dengan permukaan lengkung: tabung, kerucut, bola.\n**Rumus Kunci:**\n- Tabung: Volume $=\\pi r^2 t$, Luas permukaan $=2\\pi r(r+t)$\n- Kerucut: Volume $=\\frac{1}{3}\\pi r^2 t$, Luas permukaan $=\\pi r(r+s)$ (s = garis pelukis)\n- Bola: Volume $=\\frac{4}{3}\\pi r^3$, Luas permukaan $=4\\pi r^2$\n**Contoh:** Bola jari-jari 6 cm → Volume $=\\frac{4}{3}\\pi(6)^3=288\\pi\\approx904{,}3$ cm³.",
-    "description": "Bangun 3 dimensi dengan permukaan lengkung: tabung, kerucut, bola."
+    "class": "7",
+    "icon": "Crosshair",
+    "content": "**Konsep:** Sistem koordinat笛卡尔 untuk menentukan posisi titik dalam bidang.\\**Rumus Kunci:**\\- Titik $(x, y)$: $x$ = absis (horizontal), $y$ = ordinat (vertikal)\\- Kuadran I: $(+,+)$, II: $(-,+)$, III: $(-,-)$, IV: $(+,-)$\\- Jarak dua titik: $d = \\qrt{(x_2-x_1)^2 + (y_2-y_1)^2}$\\**Contoh:** Titik A(3,4) berada di Kuadran I. Jarak dari origin = 5.",
+    "description": "Sistem koordinat笛卡尔 untuk menentukan posisi titik."
   },
   {
-    "id": "18-statistika-dasar",
-    "slug": "18-statistika-dasar",
-    "title": "18. Statistika Dasar",
+    "id": "7-20-transformasi-geometri-dasar",
+    "slug": "7-20-transformasi-geometri-dasar",
+    "title": "20. Transformasi Geometri Dasar",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
+    "icon": "Compass",
+    "content": "**Konsep:** Perubahan posisi/ukuran objek geometri: translasi, refleksi, rotasi.\\**Rumus Kunci:**\\- Translasi $(a,b)$: $(x,y) \\o (x+a, y+b)$\\- Refleksi sumbu-x: $(x,y) \\o (x,-y)$\\- Refleksi sumbu-y: $(x,y) \\o (-x,y)$\\- Rotasi $90°$ CCW origin: $(x,y) \\o (-y,x)$\\**Contoh:** Titik $(2,3)$ ditranslasi $(1,-2) \\o (3,1)$.",
+    "description": "Perubahan posisi objek geometri: translasi, refleksi, rotasi."
+  },
+  {
+    "id": "7-21-statistika-dasar",
+    "slug": "7-21-statistika-dasar",
+    "title": "21. Statistika Dasar",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "7",
     "icon": "ChartBar",
-    "content": "**Konsep:** Pengumpulan, penyajian, dan analisis data sederhana.\n**Rumus Kunci:**\n- Mean (rata-rata): $\\bar{x}=\\frac{\\sum x_i}{n}$\n- Median: nilai tengah data terurut\n- Modus: nilai yang paling sering muncul\n- Jangkauan (range) $=$ data maksimum $-$ data minimum\n**Contoh:** Data $4,6,8,8,9$: Mean $=\\frac{35}{5}=7$, Median $=8$, Modus $=8$.",
+    "content": "**Konsep:** Pengumpulan, penyajian, dan analisis data sederhana.\\**Rumus Kunci:**\\- Mean: $\\ar{x} = \\rac{\\um x_i}{n}$\\- Median: nilai tengah data terurut\\- Modus: nilai yang paling sering muncul\\- Jangkauan = maks - minimum\\**Contoh:** Data 4,6,8,8,9: Mean = 7, Median = 8, Modus = 8.",
     "description": "Pengumpulan, penyajian, dan analisis data sederhana."
   },
   {
-    "id": "19-peluang-dasar",
-    "slug": "19-peluang-dasar",
-    "title": "19. Peluang Dasar",
+    "id": "7-22-peluang-dasar",
+    "slug": "7-22-peluang-dasar",
+    "title": "22. Peluang Dasar",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
     "icon": "DiceSix",
-    "content": "**Konsep:** Ukuran kemungkinan suatu kejadian terjadi.\n**Rumus Kunci:**\n- $P(A)=\\frac{n(A)}{n(S)}$ (n(A)=banyak kejadian A, n(S)=banyak ruang sampel)\n- $0 \\leq P(A) \\leq 1$\n- $P(A^c)=1-P(A)$\n**Contoh:** Peluang muncul angka genap pada dadu: $A=\\{2,4,6\\}$, $P(A)=\\frac{3}{6}=\\frac{1}{2}$.",
+    "content": "**Konsep:** Ukuran kemungkinan suatu kejadian terjadi.\\**Rumus Kunci:**\\- $P(A) = \\rac{n(A)}{n(S)}$\\- $0 \\eq P(A) \\eq 1$\\- $P(A^c) = 1 - P(A)$\\**Contoh:** Peluang angka genap dadu: $P = \\rac{3}{6} = \\rac{1}{2}$.",
     "description": "Ukuran kemungkinan suatu kejadian terjadi."
   },
   {
-    "id": "20-transformasi-geometri",
-    "slug": "20-transformasi-geometri",
-    "title": "20. Transformasi Geometri",
+    "id": "7-23-proyek-matematika",
+    "slug": "7-23-proyek-matematika",
+    "title": "23. Proyek Matematika Kelas 7",
     "level": "smp",
     "section": "Matematika SMP",
+    "class": "7",
+    "icon": "Lightbulb",
+    "content": "**Konsep:** Penerapan konsep matematika lintas topik untuk menyelesaikan masalah nyata.\\**Topik Utama:**\\- Perencanaan anggaran (aritmetika sosial)\\- Pengukuran bidang tanah (bangun datar)\\- Analisis data survei (statistika)\\**Contoh:** Merencanakan anggaran kelas dengan modal Rp500.000, menghitung untung/rugi dari penjualan.",
+    "description": "Penerapan konsep matematika lintas topik untuk masalah nyata."
+  },
+  {
+    "id": "8-1-bilangan-berpangkat",
+    "slug": "8-1-bilangan-berpangkat",
+    "title": "1. Bilangan Berpangkat",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "NumberCircleOne",
+    "content": "**Konsep:** Bilangan yang ditingkatkan menjadi pangkat tertentu.\\**Rumus Kunci:**\\- $a^m \\imes a^n = a^{m+n}$\\- $a^m \\iv a^n = a^{m-n}$\\- $(a^m)^n = a^{mn}$\\- $a^0 = 1$, $a^{-n} = \\rac{1}{a^n}$\\**Contoh:** $2^3 \\imes 2^4 = 2^7 = 128$.",
+    "description": "Bilangan yang ditingkatkan menjadi pangkat tertentu."
+  },
+  {
+    "id": "8-2-bentuk-akar",
+    "slug": "8-2-bentuk-akar",
+    "title": "2. Bentuk Akar",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "SquareRoot",
+    "content": "**Konsep:** Bentuk akar adalah kebalikan dari eksponen.\\**Rumus Kunci:**\\- $\\qrt{a} \\imes \\qrt{b} = \\qrt{ab}$\\- $\\rac{\\qrt{a}}{\\qrt{b}} = \\qrt{\\rac{a}{b}}$\\- $\\qrt{a^2} = |a|$\\- Menyederhanakan: cari faktor kuadrat terbesar\\**Contoh:** $\\qrt{50} = \\qrt{25 \\imes 2} = 5\\qrt{2}$.",
+    "description": "Bentuk akar adalah kebalikan dari eksponen."
+  },
+  {
+    "id": "8-3-pola-bilangan-dan-barisan",
+    "slug": "8-3-pola-bilangan-dan-barisan",
+    "title": "3. Pola Bilangan dan Barisan",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "ListNumbers",
+    "content": "**Konsep:** Susunan bilangan yang mengikuti aturan tertentu.\\**Rumus Kunci:**\\- Barisan aritmetika: $U_n = a+(n-1)b$\\- Barisan geometri: $U_n = a \\dot r^{n-1}$\\- Pola segitiga: $\\rac{n(n+1)}{2}$\\- Pola persegi: $n^2$\\**Contoh:** Barisan 2,5,8,11,... → $U_{10}=2+(10-1)(3)=29$.",
+    "description": "Susunan bilangan yang mengikuti aturan tertentu."
+  },
+  {
+    "id": "8-4-teorema-pythagoras",
+    "slug": "8-4-teorema-pythagoras",
+    "title": "4. Teorema Pythagoras",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "PencilRuler",
+    "content": "**Konsep:** Pada segitiga siku-siku: $c^2 = a^2 + b^2$.\\**Rumus Kunci:**\\- $c^2 = a^2 + b^2$ (c = hipotenusa)\\- Tripel Pythagoras: $(3,4,5)$, $(5,12,13)$, $(8,15,17)$, $(7,24,25)$\\- Jarak dua titik: $d = \\qrt{(x_2-x_1)^2 + (y_2-y_1)^2}$\\**Contoh:** Sisi 6 dan 8 → hipotenusa = $\\qrt{36+64} = 10$.",
+    "description": "Pada segitiga siku-siku: kuadrat sisi miring sama dengan jumlah kuadrat dua sisi lainnya."
+  },
+  {
+    "id": "8-5-tripel-pythagoras",
+    "slug": "8-5-tripel-pythagoras",
+    "title": "5. Tripel Pythagoras",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Ruler",
+    "content": "**Konsep:** Tiga bilangan bulat yang memenuhi $a^2 + b^2 = c^2$.\\**Rumus Kunci:**\\- Tripel dasar: $(3,4,5)$, $(5,12,13)$, $(8,15,17)$, $(7,24,25)$\\- Tripel kelipatan: $(6,8,10) = 2 \\imes (3,4,5)$\\- Segitiga istimewa: $45°-45°-90°$ sisi $1:1:\\qrt{2}$; $30°-60°-90°$ sisi $1:\\qrt{3}:2$\\**Contoh:** Segitiga sisi 9, 12, 15 → tripel $(3,4,5) \\imes 3$.",
+    "description": "Tiga bilangan bulat yang memenuhi a²+b²=c²."
+  },
+  {
+    "id": "8-6-persamaan-linear-dua-variabel",
+    "slug": "8-6-persamaan-linear-dua-variabel",
+    "title": "6. Persamaan Linear Dua Variabel",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Graph",
+    "content": "**Konsep:** Persamaan dengan dua variabel berbentuk $ax + by = c$.\\**Rumus Kunci:**\\- Grafik: garis lurus pada bidang koordinat\\- Solusi: titik yang memenuhi kedua persamaan\\- Menentukan nilai $y$ dari $x$: substitusi ke persamaan\\**Contoh:** $2x + y = 6$. Jika $x=1$, maka $y=4$. Titik $(1,4)$.",
+    "description": "Persamaan dengan dua variabel berbentuk ax + by = c."
+  },
+  {
+    "id": "8-7-spldv",
+    "slug": "8-7-spldv",
+    "title": "7. Sistem Persamaan Linear Dua Variabel",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Scales",
+    "content": "**Konsep:** Dua persamaan linear dengan dua variabel yang dicari solusinya bersamaan.\\**Rumus Kunci:**\\- Substitusi: nyatakan satu variabel, substitusikan\\- Eliminasi: jumlahkan/kurangkan persamaan\\- Grafik: titik potong dua garis\\**Contoh:** $x+y=10$ dan $x-y=2$. Eliminasi → $2x=12 \\o x=6, y=4$.",
+    "description": "Dua persamaan linear dengan dua variabel yang dicari solusinya bersamaan."
+  },
+  {
+    "id": "8-8-relasi-dan-fungsi",
+    "slug": "8-8-relasi-dan-fungsi",
+    "title": "8. Relasi dan Fungsi",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Link",
+    "content": "**Konsep:** Relasi menghubungkan anggota dua himpunan. Fungsi: setiap anggota domain berpasangan dengan tepat satu anggota kodomain.\\**Rumus Kunci:**\\- Domain: daerah asal, Kodomain: daerah kawan, Range: daerah hasil\\- Fungsi linear: $f(x)=mx+c$\\- Fungsi kuadrat: $f(x)=ax^2+bx+c$\\**Contoh:** $f(x)=2x+1$. $f(3)=7$.",
+    "description": "Relasi menghubungkan anggota dua himpunan. Fungsi adalah relasi khusus."
+  },
+  {
+    "id": "8-9-fungsi-kuadrat",
+    "slug": "8-9-fungsi-kuadrat",
+    "title": "9. Fungsi Kuadrat",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Function",
+    "content": "**Konsep:** Fungsi kuadrat $f(x) = ax^2 + bx + c$, grafiknya parabola.\\**Rumus Kunci:**\\- Titik puncak: $(p, q)$ dengan $p = -\\rac{b}{2a}$, $q = f(p)$\\- Akar-akar: $x = \\rac{-b \\m \\qrt{b^2-4ac}}{2a}$\\- Jika $a > 0$: parabola terbuka ke atas (minimum)\\**Contoh:** $f(x)=x^2-4x+3$. Puncak: $(2,-1)$. Akar: $x=1,3$.",
+    "description": "Fungsi kuadrat grafiknya parabola."
+  },
+  {
+    "id": "8-10-persamaan-garis-lurus",
+    "slug": "8-10-persamaan-garis-lurus",
+    "title": "10. Persamaan Garis Lurus",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Minus",
+    "content": "**Konsep:** Representasi grafik fungsi linear pada bidang koordinat.\\**Rumus Kunci:**\\- Bentuk umum: $y=mx+c$\\- Gradien dari 2 titik: $m = \\rac{y_2-y_1}{x_2-x_1}$\\- Garis sejajar: $m_1=m_2$. Tegak lurus: $m_1 \\imes m_2=-1$\\**Contoh:** Garis melalui $(2,3)$ dan $(4,7)$: $m=2$. $y-3=2(x-2) \\o y=2x-1$.",
+    "description": "Representasi grafik fungsi linear pada bidang koordinat."
+  },
+  {
+    "id": "8-11-statistika-mean-median-modus",
+    "slug": "8-11-statistika-mean-median-modus",
+    "title": "11. Statistika: Mean, Median, Modus",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "ChartBar",
+    "content": "**Konsep:** Ukuran pemusatan data: mean, median, modus.\\**Rumus Kunci:**\\- Mean: $\\ar{x} = \\rac{\\um x_i}{n}$\\- Median: nilai tengah data terurut (ganjil: $x_{\\rac{n+1}{2}}$; genap: rata-rata dua tengah)\\- Modus: nilai yang paling sering muncul\\**Contoh:** Data 3,5,5,7,9: Mean = 5,8, Median = 5, Modus = 5.",
+    "description": "Ukuran pemusatan data: mean, median, modus."
+  },
+  {
+    "id": "8-12-penyebaran-data",
+    "slug": "8-12-penyebaran-data",
+    "title": "12. Penyebaran Data",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "ChartLineUp",
+    "content": "**Konsep:** Seberapa tersebarnya data dari nilai pemusatannya.\\**Rumus Kunci:**\\- Jangkauan = maks - minimum\\- Jangkauan antarkuartil (IQR) = $Q_3 - Q_1$\\- Deviasi: $x_i - \\ar{x}$\\- Varian: $s^2 = \\rac{\\um(x_i-\\ar{x})^2}{n}$\\**Contoh:** Data 2,4,6,8,10: Jangkauan = 8, Mean = 6.",
+    "description": "Seberapa tersebarnya data dari nilai pemusatannya."
+  },
+  {
+    "id": "8-13-peluang-kejadian",
+    "slug": "8-13-peluang-kejadian",
+    "title": "13. Peluang Kejadian",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "DiceSix",
+    "content": "**Konsep:** Peluang kejadian dari percobaan sederhana.\\**Rumus Kunci:**\\- $P(A) = \\rac{n(A)}{n(S)}$\\- $P(A \\up B) = P(A) + P(B) - P(A \\ap B)$\\- Kejadian bebas: $P(A \\ap B) = P(A) \\imes P(B)$\\**Contoh:** 2 dadu. $P(\\ext{jumlah 7}) = \\rac{6}{36} = \\rac{1}{6}$.",
+    "description": "Peluang kejadian dari percobaan sederhana."
+  },
+  {
+    "id": "8-14-garis-dan-sudut-lanjut",
+    "slug": "8-14-garis-dan-sudut-lanjut",
+    "title": "14. Garis dan Sudut Lanjut",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Angle",
+    "content": "**Konsep:** Hubungan sudut pada pertemuan garis-garis sejajar dan garis potong.\\**Rumus Kunci:**\\- Sudut dalam berseberangan sama besar\\- Sudut sehadap sama besar\\- Sudut dalam sepihak jumlahnya $180°$\\- Sudut luar = jumlah dua sudut dalam yang tidak bersebelahan\\**Contoh:** Dua garis sejajar dipotong transversal. Sudut dalam berseberangan = $70°$.",
+    "description": "Hubungan sudut pada pertemuan garis sejajar dan garis potong."
+  },
+  {
+    "id": "8-15-segitiga-dan-segiempat-lanjut",
+    "slug": "8-15-segitiga-dan-segiempat-lanjut",
+    "title": "15. Segitiga dan Segiempat Lanjut",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Triangle",
+    "content": "**Konsep:** Sifat lanjut segitiga dan segiempat.\\**Rumus Kunci:**\\- Garis tengah segitiga: panjang = $\\rac{1}{2}$ sisi ketiga, sejajar\\- Perbandingan sudut dalam berseberangan segiempat sama besar\\- Luas trapesium: $\\rac{1}{2}(a+b) \\imes t$\\**Contoh:** Segitiga dengan sisi 8, garis tengah = 4.",
+    "description": "Sifat lanjut segitiga dan segiempat."
+  },
+  {
+    "id": "8-16-lingkaran",
+    "slug": "8-16-lingkaran",
+    "title": "16. Lingkaran",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Circle",
+    "content": "**Konsep:** Kumpulan titik berjarak sama dari satu titik pusat.\\**Rumus Kunci:**\\- Keliling = $2\\i r = \\i d$\\- Luas = $\\i r^2$\\- Panjang busur = $\\rac{\\heta}{360°} \\imes 2\\i r$\\- Luas juring = $\\rac{\\heta}{360°} \\imes \\i r^2$\\**Contoh:** Lingkaran $r=7$ cm ($\\i \\pprox \\rac{22}{7}$): Luas = 154 cm².",
+    "description": "Kumpulan titik berjarak sama dari satu titik pusat."
+  },
+  {
+    "id": "8-17-bangun-ruang-sisi-datar",
+    "slug": "8-17-bangun-ruang-sisi-datar",
+    "title": "17. Bangun Ruang Sisi Datar",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Cube",
+    "content": "**Konsep:** Bangun 3 dimensi dengan permukaan datar.\\**Rumus Kunci:**\\- Kubus: Volume = $s^3$, LP = $6s^2$\\- Balok: Volume = $p \\imes l \\imes t$, LP = $2(pl+pt+lt)$\\- Prisma: Volume = Luas alas × tinggi\\- Limas: Volume = $\\rac{1}{3}$ × Luas alas × tinggi\\**Contoh:** Balok $5 \\imes 4 \\imes 3$ → Volume = 60 cm³.",
+    "description": "Bangun 3 dimensi dengan permukaan datar."
+  },
+  {
+    "id": "8-18-bangun-ruang-sisi-lengkung",
+    "slug": "8-18-bangun-ruang-sisi-lengkung",
+    "title": "18. Bangun Ruang Sisi Lengkung",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Sphere",
+    "content": "**Konsep:** Bangun 3 dimensi dengan permukaan lengkung.\\**Rumus Kunci:**\\- Tabung: Volume = $\\i r^2 t$, LP = $2\\i r(r+t)$\\- Kerucut: Volume = $\\rac{1}{3}\\i r^2 t$, LP = $\\i r(r+s)$\\- Bola: Volume = $\\rac{4}{3}\\i r^3$, LP = $4\\i r^2$\\**Contoh:** Bola $r=6$ cm → Volume = $288\\i \\pprox 904{,}3$ cm³.",
+    "description": "Bangun 3 dimensi dengan permukaan lengkung."
+  },
+  {
+    "id": "8-19-jaring-jaring-bangun-ruang",
+    "slug": "8-19-jaring-jaring-bangun-ruang",
+    "title": "19. Jaring-jaring Bangun Ruang",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Net",
+    "content": "**Konsep:** Gambaran datar bangun ruang yang dibuka.\\**Rumus Kunci:**\\- Kubus: 6 persegi identik\\- Balok: 6 persegi panjang (3 pasang)\\- Prisma segitiga: 2 segitiga + 3 persegi panjang\\- Limas: 1 alas + 4 segitiga sisi\\**Contoh:** Jaring-jaring kubus sisi 3 cm → 6 persegi $3 \\imes 3$.",
+    "description": "Gambaran datar bangun ruang yang dibuka."
+  },
+  {
+    "id": "8-20-koordinat-kartesius-lanjut",
+    "slug": "8-20-koordinat-kartesius-lanjut",
+    "title": "20. Koordinat Kartesius Lanjut",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Crosshair",
+    "content": "**Konsep:** Penerapan koordinat kartesius untuk menyelesaikan masalah.\\**Rumus Kunci:**\\- Jarak titik ke titik: $d = \\qrt{(x_2-x_1)^2 + (y_2-y_1)^2}$\\- Titik tengah: $M = (\\rac{x_1+x_2}{2}, \\rac{y_1+y_2}{2})$\\- Luas segitiga dari koordinat: $\\rac{1}{2}|x_1(y_2-y_3)+x_2(y_3-y_1)+x_3(y_1-y_2)|$\\**Contoh:** Titik A(1,2), B(5,4). Titik tengah = $(3,3)$.",
+    "description": "Penerapan koordinat kartesius untuk menyelesaikan masalah."
+  },
+  {
+    "id": "8-21-transformasi-geometri",
+    "slug": "8-21-transformasi-geometri",
+    "title": "21. Transformasi Geometri",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
     "icon": "Compass",
-    "content": "**Konsep:** Perubahan posisi/ukuran suatu objek geometri: translasi, refleksi, rotasi, dilatasi.\n**Rumus Kunci:**\n- Translasi oleh $(a,b)$: $(x,y)\\to(x+a,y+b)$\n- Refleksi terhadap sumbu-x: $(x,y)\\to(x,-y)$; terhadap sumbu-y: $(x,y)\\to(-x,y)$\n- Rotasi $90°$ berlawanan arah jarum jam terhadap origin: $(x,y)\\to(-y,x)$\n- Dilatasi faktor skala $k$ terhadap origin: $(x,y)\\to(kx,ky)$\n**Contoh:** Titik $(2,3)$ ditranslasi oleh $(1,-2)$ menjadi $(3,1)$.",
-    "description": "Perubahan posisi/ukuran suatu objek geometri: translasi, refleksi, rotasi, dilatasi."
+    "content": "**Konsep:** Translasi, refleksi, rotasi, dan dilatasi pada bidang koordinat.\\**Rumus Kunci:**\\- Translasi $(a,b)$: $(x,y) \\o (x+a, y+b)$\\- Refleksi sumbu-x: $(x,y) \\o (x,-y)$\\- Rotasi $90°$ CCW: $(x,y) \\o (-y,x)$\\- Dilatasi faktor $k$: $(x,y) \\o (kx,ky)$\\**Contoh:** Titik $(2,3)$ dilatasi $k=2$ → $(4,6)$.",
+    "description": "Translasi, refleksi, rotasi, dan dilatasi pada bidang koordinat."
+  },
+  {
+    "id": "8-22-kesebangunan-dan-skala",
+    "slug": "8-22-kesebangunan-dan-skala",
+    "title": "22. Kesebangunan dan Skala",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Minimize",
+    "content": "**Konsep:** Kesebangunan pada segitiga dan segiempat dengan penerapan skala.\\**Rumus Kunci:**\\- Perbandingan sisi = $k$ (faktor skala)\\- Perbandingan luas = $k^2$\\- Perbandingan keliling = $k$\\- Aplikasi: mengukur ketinggian benda dengan bayangan\\**Contoh:** Bayangan tonggak 2 m = 3 m, bayangan pohon 12 m. Tinggi pohon = $\\rac{2}{3} \\imes 12 = 8$ m.",
+    "description": "Kesebangunan pada segitiga dan segiempat dengan penerapan skala."
+  },
+  {
+    "id": "8-23-proyek-terapan",
+    "slug": "8-23-proyek-terapan",
+    "title": "23. Proyek Terapan Kelas 8",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "8",
+    "icon": "Lightbulb",
+    "content": "**Konsep:** Penerapan konsep matematika lintas topik.\\**Topik Utama:**\\- Perencanaan denah rumah (bangun ruang)\\- Analisis data polling (statistika)\\- Perhitungan material bangunan (volume)\\**Contoh:** Menghitung kebutuhan semen untuk lantai rumah berdasarkan luas dan ketebalan.",
+    "description": "Penerapan konsep matematika lintas topik untuk masalah nyata."
+  },
+  {
+    "id": "9-1-bilangan-berpangkat-lanjut",
+    "slug": "9-1-bilangan-berpangkat-lanjut",
+    "title": "1. Bilangan Berpangkat Lanjut",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "NumberCircleOne",
+    "content": "**Konsep:** Eksponen lanjut termasuk pangkat pecahan dan negatif.\\**Rumus Kunci:**\\- $a^{m/n} = \\qrt[n]{a^m}$\\- $a^{-n} = \\rac{1}{a^n}$\\- $(ab)^n = a^n b^n$\\- $\\eft(\\rac{a}{b}\\ight)^n = \\rac{a^n}{b^n}$\\**Contoh:** $8^{2/3} = (\\qrt[3]{8})^2 = 4$.",
+    "description": "Eksponen lanjut termasuk pangkat pecahan dan negatif."
+  },
+  {
+    "id": "9-2-bentuk-akar-dan-eksponen",
+    "slug": "9-2-bentuk-akar-dan-eksponen",
+    "title": "2. Bentuk Akar dan Eksponen",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "SquareRoot",
+    "content": "**Konsep:** Hubungan antara bentuk akar dan eksponen.\\**Rumus Kunci:**\\- $\\qrt[n]{a} = a^{1/n}$\\- $\\qrt[n]{a^m} = a^{m/n}$\\- $\\qrt{a} \\dot \\qrt{b} = \\qrt{ab}$\\- Rasionalisasi penyebut: $\\rac{1}{\\qrt{a}} = \\rac{\\qrt{a}}{a}$\\**Contoh:** $\\rac{1}{\\qrt{3}} = \\rac{\\qrt{3}}{3}$.",
+    "description": "Hubungan antara bentuk akar dan eksponen."
+  },
+  {
+    "id": "9-3-spldv-lanjut",
+    "slug": "9-3-spldv-lanjut",
+    "title": "3. Sistem Persamaan Linear Dua Variabel",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Scales",
+    "content": "**Konsep:** SPLDV dengan pendekatan grafik dan analitis.\\**Rumus Kunci:**\\- Metode grafik: titik potong dua garis\\- Metode substitusi\\- Metode eliminasi\\- Metode campuran\\**Contoh:** $2x+3y=12$ dan $x-y=1$. Substitusi: $x=y+1 \\o 2(y+1)+3y=12 \\o y=2, x=3$.",
+    "description": "SPLDV dengan pendekatan grafik dan analitis."
+  },
+  {
+    "id": "9-4-sistem-pertidaksamaan",
+    "slug": "9-4-sistem-pertidaksamaan",
+    "title": "4. Sistem Pertidaksamaan",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Warning",
+    "content": "**Konsep:** Sistem dua atau lebih pertidaksamaan linear.\\**Rumus Kunci:**\\- Penyelesaian: irisan dari solusi setiap pertidaksamaan\\- Digraf untuk visualisasi daerah penyelesaian\\- Titik pojok daerah penyelesaian\\**Contoh:** $x+y \\eq 4$, $x \\eq 0$, $y \\eq 0$. Daerah penyelesaian = segitiga di Kuadran I.",
+    "description": "Sistem dua atau lebih pertidaksamaan linear."
+  },
+  {
+    "id": "9-5-spltv",
+    "slug": "9-5-spltv",
+    "title": "5. Sistem Persamaan Linear Tiga Variabel",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Scales",
+    "content": "**Konsep:** Tiga persamaan linear dengan tiga variabel.\\**Rumus Kunci:**\\- Eliminasi berulang: hilangkan satu variabel dari dua pasang persamaan\\- Substitusi hasil ke persamaan ketiga\\**Contoh:** $x+y+z=6$, $x-y+z=2$, $2x+y-z=3$. Eliminasi → $x=1, y=2, z=3$.",
+    "description": "Tiga persamaan linear dengan tiga variabel."
+  },
+  {
+    "id": "9-6-barisan-aritmetika",
+    "slug": "9-6-barisan-aritmetika",
+    "title": "6. Barisan Aritmetika",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Graph",
+    "content": "**Konsep:** Barisan dengan beda tetap.\\**Rumus Kunci:**\\- $U_n = a + (n-1)b$\\- $S_n = \\rac{n}{2}(2a + (n-1)b) = \\rac{n}{2}(a + U_n)$\\- Rata-rata: $\\ar{x} = \\rac{a + U_n}{2}$\\**Contoh:** 3,7,11,15,... → $U_{10} = 3+9(4) = 39$.",
+    "description": "Barisan dengan beda tetap."
+  },
+  {
+    "id": "9-7-barisan-geometri",
+    "slug": "9-7-barisan-geometri",
+    "title": "7. Barisan Geometri",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Graph",
+    "content": "**Konsep:** Barisan dengan rasio tetap.\\**Rumus Kunci:**\\- $U_n = a \\dot r^{n-1}$\\- $S_n = \\rac{a(r^n - 1)}{r - 1}$ untuk $r \\eq 1$\\- $S_\\nfty = \\rac{a}{1-r}$ untuk $|r| < 1$\\**Contoh:** 2,6,18,54,... → $a=2, r=3$. $S_5 = \\rac{2(243-1)}{2} = 242$.",
+    "description": "Barisan dengan rasio tetap."
+  },
+  {
+    "id": "9-8-statistika-lanjutan",
+    "slug": "9-8-statistika-lanjutan",
+    "title": "8. Statistika Lanjutan",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "ChartLine",
+    "content": "**Konsep:** Statistika lanjutan: varian, standar deviasi, dan kuartil.\\**Rumus Kunci:**\\- Varian: $s^2 = \\rac{\\um f_i(x_i - \\ar{x})^2}{\\um f_i}$\\- Standar deviasi: $s = \\qrt{s^2}$\\- Kuartil: $Q_1, Q_2$ (median), $Q_3$\\- Skor Z: $z = \\rac{x - \\ar{x}}{s}$\\**Contoh:** Data 4,6,8,10,12: Mean = 8, Varian = 8, SD = $2\\qrt{2}$.",
+    "description": "Statistika lanjutan: varian, standar deviasi, dan kuartil."
+  },
+  {
+    "id": "9-9-peluang-dan-pemilihan-sampel",
+    "slug": "9-9-peluang-dan-pemilihan-sampel",
+    "title": "9. Peluang dan Pemilihan Sampel",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "DiceSix",
+    "content": "**Konsep:** Peluang dan pemilihan sampel dalam statistika.\\**Rumus Kunci:**\\- Peluang klasik: $P(A) = \\rac{n(A)}{n(S)}$\\- Peluang komplementer: $P(A^c) = 1-P(A)$\\- Sampel acak sederhana: setiap anggota peluang sama\\- Sampel acak stratifikasi\\**Contoh:** Dari 20 siswa, dipilih 3 acak. Banyak cara = $\\inom{20}{3} = 1140$.",
+    "description": "Peluang dan pemilihan sampel dalam statistika."
+  },
+  {
+    "id": "9-10-luas-permukaan-bangun-ruang",
+    "slug": "9-10-luas-permukaan-bangun-ruang",
+    "title": "10. Luas Permukaan Bangun Ruang",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Cube",
+    "content": "**Konsep:** Luas seluruh permukaan bangun ruang.\\**Rumus Kunci:**\\- Kubus: LP = $6s^2$\\- Balok: LP = $2(pl+pt+lt)$\\- Prisma: LP = 2 × Luas alas + Keliling alas × tinggi\\- Limas: LP = Luas alas + $\\rac{1}{2}$ × Keliling alas × garis pelukis\\**Contoh:** Balok $5 \\imes 4 \\imes 3$: LP = $2(20+15+12) = 94$ cm².",
+    "description": "Luas seluruh permukaan bangun ruang."
+  },
+  {
+    "id": "9-11-volume-bangun-ruang",
+    "slug": "9-11-volume-bangun-ruang",
+    "title": "11. Volume Bangun Ruang",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Box",
+    "content": "**Konsep:** Volume dan pengaruh perubahan skala.\\**Rumus Kunci:**\\- Kubus: $V = s^3$\\- Balok: $V = p \\imes l \\imes t$\\- Prisma: $V = L_{\\ext{alas}} \\imes t$\\- Limas: $V = \\rac{1}{3} \\imes L_{\\ext{alas}} \\imes t$\\- Jika skala ×$k$, volume ×$k^3$\\**Contoh:** Kubus sisi 3 cm → V = 27 cm³. Jika sisi ×2 → V = 216 cm³ (×8).",
+    "description": "Volume dan pengaruh perubahan skala."
+  },
+  {
+    "id": "9-12-lingkaran-busur-juring",
+    "slug": "9-12-lingkaran-busur-juring",
+    "title": "12. Lingkaran: Busur dan Juring",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Circle",
+    "content": "**Konsep:** Busur dan juring lingkaran.\\**Rumus Kunci:**\\- Panjang busur = $\\rac{\\heta}{360°} \\imes 2\\i r$\\- Luas juring = $\\rac{\\heta}{360°} \\imes \\i r^2$\\- Sudut pusat = $2 \\imes$ sudut keliling\\**Contoh:** Lingkaran $r=7$, sudut $60°$: Busur = $\\rac{60}{360} \\imes 44 = \\rac{22}{3}$ cm.",
+    "description": "Busur dan juring lingkaran."
+  },
+  {
+    "id": "9-13-transformasi-geometri-lanjut",
+    "slug": "9-13-transformasi-geometri-lanjut",
+    "title": "13. Transformasi Geometri",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Compass",
+    "content": "**Konsep:** Translasi, refleksi, rotasi, dan dilatasi.\\**Rumus Kunci:**\\- Translasi $(a,b)$: $(x,y) \\o (x+a, y+b)$\\- Refleksi sumbu-x: $(x,y) \\o (x,-y)$; sumbu-y: $(x,y) \\o (-x,y)$\\- Rotasi $90°$ CCW: $(x,y) \\o (-y,x)$\\- Dilatasi $k$: $(x,y) \\o (kx,ky)$\\**Contoh:** Titik $(3,2)$ rotasi $90°$ CCW → $(-2,3)$.",
+    "description": "Translasi, refleksi, rotasi, dan dilatasi."
+  },
+  {
+    "id": "9-14-kekongruenan",
+    "slug": "9-14-kekongruenan",
+    "title": "14. Kekongruenan",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Equal",
+    "content": "**Konsep:** Dua bangun datar kongruen jika identik (bisa ditumpuk).\\**Rumus Kunci:**\\- Kriteria SSS: tiga sisi bersesuaian sama panjang\\- Kriteria SAS: dua sisi dan sudut yang diapit sama\\- Kriteria ASA: dua sudut dan sisi yang diapit sama\\- Kriteria RHS: siku-siku, hipotenusa, satu sisi\\**Contoh:** Segitiga ABC kongruen DEF jika AB=DE, BC=EF, AC=DF.",
+    "description": "Dua bangun datar kongruen jika identik."
+  },
+  {
+    "id": "9-15-dilatasi",
+    "slug": "9-15-dilatasi",
+    "title": "15. Dilatasi",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Maximize",
+    "content": "**Konsep:** Perubahan ukuran suatu objek terhadap titik pusat dengan faktor skala $k$.\\**Rumus Kunci:**\\- $(x,y) \\o (kx,ky)$ terhadap origin\\- Jika $k>1$: membesar. Jika $0<k<1$: mengecil. Jika $k<0$: terbalik\\- Luas berubah ×$k^2$\\**Contoh:** Persegi sisi 4, dilatasi $k=2$ → persegi sisi 8. Luas ×4.",
+    "description": "Perubahan ukuran objek terhadap titik pusat dengan faktor skala."
+  },
+  {
+    "id": "9-16-segitiga-dan-segiempat-lanjut",
+    "slug": "9-16-segitiga-dan-segiempat-lanjut",
+    "title": "16. Segitiga dan Segiempat Lanjut",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Triangle",
+    "content": "**Konsep:** Sifat dan hubungan segitiga serta segiempat secara lebih mendalam.\\**Rumus Kunci:**\\- Garis tengah segitiga: sejajar sisi ketiga, panjang = $\\rac{1}{2}$ sisi\\- Teorema Thales: garis sejajar satu sisi membagi dua sisi lain sebanding\\- Luas jajar genjang: $a \\imes t$\\**Contoh:** Segitiga sisi 8, garis tengah = 4, sejajar sisi.",
+    "description": "Sifat dan hubungan segitiga serta segiempat secara mendalam."
+  },
+  {
+    "id": "9-17-koordinat-transformasi",
+    "slug": "9-17-koordinat-transformasi",
+    "title": "17. Koordinat dan Transformasi",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Crosshair",
+    "content": "**Konsep:** Penerapan transformasi geometri pada koordinat kartesius.\\**Rumus Kunci:**\\- Komposisi transformasi: translasi lalu rotasi\\- Refleksi terhadap garis $y=x$: $(x,y) \\o (y,x)$\\- Rotasi terhadap titik $(h,k)$\\**Contoh:** Titik $(3,2)$ ditranslasi $(1,-1)$ lalu direfleksi sumbu-y → $(4,1) \\o (-4,1)$.",
+    "description": "Penerapan transformasi geometri pada koordinat kartesius."
+  },
+  {
+    "id": "9-18-statistika-grafik",
+    "slug": "9-18-statistika-grafik",
+    "title": "18. Statistika dan Grafik",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "ChartBar",
+    "content": "**Konsep:** Penyajian data dalam berbagai grafik.\\**Rumus Kunci:**\\- Diagram batang: perbandingan kategori\\- Diagram garis: tren data waktu\\- Diagram lingkaran: proporsi keseluruhan\\- Histogram: distribusi frekuensi data kontinu\\**Contoh:** Data 30% A, 50% B, 20% C → diagram lingkaran: A=108°, B=180°, C=72°.",
+    "description": "Penyajian data dalam berbagai grafik."
+  },
+  {
+    "id": "9-19-peluang-empiris",
+    "slug": "9-19-peluang-empiris",
+    "title": "19. Peluang Empiris",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "DiceSix",
+    "content": "**Konsep:** Peluang berdasarkan percobaan/observasi.\\**Rumus Kunci:**\\- $P(A) = \\rac{\\ext{frekuensi kejadian A}}{\\ext{total percobaan}}$\\- Semakin banyak percobaan, mendekati peluang teoritis\\- Frekuensi harapan: $E = n \\imes P(A)$\\**Contoh:** Lempar koin 100 kali, muncul 48 angka. $P(\\ext{angka}) \\pprox \\rac{48}{100} = 0{,}48$.",
+    "description": "Peluang berdasarkan percobaan atau observasi."
+  },
+  {
+    "id": "9-20-perbandingan-skala",
+    "slug": "9-20-perbandingan-skala",
+    "title": "20. Perbandingan dan Skala",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Ruler",
+    "content": "**Konsep:** Penerapan perbandingan dan skala dalam kehidupan nyata.\\**Rumus Kunci:**\\- Skala peta = $\\rac{\\ext{jarak peta}}{\\ext{jarak sebenarnya}}$\\- Skala grafis: garis dengan satuan\\- Konversi satuan panjang, luas, volume\\**Contoh:** Peta skala 1:50.000, jarak peta 4 cm. Jarak sebenarnya = $4 \\imes 50.000 = 200.000$ cm = 2 km.",
+    "description": "Penerapan perbandingan dan skala dalam kehidupan nyata."
+  },
+  {
+    "id": "9-21-aplikasi-matematika",
+    "slug": "9-21-aplikasi-matematika",
+    "title": "21. Aplikasi Matematika",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Lightbulb",
+    "content": "**Konsep:** Penerapan matematika dalam konteks nyata.\\**Topik Utama:**\\- Perhitungan bunga dan investasi\\- Perencanaan perjalanan (kecepatan, waktu, jarak)\\- Analisis data untuk pengambilan keputusan\\**Contoh:** Investasi Rp1.000.000 dengan bunga 5%/tahun. Setelah 3 tahun: Rp1.157.625.",
+    "description": "Penerapan matematika dalam konteks nyata."
+  },
+  {
+    "id": "9-22-proyek-akhir",
+    "slug": "9-22-proyek-akhir",
+    "title": "22. Proyek Akhir Kelas 9",
+    "level": "smp",
+    "section": "Matematika SMP",
+    "class": "9",
+    "icon": "Trophy",
+    "content": "**Konsep:** Proyek integrasi seluruh materi Kelas 7-9.\\**Topik Utama:**\\- Perencanaan bisnis kecil (aritmetika sosial + SPLDV)\\- Analisis survei (statistika + grafik)\\- Desain denah dan pengukuran (geometri + transformasi)\\**Contoh:** Merencanakan usaha jualan dengan modal, estimasi untung, dan analisis data penjualan.",
+    "description": "Proyek integrasi seluruh materi Kelas 7-9."
   },
   {
     "id": "1-eksponen-dan-bentuk-akar",
@@ -206,8 +754,8 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Rocket",
-    "content": "**Konsep:** Eksponen adalah pangkat dari suatu bilangan. Bentuk akar adalah kebalikan dari eksponen.\n**Rumus Kunci:**\n- $a^m \\cdot a^n = a^{m+n}$\n- $a^m \\div a^n = a^{m-n}$\n- $(a^m)^n = a^{mn}$\n- $a^{-n} = \\frac{1}{a^n}$, $a^0 = 1$ ($a \\neq 0$)\n- $a^{m/n} = \\sqrt[n]{a^m}$\n- $\\sqrt{a} \\cdot \\sqrt{b} = \\sqrt{ab}$, $\\frac{\\sqrt{a}}{\\sqrt{b}} = \\sqrt{\\frac{a}{b}}$\n**Contoh:** Sederhanakan $\\frac{2^5 \\cdot 2^3}{2^4} = 2^{5+3-4} = 2^4 = 16$.",
-    "description": "Eksponen adalah pangkat dari suatu bilangan. Bentuk akar adalah kebalikan dari eksponen."
+    "content": "**Konsep:** Eksponen adalah pangkat dari suatu bilangan. Bentuk akar adalah kebalikan dari eksponen.\\**Rumus Kunci:**\\- $a^m \\dot a^n = a^{m+n}$\\- $a^m \\iv a^n = a^{m-n}$\\- $(a^m)^n = a^{mn}$\\- $a^{-n} = \\rac{1}{a^n}$, $a^0 = 1$ ($a \\eq 0$)\\- $a^{m/n} = \\qrt[n]{a^m}$\\**Contoh:** $\\rac{2^5 \\dot 2^3}{2^4} = 2^4 = 16$.",
+    "description": "Eksponen adalah pangkat dari suatu bilangan."
   },
   {
     "id": "2-logaritma",
@@ -216,8 +764,8 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Calculator",
-    "content": "**Konsep:** Logaritma adalah kebalikan dari eksponen. $\\log_a b = c$ artinya $a^c = b$.\n**Rumus Kunci:**\n- $\\log_a (ab) = \\log_a b + \\log_a c$\n- $\\log_a \\frac{b}{c} = \\log_a b - \\log_a c$\n- $\\log_a b^n = n \\cdot \\log_a b$\n- $\\log_a b = \\frac{\\ln b}{\\ln a}$ (aturan pergantian basis)\n- $\\log_a a = 1$, $\\log_a 1 = 0$\n- $a^{\\log_a b} = b$\n**Contoh:** $\\log_2 32 = \\log_2 2^5 = 5$.",
-    "description": "Logaritma adalah kebalikan dari eksponen.  artinya ."
+    "content": "**Konsep:** Logaritma adalah kebalikan dari eksponen. $\\og_a b = c$ artinya $a^c = b$.\\**Rumus Kunci:**\\- $\\og_a (ab) = \\og_a b + \\og_a c$\\- $\\og_a \\rac{b}{c} = \\og_a b - \\og_a c$\\- $\\og_a b^n = n \\dot \\og_a b$\\- $\\og_a b = \\rac{\\n b}{\\n a}$\\**Contoh:** $\\og_2 32 = 5$.",
+    "description": "Logaritma adalah kebalikan dari eksponen."
   },
   {
     "id": "3-persamaan-dan-fungsi-kuadrat",
@@ -226,18 +774,18 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Function",
-    "content": "**Konsep:** Persamaan kuadrat berbentuk $ax^2+bx+c=0$ dengan $a \\neq 0$.\n**Rumus Kunci:**\n- Rumus kuadrat: $x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$\n- Diskriminan: $D = b^2-4ac$. Jika $D>0$ ada 2 akar, $D=0$ satu akar, $D<0$ tidak akar riil\n- hubungan akar-koefisien: $x_1+x_2 = -\\frac{b}{a}$, $x_1 \\cdot x_2 = \\frac{c}{a}$\n- Bentuk sempurna: $y = a(x-p)^2 + q$ dengan titik puncak $(p,q)$\n**Contoh:** $x^2-5x+6=0 \\Rightarrow (x-2)(x-3)=0 \\Rightarrow x=2$ atau $x=3$.",
-    "description": "Persamaan kuadrat berbentuk  dengan ."
+    "content": "**Konsep:** Persamaan kuadrat $ax^2+bx+c=0$.\\**Rumus Kunci:**\\- Rumus kuadrat: $x = \\rac{-b \\m \\qrt{b^2-4ac}}{2a}$\\- Diskriminan: $D = b^2-4ac$\\- Hubungan akar-koefisien: $x_1+x_2 = -\\rac{b}{a}$, $x_1 \\dot x_2 = \\rac{c}{a}$\\**Contoh:** $x^2-5x+6=0 \\o (x-2)(x-3)=0 \\o x=2,3$.",
+    "description": "Persamaan kuadrat berbentuk ax²+bx+c=0."
   },
   {
     "id": "4-pertidaksamaan-kuadrat-rasional-mutlak",
     "slug": "4-pertidaksamaan-kuadrat-rasional-mutlak",
-    "title": "4. Pertidaksamaan (Kuadrat, Rasional, Mutlak)",
+    "title": "4. Pertidaksamaan Lanjut",
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Warning",
-    "content": "**Konsep:** Pertidaksamaan melibatkan tanda $<, \\leq, >, \\geq$ pada ekspresi kuadrat, rasional, atau nilai mutlak.\n**Rumus Kunci:**\n- Kuadrat: tentukan tanda $a$ dan akar-akarnya, lalu tentukan interval dari tabel tanda\n- Rasional: $\\frac{f(x)}{g(x)} > 0$ sama dengan $f(x) \\cdot g(x) > 0$ dengan syarat $g(x) \\neq 0$\n- Mutlak: $|x| < a \\Leftrightarrow -a < x < a$; $|x| > a \\Leftrightarrow x < -a$ atau $x > a$\n**Contoh:** $|2x-3| < 5 \\Rightarrow -5 < 2x-3 < 5 \\Rightarrow -1 < x < 4$.",
-    "description": "Pertidaksamaan melibatkan tanda  pada ekspresi kuadrat, rasional, atau nilai mutlak."
+    "content": "**Konsep:** Pertidaksamaan kuadrat, rasional, dan nilai mutlak.\\**Rumus Kunci:**\\- Kuadrat: tabel tanda untuk tentukan interval\\- Rasional: $\\rac{f(x)}{g(x)} > 0 \\eftrightarrow f(x) \\dot g(x) > 0$, $g(x) \\eq 0$\\- Mutlak: $|x| < a \\eftrightarrow -a < x < a$\\**Contoh:** $|2x-3| < 5 \\o -1 < x < 4$.",
+    "description": "Pertidaksamaan kuadrat, rasional, dan nilai mutlak."
   },
   {
     "id": "5-spltv-dan-program-linear",
@@ -246,8 +794,8 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Scales",
-    "content": "**Konsep:** Sistem Persamaan Linear Tiga Variabel (SPLTV) melibatkan 3 variabel. Program Linear mencari nilai optimum dari fungsi objektif dengan kendala linear.\n**Rumus Kunci:**\n- SPLTV diselesaikan dengan eliminasi atau substitusi berulang\n- Fungsi objektif: $z = ax + by + c$ (dihargakan maksimum/minimum)\n- Solusi optimal selalu pada titik pojok daerah penyelesaian (DPR)\n**Contoh:** Minimalkan $z = 2x + 3y$ dengan kendala $x+y \\geq 4$, $x+2y \\geq 6$, $x,y \\geq 0$.",
-    "description": "Sistem Persamaan Linear Tiga Variabel (SPLTV) melibatkan 3 variabel. Program Linear mencari nilai optimum dari fungsi objektif dengan kendala linear."
+    "content": "**Konsep:** SPLTV dan Program Linear.\\**Rumus Kunci:**\\- SPLTV: eliminasi atau substitusi berulang\\- Fungsi objektif: $z = ax + by + c$\\- Solusi optimal pada titik pojok DPR\\**Contoh:** Min $z = 2x+3y$ dengan kendala $x+y \\eq 4$, $x+2y \\eq 6$.",
+    "description": "SPLTV dan Program Linear."
   },
   {
     "id": "6-matriks",
@@ -256,8 +804,8 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "CirclesFour",
-    "content": "**Konsep:** Matriks adalah susunan bilangan dalam baris dan kolom. Digunakan untuk menyistemkan persamaan linear dan transformasi.\n**Rumus Kunci:**\n- Penjumlahan: $(a_{ij}) + (b_{ij}) = (a_{ij}+b_{ij})$\n- Perkalian: $(AB)_{ij} = \\sum a_{ik} \\cdot b_{kj}$\n- Determinan 2x2: $\\det(A) = ad-bc$ untuk $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$\n- Matriks balikan: $A^{-1} = \\frac{1}{\\det(A)} \\text{adj}(A)$ jika $\\det(A) \\neq 0$\n- SPLDV dengan matriks: $AX=B \\Rightarrow X=A^{-1}B$\n**Contoh:** $A = \\begin{pmatrix} 2 & 1 \\\\ 5 & 3 \\end{pmatrix}$, $\\det(A) = 6-5 = 1$, $A^{-1} = \\begin{pmatrix} 3 & -1 \\\\ -5 & 2 \\end{pmatrix}$.",
-    "description": "Matriks adalah susunan bilangan dalam baris dan kolom. Digunakan untuk menyistemkan persamaan linear dan transformasi."
+    "content": "**Konsep:** Matriks adalah susunan bilangan dalam baris dan kolom.\\**Rumus Kunci:**\\- Determinan 2×2: $\\et(A) = ad-bc$\\- Matriks balikan: $A^{-1} = \\rac{1}{\\et(A)} \\ext{adj}(A)$\\- SPLDV: $AX=B \\o X=A^{-1}B$\\**Contoh:** $A = \\egin{pmatrix} 2 & 1 \\ 5 & 3 \\nd{pmatrix}$, $\\et(A) = 1$.",
+    "description": "Matriks adalah susunan bilangan dalam baris dan kolom."
   },
   {
     "id": "7-vektor",
@@ -266,8 +814,8 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Magnet",
-    "content": "**Konsep:** Vektor adalah besaran yang memiliki besar dan arah. Ditulis $\\vec{v} = (x, y)$ atau $\\vec{v} = x\\hat{i} + y\\hat{j}$.\n**Rumus Kunci:**\n- Penjumlahan: $\\vec{u}+\\vec{v} = (u_1+v_1, u_2+v_2)$\n- Perkalian skalar: $k\\vec{v} = (kv_1, kv_2)$\n- Besar vektor: $|\\vec{v}| = \\sqrt{x^2+y^2}$\n- Vektor satuan: $\\hat{v} = \\frac{\\vec{v}}{|\\vec{v}|}$\n- Dot product: $\\vec{u} \\cdot \\vec{v} = u_1v_1 + u_2v_2 = |\\vec{u}||\\vec{v}|\\cos\\theta$\n- $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$\n**Contoh:** $\\vec{a}=(3,4)$, besar $= \\sqrt{9+16}=5$, vektor satuan $= (\\frac{3}{5}, \\frac{4}{5})$.",
-    "description": "Vektor adalah besaran yang memiliki besar dan arah. Ditulis  atau ."
+    "content": "**Konsep:** Vektor adalah besaran dengan besar dan arah.\\**Rumus Kunci:**\\- $|\\ec{v}| = \\qrt{x^2+y^2}$\\- Dot product: $\\ec{u} \\dot \\ec{v} = u_1v_1 + u_2v_2$\\- $\\ec{u} \\erp \\ec{v} \\eftrightarrow \\ec{u} \\dot \\ec{v} = 0$\\**Contoh:** $\\ec{a}=(3,4)$, besar = 5.",
+    "description": "Vektor adalah besaran dengan besar dan arah."
   },
   {
     "id": "8-trigonometri-dasar",
@@ -276,48 +824,48 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Triangle",
-    "content": "**Konsep:** Trigonometri mempelajari hubungan sudut dan sisi segitiga. Didefinisikan pada lingkaran satuan.\n**Rumus Kunci:**\n- $\\sin\\theta = \\frac{depan}{miring}$, $\\cos\\theta = \\frac{samping}{miring}$, $\\tan\\theta = \\frac{depan}{samping}$\n- Nilai khusus: $\\sin 30° = \\frac{1}{2}$, $\\cos 30° = \\frac{\\sqrt{3}}{2}$, $\\tan 45° = 1$\n- Identitas: $\\sin^2\\theta + \\cos^2\\theta = 1$\n- $\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}$\n- Sudut negatif: $\\sin(-\\theta) = -\\sin\\theta$, $\\cos(-\\theta) = \\cos\\theta$\n**Contoh:** Jika $\\sin\\theta = \\frac{3}{5}$ dan $\\theta$ segitiga siku-siku, maka $\\cos\\theta = \\frac{4}{5}$, $\\tan\\theta = \\frac{3}{4}$.",
-    "description": "Trigonometri mempelajari hubungan sudut dan sisi segitiga. Didefinisikan pada lingkaran satuan."
+    "content": "**Konsep:** Hubungan sudut dan sisi segitiga.\\**Rumus Kunci:**\\- $\\in\\heta = \\rac{d}{m}$, $\\os\\heta = \\rac{s}{m}$, $\\an\\heta = \\rac{d}{s}$\\- $\\in^2\\heta + \\os^2\\heta = 1$\\**Contoh:** $\\in\\heta = \\rac{3}{5}$ → $\\os\\heta = \\rac{4}{5}$, $\\an\\heta = \\rac{3}{4}$.",
+    "description": "Hubungan sudut dan sisi segitiga."
   },
   {
     "id": "9-identitas-dan-persamaan-trigonometri",
     "slug": "9-identitas-dan-persamaan-trigonometri",
-    "title": "9. Identitas dan Persamaan Trigonometri",
+    "title": "9. Identitas Trigonometri",
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Tilde",
-    "content": "**Konsep:** Identitas trigonometri adalah persamaan yang selalu benar untuk semua nilai sudut.\n**Rumus Kunci:**\n- Penjumlahan sudut: $\\sin(A \\pm B) = \\sin A \\cos B \\pm \\cos A \\sin B$\n- $\\cos(A \\pm B) = \\cos A \\cos B \\mp \\sin A \\sin B$\n- $\\tan(A \\pm B) = \\frac{\\tan A \\pm \\tan B}{1 \\mp \\tan A \\tan B}$\n- Dwidit: $\\sin 2A = 2\\sin A \\cos A$, $\\cos 2A = \\cos^2 A - \\sin^2 A$\n- Setengah sudut: $\\sin^2 \\frac{A}{2} = \\frac{1-\\cos A}{2}$\n**Contoh:** $\\sin 75° = \\sin(45°+30°) = \\frac{\\sqrt{6}+\\sqrt{2}}{4}$.",
-    "description": "Identitas trigonometri adalah persamaan yang selalu benar untuk semua nilai sudut."
+    "content": "**Konsep:** Identitas trigonometri.\\**Rumus Kunci:**\\- $\\in(A \\m B) = \\in A \\os B \\m \\os A \\in B$\\- $\\os(A \\m B) = \\os A \\os B \\p \\in A \\in B$\\- $\\in 2A = 2\\in A \\os A$\\**Contoh:** $\\in 75° = \\rac{\\qrt{6}+\\qrt{2}}{4}$.",
+    "description": "Identitas trigonometri."
   },
   {
-    "id": "10-aturan-sinus-cosinus-dan-luas-segitiga",
-    "slug": "10-aturan-sinus-cosinus-dan-luas-segitiga",
-    "title": "10. Aturan Sinus, Cosinus, dan Luas Segitiga",
+    "id": "10-aturan-sinus-cosinus",
+    "slug": "10-aturan-sinus-cosinus",
+    "title": "10. Aturan Sinus dan Cosinus",
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "WaveTriangle",
-    "content": "**Konsep:** Aturan sinus dan cosinus digunakan menyelesaikan segitiga yang tidak siku-siku.\n**Rumus Kunci:**\n- Aturan sinus: $\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R$\n- Aturan cosinus: $c^2 = a^2+b^2 - 2ab\\cos C$\n- Luas segitiga: $L = \\frac{1}{2}ab\\sin C$\n**Contoh:** Segitiga $a=5, b=7, C=60°$. Luas $= \\frac{1}{2}(5)(7)\\sin 60° = \\frac{35\\sqrt{3}}{4}$.",
-    "description": "Aturan sinus dan cosinus digunakan menyelesaikan segitiga yang tidak siku-siku."
+    "content": "**Konsep:** Menyelesaikan segitiga tidak siku-siku.\\**Rumus Kunci:**\\- Aturan sinus: $\\rac{a}{\\in A} = \\rac{b}{\\in B} = \\rac{c}{\\in C}$\\- Aturan cosinus: $c^2 = a^2+b^2-2ab\\os C$\\- Luas: $L = \\rac{1}{2}ab\\in C$\\**Contoh:** $a=5, b=7, C=60°$. Luas = $\\rac{35\\qrt{3}}{4}$.",
+    "description": "Menyelesaikan segitiga tidak siku-siku."
   },
   {
-    "id": "11-barisan-dan-deret-aritmetika",
-    "slug": "11-barisan-dan-deret-aritmetika",
+    "id": "11-barisan-deret-aritmetika",
+    "slug": "11-barisan-deret-aritmetika",
     "title": "11. Barisan dan Deret Aritmetika",
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Graph",
-    "content": "**Konsep:** Barisan aritmetika punya beda tetap. Deret aritmetika adalah jumlah suku-sukunya.\n**Rumus Kunci:**\n- Suku ke-n: $U_n = a + (n-1)b$\n- Jumlah n suku: $S_n = \\frac{n}{2}(2a + (n-1)b) = \\frac{n}{2}(a + U_n)$\n- Rata-rata: $\\bar{x} = \\frac{a + U_n}{2}$\n**Contoh:** Barisan 3, 7, 11, 15, ... → $a=3, b=4$. $U_{10} = 3 + 9(4) = 39$.",
-    "description": "Barisan aritmetika punya beda tetap. Deret aritmetika adalah jumlah suku-sukunya."
+    "content": "**Konsep:** Barisan aritmetika beda tetap.\\**Rumus Kunci:**\\- $U_n = a + (n-1)b$\\- $S_n = \\rac{n}{2}(2a + (n-1)b)$\\**Contoh:** 3,7,11,15,... → $U_{10} = 39$.",
+    "description": "Barisan aritmetika beda tetap."
   },
   {
-    "id": "12-barisan-dan-deret-geometri",
-    "slug": "12-barisan-dan-deret-geometri",
+    "id": "12-barisan-deret-geometri",
+    "slug": "12-barisan-deret-geometri",
     "title": "12. Barisan dan Deret Geometri",
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Graph",
-    "content": "**Konsep:** Barisan geometri punya rasio tetap. Deret geometri adalah jumlah suku-sukunya.\n**Rumus Kunci:**\n- Suku ke-n: $U_n = a \\cdot r^{n-1}$\n- Jumlah n suku: $S_n = \\frac{a(r^n - 1)}{r - 1}$ untuk $r \\neq 1$\n- Jumlah tak hingga: $S_\\infty = \\frac{a}{1-r}$ untuk $|r| < 1$\n**Contoh:** Barisan 2, 6, 18, 54, ... → $a=2, r=3$. $S_5 = \\frac{2(3^5-1)}{3-1} = 242$.",
-    "description": "Barisan geometri punya rasio tetap. Deret geometri adalah jumlah suku-sukunya."
+    "content": "**Konsep:** Barisan geometri rasio tetap.\\**Rumus Kunci:**\\- $U_n = a \\dot r^{n-1}$\\- $S_n = \\rac{a(r^n-1)}{r-1}$\\- $S_\\nfty = \\rac{a}{1-r}$ untuk $|r|<1$\\**Contoh:** 2,6,18,... → $S_5 = 242$.",
+    "description": "Barisan geometri rasio tetap."
   },
   {
     "id": "13-limit-fungsi",
@@ -326,18 +874,18 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "TrendUp",
-    "content": "**Konsep:** Limit menggambarkan nilai yang didekati fungsi saat $x$ mendekati nilai tertentu.\n**Rumus Kunci:**\n- $\\lim_{x \\to a} c = c$, $\\lim_{x \\to a} x = a$\n- $\\lim_{x \\to a} [f(x) \\pm g(x)] = \\lim f(x) \\pm \\lim g(x)$\n- $\\lim_{x \\to a} [f(x) \\cdot g(x)] = \\lim f(x) \\cdot \\lim g(x)$\n- Limit tak tentu $\\frac{0}{0}$: faktorkan atau gunakan rasionalisasi\n- $\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1$\n**Contoh:** $\\lim_{x \\to 2} \\frac{x^2-4}{x-2} = \\lim_{x \\to 2} (x+2) = 4$.",
-    "description": "Limit menggambarkan nilai yang didekati fungsi saat  mendekati nilai tertentu."
+    "content": "**Konsep:** Limit menggambarkan nilai yang didekati fungsi.\\**Rumus Kunci:**\\- $\\im_{x \\o a} c = c$\\- Limit tak tentu $\\rac{0}{0}$: faktorkan\\- $\\im_{x \\o 0} \\rac{\\in x}{x} = 1$\\**Contoh:** $\\im_{x \\o 2} \\rac{x^2-4}{x-2} = 4$.",
+    "description": "Limit menggambarkan nilai yang didekati fungsi."
   },
   {
     "id": "14-turunan-diferensial",
     "slug": "14-turunan-diferensial",
-    "title": "14. Turunan (Diferensial)",
+    "title": "14. Turunan",
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "TrendUp",
-    "content": "**Konsep:** Turunan mengukur laju perubahan suatu fungsi. $f'(x) = \\lim_{h \\to 0} \\frac{f(x+h)-f(x)}{h}$.\n**Rumus Kunci:**\n- $(c)' = 0$, $(x^n)' = nx^{n-1}$\n- $(\\sin x)' = \\cos x$, $(\\cos x)' = -\\sin x$\n- $(e^x)' = e^x$, $(\\ln x)' = \\frac{1}{x}$\n- Aturan rantai: $[f(g(x))]' = f'(g(x)) \\cdot g'(x)$\n- $(fg)' = f'g + fg'$, $\\left(\\frac{f}{g}\\right)' = \\frac{f'g - fg'}{g^2}$\n**Contoh:** $f(x) = 3x^2 + 2x$, $f'(x) = 6x + 2$.",
-    "description": "Turunan mengukur laju perubahan suatu fungsi. ."
+    "content": "**Konsep:** Turunan mengukur laju perubahan.\\**Rumus Kunci:**\\- $(x^n)' = nx^{n-1}$\\- $(\\in x)' = \\os x$\\- $(e^x)' = e^x$\\- Aturan rantai: $[f(g(x))]' = f'(g(x)) \\dot g'(x)$\\**Contoh:** $f(x) = 3x^2+2x$ → $f'(x) = 6x+2$.",
+    "description": "Turunan mengukur laju perubahan."
   },
   {
     "id": "15-aplikasi-turunan",
@@ -346,8 +894,8 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "RocketLaunch",
-    "content": "**Konsep:** Turunan digunakan untuk mencari gradien, nilai maksimum/minimum, dan tentu fungsi.\n**Rumus Kunci:**\n- Gradien garis singgung: $m = f'(x_0)$\n- Fungsi naik: $f'(x) > 0$; fungsi turun: $f'(x) < 0$\n- Kritis: $f'(x) = 0$ atau tidak terdefinisi\n- Maksimum: $f'(x)=0$ dan $f''(x) < 0$; Minimum: $f'(x)=0$ dan $f''(x) > 0$\n**Contoh:** $f(x)=x^2-4x+3$, $f'(x)=2x-4=0 \\Rightarrow x=2$. Titik minimum $(2,-1)$.",
-    "description": "Turunan digunakan untuk mencari gradien, nilai maksimum/minimum, dan tentu fungsi."
+    "content": "**Konsep:** Gradien, nilai maks/min, dan tentu fungsi.\\**Rumus Kunci:**\\- Gradien: $m = f'(x_0)$\\- Fungsi naik: $f'(x)>0$; turun: $f'(x)<0$\\- Maks: $f'(x)=0$, $f''(x)<0$\\**Contoh:** $f(x)=x^2-4x+3$ → min di $(2,-1)$.",
+    "description": "Gradien, nilai maks/min, dan tentu fungsi."
   },
   {
     "id": "16-integral",
@@ -356,8 +904,8 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Infinity",
-    "content": "**Konsep:** Integral adalah kebalikan turunan. Integral tentu: $\\int_a^b f(x)dx = F(b)-F(a)$.\n**Rumus Kunci:**\n- $\\int x^n dx = \\frac{x^{n+1}}{n+1} + C$ ($n \\neq -1$)\n- $\\int \\sin x \\, dx = -\\cos x + C$\n- $\\int \\cos x \\, dx = \\sin x + C$\n- $\\int e^x dx = e^x + C$\n- $\\int \\frac{1}{x} dx = \\ln|x| + C$\n**Contoh:** $\\int_0^1 (3x^2+2x) dx = [x^3+x^2]_0^1 = 2$.",
-    "description": "Integral adalah kebalikan turunan. Integral tentu: ."
+    "content": "**Konsep:** Integral adalah kebalikan turunan.\\**Rumus Kunci:**\\- $\\nt x^n dx = \\rac{x^{n+1}}{n+1} + C$\\- $\\nt \\in x \\, dx = -\\os x + C$\\- $\\nt e^x dx = e^x + C$\\**Contoh:** $\\nt_0^1 (3x^2+2x) dx = 2$.",
+    "description": "Integral adalah kebalikan turunan."
   },
   {
     "id": "17-aplikasi-integral",
@@ -366,8 +914,8 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "ChartBarHorizontal",
-    "content": "**Konsep:** Integral digunakan untuk menghitung luas area, volume benda putar, dan panjang kurva.\n**Rumus Kunci:**\n- Luas area: $L = \\int_a^b |f(x)-g(x)| \\, dx$\n- Volume benda putar sumbu-x: $V = \\pi \\int_a^b [f(x)]^2 dx$\n- Volume benda putar sumbu-y: $V = 2\\pi \\int_a^b x \\cdot f(x) dx$ (metode selaput)\n**Contoh:** Luas area di bawah $y=x^2$ dari $x=0$ ke $x=2$: $L = \\int_0^2 x^2 dx = \\frac{8}{3}$.",
-    "description": "Integral digunakan untuk menghitung luas area, volume benda putar, dan panjang kurva."
+    "content": "**Konsep:** Luas area dan volume benda putar.\\**Rumus Kunci:**\\- Luas: $L = \\nt_a^b |f(x)-g(x)| dx$\\- Volume sumbu-x: $V = \\i \\nt_a^b [f(x)]^2 dx$\\**Contoh:** Luas di bawah $y=x^2$ dari 0 ke 2 = $\\rac{8}{3}$.",
+    "description": "Luas area dan volume benda putar."
   },
   {
     "id": "18-statistika-lanjut",
@@ -376,18 +924,18 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "ChartLine",
-    "content": "**Konsep:** Statistika lanjut mencakup ukuran tendensi sentral, dispersi, dan distribusi data.\n**Rumus Kunci:**\n- Mean: $\\bar{x} = \\frac{\\sum f_i x_i}{\\sum f_i}$\n- Varian: $s^2 = \\frac{\\sum f_i(x_i - \\bar{x})^2}{\\sum f_i}$\n- Standar deviasi: $s = \\sqrt{s^2}$\n- Kuartil: $Q_1, Q_2$ (median), $Q_3$\n- Skor Z: $z = \\frac{x - \\bar{x}}{s}$\n**Contoh:** Data 4,6,8,10,12. Mean $= 8$, Varian $= 8$, Standar deviasi $= 2\\sqrt{2}$.",
-    "description": "Statistika lanjut mencakup ukuran tendensi sentral, dispersi, dan distribusi data."
+    "content": "**Konsep:** Ukuran tendensi sentral dan dispersi.\\**Rumus Kunci:**\\- Mean: $\\ar{x} = \\rac{\\um f_i x_i}{\\um f_i}$\\- Varian: $s^2 = \\rac{\\um f_i(x_i-\\ar{x})^2}{\\um f_i}$\\- Skor Z: $z = \\rac{x-\\ar{x}}{s}$\\**Contoh:** Data 4,6,8,10,12: Mean = 8, SD = $2\\qrt{2}$.",
+    "description": "Ukuran tendensi sentral dan dispersi."
   },
   {
-    "id": "19-kaidah-pencacahan-permutasi-kombinasi",
-    "slug": "19-kaidah-pencacahan-permutasi-kombinasi",
-    "title": "19. Kaidah Pencacahan, Permutasi, Kombinasi",
+    "id": "19-kaidah-pencacahan",
+    "slug": "19-kaidah-pencacahan",
+    "title": "19. Kaidah Pencacahan",
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Lightbulb",
-    "content": "**Konsep:** Kaidah pencacahan menghitung banyak cara melakukan sesuatu.\n**Rumus Kunci:**\n- Kaidah penjumlahan: $n(A \\cup B) = n(A) + n(B)$ (jika disjoint)\n- Kaidah perkalian: $n = n_1 \\times n_2 \\times \\cdots \\times n_k$\n- Permutasi: $P(n,r) = \\frac{n!}{(n-r)!}$\n- Kombinasi: $C(n,r) = \\binom{n}{r} = \\frac{n!}{r!(n-r)!}$\n**Contoh:** $\\binom{10}{3} = \\frac{10!}{3!7!} = 120$ cara memilih 3 dari 10.",
-    "description": "Kaidah pencacahan menghitung banyak cara melakukan sesuatu."
+    "content": "**Konsep:** Menghitung banyak cara melakukan sesuatu.\\**Rumus Kunci:**\\- Permutasi: $P(n,r) = \\rac{n!}{(n-r)!}$\\- Kombinasi: $C(n,r) = \\inom{n}{r} = \\rac{n!}{r!(n-r)!}$\\**Contoh:** $\\inom{10}{3} = 120$.",
+    "description": "Menghitung banyak cara melakukan sesuatu."
   },
   {
     "id": "20-peluang",
@@ -396,18 +944,18 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "DiceSix",
-    "content": "**Konsep:** Peluang mengukur kemungkinan kejadian. $0 \\leq P(A) \\leq 1$.\n**Rumus Kunci:**\n- $P(A) = \\frac{n(A)}{n(S)}$ (peluang klasik)\n- $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$\n- $P(A \\cap B) = P(A) \\cdot P(B|A)$\n- Kejadian bebas: $P(A \\cap B) = P(A) \\cdot P(B)$\n- Peluang komplementer: $P(A^c) = 1 - P(A)$\n**Contoh:** 2 dadu dilempar. $P(\\text{jumlah 7}) = \\frac{6}{36} = \\frac{1}{6}$.",
-    "description": "Peluang mengukur kemungkinan kejadian. ."
+    "content": "**Konsep:** Peluang mengukur kemungkinan kejadian.\\**Rumus Kunci:**\\- $P(A) = \\rac{n(A)}{n(S)}$\\- $P(A \\up B) = P(A)+P(B)-P(A \\ap B)$\\- Kejadian bebas: $P(A \\ap B) = P(A) \\dot P(B)$\\**Contoh:** 2 dadu, $P(\\ext{jumlah 7}) = \\rac{1}{6}$.",
+    "description": "Peluang mengukur kemungkinan kejadian."
   },
   {
-    "id": "21-persamaan-lingkaran-dan-irisan-kerucut",
-    "slug": "21-persamaan-lingkaran-dan-irisan-kerucut",
+    "id": "21-persamaan-lingkaran-irisan-kerucut",
+    "slug": "21-persamaan-lingkaran-irisan-kerucut",
     "title": "21. Persamaan Lingkaran dan Irisan Kerucut",
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "CircleNotch",
-    "content": "**Konsep:** Persamaan lingkaran: $(x-a)^2 + (y-b)^2 = r^2$ dengan pusat $(a,b)$ dan jari-jari $r$.\n**Rumus Kunci:**\n- Pusat $(a,b)$, jari-jari $r$\n- Irisan kerucut: lingkaran, ellipse, parabola, hiperbola tergantung sudut irisan\n- Ellipse: $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$\n- Hiperbola: $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$\n- Parabola: $y^2 = 4px$ atau $x^2 = 4py$\n**Contoh:** Lingkaran $(x-2)^2 + (y+3)^2 = 25$. Pusat $(2,-3)$, $r=5$.",
-    "description": "Persamaan lingkaran:  dengan pusat  dan jari-jari ."
+    "content": "**Konsep:** Persamaan lingkaran dan irisan kerucut.\\**Rumus Kunci:**\\- Lingkaran: $(x-a)^2+(y-b)^2=r^2$\\- Ellipse: $\\rac{x^2}{a^2}+\\rac{y^2}{b^2}=1$\\- Hiperbola: $\\rac{x^2}{a^2}-\\rac{y^2}{b^2}=1$\\**Contoh:** $(x-2)^2+(y+3)^2=25$: pusat $(2,-3)$, $r=5$.",
+    "description": "Persamaan lingkaran dan irisan kerucut."
   },
   {
     "id": "22-bilangan-kompleks",
@@ -416,8 +964,8 @@
     "level": "sma",
     "section": "Matematika SMA",
     "icon": "Atom",
-    "content": "**Konsep:** Bilangan kompleks berbentuk $z = a + bi$ dengan $i^2 = -1$.\n**Rumus Kunci:**\n- Konjugat: $\\overline{z} = a - bi$\n- Besar: $|z| = \\sqrt{a^2+b^2}$\n- Perkalian: $(a+bi)(c+di) = (ac-bd) + (ad+bc)i$\n- Bentuk eksponensial: $z = r(\\cos\\theta + i\\sin\\theta) = re^{i\\theta}$\n- Teorema De Moivre: $z^n = r^n(\\cos n\\theta + i\\sin n\\theta)$\n**Contoh:** $z = 3+4i$, $|z| = 5$, $\\overline{z} = 3-4i$.",
-    "description": "Bilangan kompleks berbentuk  dengan ."
+    "content": "**Konsep:** Bilangan kompleks $z = a+bi$ dengan $i^2=-1$.\\**Rumus Kunci:**\\- $|z| = \\qrt{a^2+b^2}$\\- Konjugat: $\\verline{z} = a-bi$\\- Perkalian: $(a+bi)(c+di) = (ac-bd)+(ad+bc)i$\\**Contoh:** $z=3+4i$, $|z|=5$.",
+    "description": "Bilangan kompleks berbentuk a+bi."
   },
   {
     "id": "a-calculus-kalkulus-iiii",
@@ -426,68 +974,68 @@
     "level": "kuliah",
     "section": "Matematika Universitas",
     "icon": "Infinity",
-    "content": "**Konsep:** Kalkulus mempelajari limit, turunan, dan integral fungsi satu dan beberapa variabel.\n**Topik Utama:**\n- **Kalkulus I:** Limit, turunan, aplikasi turunan, integral tentu dan tak tentu\n- **Kalkulus II:** Integral teknik, deret tak hingga, integral parameter\n- **Kalkulus III:** Turunan parsial, gradien, integral lipat, integral garis dan permukaan\n**Rumus Kunci:**\n- Teorema dasar kalkulus: $\\int_a^b f(x)dx = F(b)-F(a)$\n- Aturan rantai: $\\frac{d}{dx}[f(g(x))] = f'(g(x)) \\cdot g'(x)$\n- Integrasi parsial: $\\int u \\, dv = uv - \\int v \\, du$\n- Aturan L'Hopital: $\\lim \\frac{f(x)}{g(x)} = \\lim \\frac{f'(x)}{g'(x)}$ jika tak tentu\n- Gradien: $\\nabla f = (\\frac{\\partial f}{\\partial x}, \\frac{\\partial f}{\\partial y}, \\frac{\\partial f}{\\partial z})$\n- Taylor series: $e^x = \\sum_{n=0}^{\\infty} \\frac{x^n}{n!}$\n**Contoh:** Hitung $\\int_0^1 x e^x dx$ menggunakan integrasi parsial. Misal $u=x$, $dv=e^x dx$, maka $du=dx$, $v=e^x$. Maka $\\int_0^1 x e^x dx = [x e^x]_0^1 - \\int_0^1 e^x dx = e - (e-1) = 1$.",
-    "description": "Kalkulus mempelajari limit, turunan, dan integral fungsi satu dan beberapa variabel."
+    "content": "**Konsep:** Kalkulus mempelajari limit, turunan, dan integral.\\**Topik Utama:**\\- Kalkulus I: Limit, turunan, integral tentu/tak tentu\\- Kalkulus II: Integral teknik, deret tak hingga\\- Kalkulus III: Turunan parsial, gradien, integral lipat\\**Rumus Kunci:**\\- Teorema dasar kalkulus: $\\nt_a^b f(x)dx = F(b)-F(a)$\\- Aturan rantai: $\\rac{d}{dx}[f(g(x))] = f'(g(x)) \\dot g'(x)$\\**Contoh:** $\\nt_0^1 xe^x dx = 1$.",
+    "description": "Kalkulus mempelajari limit, turunan, dan integral."
   },
   {
     "id": "b-linear-algebra-aljabar-linear",
     "slug": "b-linear-algebra-aljabar-linear",
-    "title": "B. Linear Algebra (Aljabar Linear)",
+    "title": "B. Linear Algebra",
     "level": "kuliah",
     "section": "Matematika Universitas",
     "icon": "CirclesFour",
-    "content": "**Konsep:** Aljabar linear mempelajari vektor, matriks, ruang vektor, dan transformasi linear.\n**Topik Utama:**\n- Sistem persamaan linear dan eliminasi Gauss\n- Determinan, invers, dan rank matriks\n- Ruang vektor, basis, dimensi\n- Nilai eigen dan vektor eigen\n- Diagonalisasi dan bentuk kanonik\n**Rumus Kunci:**\n- Polinomial karakteristik: $\\det(A - \\lambda I) = 0$\n- Aturan Cramer: $x_i = \\frac{\\det(A_i)}{\\det(A)}$\n- Rank-nullity: $\\text{rank}(A) + \\text{nullity}(A) = n$\n- $\\det(AB) = \\det(A)\\det(B)$\n- Teorema Cayley-Hamilton: matriks memenuhi persamaan karakteristiknya sendiri\n**Contoh:** Cari nilai eigen dari $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$. $\\det(A-\\lambda I) = (2-\\lambda)^2 - 1 = \\lambda^2 - 4\\lambda + 3 = 0$. Akarnya $\\lambda = 1$ atau $\\lambda = 3$.",
-    "description": "Aljabar linear mempelajari vektor, matriks, ruang vektor, dan transformasi linear."
+    "content": "**Konsep:** Aljabar linear: vektor, matriks, ruang vektor.\\**Topik Utama:**\\- SPL dan eliminasi Gauss\\- Determinan, invers, rank\\- Ruang vektor, basis, dimensi\\- Nilai eigen dan vektor eigen\\**Rumus Kunci:**\\- Polinomial karakteristik: $\\et(A-\\ambda I)=0$\\- Rank-nullity: $\\ext{rank}(A)+\\ext{nullity}(A)=n$\\**Contoh:** Nilai eigen $A = \\egin{pmatrix} 2 & 1 \\ 1 & 2 \\nd{pmatrix}$: $\\ambda=1,3$.",
+    "description": "Aljabar linear: vektor, matriks, ruang vektor."
   },
   {
     "id": "c-differential-equations-persamaan-diferensial",
     "slug": "c-differential-equations-persamaan-diferensial",
-    "title": "C. Differential Equations (Persamaan Diferensial)",
+    "title": "C. Persamaan Diferensial",
     "level": "kuliah",
     "section": "Matematika Universitas",
     "icon": "Graph",
-    "content": "**Konsep:** Persamaan differensial menghubungkan fungsi dengan turunannya.\n**Topik Utama:**\n- Persamaan differensial orde 1 (variabel terpisah, linear, homogen)\n- Persamaan differensial orde 2 (konstanta koefisien)\n- Transformasi Laplace\n- Sistem persamaan differensial\n**Rumus Kunci:**\n- Variabel terpisah: $\\frac{dy}{dx} = f(x)g(y) \\Rightarrow \\int \\frac{dy}{g(y)} = \\int f(x)dx$\n- Linear orde 1: $y' + P(x)y = Q(x)$, faktor integrasi $\\mu = e^{\\int P(x)dx}$\n- Karakteristik orde 2: $ar^2+br+c=0$\n- Laplace: $\\mathcal{L}\\{f'(t)\\} = sF(s) - f(0)$, $\\mathcal{L}\\{e^{at}\\} = \\frac{1}{s-a}$\n**Contoh:** Selesaikan $y' + 2y = 4$, $y(0) = 1$. Faktor integrasi $\\mu = e^{2x}$. $\\frac{d}{dx}[y e^{2x}] = 4e^{2x} \\Rightarrow y e^{2x} = 2e^{2x} + C \\Rightarrow y = 2 + Ce^{-2x}$. Dengan $y(0)=1$: $C = -1$. Jadi $y = 2 - e^{-2x}$.",
+    "content": "**Konsep:** Persamaan differensial menghubungkan fungsi dengan turunannya.\\**Topik Utama:**\\- PD orde 1 (variabel terpisah, linear, homogen)\\- PD orde 2 (konstanta koefisien)\\- Transformasi Laplace\\**Rumus Kunci:**\\- Variabel terpisah: $\\rac{dy}{dx} = f(x)g(y)$\\- Linear orde 1: $y' + P(x)y = Q(x)$\\**Contoh:** $y'+2y=4$, $y(0)=1$ → $y=2-e^{-2x}$.",
     "description": "Persamaan differensial menghubungkan fungsi dengan turunannya."
   },
   {
     "id": "d-real-analysis-analisis-real",
     "slug": "d-real-analysis-analisis-real",
-    "title": "D. Real Analysis (Analisis Real)",
+    "title": "D. Analisis Real",
     "level": "kuliah",
     "section": "Matematika Universitas",
     "icon": "Compass",
-    "content": "**Konsep:** Analisis real adalah fondasi rigor kalkulus: limit, kontinuitas, differensiabilitas, dan integrabilitas.\n**Topik Utama:**\n- Bilangan real, supremum, infimum\n- Limit dan kontinuitas fungsi\n- Konvergensi barisan dan deret\n- Integrasi Riemann dan Lebesgue\n- Teorema dasar kalkulus (bukti rigor)\n**Rumus Kunci:**\n- Definisi epsilon-delta limit: $\\forall \\varepsilon > 0, \\exists \\delta > 0$ sehingga $|x-a|<\\delta \\Rightarrow |f(x)-L|<\\varepsilon$\n- Definisi epsilon-N: $\\forall \\varepsilon > 0, \\exists N$ sehingga $n>N \\Rightarrow |a_n - L|<\\varepsilon$\n- Teorema nilai rata-rata: $f'(c) = \\frac{f(b)-f(a)}{b-a}$\n- Teorema Bolzano-Weierstrass: barisan terbatas punya subbarisan konvergen\n- Kriteria Cauchy untuk konvergensi\n**Contoh:** Buktikan $\\lim_{n \\to \\infty} \\frac{2n+1}{n+3} = 2$. Untuk $\\varepsilon > 0$, pilih $N > \\frac{7}{\\varepsilon}$. Jika $n > N$, maka $\\left|\\frac{2n+1}{n+3} - 2\\right| = \\left|\\frac{-5}{n+3}\\right| < \\frac{5}{n} < \\varepsilon$.",
-    "description": "Analisis real adalah fondasi rigor kalkulus: limit, kontinuitas, differensiabilitas, dan integrabilitas."
+    "content": "**Konsep:** Fondasi rigor kalkulus.\\**Topik Utama:**\\- Bilangan real, supremum\\- Limit dan kontinuitas (epsilon-delta)\\- Integrasi Riemann\\**Rumus Kunci:**\\- Epsilon-delta: $\\orall \\arepsilon > 0, \\xists \\elta > 0$ sehingga $|x-a|<\\elta \\ightarrow |f(x)-L|<\\arepsilon$\\- Teorema nilai rata-rata: $f'(c) = \\rac{f(b)-f(a)}{b-a}$\\**Contoh:** $\\im_{n \\o \\nfty} \\rac{2n+1}{n+3} = 2$.",
+    "description": "Fondasi rigor kalkulus."
   },
   {
     "id": "e-abstract-algebra-aljabar-abstrak",
     "slug": "e-abstract-algebra-aljabar-abstrak",
-    "title": "E. Abstract Algebra (Aljabar Abstrak)",
+    "title": "E. Aljabar Abstrak",
     "level": "kuliah",
     "section": "Matematika Universitas",
     "icon": "Sigma",
-    "content": "**Konsep:** Aljabar abstrak mempelajari struktur aljabar: grup, ring, dan field.\n**Topik Utama:**\n- Grup: definisi, subgrup, grup simetri\n- Ring dan ideal\n- Field dan ekstensi field\n- Teorema Lagrange, isomorfisme\n**Rumus Kunci:**\n- Aksioma grup: tertutup, asosiatif, identitas, invers\n- Teorema Lagrange: $|H|$ membagi $|G|$ untuk subgrup $H$ dari grup $G$\n- Homomorfisme: $\\varphi(a*b) = \\varphi(a)*\\varphi(b)$\n- Teorema isomorfisme pertama: $G/\\ker(\\varphi) \\cong \\text{im}(\\varphi)$\n- Ring: $(R, +, *)$ dengan $(R,+)$ abelian grup, $(R,*)$ monoid, distributif\n- Field: ring komutatif di mana setiap elemen bukan nol punya invers\n**Contoh:** $\\{0,1,2,3\\}$ dengan $+_4$ (penjumlahan mod 4) membentuk grup abelian. Identitas: $0$. Invers: $0 \\to 0$, $1 \\to 3$, $2 \\to 2$, $3 \\to 1$. Orde $= 4$. Menurut Teorema Lagrange, subgrup hanya boleh berorde 1, 2, atau 4. $H = \\{0,2\\}$ adalah subgrup orde 2.",
-    "description": "Aljabar abstrak mempelajari struktur aljabar: grup, ring, dan field."
+    "content": "**Konsep:** Struktur aljabar: grup, ring, field.\\**Topik Utama:**\\- Grup: definisi, subgrup, grup simetri\\- Ring dan ideal\\- Field dan ekstensi\\**Rumus Kunci:**\\- Teorema Lagrange: $|H|$ membagi $|G|$\\- Teorema isomorfisme: $G/\\er(\\arphi) \\ong \\ext{im}(\\arphi)$\\**Contoh:** $\\{0,1,2,3\\}$ dengan $+_4$ membentuk grup abelian orde 4.",
+    "description": "Struktur aljabar: grup, ring, field."
   },
   {
     "id": "f-discrete-mathematics-matematika-diskrit",
     "slug": "f-discrete-mathematics-matematika-diskrit",
-    "title": "F. Discrete Mathematics (Matematika Diskrit)",
+    "title": "F. Matematika Diskrit",
     "level": "kuliah",
     "section": "Matematika Universitas",
     "icon": "LightbulbFilament",
-    "content": "**Konsep:** Matematika diskrit mempelajari struktur diskrit: graf, pohon, logika, dan kombinatorik.\n**Topik Utama:**\n- Logika proposisi dan predikat\n- Graf: sifat, lintasan, sirkuit\n- Pohon dan algoritma graf\n- Teorema kemanjuran dan induksi\n- Aljabar Boolean\n**Rumus Kunci:**\n- Permutasi: $P(n,r) = \\frac{n!}{(n-r)!}$, Kombinasi: $C(n,r) = \\frac{n!}{r!(n-r)!}$\n- Handshaking lemma: $\\sum \\deg(v) = 2|E|$\n- Euler untuk graf planar: $V - E + F = 2$\n- Sifat pohon: $E = V - 1$\n- Prinsip kepatungan: $n+1$ objek ke $n$ kotak, minimal satu kotak punya 2\n- Hukum De Morgan: $(A \\cup B)^c = A^c \\cap B^c$\n**Contoh:** Buktikan dengan induksi: $1+2+\\cdots+n = \\frac{n(n+1)}{2}$. Basis: $n=1$, $1 = \\frac{1(2)}{2} = 1$. Asumsi: berlaku untuk $n=k$. Step: $1+2+\\cdots+k+(k+1) = \\frac{k(k+1)}{2} + (k+1) = \\frac{(k+1)(k+2)}{2}$. Terbukti.",
-    "description": "Matematika diskrit mempelajari struktur diskrit: graf, pohon, logika, dan kombinatorik."
+    "content": "**Konsep:** Struktur diskrit: graf, pohon, logika.\\**Topik Utama:**\\- Logika proposisi\\- Graf dan pohon\\- Induksi matematika\\**Rumus Kunci:**\\- Handshaking lemma: $\\um \\eg(v) = 2|E|$\\- Euler graf planar: $V-E+F=2$\\**Contoh:** Induksi: $1+2+\\dots+n = \\rac{n(n+1)}{2}$.",
+    "description": "Struktur diskrit: graf, pohon, logika."
   },
   {
     "id": "g-probability-statistics-probabilitas-statistika-lanjut",
     "slug": "g-probability-statistics-probabilitas-statistika-lanjut",
-    "title": "G. Probability & Statistics (Probabilitas & Statistika Lanjut)",
+    "title": "G. Probabilitas & Statistika",
     "level": "kuliah",
     "section": "Matematika Universitas",
     "icon": "ChartDonut",
-    "content": "**Konsep:** Probabilitas dan statistika lanjut: distribusi, inferensi, dan hipotesis.\n**Topik Utama:**\n- Variabel acak diskrit dan kontinu\n- Distribusi: binomial, Poisson, normal, eksponensial\n- Teorema batas pusat\n- Estimasi parameter dan uji hipotesis\n- Regresi dan korelasi\n**Rumus Kunci:**\n- Binomial: $P(X=k) = \\binom{n}{k} p^k (1-p)^{n-k}$, $E=np$, $\\text{Var}=np(1-p)$\n- Poisson: $P(X=k) = \\frac{\\lambda^k e^{-\\lambda}}{k!}$, $E=\\text{Var}=\\lambda$\n- Normal: $f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$\n- Standar normal: $Z = \\frac{X-\\mu}{\\sigma}$\n- Teorema batas pusat: $\\bar{X} \\sim N(\\mu, \\frac{\\sigma^2}{n})$ untuk $n$ besar\n- Interval kepercayaan: $\\bar{X} \\pm z^* \\frac{s}{\\sqrt{n}}$\n**Contoh:** $X \\sim B(10, 0.3)$. $E(X) = 3$, $\\text{Var}(X) = 2.1$. $P(X=2) = \\binom{10}{2}(0.3)^2(0.7)^8 = 45 \\cdot 0.09 \\cdot 0.0576 \\approx 0.2335$.",
-    "description": "Probabilitas dan statistika lanjut: distribusi, inferensi, dan hipotesis."
+    "content": "**Konsep:** Probabilitas dan statistika lanjut.\\**Topik Utama:**\\- Distribusi: binomial, Poisson, normal\\- Teorema batas pusat\\- Estimasi dan uji hipotesis\\**Rumus Kunci:**\\- Binomial: $P(X=k) = \\inom{n}{k}p^k(1-p)^{n-k}$\\- Normal: $f(x) = \\rac{1}{\\igma\\qrt{2\\i}}e^{-\\rac{(x-\\u)^2}{2\\igma^2}}$\\**Contoh:** $X \\im B(10,0{,}3)$: $E(X)=3$, $\\ext{Var}=2{,}1$.",
+    "description": "Probabilitas dan statistika lanjut."
   },
   {
     "id": "h-topik-lanjutan",
@@ -496,7 +1044,7 @@
     "level": "kuliah",
     "section": "Matematika Universitas",
     "icon": "Rocket",
-    "content": "**Konsep:** Topik-topik lanjutan yang melengkapi pemahaman matematika universitas: analisis kompleks, topologi, teori bilangan, metode numerik, optimasi, dan logika matematika.\n**Topik Utama:**\n- **Complex Analysis:** Fungsi bilangan kompleks, integral kontur, residu\n- **Topology:** Ruang topologi, kontinuitas topologis, fundamental group\n- **Number Theory:** Teorema bilangan bulat, primalitas, kriptografi\n- **Numerical Methods:** Aproksimasi, iterasi, metode numerik untuk PDE\n- **Optimization:** Optimasi linear dan non-linear, metode gradien\n- **Mathematical Logic:** Teori kebenaran, kalkulus predikat, konsistensi\n**Rumus Kunci:**\n- Teorema residu: $\\oint f(z)dz = 2\\pi i \\sum \\text{Res}(f, z_k)$\n- Teorema aritmetika dasar: setiap $n>1$ punya faktorisasi prima unik\n- Newton-Raphson: $x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$\n- Teorema Bayes: $P(A|B) = \\frac{P(B|A) \\cdot P(A)}{P(B)}$\n**Contoh:** Gunakan metode Newton-Raphson untuk mencari akar $x^3 - 2 = 0$ dari $x_0 = 1$. $x_1 = 1 - \\frac{1-2}{3} = 1.333$. $x_2 = 1.333 - \\frac{1.333^3 - 2}{3 \\cdot 1.333^2} \\approx 1.264$. Konvergen ke $\\sqrt[3]{2} \\approx 1.260$.",
-    "description": "- **Complex Analysis:** Fungsi bilangan kompleks, integral kontur, residu"
+    "content": "**Konsep:** Topik lanjutan: analisis kompleks, topologi, teori bilangan.\\**Topik Utama:**\\- Complex Analysis\\- Topology\\- Number Theory\\- Numerical Methods\\**Rumus Kunci:**\\- Teorema residu: $\\int f(z)dz = 2\\i i \\um \\ext{Res}(f,z_k)$\\- Newton-Raphson: $x_{n+1} = x_n - \\rac{f(x_n)}{f'(x_n)}$\\**Contoh:** Newton-Raphson untuk $x^3-2=0$: $x_1 = 1{,}333$.",
+    "description": "Topik lanjutan: analisis kompleks, topologi, teori bilangan."
   }
 ]

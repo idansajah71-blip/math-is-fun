@@ -795,6 +795,7 @@ function HomeContent() {
     level: t.level as "smp" | "sma" | "kuliah",
     status: topicStatus.get(t.slug) || ("locked" as const),
     section: t.section,
+    class: t.class as "7" | "8" | "9" | undefined,
   }));
 
   const dailyQuests = [

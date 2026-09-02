@@ -5,7 +5,7 @@ export const quizzes: QuizQuestion[] = [
   // Bilangan
   {
     id: "q-bilangan-1",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Sederhanakan 3/4 + 2/5",
     options: ["23/20", "5/9", "6/20", "15/20"],
     correctIndex: 0,
@@ -19,7 +19,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-bilangan-2",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "FPB dari 12 dan 18 adalah ____",
     options: ["6", "3", "36", "12"],
     correctIndex: 0,
@@ -29,7 +29,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-bilangan-3",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Jika 40% dari sebuah bilangan adalah 20, maka bilangan tersebut adalah ____",
     options: ["50", "80", "60", "45"],
     correctIndex: 0,
@@ -42,7 +42,7 @@ export const quizzes: QuizQuestion[] = [
   // Interactive: Number line for fractions
   {
     id: "q-bilangan-interactive-1",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Geser ke posisi 3/4 di garis bilangan",
     options: [],
     correctIndex: 0,
@@ -55,7 +55,7 @@ export const quizzes: QuizQuestion[] = [
   // Interactive: Sorting fractions
   {
     id: "q-bilangan-interactive-2",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Susun pecahan ini dari terkecil ke terbesar",
     options: [],
     correctIndex: 0,
@@ -68,7 +68,7 @@ export const quizzes: QuizQuestion[] = [
   // Interactive: Number line for integers
   {
     id: "q-bilangan-interactive-3",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Geser ke posisi -3 di garis bilangan",
     options: [],
     correctIndex: 0,
@@ -81,7 +81,7 @@ export const quizzes: QuizQuestion[] = [
   // Interactive: Sorting decimals
   {
     id: "q-bilangan-interactive-4",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Susun desimal ini dari terbesar ke terkecil",
     options: [],
     correctIndex: 0,
@@ -94,7 +94,7 @@ export const quizzes: QuizQuestion[] = [
   // Interactive: Number line for percentages
   {
     id: "q-bilangan-interactive-6",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Geser ke posisi 0.5 di garis bilangan",
     options: [],
     correctIndex: 0,
@@ -105,7 +105,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-bilangan-interactive-7",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Geser ke posisi 1/3 di garis bilangan",
     options: [],
     correctIndex: 0,
@@ -116,7 +116,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-bilangan-interactive-8",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Geser ke posisi -2.5 di garis bilangan",
     options: [],
     correctIndex: 0,
@@ -127,7 +127,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-bilangan-interactive-9",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Geser ke posisi 2/5 di garis bilangan",
     options: [],
     correctIndex: 0,
@@ -138,7 +138,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-bilangan-interactive-10",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Geser ke posisi 75% di garis bilangan",
     options: [],
     correctIndex: 0,
@@ -151,7 +151,7 @@ export const quizzes: QuizQuestion[] = [
   // Himpunan
   {
     id: "q-himpunan-1",
-    topicSlug: "2-himpunan",
+    topicSlug: "7-5-himpunan",
     question: "Jika n(A)=10, n(B)=8, n(Aâˆ©B)=3, maka n(AâˆªB) adalah...",
     options: ["15", "18", "13", "21"],
     correctIndex: 0,
@@ -160,7 +160,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-himpunan-2",
-    topicSlug: "2-himpunan",
+    topicSlug: "7-5-himpunan",
     question: "Himpunan bagian dari himpunan {a,b,c} berapa banyak? ____",
     options: ["8", "6", "9", "7"],
     correctIndex: 0,
@@ -172,7 +172,7 @@ export const quizzes: QuizQuestion[] = [
   // Bentuk Aljabar
   {
     id: "q-aljabar-1",
-    topicSlug: "3-bentuk-aljabar",
+    topicSlug: "7-6-bentuk-aljabar",
     question: "Faktorkan xÂ² + 7x + 12",
     options: ["(x+3)(x+4)", "(x+2)(x+6)", "(x+1)(x+12)", "(x+5)(x+2)"],
     correctIndex: 0,
@@ -183,7 +183,7 @@ export const quizzes: QuizQuestion[] = [
   // Interactive: Number line for integers
   {
     id: "q-aljabar-interactive-1",
-    topicSlug: "3-bentuk-aljabar",
+    topicSlug: "7-6-bentuk-aljabar",
     question: "Geser ke posisi 4 di garis bilangan",
     options: [],
     correctIndex: 0,
@@ -196,7 +196,7 @@ export const quizzes: QuizQuestion[] = [
   // PLSV
   {
     id: "q-linear-1",
-    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    topicSlug: "7-8-persamaan-linear-satu-variabel",
     question: "Penyelesaian 2x + 5 = 13 adalah x = ____",
     options: ["x = 4", "x = 5", "x = 3", "x = 6"],
     correctIndex: 0,
@@ -206,7 +206,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-linear-2",
-    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    topicSlug: "7-8-persamaan-linear-satu-variabel",
     question: "Jika 3x - 7 = 8, maka x = ____",
     options: ["5", "4", "6", "3"],
     correctIndex: 0,
@@ -218,7 +218,7 @@ export const quizzes: QuizQuestion[] = [
   // Interactive: Equation builder for PLSV
   {
     id: "q-linear-interactive-1",
-    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    topicSlug: "7-8-persamaan-linear-satu-variabel",
     question: "Selesaikan langkah demi langkah: 2x + 5 = 13",
     options: [],
     correctIndex: 0,
@@ -237,7 +237,7 @@ export const quizzes: QuizQuestion[] = [
   // Interactive: Equation builder for PLSV (harder)
   {
     id: "q-linear-interactive-2",
-    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    topicSlug: "7-8-persamaan-linear-satu-variabel",
     question: "Selesaikan: 4x - 3 = 2x + 9",
     options: [],
     correctIndex: 0,
@@ -256,7 +256,7 @@ export const quizzes: QuizQuestion[] = [
   // Interactive: Sorting integers
   {
     id: "q-bilangan-interactive-5",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Susun bilangan ini dari terkecil ke terbesar",
     options: [],
     correctIndex: 0,
@@ -269,7 +269,7 @@ export const quizzes: QuizQuestion[] = [
   // Perbandingan
   {
     id: "q-perbandingan-1",
-    topicSlug: "6-perbandingan-senilai-berbalik-nilai",
+    topicSlug: "7-11-perbandingan-senilai-berbalik-nilai",
     question: "5 pekerja menyelesaikan proyek dalam 12 hari. Jika 3 pekerja, berapa hari?",
     options: ["20 hari", "18 hari", "15 hari", "8 hari"],
     correctIndex: 0,
@@ -280,7 +280,7 @@ export const quizzes: QuizQuestion[] = [
   // Pola Bilangan
   {
     id: "q-pola-1",
-    topicSlug: "8-pola-bilangan-dan-barisan",
+    topicSlug: "8-3-pola-bilangan-dan-barisan",
     question: "Suku ke-10 dari barisan 2, 5, 8, 11, ... adalah ____",
     options: ["29", "32", "26", "35"],
     correctIndex: 0,
@@ -292,7 +292,7 @@ export const quizzes: QuizQuestion[] = [
   // Garis Lurus
   {
     id: "q-garis-1",
-    topicSlug: "10-persamaan-garis-lurus",
+    topicSlug: "8-10-persamaan-garis-lurus",
     question: "Gradien garis melalui (2,3) dan (4,7) adalah ____",
     options: ["2", "3", "1", "4"],
     correctIndex: 0,
@@ -304,7 +304,7 @@ export const quizzes: QuizQuestion[] = [
   // Pythagoras
   {
     id: "q-pythagoras-1",
-    topicSlug: "14-teorema-pythagoras",
+    topicSlug: "8-4-teorema-pythagoras",
     question: "Panjang hipotenusa segitiga siku-siku dengan sisi 6 dan 8 adalah...",
     options: ["10", "12", "14", "11"],
     correctIndex: 0,
@@ -313,7 +313,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-pythagoras-2",
-    topicSlug: "14-teorema-pythagoras",
+    topicSlug: "8-4-teorema-pythagoras",
     question: "Tripel Pythagoras yang benar adalah...",
     options: ["(5,12,13)", "(4,6,8)", "(3,5,7)", "(6,8,12)"],
     correctIndex: 0,
@@ -325,7 +325,7 @@ export const quizzes: QuizQuestion[] = [
   // Lingkaran
   {
     id: "q-lingkaran-1",
-    topicSlug: "15-lingkaran",
+    topicSlug: "8-16-lingkaran",
     question: "Luas lingkaran dengan jari-jari 7 cm (Ï€ â‰ˆ 22/7) adalah...",
     options: ["154 cmÂ²", "144 cmÂ²", "156 cmÂ²", "148 cmÂ²"],
     correctIndex: 0,
@@ -334,7 +334,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-lingkaran-2",
-    topicSlug: "15-lingkaran",
+    topicSlug: "8-16-lingkaran",
     question: "Keliling lingkaran dengan diameter 14 cm adalah...",
     options: ["44 cm", "88 cm", "22 cm", "154 cm"],
     correctIndex: 0,
@@ -346,7 +346,7 @@ export const quizzes: QuizQuestion[] = [
   // Segitiga
   {
     id: "q-segitiga-1",
-    topicSlug: "13-segitiga-dan-segiempat",
+    topicSlug: "7-15-segitiga-dan-segiempat",
     question: "Luas trapesium dengan alas 10 cm, alas atas 6 cm, tinggi 5 cm adalah...",
     options: ["40 cmÂ²", "50 cmÂ²", "30 cmÂ²", "45 cmÂ²"],
     correctIndex: 0,
@@ -725,7 +725,7 @@ export const quizzes: QuizQuestion[] = [
   // SMP - SPLDV
   {
     id: "q-spldv-2",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Jika 2x+y=7 dan x-y=2, maka x=...",
     options: ["3", "2", "4", "5"],
     correctIndex: 0,
@@ -737,7 +737,7 @@ export const quizzes: QuizQuestion[] = [
   // SMP - Statistika
   {
     id: "q-stat-2",
-    topicSlug: "18-statistika-dasar",
+    topicSlug: "7-21-statistika-dasar",
     question: "Median dari data 3,5,7,8,10 adalah...",
     options: ["7", "8", "6", "5"],
     correctIndex: 0,
@@ -747,7 +747,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-stat-3",
-    topicSlug: "18-statistika-dasar",
+    topicSlug: "7-21-statistika-dasar",
     question: "Modus dari data 2,3,3,4,5,3 adalah...",
     options: ["3", "4", "2", "5"],
     correctIndex: 0,
@@ -759,7 +759,7 @@ export const quizzes: QuizQuestion[] = [
   // SMP - Peluang
   {
     id: "q-peluang-2",
-    topicSlug: "19-peluang-dasar",
+    topicSlug: "7-22-peluang-dasar",
     question: "Peluang muncul angka ganjil dari satu dadu adalah...",
     options: ["1/2", "1/3", "1/6", "2/3"],
     correctIndex: 0,
@@ -771,7 +771,7 @@ export const quizzes: QuizQuestion[] = [
   // SMP - Transformasi
   {
     id: "q-transform-1",
-    topicSlug: "20-transformasi-geometri",
+    topicSlug: "7-20-transformasi-geometri-dasar",
     question: "Titik (3,4) ditranslasi oleh (2,-1) menjadi...",
     options: ["(5,3)", "(6,4)", "(1,5)", "(5,5)"],
     correctIndex: 0,
@@ -949,7 +949,7 @@ export const quizzes: QuizQuestion[] = [
   // 5-pertidaksamaan-linear-satu-variabel-ptlsv (SMP)
   {
     id: "q-ptlsv-1",
-    topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
+    topicSlug: "7-9-pertidaksamaan-linear-satu-variabel",
     question: "Penyelesaian 2x + 3 > 7 adalah...",
     options: ["x > 2", "x < 2", "x > 5", "x < 5"],
     correctIndex: 0,
@@ -959,7 +959,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-ptlsv-2",
-    topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
+    topicSlug: "7-9-pertidaksamaan-linear-satu-variabel",
     question: "Jika 3x - 5 â‰¤ 10, maka x â‰¤ ...",
     options: ["5", "3", "15", "4"],
     correctIndex: 0,
@@ -969,7 +969,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-ptlsv-3",
-    topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
+    topicSlug: "7-9-pertidaksamaan-linear-satu-variabel",
     question: "Penyelesaian -2x + 1 < 5 adalah x > -2",
     options: ["Benar", "Salah"],
     correctIndex: 0,
@@ -978,7 +978,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-ptlsv-4",
-    topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
+    topicSlug: "7-9-pertidaksamaan-linear-satu-variabel",
     question: "Bilangan bulat positif yang memenuhi x - 3 < 5 adalah...",
     options: ["1, 2, 3, 4, 5, 6, 7", "1, 2, 3, 4, 5, 6", "5, 6, 7", "1, 2, 3"],
     correctIndex: 0,
@@ -990,7 +990,7 @@ export const quizzes: QuizQuestion[] = [
   // 7-aritmetika-sosial (SMP)
   {
     id: "q-sosial-1",
-    topicSlug: "7-aritmetika-sosial",
+    topicSlug: "7-12-aritmetika-sosial",
     question: "Sebuah baju dibeli Rp80.000 dijual dengan keuntungan 25%. Harga jual = ...",
     options: ["Rp100.000", "Rp95.000", "Rp105.000", "Rp120.000"],
     correctIndex: 0,
@@ -1000,7 +1000,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sosial-2",
-    topicSlug: "7-aritmetika-sosial",
+    topicSlug: "7-12-aritmetika-sosial",
     question: "Hp dijual Rp1.200.000 dengan diskon 15%. Harga setelah diskon = ...",
     options: ["Rp1.020.000", "Rp1.080.000", "Rp1.050.000", "Rp960.000"],
     correctIndex: 0,
@@ -1010,7 +1010,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sosial-3",
-    topicSlug: "7-aritmetika-sosial",
+    topicSlug: "7-12-aritmetika-sosial",
     question: "Hasil dari operasi perkalian bilangan bulat (-5) Ã— (-4) adalah -20",
     options: ["Benar", "Salah"],
     correctIndex: 1,
@@ -1019,7 +1019,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sosial-4",
-    topicSlug: "7-aritmetika-sosial",
+    topicSlug: "7-12-aritmetika-sosial",
     question: "Gaji Rp4.500.000 dikenai pajak 10%. Gaji bersih = ...",
     options: ["Rp4.050.000", "Rp4.100.000", "Rp4.000.000", "Rp4.200.000"],
     correctIndex: 0,
@@ -1031,7 +1031,7 @@ export const quizzes: QuizQuestion[] = [
   // 9-relasi-dan-fungsi (SMP)
   {
     id: "q-relasi-1",
-    topicSlug: "9-relasi-dan-fungsi",
+    topicSlug: "8-8-relasi-dan-fungsi",
     question: "Fungsi f(x) = 2x + 1. Nilai f(3) adalah...",
     options: ["7", "5", "6", "9"],
     correctIndex: 0,
@@ -1041,7 +1041,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-relasi-2",
-    topicSlug: "9-relasi-dan-fungsi",
+    topicSlug: "8-8-relasi-dan-fungsi",
     question: "Domain fungsi f(x) = sqrt(x-2) adalah...",
     options: ["x >= 2", "x > 2", "x >= 0", "Semua bilangan"],
     correctIndex: 0,
@@ -1051,7 +1051,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-relasi-3",
-    topicSlug: "9-relasi-dan-fungsi",
+    topicSlug: "8-8-relasi-dan-fungsi",
     question: "Fungsi g(x) = xÂ² - 4, maka g(3) = 5",
     options: ["Benar", "Salah"],
     correctIndex: 0,
@@ -1060,7 +1060,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-relasi-4",
-    topicSlug: "9-relasi-dan-fungsi",
+    topicSlug: "8-8-relasi-dan-fungsi",
     question: "Jika f(x) = 3x - 2, maka f^-1(x) = ...",
     options: ["(x+2)/3", "(x-2)/3", "3x+2", "3x-2"],
     correctIndex: 0,
@@ -1072,7 +1072,7 @@ export const quizzes: QuizQuestion[] = [
   // 12-garis-dan-sudut (SMP)
   {
     id: "q-sudut-1",
-    topicSlug: "12-garis-dan-sudut",
+    topicSlug: "7-17-garis-dan-sudut",
     question: "Jumlah sudut dalam segitiga adalah...",
     options: ["180 derajat", "360 derajat", "270 derajat", "90 derajat"],
     correctIndex: 0,
@@ -1082,7 +1082,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sudut-2",
-    topicSlug: "12-garis-dan-sudut",
+    topicSlug: "7-17-garis-dan-sudut",
     question: "Dua garis sejajar dipotong garis potong. Sudut dalam sehadap = ...",
     options: ["Sama besar", "Berbeda", "Tumpul dan lancip", "Saling melengkapi"],
     correctIndex: 0,
@@ -1092,7 +1092,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sudut-3",
-    topicSlug: "12-garis-dan-sudut",
+    topicSlug: "7-17-garis-dan-sudut",
     question: "Pelurus sudut 60Â° adalah 120Â°",
     options: ["Benar", "Salah"],
     correctIndex: 0,
@@ -1101,7 +1101,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sudut-4",
-    topicSlug: "12-garis-dan-sudut",
+    topicSlug: "7-17-garis-dan-sudut",
     question: "Sudut bertolak belakang yang dibentuk dua garis yang berpotongan selalu...",
     options: ["Sama besar", "Bersudut siku-siku", "Berjumlah 180 derajat", "Tidak tentu"],
     correctIndex: 0,
@@ -1113,7 +1113,7 @@ export const quizzes: QuizQuestion[] = [
   // 16-bangun-ruang-sisi-datar (SMP)
   {
     id: "q-sisidatar-1",
-    topicSlug: "16-bangun-ruang-sisi-datar",
+    topicSlug: "8-17-bangun-ruang-sisi-datar",
     question: "Jumlah sisi, rusuk, dan titik sudut kubus adalah...",
     options: ["6, 12, 8", "6, 8, 12", "8, 12, 6", "6, 6, 8"],
     correctIndex: 0,
@@ -1123,7 +1123,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sisidatar-2",
-    topicSlug: "16-bangun-ruang-sisi-datar",
+    topicSlug: "8-17-bangun-ruang-sisi-datar",
     question: "Volume balok dengan panjang 8 cm, lebar 5 cm, tinggi 3 cm adalah...",
     options: ["120 cm3", "150 cm3", "80 cm3", "100 cm3"],
     correctIndex: 0,
@@ -1133,7 +1133,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sisidatar-3",
-    topicSlug: "16-bangun-ruang-sisi-datar",
+    topicSlug: "8-17-bangun-ruang-sisi-datar",
     question: "Luas permukaan kubus dengan rusuk 4 cm adalah 96 cmÂ²",
     options: ["Benar", "Salah"],
     correctIndex: 0,
@@ -1142,7 +1142,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sisidatar-4",
-    topicSlug: "16-bangun-ruang-sisi-datar",
+    topicSlug: "8-17-bangun-ruang-sisi-datar",
     question: "Prisma segitiga memiliki jumlah sisi adalah...",
     options: ["5", "4", "6", "3"],
     correctIndex: 0,
@@ -1154,7 +1154,7 @@ export const quizzes: QuizQuestion[] = [
   // 17-bangun-ruang-sisi-lengkung (SMP)
   {
     id: "q-sisilengkung-1",
-    topicSlug: "17-bangun-ruang-sisi-lengkung",
+    topicSlug: "8-18-bangun-ruang-sisi-lengkung",
     question: "Volume tabung dengan jari-jari 7 cm dan tinggi 10 cm (pi=22/7) adalah...",
     options: ["1540 cm3", "1440 cm3", "1500 cm3", "1600 cm3"],
     correctIndex: 0,
@@ -1164,7 +1164,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sisilengkung-2",
-    topicSlug: "17-bangun-ruang-sisi-lengkung",
+    topicSlug: "8-18-bangun-ruang-sisi-lengkung",
     question: "Luas selimut tabung dengan jari-jari 7 cm dan tinggi 10 cm (pi=22/7) adalah...",
     options: ["440 cm2", "1540 cm2", "308 cm2", "220 cm2"],
     correctIndex: 0,
@@ -1174,7 +1174,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sisilengkung-3",
-    topicSlug: "17-bangun-ruang-sisi-lengkung",
+    topicSlug: "8-18-bangun-ruang-sisi-lengkung",
     question: "Volume kerucut dengan jari-jari 6 cm dan tinggi 10 cm adalah 376,8 cmÂ³",
     options: ["Benar", "Salah"],
     correctIndex: 0,
@@ -1183,7 +1183,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "q-sisilengkung-4",
-    topicSlug: "17-bangun-ruang-sisi-lengkung",
+    topicSlug: "8-18-bangun-ruang-sisi-lengkung",
     question: "Volume bola dengan jari-jari 7 cm (pi=22/7) adalah...",
     options: ["1437,33 cm3", "308 cm3", "616 cm3", "1540 cm3"],
     correctIndex: 0,
@@ -1485,7 +1485,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 1-bilangan-bulat-pecahan-desimal-persen (2 tambahan) ---
   {
     id: "smp-bil-001",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Hasil dari -8 + 5 adalah...",
     options: ["-3", "3", "-13", "13"],
     correctIndex: 0,
@@ -1494,7 +1494,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-bil-002",
-    topicSlug: "1-bilangan-bulat-pecahan-desimal-persen",
+    topicSlug: "7-1-bilangan-bulat",
     question: "Hasil dari 3/4 dikurangi 1/3 adalah...",
     options: ["5/12", "2/1", "1/12", "4/7"],
     correctIndex: 0,
@@ -1509,7 +1509,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 4-persamaan-linear-satu-variabel-plsv (6 tambahan) ---
   {
     id: "smp-plsv-001",
-    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    topicSlug: "7-8-persamaan-linear-satu-variabel",
     question: "Penyelesaian 5x - 10 = 0 adalah x = ...",
     options: ["2", "3", "4", "5"],
     correctIndex: 0,
@@ -1518,7 +1518,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-plsv-002",
-    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    topicSlug: "7-8-persamaan-linear-satu-variabel",
     question: "Jika 4x + 8 = 24, maka x = ...",
     options: ["4", "3", "5", "6"],
     correctIndex: 0,
@@ -1527,7 +1527,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-plsv-003",
-    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    topicSlug: "7-8-persamaan-linear-satu-variabel",
     question: "Penyelesaian 3(x - 2) = 9 adalah x = ...",
     options: ["5", "4", "3", "6"],
     correctIndex: 0,
@@ -1541,7 +1541,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-plsv-004",
-    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    topicSlug: "7-8-persamaan-linear-satu-variabel",
     question: "Penyelesaian 2x + 3 = x + 8 adalah x = ...",
     options: ["5", "4", "6", "3"],
     correctIndex: 0,
@@ -1550,7 +1550,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-plsv-005",
-    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    topicSlug: "7-8-persamaan-linear-satu-variabel",
     question: "Jika 6x - 4 = 2x + 12, maka x = ...",
     options: ["4", "3", "5", "2"],
     correctIndex: 0,
@@ -1563,7 +1563,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-plsv-006",
-    topicSlug: "4-persamaan-linear-satu-variabel-plsv",
+    topicSlug: "7-8-persamaan-linear-satu-variabel",
     question: "Sebuah bilangan dikalikan 3 lalu dikurangi 7 hasilnya 14. Bilangan itu adalah...",
     options: ["7", "8", "6", "9"],
     correctIndex: 0,
@@ -1574,7 +1574,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 5-pertidaksamaan-linear-satu-variabel-ptlsv (6 tambahan) ---
   {
     id: "smp-ptlsv-001",
-    topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
+    topicSlug: "7-9-pertidaksamaan-linear-satu-variabel",
     question: "Penyelesaian x + 4 > 7 adalah...",
     options: ["x > 3", "x < 3", "x > 11", "x < 11"],
     correctIndex: 0,
@@ -1583,7 +1583,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-ptlsv-002",
-    topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
+    topicSlug: "7-9-pertidaksamaan-linear-satu-variabel",
     question: "Penyelesaian 2x â‰¤ 10 adalah...",
     options: ["x â‰¤ 5", "x â‰¥ 5", "x â‰¤ 20", "x â‰¥ 20"],
     correctIndex: 0,
@@ -1592,7 +1592,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-ptlsv-003",
-    topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
+    topicSlug: "7-9-pertidaksamaan-linear-satu-variabel",
     question: "Penyelesaian 4x - 3 â‰¥ 5 adalah...",
     options: ["x â‰¥ 2", "x â‰¤ 2", "x â‰¥ 8", "x â‰¤ 8"],
     correctIndex: 0,
@@ -1601,7 +1601,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-ptlsv-004",
-    topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
+    topicSlug: "7-9-pertidaksamaan-linear-satu-variabel",
     question: "Penyelesaian -3x + 6 > 12 adalah...",
     options: ["x < -2", "x > -2", "x < 2", "x > 2"],
     correctIndex: 0,
@@ -1614,7 +1614,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-ptlsv-005",
-    topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
+    topicSlug: "7-9-pertidaksamaan-linear-satu-variabel",
     question: "Bilangan bulat positif yang memenuhi 2x + 1 â‰¤ 11 adalah...",
     options: ["1, 2, 3, 4, 5", "1, 2, 3, 4", "5, 6, 7", "1, 2, 3"],
     correctIndex: 0,
@@ -1623,7 +1623,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-ptlsv-006",
-    topicSlug: "5-pertidaksamaan-linear-satu-variabel-ptlsv",
+    topicSlug: "7-9-pertidaksamaan-linear-satu-variabel",
     question: "Penyelesaian 5 - 2x â‰¥ -1 adalah...",
     options: ["x â‰¤ 3", "x â‰¥ 3", "x â‰¤ -3", "x â‰¥ -3"],
     correctIndex: 0,
@@ -1638,7 +1638,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 7-aritmetika-sosial (6 tambahan) ---
   {
     id: "smp-sosial-001",
-    topicSlug: "7-aritmetika-sosial",
+    topicSlug: "7-12-aritmetika-sosial",
     question: "Sebuah barang dibeli Rp200.000 dan dijual Rp250.000. Persentase keuntungan adalah...",
     options: ["25%", "20%", "30%", "15%"],
     correctIndex: 0,
@@ -1647,7 +1647,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sosial-002",
-    topicSlug: "7-aritmetika-sosial",
+    topicSlug: "7-12-aritmetika-sosial",
     question: "Harga sepatu Rp450.000 mendapat diskon 20%. Harga setelah diskon adalah...",
     options: ["Rp360.000", "Rp350.000", "Rp380.000", "Rp400.000"],
     correctIndex: 0,
@@ -1656,7 +1656,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sosial-003",
-    topicSlug: "7-aritmetika-sosial",
+    topicSlug: "7-12-aritmetika-sosial",
     question: "Seseorang menabung Rp500.000 dengan bunga 6% per tahun. Setelah 1 tahun uangnya menjadi...",
     options: ["Rp530.000", "Rp560.000", "Rp520.000", "Rp540.000"],
     correctIndex: 0,
@@ -1665,7 +1665,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sosial-004",
-    topicSlug: "7-aritmetika-sosial",
+    topicSlug: "7-12-aritmetika-sosial",
     question: "Sebuah toko rugi Rp50.000 karena menjual barang Rp350.000. Harga beli barang adalah...",
     options: ["Rp400.000", "Rp300.000", "Rp350.000", "Rp450.000"],
     correctIndex: 0,
@@ -1674,7 +1674,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sosial-005",
-    topicSlug: "7-aritmetika-sosial",
+    topicSlug: "7-12-aritmetika-sosial",
     question: "Gaji Rp3.800.000 dikenai pajak penghasilan 5%. Gaji bersih setelah pajak adalah...",
     options: ["Rp3.610.000", "Rp3.500.000", "Rp3.700.000", "Rp3.420.000"],
     correctIndex: 0,
@@ -1683,7 +1683,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sosial-006",
-    topicSlug: "7-aritmetika-sosial",
+    topicSlug: "7-12-aritmetika-sosial",
     question: "Sebuah barang dibeli Rp600.000, diberi diskon 10%, lalu dikenai pajak pertambahan nilai 11%. Harga akhir adalah...",
     options: ["Rp599.400", "Rp594.000", "Rp600.000", "Rp660.000"],
     correctIndex: 0,
@@ -1694,7 +1694,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 9-relasi-dan-fungsi (6 tambahan) ---
   {
     id: "smp-relasi-001",
-    topicSlug: "9-relasi-dan-fungsi",
+    topicSlug: "8-8-relasi-dan-fungsi",
     question: "Fungsi f(x) = 4x - 3. Nilai f(2) adalah...",
     options: ["5", "7", "4", "6"],
     correctIndex: 0,
@@ -1703,7 +1703,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-relasi-002",
-    topicSlug: "9-relasi-dan-fungsi",
+    topicSlug: "8-8-relasi-dan-fungsi",
     question: "Jika f(x) = xÂ² + 1, maka f(4) adalah...",
     options: ["17", "16", "9", "25"],
     correctIndex: 0,
@@ -1712,7 +1712,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-relasi-003",
-    topicSlug: "9-relasi-dan-fungsi",
+    topicSlug: "8-8-relasi-dan-fungsi",
     question: "Range dari fungsi f(x) = |x| adalah...",
     options: ["y â‰¥ 0", "y > 0", "Semua bilangan real", "y â‰¤ 0"],
     correctIndex: 0,
@@ -1721,7 +1721,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-relasi-004",
-    topicSlug: "9-relasi-dan-fungsi",
+    topicSlug: "8-8-relasi-dan-fungsi",
     question: "Fungsi f(x) = 2x + 3 dan g(x) = x - 1. Nilai f(g(5)) adalah...",
     options: ["11", "13", "15", "9"],
     correctIndex: 0,
@@ -1730,7 +1730,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-relasi-005",
-    topicSlug: "9-relasi-dan-fungsi",
+    topicSlug: "8-8-relasi-dan-fungsi",
     question: "Jika f(x) = 5x - 7, nilai x sehingga f(x) = 13 adalah...",
     options: ["4", "3", "5", "6"],
     correctIndex: 0,
@@ -1739,7 +1739,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-relasi-006",
-    topicSlug: "9-relasi-dan-fungsi",
+    topicSlug: "8-8-relasi-dan-fungsi",
     question: "Fungsi f(x) = xÂ² - 4x + 3 memiliki nilai minimum di x = ...",
     options: ["2", "3", "4", "1"],
     correctIndex: 0,
@@ -1750,7 +1750,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 11-sistem-persamaan-linear-dua-variabel-spldv (8 tambahan) ---
   {
     id: "smp-spldv-001",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Penyelesaian sistem 2x + y = 7 dan x + y = 4 adalah...",
     options: ["x=3, y=1", "x=2, y=3", "x=4, y=0", "x=1, y=5"],
     correctIndex: 0,
@@ -1759,7 +1759,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-002",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Jika x + 2y = 8 dan x - 2y = 4, maka y = ...",
     options: ["1", "2", "3", "4"],
     correctIndex: 0,
@@ -1772,7 +1772,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-003",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Penyelesaian 3x - y = 5 dan 2x + y = 10 adalah...",
     options: ["x=3, y=4", "x=4, y=7", "x=2, y=1", "x=5, y=10"],
     correctIndex: 0,
@@ -1785,7 +1785,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-004",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Jika 2x + y = 10 dan x + y = 7, maka x adalah...",
     options: ["3", "2", "4", "5"],
     correctIndex: 0,
@@ -1794,7 +1794,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-005",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Seorang pedagang menjual 3 kg apel dan 2 kg jeruk seharga Rp55.000. Jika 1 kg apel Rp15.000, harga 1 kg jeruk adalah...",
     options: ["Rp5.000", "Rp10.000", "Rp12.500", "Rp15.000"],
     correctIndex: 0,
@@ -1803,7 +1803,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-006",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Penyelesaian sistem 3x + y = 11 dan x - y = 1 adalah...",
     options: ["x=3, y=2", "x=2, y=5", "x=4, y=-1", "x=1, y=8"],
     correctIndex: 0,
@@ -1812,7 +1812,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-007",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Himpunan penyelesaian sistem x + y = 6 dan 2x + 2y = 12 adalah...",
     options: ["Tak hingga banyak solusi", "Tidak ada solusi", "Titik tunggal (3,3)", "Titik tunggal (2,4)"],
     correctIndex: 0,
@@ -1821,7 +1821,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-008",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Sistem 3x + 2y = 12 dan 6x + 4y = 20 tidak memiliki penyelesaian karena...",
     options: ["Garis sejajar dan berlainan", "Garis berpotongan", "Garis berhimpit", "Koefisien sama"],
     correctIndex: 0,
@@ -1832,7 +1832,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 12-garis-dan-sudut (6 tambahan) ---
   {
     id: "smp-sudut-001",
-    topicSlug: "12-garis-dan-sudut",
+    topicSlug: "7-17-garis-dan-sudut",
     question: "Jika dua garis berpotongan membentuk sudut 70Â°, maka sudut yang bersudut lurus dengannya adalah...",
     options: ["110Â°", "70Â°", "90Â°", "180Â°"],
     correctIndex: 0,
@@ -1841,7 +1841,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sudut-002",
-    topicSlug: "12-garis-dan-sudut",
+    topicSlug: "7-17-garis-dan-sudut",
     question: "Dua garis sejajar dipotong garis transversal. Jika salah satu sudut dalam sehadap 65Â°, yang lain adalah...",
     options: ["65Â°", "115Â°", "75Â°", "125Â°"],
     correctIndex: 0,
@@ -1850,7 +1850,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sudut-003",
-    topicSlug: "12-garis-dan-sudut",
+    topicSlug: "7-17-garis-dan-sudut",
     question: "Jumlah semua sudut dalam segiempat adalah...",
     options: ["360Â°", "180Â°", "270Â°", "540Â°"],
     correctIndex: 0,
@@ -1859,7 +1859,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sudut-004",
-    topicSlug: "12-garis-dan-sudut",
+    topicSlug: "7-17-garis-dan-sudut",
     question: "Jika garis a sejajar garis b dan garis c sejajar garis d, maka sudut antara a dan c dengan b dan d adalah...",
     options: ["Sama besar", "Berbeda", "Saling melengkapi", "Tidak tentu"],
     correctIndex: 0,
@@ -1868,7 +1868,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sudut-005",
-    topicSlug: "12-garis-dan-sudut",
+    topicSlug: "7-17-garis-dan-sudut",
     question: "Sebuah segitiga memiliki sudut 50Â° dan 70Â°. Sudut ketiga adalah...",
     options: ["60Â°", "80Â°", "50Â°", "40Â°"],
     correctIndex: 0,
@@ -1877,7 +1877,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sudut-006",
-    topicSlug: "12-garis-dan-sudut",
+    topicSlug: "7-17-garis-dan-sudut",
     question: "Dua garis sejajar dipotong transversal. Jika salah satu sudut dalam bersebrangan 55Â°, maka sudut yang bersudut singgung sehadap dengannya adalah...",
     options: ["125Â°", "55Â°", "35Â°", "145Â°"],
     correctIndex: 0,
@@ -1888,7 +1888,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 16-bangun-ruang-sisi-datar (6 tambahan) ---
   {
     id: "smp-sisidatar-001",
-    topicSlug: "16-bangun-ruang-sisi-datar",
+    topicSlug: "8-17-bangun-ruang-sisi-datar",
     question: "Volume kubus dengan rusuk 5 cm adalah...",
     options: ["125 cmÂ³", "150 cmÂ³", "100 cmÂ³", "75 cmÂ³"],
     correctIndex: 0,
@@ -1897,7 +1897,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sisidatar-002",
-    topicSlug: "16-bangun-ruang-sisi-datar",
+    topicSlug: "8-17-bangun-ruang-sisi-datar",
     question: "Jumlah titik sudut balok adalah...",
     options: ["8", "6", "12", "4"],
     correctIndex: 0,
@@ -1906,7 +1906,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sisidatar-003",
-    topicSlug: "16-bangun-ruang-sisi-datar",
+    topicSlug: "8-17-bangun-ruang-sisi-datar",
     question: "Luas permukaan kubus dengan rusuk 3 cm adalah...",
     options: ["54 cmÂ²", "36 cmÂ²", "27 cmÂ²", "108 cmÂ²"],
     correctIndex: 0,
@@ -1915,7 +1915,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sisidatar-004",
-    topicSlug: "16-bangun-ruang-sisi-datar",
+    topicSlug: "8-17-bangun-ruang-sisi-datar",
     question: "Prisma segiempat memiliki jumlah sisi adalah...",
     options: ["6", "5", "4", "8"],
     correctIndex: 0,
@@ -1924,7 +1924,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sisidatar-005",
-    topicSlug: "16-bangun-ruang-sisi-datar",
+    topicSlug: "8-17-bangun-ruang-sisi-datar",
     question: "Volume balok 10 cm Ã— 6 cm Ã— 4 cm adalah...",
     options: ["240 cmÂ³", "200 cmÂ³", "300 cmÂ³", "180 cmÂ³"],
     correctIndex: 0,
@@ -1933,7 +1933,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sisidatar-006",
-    topicSlug: "16-bangun-ruang-sisi-datar",
+    topicSlug: "8-17-bangun-ruang-sisi-datar",
     question: "Limas segiempat dengan alas persegi sisi 6 cm dan tinggi 8 cm memiliki volume...",
     options: ["96 cmÂ³", "192 cmÂ³", "288 cmÂ³", "48 cmÂ³"],
     correctIndex: 0,
@@ -1944,7 +1944,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 17-bangun-ruang-sisi-lengkung (6 tambahan) ---
   {
     id: "smp-sisilengkung-001",
-    topicSlug: "17-bangun-ruang-sisi-lengkung",
+    topicSlug: "8-18-bangun-ruang-sisi-lengkung",
     question: "Jari-jari tabung 5 cm dan tinggi 10 cm. Volume tabung (Ï€ = 3,14) adalah...",
     options: ["785 cmÂ³", "314 cmÂ³", "157 cmÂ³", "628 cmÂ³"],
     correctIndex: 0,
@@ -1953,7 +1953,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sisilengkung-002",
-    topicSlug: "17-bangun-ruang-sisi-lengkung",
+    topicSlug: "8-18-bangun-ruang-sisi-lengkung",
     question: "Luas permukaan bola dengan jari-jari 7 cm (Ï€ = 22/7) adalah...",
     options: ["616 cmÂ²", "308 cmÂ²", "154 cmÂ²", "1232 cmÂ²"],
     correctIndex: 0,
@@ -1962,7 +1962,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sisilengkung-003",
-    topicSlug: "17-bangun-ruang-sisi-lengkung",
+    topicSlug: "8-18-bangun-ruang-sisi-lengkung",
     question: "Volume kerucut dengan jari-jari 3 cm dan tinggi 7 cm (Ï€ = 22/7) adalah...",
     options: ["66 cmÂ³", "132 cmÂ³", "198 cmÂ³", "44 cmÂ³"],
     correctIndex: 0,
@@ -1971,7 +1971,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sisilengkung-004",
-    topicSlug: "17-bangun-ruang-sisi-lengkung",
+    topicSlug: "8-18-bangun-ruang-sisi-lengkung",
     question: "Luas selimut kerucut dengan jari-jari 5 cm dan garis pelukis 13 cm (Ï€ = 3,14) adalah...",
     options: ["204,1 cmÂ²", "102,05 cmÂ²", "325 cmÂ²", "408,2 cmÂ²"],
     correctIndex: 0,
@@ -1980,7 +1980,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sisilengkung-005",
-    topicSlug: "17-bangun-ruang-sisi-lengkung",
+    topicSlug: "8-18-bangun-ruang-sisi-lengkung",
     question: "Volume setengah bola dengan jari-jari 6 cm (Ï€ = 3,14) adalah...",
     options: ["452,16 cmÂ³", "904,32 cmÂ³", "226,08 cmÂ³", "113,04 cmÂ³"],
     correctIndex: 0,
@@ -1989,7 +1989,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-sisilengkung-006",
-    topicSlug: "17-bangun-ruang-sisi-lengkung",
+    topicSlug: "8-18-bangun-ruang-sisi-lengkung",
     question: "Tabung dan kerucut memiliki jari-jari dan tinggi yang sama. Perbandingan volume tabung terhadap kerucut adalah...",
     options: ["3:1", "1:3", "2:1", "1:2"],
     correctIndex: 0,
@@ -2434,7 +2434,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 2-himpunan (8 tambahan) ---
   {
     id: "smp-himpunan-t001",
-    topicSlug: "2-himpunan",
+    topicSlug: "7-5-himpunan",
     question: "Diketahui A = {1, 2, 3, 4} dan B = {3, 4, 5, 6}. Tentukan A âˆª B!",
     options: ["{1, 2, 3, 4, 5, 6}", "{3, 4}", "{1, 2, 5, 6}", "{1, 2, 3, 4}"],
     correctIndex: 0,
@@ -2443,7 +2443,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-himpunan-t002",
-    topicSlug: "2-himpunan",
+    topicSlug: "7-5-himpunan",
     question: "Diketahui A = {1, 2, 3, 4} dan B = {3, 4, 5, 6}. Tentukan A âˆ© B!",
     options: ["{3, 4}", "{1, 2, 5, 6}", "{1, 2, 3, 4, 5, 6}", "{}"],
     correctIndex: 0,
@@ -2452,7 +2452,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-himpunan-t003",
-    topicSlug: "2-himpunan",
+    topicSlug: "7-5-himpunan",
     question: "Jika U = {1, 2, 3, 4, 5} dan A = {2, 4}, maka A' (komplemen A) adalah ...",
     options: ["{1, 3, 5}", "{2, 4}", "{1, 2, 3, 4, 5}", "{}"],
     correctIndex: 0,
@@ -2461,7 +2461,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-himpunan-t004",
-    topicSlug: "2-himpunan",
+    topicSlug: "7-5-himpunan",
     question: "Manakah pernyataan yang benar tentang himpunan A = {a, b, c}?",
     options: ["{a} âŠ‚ A", "a âŠ‚ A", "A âŠ‚ {a}", "{a, b} = A"],
     correctIndex: 0,
@@ -2470,7 +2470,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-himpunan-t005",
-    topicSlug: "2-himpunan",
+    topicSlug: "7-5-himpunan",
     question: "Jika n(A) = 20, n(B) = 15, dan n(A âˆ© B) = 5, maka n(A âˆª B) = ...",
     options: ["30", "35", "25", "40"],
     correctIndex: 0,
@@ -2479,7 +2479,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-himpunan-t006",
-    topicSlug: "2-himpunan",
+    topicSlug: "7-5-himpunan",
     question: "Pada diagram Venn, jika daerah irisan = 4, daerah A saja = 8, dan daerah B saja = 6, maka n(A âˆª B) = ...",
     options: ["18", "14", "10", "22"],
     correctIndex: 0,
@@ -2488,7 +2488,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-himpunan-t007",
-    topicSlug: "2-himpunan",
+    topicSlug: "7-5-himpunan",
     question: "Jika A = {x | x bilangan genap antara 1 dan 10} dan B = {2, 4, 6, 8, 10}, maka ...",
     options: ["A = B", "A âŠ‚ B", "B âŠ‚ A", "A dan B berbeda"],
     correctIndex: 0,
@@ -2497,7 +2497,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-himpunan-t008",
-    topicSlug: "2-himpunan",
+    topicSlug: "7-5-himpunan",
     question: "U = {1,2,3,4,5,6,7,8,9,10}, P = {2,4,6,8,10}, Q = {1,3,5,7}. Tentukan P' âˆ© Q!",
     options: ["{1,3,5,7}", "{2,4,6,8,10}", "{1,2,3,4,5,6,7,8,9,10}", "{}"],
     correctIndex: 0,
@@ -2508,7 +2508,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 3-bentuk-aljabar (8 tambahan) ---
   {
     id: "smp-aljabar-t001",
-    topicSlug: "3-bentuk-aljabar",
+    topicSlug: "7-6-bentuk-aljabar",
     question: "Sederhanakan 3x + 5x âˆ’ 2x!",
     options: ["6x", "10x", "8x", "4x"],
     correctIndex: 0,
@@ -2517,7 +2517,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-aljabar-t002",
-    topicSlug: "3-bentuk-aljabar",
+    topicSlug: "7-6-bentuk-aljabar",
     question: "Hasil dari 2(x + 3) adalah ...",
     options: ["2x + 6", "2x + 3", "x + 6", "2x + 5"],
     correctIndex: 0,
@@ -2526,7 +2526,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-aljabar-t003",
-    topicSlug: "3-bentuk-aljabar",
+    topicSlug: "7-6-bentuk-aljabar",
     question: "Faktorkan 6xÂ² + 9x!",
     options: ["3x(2x + 3)", "2x(3x + 9)", "6x(x + 9)", "3(2xÂ² + 3x)"],
     correctIndex: 0,
@@ -2535,7 +2535,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-aljabar-t004",
-    topicSlug: "3-bentuk-aljabar",
+    topicSlug: "7-6-bentuk-aljabar",
     question: "Jika x = 3, nilai dari xÂ² âˆ’ 2x + 1 adalah ...",
     options: ["4", "10", "16", "7"],
     correctIndex: 0,
@@ -2544,7 +2544,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-aljabar-t005",
-    topicSlug: "3-bentuk-aljabar",
+    topicSlug: "7-6-bentuk-aljabar",
     question: "(x + 2)(x âˆ’ 3) = ...",
     options: ["xÂ² âˆ’ x âˆ’ 6", "xÂ² + x âˆ’ 6", "xÂ² âˆ’ 5x âˆ’ 6", "xÂ² + 5x + 6"],
     correctIndex: 0,
@@ -2553,7 +2553,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-aljabar-t006",
-    topicSlug: "3-bentuk-aljabar",
+    topicSlug: "7-6-bentuk-aljabar",
     question: "Sederhanakan (3xÂ²y)(2xyÂ²)!",
     options: ["6xÂ³yÂ³", "5xÂ³yÂ³", "6xÂ²yÂ²", "6xÂ³yÂ²"],
     correctIndex: 0,
@@ -2562,7 +2562,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-aljabar-t007",
-    topicSlug: "3-bentuk-aljabar",
+    topicSlug: "7-6-bentuk-aljabar",
     question: "Faktorkan xÂ² âˆ’ 9!",
     options: ["(x+3)(xâˆ’3)", "(xâˆ’3)Â²", "(x+3)Â²", "(x+9)(xâˆ’1)"],
     correctIndex: 0,
@@ -2571,7 +2571,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-aljabar-t008",
-    topicSlug: "3-bentuk-aljabar",
+    topicSlug: "7-6-bentuk-aljabar",
     question: "Jika a = 2 dan b = âˆ’1, nilai dari 3aÂ²b âˆ’ 2abÂ² + ab adalah ...",
     options: ["âˆ’10", "âˆ’6", "6", "10"],
     correctIndex: 0,
@@ -2582,7 +2582,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 6-perbandingan-senilai-berbalik-nilai (9 tambahan) ---
   {
     id: "smp-perbandingan-t001",
-    topicSlug: "6-perbandingan-senilai-berbalik-nilai",
+    topicSlug: "7-11-perbandingan-senilai-berbalik-nilai",
     question: "Jika 3 buah beratnya 6 kg, maka 5 buah beratnya ...",
     options: ["10 kg", "15 kg", "8 kg", "12 kg"],
     correctIndex: 0,
@@ -2591,7 +2591,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-perbandingan-t002",
-    topicSlug: "6-perbandingan-senilai-berbalik-nilai",
+    topicSlug: "7-11-perbandingan-senilai-berbalik-nilai",
     question: "Pekerja menyelesaikan proyek dalam 12 hari (6 jam/hari). Berapa hari jika 8 jam/hari?",
     options: ["9 hari", "16 hari", "8 hari", "18 hari"],
     correctIndex: 0,
@@ -2600,7 +2600,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-perbandingan-t003",
-    topicSlug: "6-perbandingan-senilai-berbalik-nilai",
+    topicSlug: "7-11-perbandingan-senilai-berbalik-nilai",
     question: "x berbanding lurus dengan y. Jika x = 4 ketika y = 10, maka x = ... ketika y = 25.",
     options: ["10", "16", "20", "8"],
     correctIndex: 0,
@@ -2609,7 +2609,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-perbandingan-t004",
-    topicSlug: "6-perbandingan-senilai-berbalik-nilai",
+    topicSlug: "7-11-perbandingan-senilai-berbalik-nilai",
     question: "p berbanding berbalik nilai dengan q. Jika p = 6 ketika q = 4, maka p = ... ketika q = 8.",
     options: ["3", "12", "8", "16"],
     correctIndex: 0,
@@ -2618,7 +2618,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-perbandingan-t005",
-    topicSlug: "6-perbandingan-senilai-berbalik-nilai",
+    topicSlug: "7-11-perbandingan-senilai-berbalik-nilai",
     question: "Dua piston bergerak berlawanan arah. Jarak bertambah seiring waktu. Hubungan jarak-waktu adalah ...",
     options: ["Senilai", "Berbalik nilai", "Tidak berhubungan", "Berbanding kuadrat"],
     correctIndex: 0,
@@ -2627,7 +2627,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-perbandingan-t006",
-    topicSlug: "6-perbandingan-senilai-berbalik-nilai",
+    topicSlug: "7-11-perbandingan-senilai-berbalik-nilai",
     question: "Pipa mengisi tangki dalam 5 jam. Berapa jam untuk mengisi 3 tangki?",
     options: ["15 jam", "10 jam", "5/3 jam", "3 jam"],
     correctIndex: 0,
@@ -2636,7 +2636,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-perbandingan-t007",
-    topicSlug: "6-perbandingan-senilai-berbalik-nilai",
+    topicSlug: "7-11-perbandingan-senilai-berbalik-nilai",
     question: "y berbanding lurus xÂ². Jika y = 12 ketika x = 2, maka y = ... ketika x = 4.",
     options: ["48", "24", "36", "96"],
     correctIndex: 0,
@@ -2645,7 +2645,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-perbandingan-t008",
-    topicSlug: "6-perbandingan-senilai-berbalik-nilai",
+    topicSlug: "7-11-perbandingan-senilai-berbalik-nilai",
     question: "Pegas asli 10 cm, beban 4 N memanjang 6 cm. Panjang total dengan beban 6 N?",
     options: ["19 cm", "16 cm", "13 cm", "22 cm"],
     correctIndex: 0,
@@ -2654,7 +2654,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-perbandingan-t009",
-    topicSlug: "6-perbandingan-senilai-berbalik-nilai",
+    topicSlug: "7-11-perbandingan-senilai-berbalik-nilai",
     question: "Kecepatan berbalik nilai waktu tempuh. 60 km/jam = 4 jam. Berapa jam jika 80 km/jam?",
     options: ["3 jam", "5 jam", "6 jam", "4,5 jam"],
     correctIndex: 0,
@@ -2665,7 +2665,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 8-pola-bilangan-dan-barisan (9 tambahan) ---
   {
     id: "smp-pola-t001",
-    topicSlug: "8-pola-bilangan-dan-barisan",
+    topicSlug: "8-3-pola-bilangan-dan-barisan",
     question: "2, 5, 8, 11, ... Suku ke-6 adalah ...",
     options: ["17", "14", "20", "23"],
     correctIndex: 0,
@@ -2674,7 +2674,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pola-t002",
-    topicSlug: "8-pola-bilangan-dan-barisan",
+    topicSlug: "8-3-pola-bilangan-dan-barisan",
     question: "Barisan geometri: 3, 6, 12, 24, ... Suku ke-5 adalah ...",
     options: ["48", "36", "96", "72"],
     correctIndex: 0,
@@ -2683,7 +2683,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pola-t003",
-    topicSlug: "8-pola-bilangan-dan-barisan",
+    topicSlug: "8-3-pola-bilangan-dan-barisan",
     question: "1, 4, 9, 16, 25, ... Bilangan berikutnya adalah ...",
     options: ["36", "30", "49", "35"],
     correctIndex: 0,
@@ -2692,7 +2692,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pola-t004",
-    topicSlug: "8-pola-bilangan-dan-barisan",
+    topicSlug: "8-3-pola-bilangan-dan-barisan",
     question: "Barisan aritmetika: suku ke-3 = 10, suku ke-7 = 22. Suku ke-1 = ...",
     options: ["4", "6", "2", "8"],
     correctIndex: 0,
@@ -2701,7 +2701,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pola-t005",
-    topicSlug: "8-pola-bilangan-dan-barisan",
+    topicSlug: "8-3-pola-bilangan-dan-barisan",
     question: "Sâ‚™ = 3nÂ² + 2n. Suku ke-5 adalah ...",
     options: ["29", "85", "27", "32"],
     correctIndex: 0,
@@ -2710,7 +2710,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pola-t006",
-    topicSlug: "8-pola-bilangan-dan-barisan",
+    topicSlug: "8-3-pola-bilangan-dan-barisan",
     question: "1, 1, 2, 3, 5, 8, ... Suku ke-8 adalah ...",
     options: ["21", "13", "34", "11"],
     correctIndex: 0,
@@ -2719,7 +2719,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pola-t007",
-    topicSlug: "8-pola-bilangan-dan-barisan",
+    topicSlug: "8-3-pola-bilangan-dan-barisan",
     question: "Uâ‚™ = 5n âˆ’ 3. Jumlah 20 suku pertama adalah ...",
     options: ["990", "970", "1000", "960"],
     correctIndex: 0,
@@ -2728,7 +2728,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pola-t008",
-    topicSlug: "8-pola-bilangan-dan-barisan",
+    topicSlug: "8-3-pola-bilangan-dan-barisan",
     question: "Barisan geometri: aâ‚ = 2, r = 3. Suku ke-4 = ...",
     options: ["54", "18", "27", "81"],
     correctIndex: 0,
@@ -2737,7 +2737,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pola-t009",
-    topicSlug: "8-pola-bilangan-dan-barisan",
+    topicSlug: "8-3-pola-bilangan-dan-barisan",
     question: "5, 10, 20, 40, ... Suku ke-7 = ...",
     options: ["320", "160", "640", "256"],
     correctIndex: 0,
@@ -2748,7 +2748,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 10-persamaan-garis-lurus (9 tambahan) ---
   {
     id: "smp-garis-t001",
-    topicSlug: "10-persamaan-garis-lurus",
+    topicSlug: "8-10-persamaan-garis-lurus",
     question: "Gradien garis melalui (1, 3) dan (4, 9) adalah ...",
     options: ["2", "3", "1", "6"],
     correctIndex: 0,
@@ -2757,7 +2757,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-garis-t002",
-    topicSlug: "10-persamaan-garis-lurus",
+    topicSlug: "8-10-persamaan-garis-lurus",
     question: "Persamaan garis gradien 3 dan potongan y = âˆ’2 adalah ...",
     options: ["y = 3x âˆ’ 2", "y = 3x + 2", "y = 2x âˆ’ 3", "y = âˆ’3x + 2"],
     correctIndex: 0,
@@ -2766,7 +2766,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-garis-t003",
-    topicSlug: "10-persamaan-garis-lurus",
+    topicSlug: "8-10-persamaan-garis-lurus",
     question: "Garis melalui (0, 5) sejajar y = 2x + 1. Persamaannya ...",
     options: ["y = 2x + 5", "y = 2x âˆ’ 5", "y = âˆ’2x + 5", "y = 5x + 2"],
     correctIndex: 0,
@@ -2775,7 +2775,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-garis-t004",
-    topicSlug: "10-persamaan-garis-lurus",
+    topicSlug: "8-10-persamaan-garis-lurus",
     question: "Gradien garis tegak lurus y = 4x âˆ’ 1 adalah ...",
     options: ["âˆ’1/4", "4", "1/4", "âˆ’4"],
     correctIndex: 0,
@@ -2784,7 +2784,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-garis-t005",
-    topicSlug: "10-persamaan-garis-lurus",
+    topicSlug: "8-10-persamaan-garis-lurus",
     question: "Persamaan garis melalui (2, 3) dan (âˆ’1, âˆ’3) adalah ...",
     options: ["y = 2x âˆ’ 1", "y = 2x + 1", "y = x + 1", "y = 3x âˆ’ 3"],
     correctIndex: 0,
@@ -2798,7 +2798,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-garis-t006",
-    topicSlug: "10-persamaan-garis-lurus",
+    topicSlug: "8-10-persamaan-garis-lurus",
     question: "Gradien garis 2x + 3y = 6 adalah ...",
     options: ["âˆ’2/3", "2/3", "âˆ’3/2", "3/2"],
     correctIndex: 0,
@@ -2812,7 +2812,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-garis-t007",
-    topicSlug: "10-persamaan-garis-lurus",
+    topicSlug: "8-10-persamaan-garis-lurus",
     question: "Titik potong y = 2x + 4 dengan sumbu-x adalah ...",
     options: ["(âˆ’2, 0)", "(0, 4)", "(2, 0)", "(0, âˆ’2)"],
     correctIndex: 0,
@@ -2821,7 +2821,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-garis-t008",
-    topicSlug: "10-persamaan-garis-lurus",
+    topicSlug: "8-10-persamaan-garis-lurus",
     question: "Garis y = 2x + 3 dan y = 2x âˆ’ 1 adalah ...",
     options: ["Sejajar", "Tegak lurus", "Berpotongan", "Sama"],
     correctIndex: 0,
@@ -2830,7 +2830,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-garis-t009",
-    topicSlug: "10-persamaan-garis-lurus",
+    topicSlug: "8-10-persamaan-garis-lurus",
     question: "Garis melalui (3, 1) tegak lurus y = âˆ’3x + 5. Persamaannya ...",
     options: ["y = (1/3)x", "y = 3x âˆ’ 8", "y = âˆ’(1/3)x + 2", "y = (1/3)x âˆ’ 1"],
     correctIndex: 0,
@@ -2841,7 +2841,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 13-segitiga-dan-segiempat (9 tambahan) ---
   {
     id: "smp-segi-t001",
-    topicSlug: "13-segitiga-dan-segiempat",
+    topicSlug: "7-15-segitiga-dan-segiempat",
     question: "Luas segitiga alas 10 cm, tinggi 8 cm adalah ...",
     options: ["40 cmÂ²", "80 cmÂ²", "18 cmÂ²", "16 cmÂ²"],
     correctIndex: 0,
@@ -2850,7 +2850,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-segi-t002",
-    topicSlug: "13-segitiga-dan-segiempat",
+    topicSlug: "7-15-segitiga-dan-segiempat",
     question: "Keliling persegi sisi 7 cm adalah ...",
     options: ["28 cm", "14 cm", "49 cm", "21 cm"],
     correctIndex: 0,
@@ -2859,7 +2859,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-segi-t003",
-    topicSlug: "13-segitiga-dan-segiempat",
+    topicSlug: "7-15-segitiga-dan-segiempat",
     question: "Luas persegi panjang 12 cm Ã— 5 cm adalah ...",
     options: ["60 cmÂ²", "17 cmÂ²", "34 cmÂ²", "120 cmÂ²"],
     correctIndex: 0,
@@ -2868,7 +2868,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-segi-t004",
-    topicSlug: "13-segitiga-dan-segiempat",
+    topicSlug: "7-15-segitiga-dan-segiempat",
     question: "Jumlah sudut dalam segitiga adalah ...",
     options: ["180Â°", "360Â°", "90Â°", "270Â°"],
     correctIndex: 0,
@@ -2877,7 +2877,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-segi-t005",
-    topicSlug: "13-segitiga-dan-segiempat",
+    topicSlug: "7-15-segitiga-dan-segiempat",
     question: "Sudut segitiga: 2x, 3x, x. Sudut terbesar = ...",
     options: ["90Â°", "60Â°", "30Â°", "120Â°"],
     correctIndex: 0,
@@ -2886,7 +2886,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-segi-t006",
-    topicSlug: "13-segitiga-dan-segiempat",
+    topicSlug: "7-15-segitiga-dan-segiempat",
     question: "Luas jajar genjang alas 15 cm, tinggi 6 cm adalah ...",
     options: ["90 cmÂ²", "21 cmÂ²", "42 cmÂ²", "180 cmÂ²"],
     correctIndex: 0,
@@ -2895,7 +2895,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-segi-t007",
-    topicSlug: "13-segitiga-dan-segiempat",
+    topicSlug: "7-15-segitiga-dan-segiempat",
     question: "Luas trapesium sisi sejajar 8 cm dan 12 cm, tinggi 5 cm adalah ...",
     options: ["50 cmÂ²", "20 cmÂ²", "100 cmÂ²", "40 cmÂ²"],
     correctIndex: 0,
@@ -2904,7 +2904,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-segi-t008",
-    topicSlug: "13-segitiga-dan-segiempat",
+    topicSlug: "7-15-segitiga-dan-segiempat",
     question: "Bangun dengan jumlah sudut terbanyak: ...",
     options: ["Segi enam", "Segi lima", "Segi empat", "Segitiga"],
     correctIndex: 0,
@@ -2913,7 +2913,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-segi-t009",
-    topicSlug: "13-segitiga-dan-segiempat",
+    topicSlug: "7-15-segitiga-dan-segiempat",
     question: "Belah ketupat diagonal 8 cm dan 6 cm. Luas = ...",
     options: ["24 cmÂ²", "48 cmÂ²", "14 cmÂ²", "28 cmÂ²"],
     correctIndex: 0,
@@ -2924,7 +2924,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 19-peluang-dasar (9 tambahan) ---
   {
     id: "smp-peluang-t001",
-    topicSlug: "19-peluang-dasar",
+    topicSlug: "7-22-peluang-dasar",
     question: "Dadu dilempar. Peluang angka genap = ...",
     options: ["1/2", "1/3", "1/6", "2/3"],
     correctIndex: 0,
@@ -2933,7 +2933,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-peluang-t002",
-    topicSlug: "19-peluang-dasar",
+    topicSlug: "7-22-peluang-dasar",
     question: "Kantong: 3 merah, 5 biru. Peluang ambil merah = ...",
     options: ["3/8", "5/8", "3/5", "5/3"],
     correctIndex: 0,
@@ -2942,7 +2942,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-peluang-t003",
-    topicSlug: "19-peluang-dasar",
+    topicSlug: "7-22-peluang-dasar",
     question: "Dua dadu. Peluang jumlah mata = 7 adalah ...",
     options: ["1/6", "1/12", "1/36", "7/36"],
     correctIndex: 0,
@@ -2951,7 +2951,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-peluang-t004",
-    topicSlug: "19-peluang-dasar",
+    topicSlug: "7-22-peluang-dasar",
     question: "Koin dilempar 2x. Peluang 2 head = ...",
     options: ["1/4", "1/2", "1/8", "3/4"],
     correctIndex: 0,
@@ -2960,7 +2960,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-peluang-t005",
-    topicSlug: "19-peluang-dasar",
+    topicSlug: "7-22-peluang-dasar",
     question: "Kartu 1-10. Peluang angka prima = ...",
     options: ["2/5", "1/2", "3/10", "4/5"],
     correctIndex: 0,
@@ -2969,7 +2969,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-peluang-t006",
-    topicSlug: "19-peluang-dasar",
+    topicSlug: "7-22-peluang-dasar",
     question: "Peluang kejadian pasti = ...",
     options: ["1", "0", "1/2", "Tidak tentu"],
     correctIndex: 0,
@@ -2978,7 +2978,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-peluang-t007",
-    topicSlug: "19-peluang-dasar",
+    topicSlug: "7-22-peluang-dasar",
     question: "Peluang kejadian mustahil = ...",
     options: ["0", "1", "1/2", "-1"],
     correctIndex: 0,
@@ -2987,7 +2987,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-peluang-t008",
-    topicSlug: "19-peluang-dasar",
+    topicSlug: "7-22-peluang-dasar",
     question: "P(A)=0,3, P(B)=0,4, P(Aâˆ©B)=0,1. P(AâˆªB) = ...",
     options: ["0,6", "0,7", "0,8", "0,5"],
     correctIndex: 0,
@@ -2996,7 +2996,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-peluang-t009",
-    topicSlug: "19-peluang-dasar",
+    topicSlug: "7-22-peluang-dasar",
     question: "20% barang cacat. Peluang 5 barang tidak ada yang cacat = ...",
     options: ["0,32768", "0,67232", "0,2", "0,8"],
     correctIndex: 0,
@@ -3007,7 +3007,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 20-transformasi-geometri (9 tambahan) ---
   {
     id: "smp-transformasi-t001",
-    topicSlug: "20-transformasi-geometri",
+    topicSlug: "7-20-transformasi-geometri-dasar",
     question: "Refleksi (3, 4) terhadap sumbu-x â†’ ...",
     options: ["(3, âˆ’4)", "(âˆ’3, 4)", "(4, 3)", "(âˆ’3, âˆ’4)"],
     correctIndex: 0,
@@ -3022,7 +3022,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-transformasi-t002",
-    topicSlug: "20-transformasi-geometri",
+    topicSlug: "7-20-transformasi-geometri-dasar",
     question: "Translasi (2, 5) dengan v = (âˆ’3, 4) â†’ ...",
     options: ["(âˆ’1, 9)", "(âˆ’1, 1)", "(5, 9)", "(âˆ’5, 1)"],
     correctIndex: 0,
@@ -3035,7 +3035,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-transformasi-t003",
-    topicSlug: "20-transformasi-geometri",
+    topicSlug: "7-20-transformasi-geometri-dasar",
     question: "Rotasi (1, 0) 90Â° berlawanan jarum jam â†’ ...",
     options: ["(0, 1)", "(0, âˆ’1)", "(âˆ’1, 0)", "(1, 0)"],
     correctIndex: 0,
@@ -3049,7 +3049,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-transformasi-t004",
-    topicSlug: "20-transformasi-geometri",
+    topicSlug: "7-20-transformasi-geometri-dasar",
     question: "Pembesaran (2, 3) faktor skala 2 â†’ ...",
     options: ["(4, 6)", "(6, 9)", "(1, 3/2)", "(4, 3)"],
     correctIndex: 0,
@@ -3058,7 +3058,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-transformasi-t005",
-    topicSlug: "20-transformasi-geometri",
+    topicSlug: "7-20-transformasi-geometri-dasar",
     question: "Refleksi (5, âˆ’2) terhadap sumbu-y â†’ ...",
     options: ["(âˆ’5, âˆ’2)", "(5, 2)", "(âˆ’5, 2)", "(2, âˆ’5)"],
     correctIndex: 0,
@@ -3067,7 +3067,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-transformasi-t006",
-    topicSlug: "20-transformasi-geometri",
+    topicSlug: "7-20-transformasi-geometri-dasar",
     question: "y = xÂ² + 1 ditranslasi v = (2, âˆ’3). Persamaan baru = ...",
     options: ["y = (xâˆ’2)Â² âˆ’ 2", "y = (x+2)Â² âˆ’ 2", "y = (xâˆ’2)Â² + 4", "y = (x+2)Â² + 4"],
     correctIndex: 0,
@@ -3076,7 +3076,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-transformasi-t007",
-    topicSlug: "20-transformasi-geometri",
+    topicSlug: "7-20-transformasi-geometri-dasar",
     question: "Rotasi (3, 1) sejauh 180Â° â†’ ...",
     options: ["(âˆ’3, âˆ’1)", "(3, âˆ’1)", "(âˆ’3, 1)", "(1, 3)"],
     correctIndex: 0,
@@ -3085,7 +3085,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-transformasi-t008",
-    topicSlug: "20-transformasi-geometri",
+    topicSlug: "7-20-transformasi-geometri-dasar",
     question: "Luas bangun berubah 4Ã—. Faktor skala = ...",
     options: ["2", "4", "8", "16"],
     correctIndex: 0,
@@ -3094,7 +3094,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-transformasi-t009",
-    topicSlug: "20-transformasi-geometri",
+    topicSlug: "7-20-transformasi-geometri-dasar",
     question: "Refleksi (4, âˆ’3) terhadap garis y = x â†’ ...",
     options: ["(âˆ’3, 4)", "(3, âˆ’4)", "(4, 3)", "(âˆ’4, 3)"],
     correctIndex: 0,
@@ -3110,7 +3110,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 11-SPLDV (8 tambahan) ---
   {
     id: "smp-spldv-t001",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Penyelesaian x + y = 10 dan x âˆ’ y = 2 adalah ...",
     options: ["x = 6, y = 4", "x = 5, y = 5", "x = 4, y = 6", "x = 8, y = 2"],
     correctIndex: 0,
@@ -3119,7 +3119,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-t002",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "2x + y = 7 dan x âˆ’ y = 2. x = ...",
     options: ["3", "2", "1", "4"],
     correctIndex: 0,
@@ -3128,7 +3128,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-t003",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "Dua bilangan jumlah 15, hasil kali 54. Bilangan itu ...",
     options: ["6 dan 9", "7 dan 8", "5 dan 10", "3 dan 12"],
     correctIndex: 0,
@@ -3137,7 +3137,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-t004",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "5x + 2y = 20 dan 3x âˆ’ 2y = 4. x = ...",
     options: ["3", "2", "4", "1"],
     correctIndex: 0,
@@ -3146,7 +3146,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-t005",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "2 kg apel + 1 kg jeruk = Rp30.000. 1 kg apel Rp10.000. Harga 1 kg jeruk = ...",
     options: ["Rp10.000", "Rp8.000", "Rp14.000", "Rp12.000"],
     correctIndex: 0,
@@ -3155,7 +3155,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-t006",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "2x + y = 9 dan x âˆ’ y = 3. x = ...",
     options: ["4", "3", "5", "2"],
     correctIndex: 0,
@@ -3164,7 +3164,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-t007",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "x + 2y = 8 dan 2x + 4y = 16. Penyelesaian ...",
     options: ["Tak hingga banyak", "Satu", "Tidak ada", "Tentukan"],
     correctIndex: 0,
@@ -3173,7 +3173,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-spldv-t008",
-    topicSlug: "11-sistem-persamaan-linear-dua-variabel-spldv",
+    topicSlug: "8-7-spldv",
     question: "4x âˆ’ 3y = 5 dan 2x + y = 9. x = ...",
     options: ["3,2", "2", "4", "5"],
     correctIndex: 0,
@@ -3184,7 +3184,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 14-teorema-pythagoras (8 tambahan) ---
   {
     id: "smp-pythagoras-t001",
-    topicSlug: "14-teorema-pythagoras",
+    topicSlug: "8-4-teorema-pythagoras",
     question: "Sisi miring segitiga siku-siku 3 cm dan 4 cm = ...",
     options: ["5 cm", "7 cm", "12 cm", "25 cm"],
     correctIndex: 0,
@@ -3193,7 +3193,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pythagoras-t002",
-    topicSlug: "14-teorema-pythagoras",
+    topicSlug: "8-4-teorema-pythagoras",
     question: "Tali 13 m, jarak kaki ke pangkal 5 m. Tinggi tiang = ...",
     options: ["12 m", "8 m", "18 m", "13 m"],
     correctIndex: 0,
@@ -3202,7 +3202,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pythagoras-t003",
-    topicSlug: "14-teorema-pythagoras",
+    topicSlug: "8-4-teorema-pythagoras",
     question: "Segitiga sisi 5, 12, 13. Siku-siku?",
     options: ["Ya", "Tidak", "Tidak cukup info", "Tergantung"],
     correctIndex: 0,
@@ -3211,7 +3211,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pythagoras-t004",
-    topicSlug: "14-teorema-pythagoras",
+    topicSlug: "8-4-teorema-pythagoras",
     question: "Persegi diagonal 10âˆš2 cm. Sisi = ...",
     options: ["10 cm", "20 cm", "5âˆš2 cm", "5 cm"],
     correctIndex: 0,
@@ -3220,7 +3220,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pythagoras-t005",
-    topicSlug: "14-teorema-pythagoras",
+    topicSlug: "8-4-teorema-pythagoras",
     question: "Tangga 5 m, kaki 3 m dari dinding. Tinggi = ...",
     options: ["4 m", "2 m", "6 m", "8 m"],
     correctIndex: 0,
@@ -3229,7 +3229,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pythagoras-t006",
-    topicSlug: "14-teorema-pythagoras",
+    topicSlug: "8-4-teorema-pythagoras",
     question: "Sisi miring 15 cm, satu sisi 9 cm. Sisi lain = ...",
     options: ["12 cm", "6 cm", "18 cm", "âˆš306 cm"],
     correctIndex: 0,
@@ -3238,7 +3238,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pythagoras-t007",
-    topicSlug: "14-teorema-pythagoras",
+    topicSlug: "8-4-teorema-pythagoras",
     question: "Jajar genjang: tinggi 8 cm, alas 6 cm. Luas = ...",
     options: ["48 cmÂ²", "80 cmÂ²", "60 cmÂ²", "100 cmÂ²"],
     correctIndex: 0,
@@ -3247,7 +3247,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-pythagoras-t008",
-    topicSlug: "14-teorema-pythagoras",
+    topicSlug: "8-4-teorema-pythagoras",
     question: "Segitiga siku-siku di lingkaran diameter 10. Sisi bisa ...",
     options: ["6, 8, 10", "5, 12, 13", "7, 24, 25", "Semua"],
     correctIndex: 0,
@@ -3258,7 +3258,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 15-lingkaran (8 tambahan) ---
   {
     id: "smp-lingkaran-t001",
-    topicSlug: "15-lingkaran",
+    topicSlug: "8-16-lingkaran",
     question: "Luas lingkaran jari-jari 7 cm (Ï€=22/7) = ...",
     options: ["154 cmÂ²", "44 cmÂ²", "308 cmÂ²", "49 cmÂ²"],
     correctIndex: 0,
@@ -3267,7 +3267,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-lingkaran-t002",
-    topicSlug: "15-lingkaran",
+    topicSlug: "8-16-lingkaran",
     question: "Keliling lingkaran diameter 14 cm = ...",
     options: ["44 cm", "28 cm", "154 cm", "88 cm"],
     correctIndex: 0,
@@ -3276,7 +3276,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-lingkaran-t003",
-    topicSlug: "15-lingkaran",
+    topicSlug: "8-16-lingkaran",
     question: "Keliling 62,8 cm. Jari-jari = ...",
     options: ["10 cm", "20 cm", "31,4 cm", "5 cm"],
     correctIndex: 0,
@@ -3285,7 +3285,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-lingkaran-t004",
-    topicSlug: "15-lingkaran",
+    topicSlug: "8-16-lingkaran",
     question: "Juring jari-jari 10 cm, sudut 72Â°. Luas = ...",
     options: ["20Ï€ cmÂ²", "10Ï€ cmÂ²", "72Ï€ cmÂ²", "36Ï€ cmÂ²"],
     correctIndex: 0,
@@ -3294,7 +3294,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-lingkaran-t005",
-    topicSlug: "15-lingkaran",
+    topicSlug: "8-16-lingkaran",
     question: "Busur jari-jari 7 cm, sudut 60Â°. Panjang = ...",
     options: ["7Ï€/3 cm", "14Ï€/3 cm", "7Ï€/6 cm", "7Ï€ cm"],
     correctIndex: 0,
@@ -3303,7 +3303,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-lingkaran-t006",
-    topicSlug: "15-lingkaran",
+    topicSlug: "8-16-lingkaran",
     question: "Tembereng jari-jari 10 cm, sudut 90Â°. Luas = ...",
     options: ["25Ï€ âˆ’ 50 cmÂ²", "25Ï€ + 50 cmÂ²", "50Ï€ âˆ’ 25 cmÂ²", "100Ï€ âˆ’ 50 cmÂ²"],
     correctIndex: 0,
@@ -3312,7 +3312,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-lingkaran-t007",
-    topicSlug: "15-lingkaran",
+    topicSlug: "8-16-lingkaran",
     question: "Luas lingkaran 78,5 cmÂ². Jari-jari = ...",
     options: ["5 cm", "10 cm", "25 cm", "15 cm"],
     correctIndex: 0,
@@ -3321,7 +3321,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-lingkaran-t008",
-    topicSlug: "15-lingkaran",
+    topicSlug: "8-16-lingkaran",
     question: "Tali 8 cm dalam lingkaran r = 5 cm. Jarak pusat ke tali = ...",
     options: ["3 cm", "4 cm", "2 cm", "5 cm"],
     correctIndex: 0,
@@ -3332,7 +3332,7 @@ export const quizzes: QuizQuestion[] = [
   // --- 18-statistika-dasar (8 tambahan) ---
   {
     id: "smp-statistika-t001",
-    topicSlug: "18-statistika-dasar",
+    topicSlug: "7-21-statistika-dasar",
     question: "Rata-rata 5, 7, 8, 10, 15 = ...",
     options: ["9", "10", "8", "11"],
     correctIndex: 0,
@@ -3341,7 +3341,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-statistika-t002",
-    topicSlug: "18-statistika-dasar",
+    topicSlug: "7-21-statistika-dasar",
     question: "Median 3, 5, 7, 9, 11 = ...",
     options: ["7", "5", "9", "6"],
     correctIndex: 0,
@@ -3350,7 +3350,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-statistika-t003",
-    topicSlug: "18-statistika-dasar",
+    topicSlug: "7-21-statistika-dasar",
     question: "Modus 2, 3, 3, 5, 7, 3, 8 = ...",
     options: ["3", "5", "7", "2"],
     correctIndex: 0,
@@ -3359,7 +3359,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-statistika-t004",
-    topicSlug: "18-statistika-dasar",
+    topicSlug: "7-21-statistika-dasar",
     question: "Range 12, 15, 18, 22, 30 = ...",
     options: ["18", "15", "22", "30"],
     correctIndex: 0,
@@ -3368,7 +3368,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-statistika-t005",
-    topicSlug: "18-statistika-dasar",
+    topicSlug: "7-21-statistika-dasar",
     question: "Median 4, 6, 8, 10, 12, 14 = ...",
     options: ["9", "8", "10", "7"],
     correctIndex: 0,
@@ -3377,7 +3377,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-statistika-t006",
-    topicSlug: "18-statistika-dasar",
+    topicSlug: "7-21-statistika-dasar",
     question: "Rata-rata 5 siswa = 42 kg. Siswa ke-6 = 50 kg. Rata-rata baru = ...",
     options: ["43,3 kg", "44 kg", "46 kg", "42 kg"],
     correctIndex: 0,
@@ -3386,7 +3386,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-statistika-t007",
-    topicSlug: "18-statistika-dasar",
+    topicSlug: "7-21-statistika-dasar",
     question: "Frekuensi: 2(3kali), 5(4kali), 8(2kali). Mean = ...",
     options: ["4,56", "5", "4", "6"],
     correctIndex: 0,
@@ -3395,7 +3395,7 @@ export const quizzes: QuizQuestion[] = [
   },
   {
     id: "smp-statistika-t008",
-    topicSlug: "18-statistika-dasar",
+    topicSlug: "7-21-statistika-dasar",
     question: "Mean 4 data = 10. Tiga data: 8, 10, 12. Data ke-4 = ...",
     options: ["10", "12", "8", "11"],
     correctIndex: 0,

@@ -21,6 +21,7 @@ export interface WorldMapNode {
   level: "smp" | "sma" | "kuliah";
   status: "locked" | "available" | "completed" | "legendary";
   section: string;
+  class?: "7" | "8" | "9";
   description?: string;
 }
 
@@ -318,8 +319,15 @@ function WorldMap({ nodes }: WorldMapProps) {
     const out: { name: string; level: "smp" | "sma" | "kuliah"; items: WorldMapNode[] }[] = [];
     for (const node of nodes) {
       const last = out[out.length - 1];
-      if (!last || last.name !== node.section) {
-        out.push({ name: node.section, level: node.level, items: [node] });
+      // For SMP: group by class (Kelas 7/8/9). For SMA/Kuliah: group by section.
+      const groupKey = node.level === "smp" && node.class
+        ? `smp-kelas${node.class}`
+        : node.section;
+      const groupLabel = node.level === "smp" && node.class
+        ? `Kelas ${node.class}`
+        : node.section;
+      if (!last || last.name !== groupLabel) {
+        out.push({ name: groupLabel, level: node.level, items: [node] });
       } else {
         last.items.push(node);
       }

@@ -7,7 +7,7 @@ import { quizzes as staticQuizzes } from "./quizzes";
 const TOPICS_KEY = "matika_admin_topics";
 const QUESTIONS_KEY = "matika_admin_questions";
 const SEEDED_KEY = "matika_content_seeded";
-const SEED_VERSION = "v3";
+const SEED_VERSION = "v4";
 
 function getAdminTopics(): { slug: string; title: string; level: Level; section: string; icon: string; content: string; description: string; isPublished: boolean }[] {
   if (typeof window === "undefined") return [];
@@ -74,6 +74,7 @@ export function getAllTopics(): Topic[] {
         title: adminOverride.title || t.title,
         level: adminOverride.level || t.level,
         section: adminOverride.section || t.section,
+        class: t.class,
         icon: adminOverride.icon || t.icon,
         content: contentOk ? (adminOverride.content || t.content) : t.content,
         description: adminOverride.description || t.description,
@@ -91,6 +92,7 @@ export function getAllTopics(): Topic[] {
         title: t.title,
         level: t.level,
         section: t.section,
+        class: undefined,
         icon: t.icon,
         content: t.content,
         description: t.description,
@@ -107,9 +109,62 @@ export function getTopicStatus(
 ): Map<string, "completed" | "available" | "locked"> {
   const completed = new Set(completedTopics);
   const statusMap = new Map<string, "completed" | "available" | "locked">();
-  let foundAvailable = false;
 
-  for (const t of topics) {
+  // Group SMP topics by class
+  const smpTopics = topics.filter((t) => t.level === "smp");
+  const nonSmpTopics = topics.filter((t) => t.level !== "smp");
+
+  const smpByClass: Record<string, Topic[]> = {};
+  for (const t of smpTopics) {
+    const cls = t.class || "7";
+    if (!smpByClass[cls]) smpByClass[cls] = [];
+    smpByClass[cls].push(t);
+  }
+
+  // Process SMP topics with cross-class gating
+  const classOrder = ["7", "8", "9"];
+  let prevClassFullyDone = true; // Kelas 7 is always initially accessible
+
+  for (const cls of classOrder) {
+    const classTopics = smpByClass[cls] || [];
+    if (classTopics.length === 0) continue;
+
+    if (!prevClassFullyDone) {
+      // Previous class not fully done → all topics in this class are locked
+      for (const t of classTopics) {
+        statusMap.set(t.slug, "completed");
+      }
+      // Mark as locked (will be overridden below if completed)
+      for (const t of classTopics) {
+        if (!completed.has(t.slug)) {
+          statusMap.set(t.slug, "locked");
+        }
+      }
+      prevClassFullyDone = false;
+      continue;
+    }
+
+    // Previous class fully done → linear progression within this class
+    let foundAvailable = false;
+    for (const t of classTopics) {
+      if (completed.has(t.slug)) {
+        statusMap.set(t.slug, "completed");
+      } else if (!foundAvailable) {
+        statusMap.set(t.slug, "available");
+        foundAvailable = true;
+      } else {
+        statusMap.set(t.slug, "locked");
+      }
+    }
+
+    // Check if this class is fully completed
+    const allDone = classTopics.every((t) => completed.has(t.slug));
+    prevClassFullyDone = allDone;
+  }
+
+  // Process non-SMP topics (SMA, Kuliah) — simple linear progression
+  let foundAvailable = false;
+  for (const t of nonSmpTopics) {
     if (completed.has(t.slug)) {
       statusMap.set(t.slug, "completed");
     } else if (!foundAvailable) {
