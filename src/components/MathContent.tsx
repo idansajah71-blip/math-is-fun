@@ -171,17 +171,24 @@ export function normalizeAndRenderMarkdown(md: string): string {
   let html = md;
   html = html.replace(/\r\n/g, "\n");
 
+  // Step 1: Extract KaTeX formulas to placeholders BEFORE any escaping
+  const placeholders: string[] = [];
+
   html = html.replace(/\$\$([\s\S]+?)\$\$/g, (_, formula) => {
     const normalized = normalizeFormula(formula);
-    const escaped = escapeHtml(normalized);
-    return `<div class="katex-block my-4" data-formula="${escaped}"></div>`;
+    const idx = placeholders.length;
+    placeholders.push(`<div class="katex-block my-4" data-formula="${escapeHtml(normalized)}"></div>`);
+    return `%%KATEX_BLOCK_${idx}%%`;
   });
 
   html = html.replace(/\$([^\$\n]+?)\$/g, (_, formula) => {
     const normalized = normalizeFormula(formula);
-    return `<code class="katex-inline">${escapeHtml(normalized)}</code>`;
+    const idx = placeholders.length;
+    placeholders.push(`<code class="katex-inline">${escapeHtml(normalized)}</code>`);
+    return `%%KATEX_INLINE_${idx}%%`;
   });
 
+  // Step 2: Apply markdown formatting (safe — no KaTeX HTML to destroy)
   html = html.replace(/^### (.+)$/gm, (_, t) => `<h3>${escapeMarkdownText(t)}</h3>`);
   html = html.replace(/^## (.+)$/gm, (_, t) => `<h2>${escapeMarkdownText(t)}</h2>`);
   html = html.replace(/\*\*([^*]+)\*\*/g, (_, t) => `<strong>${escapeMarkdownText(t)}</strong>`);
@@ -196,6 +203,12 @@ export function normalizeAndRenderMarkdown(md: string): string {
   html = html.replace(/<p>\s*<\/p>/g, "");
   html = html.replace(/<p>\s*<p>/g, "<p>");
   html = html.replace(/<\/p>\s*<\/p>/g, "</p>");
+
+  // Step 3: Restore KaTeX placeholders (after all escaping is done)
+  for (let i = 0; i < placeholders.length; i++) {
+    html = html.replace(`%%KATEX_BLOCK_${i}%%`, placeholders[i]);
+    html = html.replace(`%%KATEX_INLINE_${i}%%`, placeholders[i]);
+  }
 
   return html;
 }
