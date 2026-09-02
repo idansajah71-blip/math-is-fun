@@ -6,7 +6,8 @@ import Sidebar from "@/components/Sidebar";
 import { getAllTopics } from "@/lib/data";
 import { Search, ChevronLeft, X, ArrowRight } from "lucide-react";
 import KaTeX from "@/components/ui/KaTeX";
-import FormulaDetailCard from "@/components/formulas/FormulaDetailCard";
+import dynamic from "next/dynamic";
+const FormulaDetailCard = dynamic(() => import("@/components/formulas/FormulaDetailCard"), { ssr: false });
 
 /* ── Helpers ── */
 

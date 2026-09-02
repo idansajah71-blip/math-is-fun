@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { Flame } from "lucide-react";
 
@@ -8,7 +9,7 @@ interface StreakBarProps {
   showWarning?: boolean;
 }
 
-export default function StreakBar({ streak, showWarning = false }: StreakBarProps) {
+function StreakBar({ streak, showWarning = false }: StreakBarProps) {
   const isHigh = streak >= 7;
   const isWarning = showWarning && streak > 0;
 
@@ -49,3 +50,5 @@ export default function StreakBar({ streak, showWarning = false }: StreakBarProp
     </motion.div>
   );
 }
+
+export default memo(StreakBar);

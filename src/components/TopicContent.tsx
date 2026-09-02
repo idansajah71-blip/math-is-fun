@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Lightbulb, Sigma, PenLine, BookOpen, Check, Copy, ChevronDown, ArrowRight } from "lucide-react";
 import katex from "katex";
 import Link from "next/link";
+import { normalizeAndRenderMarkdown } from "@/components/MathContent";
 
 interface TopicContentProps {
   content: string;
@@ -50,54 +51,6 @@ function parseSections(content: string): ParsedSection[] {
 
 /* ── Shared utilities ── */
 
-function normalizeFormula(formula: string): string {
-  let f = formula.trim();
-  f = f.split("\\(").join("(");
-  f = f.split("\\)").join(")");
-  f = f.split("\\[").join("[");
-  f = f.split("\\]").join("]");
-  const open = (f.match(/\{/g) || []).length;
-  const close = (f.match(/\}/g) || []).length;
-  if (open > close) f += "}".repeat(open - close);
-  return f;
-}
-
-function escapeHtml(str: string): string {
-  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
-
-function renderMarkdownToHtml(md: string): string {
-  let html = md.replace(/\r\n/g, "\n");
-
-  html = html.replace(/\$\$([\s\S]+?)\$\$/g, (_, formula) => {
-    const normalized = normalizeFormula(formula);
-    const escaped = escapeHtml(normalized);
-    return `<div class="katex-block my-4" data-formula="${escaped}"></div>`;
-  });
-
-  html = html.replace(/\$([^\$\n]+?)\$/g, (_, formula) => {
-    const normalized = normalizeFormula(formula);
-    return `<code class="katex-inline">${escapeHtml(normalized)}</code>`;
-  });
-
-  html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
-  html = html.replace(/^## (.+)$/gm, "<h2>$1</h2>");
-  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
-  html = html.replace(/^- (.+)$/gm, "<li>$1</li>");
-  html = html.replace(/(<li>.*<\/li>\n?)+/g, (match) => `<ul>${match}</ul>`);
-  html = html.replace(/^---$/gm, "<hr />");
-  html = html.replace(/\n\n/g, "</p><p>");
-  html = `<p>${html}</p>`;
-  html = html.replace(/<p>\s*<(h[23]|ul|hr|div)/g, "<$1");
-  html = html.replace(/<\/(h[23]|ul|hr|div)>\s*<\/p>/g, "</$1>");
-  html = html.replace(/<p>\s*<\/p>/g, "");
-  html = html.replace(/<p>\s*<p>/g, "<p>");
-  html = html.replace(/<\/p>\s*<\/p>/g, "</p>");
-
-  return html;
-}
-
 const PROSE = `math-content prose prose-blue dark:prose-invert max-w-none
   prose-headings:scroll-mt-20
   prose-h2:text-lg prose-h2:font-black prose-h2:text-[var(--duo-text)] prose-h2:mt-6 prose-h2:mb-2
@@ -141,7 +94,7 @@ function useKaTeXRef(deps: string) {
 
 function KonsepTab({ content }: { content: string }) {
   const ref = useKaTeXRef(content);
-  const html = renderMarkdownToHtml(content);
+  const html = normalizeAndRenderMarkdown(content);
 
   return (
     <motion.div
@@ -164,7 +117,7 @@ function KonsepTab({ content }: { content: string }) {
 
 function TopikUtamaTab({ content }: { content: string }) {
   const ref = useKaTeXRef(content);
-  const html = renderMarkdownToHtml(content);
+  const html = normalizeAndRenderMarkdown(content);
 
   return (
     <motion.div
@@ -480,7 +433,7 @@ function ContohStep({
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div ref={ref} className={`${PROSE} mt-2 text-sm`} dangerouslySetInnerHTML={{ __html: renderMarkdownToHtml(sentence) }} />
+                  <div ref={ref} className={`${PROSE} mt-2 text-sm`} dangerouslySetInnerHTML={{ __html: normalizeAndRenderMarkdown(sentence) }} />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -559,7 +512,7 @@ export default function TopicContent({ content, slug }: TopicContentProps) {
 
 function FallbackContent({ content }: { content: string }) {
   const ref = useKaTeXRef(content);
-  const html = renderMarkdownToHtml(content);
+  const html = normalizeAndRenderMarkdown(content);
 
   return (
     <div

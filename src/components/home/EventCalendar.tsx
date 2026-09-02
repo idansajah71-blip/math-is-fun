@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, ChevronRight, Zap, Gem, Clock } from "lucide-react";
@@ -103,4 +103,4 @@ function EventCalendar() {
   );
 }
 
-export default EventCalendar;
+export default memo(EventCalendar);

@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
 
 interface XPBarProps {
@@ -11,7 +12,7 @@ interface XPBarProps {
   showLabel?: boolean;
 }
 
-export default function XPBar({
+function XPBar({
   currentXp,
   levelXp,
   nextLevelXp,
@@ -51,3 +52,5 @@ export default function XPBar({
     </div>
   );
 }
+
+export default memo(XPBar);

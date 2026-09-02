@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Zap } from "lucide-react";
 import { xpFloat } from "@/lib/animations";
@@ -10,7 +11,7 @@ interface XpPopupProps {
   onComplete?: () => void;
 }
 
-export default function XpPopup({ amount, show, onComplete }: XpPopupProps) {
+function XpPopup({ amount, show, onComplete }: XpPopupProps) {
   return (
     <AnimatePresence>
       {show && (
@@ -36,3 +37,5 @@ export default function XpPopup({ amount, show, onComplete }: XpPopupProps) {
     </AnimatePresence>
   );
 }
+
+export default memo(XpPopup);

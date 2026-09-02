@@ -24,7 +24,7 @@ const PROSE_CLASSES = `math-content prose prose-blue dark:prose-invert max-w-non
   prose-blockquote:border-l-[var(--primary)] prose-blockquote:bg-[var(--primary-bg)]/50 prose-blockquote:py-1 prose-blockquote:rounded-r-lg
   prose-hr:border-[var(--border-subtle)] prose-hr:my-4`;
 
-function parseSections(content: string): ParsedSection[] {
+export function parseSections(content: string): ParsedSection[] {
   const sections: ParsedSection[] = [];
   const parts = content.split(/(\*\*(?:Konsep|Rumus Kunci|Contoh):?\*\*\s*)/);
 
@@ -142,15 +142,15 @@ function KaTeXSection({ html, className }: { html: string; className?: string })
   );
 }
 
-function escapeHtml(str: string): string {
+export function escapeHtml(str: string): string {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-function escapeMarkdownText(text: string): string {
+export function escapeMarkdownText(text: string): string {
   return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-function normalizeFormula(formula: string): string {
+export function normalizeFormula(formula: string): string {
   let f = formula.trim();
   f = f.split("\\(").join("(");
   f = f.split("\\)").join(")");
@@ -167,7 +167,7 @@ function normalizeFormula(formula: string): string {
   return f;
 }
 
-function normalizeAndRenderMarkdown(md: string): string {
+export function normalizeAndRenderMarkdown(md: string): string {
   let html = md;
   html = html.replace(/\r\n/g, "\n");
 

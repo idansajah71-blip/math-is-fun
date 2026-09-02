@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { cardHover, springGentle } from "@/lib/animations";
 import { CheckCircle2, Clock, Gift, Flame, Target, Zap, ChevronRight } from "lucide-react";
@@ -23,7 +24,7 @@ const typeConfig = {
   streak: { icon: Flame, color: "var(--duo-orange)", bg: "bg-orange-50 dark:bg-orange-950/30" },
 };
 
-export default function QuestCard({
+function QuestCard({
   title,
   description,
   progress,
@@ -135,3 +136,5 @@ export default function QuestCard({
     </motion.div>
   );
 }
+
+export default memo(QuestCard);

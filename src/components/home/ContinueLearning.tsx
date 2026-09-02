@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Play, Zap, AlertTriangle, Lock } from "lucide-react";
@@ -130,4 +130,4 @@ function ContinueLearning({ profile }: { profile: UserProfile }) {
   );
 }
 
-export default ContinueLearning;
+export default memo(ContinueLearning);

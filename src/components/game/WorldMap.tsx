@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useMemo } from "react";
+import { memo, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   CheckCircle2, Lock, Crown, BookOpen, Zap, X, Star,
@@ -311,7 +311,7 @@ function NodeModal({ node, onClose }: { node: WorldMapNode; onClose: () => void 
 /* ─────────────────────────────────────────
    MAIN WORLD MAP
 ───────────────────────────────────────── */
-export default function WorldMap({ nodes }: WorldMapProps) {
+function WorldMap({ nodes }: WorldMapProps) {
   const [selected, setSelected] = useState<WorldMapNode | null>(null);
 
   const sections = useMemo(() => {
@@ -473,3 +473,5 @@ export default function WorldMap({ nodes }: WorldMapProps) {
     </div>
   );
 }
+
+export default memo(WorldMap);

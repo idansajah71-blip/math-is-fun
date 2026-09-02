@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { getMasteryLevel, type MasteryInfo } from "@/lib/mastery";
 
@@ -10,7 +11,7 @@ interface MasteryBarProps {
   showPct?: boolean;
 }
 
-export default function MasteryBar({ mastery: masteryProp, size = "md", showLabel = true, showPct = true }: MasteryBarProps) {
+function MasteryBar({ mastery: masteryProp, size = "md", showLabel = true, showPct = true }: MasteryBarProps) {
   const pct = masteryProp ?? 0;
   const info: MasteryInfo = getMasteryLevel(pct);
 
@@ -44,3 +45,5 @@ export default function MasteryBar({ mastery: masteryProp, size = "md", showLabe
     </div>
   );
 }
+
+export default memo(MasteryBar);

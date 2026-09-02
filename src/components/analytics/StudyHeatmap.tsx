@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { memo, useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { getHourlyActivity } from "@/lib/studyAnalytics";
 
@@ -16,7 +16,7 @@ function getIntensityClass(count: number, max: number): string {
   return "bg-blue-600 dark:bg-blue-500";
 }
 
-export default function StudyHeatmap() {
+function StudyHeatmap() {
   const [tick, setTick] = useState(0);
   const hourlyData = useMemo(() => getHourlyActivity(), [tick]);
   const maxCount = Math.max(...hourlyData.map((h) => h.count), 1);
@@ -78,3 +78,5 @@ export default function StudyHeatmap() {
     </div>
   );
 }
+
+export default memo(StudyHeatmap);
