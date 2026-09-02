@@ -8882,4 +8882,316 @@ export const quizzes: QuizQuestion[] = [
     explanation: "V bola = ⁴⁄₃πr³ = ⁴⁄₃π(216) = 288π. V kerucut = ⅓πr²h = ⅓π(36)h = 12πh. 12πh = 288π → h = 24 cm",
     difficulty: "hard",
   },
+
+  // ==================== Interactive: Matching & Venn ====================
+
+  // Matching: Relasi dan Fungsi (7-8)
+  {
+    id: "q-88-matching-relasi",
+    topicSlug: "8-8-relasi-dan-fungsi",
+    question: "Pasangkan setiap relasi dengan jenisnya",
+    options: [],
+    correctIndex: 0,
+    explanation: "y=x² → Kuadrat, y=2x+1 → Linear, y=1/x → Rasional, y=x³ → Kubik",
+    type: "matching",
+    matching: {
+      label: "Relasi → Jenis Fungsi",
+      pairs: [
+        { left: "y = x²", right: "Kuadrat" },
+        { left: "y = 2x + 1", right: "Linear" },
+        { left: "y = 1/x", right: "Rasional" },
+        { left: "y = x³", right: "Kubik" },
+      ],
+    },
+    difficulty: "medium",
+  },
+  {
+    id: "q-89-matching-relasi2",
+    topicSlug: "8-8-relasi-dan-fungsi",
+    question: "Pasangkan nilai f(x) dengan x yang benar untuk f(x) = 2x - 3",
+    options: [],
+    correctIndex: 0,
+    explanation: "f(0)=-3, f(1)=-1, f(2)=1, f(3)=3",
+    type: "matching",
+    matching: {
+      label: "x → f(x)",
+      pairs: [
+        { left: "x = 0", right: "-3" },
+        { left: "x = 1", right: "-1" },
+        { left: "x = 2", right: "1" },
+        { left: "x = 3", right: "3" },
+      ],
+    },
+    difficulty: "easy",
+  },
+
+  // Matching: Himpunan (7-5)
+  {
+    id: "q-90-matching-himpunan",
+    topicSlug: "7-5-himpunan",
+    question: "Pasangkan operasi himpunan dengan hasilnya. A = {1,2,3,4}, B = {3,4,5,6}",
+    options: [],
+    correctIndex: 0,
+    explanation: "A∩B={3,4}, A∪B={1,2,3,4,5,6}, A-B={1,2}, B-A={5,6}",
+    type: "matching",
+    matching: {
+      label: "Operasi → Hasil",
+      pairs: [
+        { left: "A ∩ B", right: "{3, 4}" },
+        { left: "A ∪ B", right: "{1, 2, 3, 4, 5, 6}" },
+        { left: "A - B", right: "{1, 2}" },
+        { left: "B - A", right: "{5, 6}" },
+      ],
+    },
+    difficulty: "medium",
+  },
+
+  // Venn: Himpunan (7-5)
+  {
+    id: "q-91-venn-himpunan1",
+    topicSlug: "7-5-himpunan",
+    question: "Dari diagram Venn: A = {1,2,3,4}, B = {3,4,5,6}. Berapa banyak elemen di A ∩ B?",
+    options: [],
+    correctIndex: 2,
+    explanation: "A ∩ B = {3, 4} → ada 2 elemen",
+    type: "venn",
+    venn: {
+      setLabels: ["A", "B"],
+      regionValues: [2, 2, 2, 0],
+      universe: 6,
+    },
+    difficulty: "easy",
+  },
+  {
+    id: "q-92-venn-himpunan2",
+    topicSlug: "7-5-himpunan",
+    question: "Dari diagram Venn: 20 siswa suka Matematika, 15 suka Fisika, 8 suka keduanya. Berapa yang tidak suka keduanya jika total 30 siswa?",
+    options: [],
+    correctIndex: 3,
+    explanation: "M only = 20-8=12, F only = 15-8=7, Both=8. Total = 12+7+8=27. Tidak suka keduanya = 30-27=3",
+    type: "venn",
+    venn: {
+      setLabels: ["Matematika", "Fisika"],
+      regionValues: [12, 8, 7, 3],
+      universe: 30,
+    },
+    difficulty: "medium",
+  },
+  {
+    id: "q-93-venn-himpunan3",
+    topicSlug: "7-5-himpunan",
+    question: "Kelas X MIPA: 12 tinggal di kos, 18 di rumah sendiri, 5 tinggal bersama saudara. 3 tinggal di kos DAN di rumah sendiri (pulang-pergi). Berapa total siswa?",
+    options: [],
+    correctIndex: 2,
+    explanation: "n(A∪B) = n(A) + n(B) - n(A∩B) = 12 + 18 - 3 = 27. Plus 5 saudara = 32",
+    type: "venn",
+    venn: {
+      setLabels: ["Kos", "Rumah Sendiri"],
+      regionValues: [9, 3, 15, 5],
+      universe: 32,
+    },
+    difficulty: "hard",
+  },
+
+  // Matching: Bilangan (7-1)
+  {
+    id: "q-94-matching-bilangan",
+    topicSlug: "7-1-bilangan-bulat",
+    question: "Pasangkan pecahan dengan desimalnya",
+    options: [],
+    correctIndex: 0,
+    explanation: "1/4=0,25, 1/3≈0,33, 3/4=0,75, 2/5=0,4",
+    type: "matching",
+    matching: {
+      label: "Pecahan → Desimal",
+      pairs: [
+        { left: "1/4", right: "0,25" },
+        { left: "1/3", right: "0,33" },
+        { left: "3/4", right: "0,75" },
+        { left: "2/5", right: "0,4" },
+      ],
+    },
+    difficulty: "easy",
+  },
+
+  // Matching: Barisan Aritmetika (9-6)
+  {
+    id: "q-95-matching-barisan",
+    topicSlug: "9-6-barisan-aritmetika",
+    question: "Pasangkan barisan dengan beda dan suku ke-n nya. U₁ = 3, d = 2",
+    options: [],
+    correctIndex: 0,
+    explanation: "U₁=3, U₂=5, U₃=7, U₅=11. Beda d=2.",
+    type: "matching",
+    matching: {
+      label: "Suku → Nilai",
+      pairs: [
+        { left: "U₁", right: "3" },
+        { left: "U₂", right: "5" },
+        { left: "U₃", right: "7" },
+        { left: "U₅", right: "11" },
+      ],
+    },
+    difficulty: "easy",
+  },
+
+  // Matching: SPLDV (8-7)
+  {
+    id: "q-96-matching-spldv",
+    topicSlug: "8-7-spldv",
+    question: "Pasangkan sistem persamaan dengan solusinya",
+    options: [],
+    correctIndex: 0,
+    explanation: "x+y=5 & x-y=1 → (3,2); 2x+y=7 & x-y=2 → (3,1); x+2y=8 & x-y=1 → (2,3)",
+    type: "matching",
+    matching: {
+      label: "SPLDV → Solusi (x, y)",
+      pairs: [
+        { left: "x+y=5, x-y=1", right: "(3, 2)" },
+        { left: "2x+y=7, x-y=2", right: "(3, 1)" },
+        { left: "x+2y=8, x-y=1", right: "(2, 3)" },
+        { left: "3x-y=4, x+y=4", right: "(2, 2)" },
+      ],
+    },
+    difficulty: "medium",
+  },
+
+  // Matching: Bangun Datar (7-14)
+  {
+    id: "q-97-matching-bangun",
+    topicSlug: "7-14-bangun-datar",
+    question: "Pasangkan bangun datar dengan rumus luasnya",
+    options: [],
+    correctIndex: 0,
+    explanation: "Persegi=a², Persegi Panjang=p×l, Segitiga=½×a×t, Trapesium=½×(a+b)×t",
+    type: "matching",
+    matching: {
+      label: "Bangun → Rumus Luas",
+      pairs: [
+        { left: "Persegi", right: "a²" },
+        { left: "Persegi Panjang", right: "p × l" },
+        { left: "Segitiga", right: "½ × a × t" },
+        { left: "Trapesium", right: "½ × (a+b) × t" },
+      ],
+    },
+    difficulty: "easy",
+  },
+
+  // Venn: Peluang (8-13)
+  {
+    id: "q-98-venn-peluang",
+    topicSlug: "8-13-peluang-kejadian",
+    question: "Dari 40 siswa: 25 suka Bola, 20 suka Badminton, 10 suka keduanya. Berapa yang tidak suka keduanya?",
+    options: [],
+    correctIndex: 1,
+    explanation: "B only = 25-10=15, Bad only = 20-10=10, Both=10. Total suka salah satu = 15+10+10=35. Tidak suka = 40-35=5",
+    type: "venn",
+    venn: {
+      setLabels: ["Bola", "Badminton"],
+      regionValues: [15, 10, 10, 5],
+      universe: 40,
+    },
+    difficulty: "medium",
+  },
+
+  // Matching: Transformasi Geometri (8-21)
+  {
+    id: "q-99-matching-transform",
+    topicSlug: "8-21-transformasi-geometri",
+    question: "Pasangkan transformasi dengan hasil titik (2, 3)",
+    options: [],
+    correctIndex: 0,
+    explanation: "Translasi(1,-2)→(3,1), Refleksi sumbu-x→(2,-3), Rotasi 90°→(-3,2), Refleksi sumbu-y→(-2,3)",
+    type: "matching",
+    matching: {
+      label: "Transformasi → Hasil",
+      pairs: [
+        { left: "Translasi (1, -2)", right: "(3, 1)" },
+        { left: "Refleksi sumbu-x", right: "(2, -3)" },
+        { left: "Rotasi 90° CW", right: "(3, -2)" },
+        { left: "Refleksi sumbu-y", right: "(-2, 3)" },
+      ],
+    },
+    difficulty: "medium",
+  },
+
+  // Matching: Trigonometri (SMA)
+  {
+    id: "q-100-matching-trigo",
+    topicSlug: "8-trigonometri-dasar",
+    question: "Pasangkan sudut dengan nilai trigonometri dasarnya",
+    options: [],
+    correctIndex: 0,
+    explanation: "sin30°=½, cos60°=½, tan45°=1, sin45°=½√2",
+    type: "matching",
+    matching: {
+      label: "Sudut → Nilai",
+      pairs: [
+        { left: "sin 30°", right: "½" },
+        { left: "cos 60°", right: "½" },
+        { left: "tan 45°", right: "1" },
+        { left: "sin 45°", right: "½√2" },
+      ],
+    },
+    difficulty: "easy",
+  },
+
+  // Matching: FPB/KPK (7-4)
+  {
+    id: "q-101-matching-fpb",
+    topicSlug: "7-4-fpb-dan-kpk",
+    question: "Pasangkan pasangan bilangan dengan FPB dan KPK-nya",
+    options: [],
+    correctIndex: 0,
+    explanation: "FPB(12,18)=6, KPK(12,18)=36; FPB(8,12)=4, KPK(8,12)=24",
+    type: "matching",
+    matching: {
+      label: "Bilangan → FPB, KPK",
+      pairs: [
+        { left: "12, 18", right: "FPB=6, KPK=36" },
+        { left: "8, 12", right: "FPB=4, KPK=24" },
+        { left: "15, 25", right: "FPB=5, KPK=75" },
+        { left: "9, 6", right: "FPB=3, KPK=18" },
+      ],
+    },
+    difficulty: "medium",
+  },
+
+  // Venn: Statistika (8-11)
+  {
+    id: "q-102-venn-stat",
+    topicSlug: "8-11-statistika-mean-median-modus",
+    question: "Dari data: 15 siswa nilai Math ≥ 70, 12 siswa nilai English ≥ 70, 8 siswa nilai Math DAN English ≥ 70. Jika total 25 siswa, berapa yang nilai kedua mata pelajaran < 70?",
+    options: [],
+    correctIndex: 2,
+    explanation: "Math only = 15-8=7, Eng only = 12-8=4, Both=8. Total ≥ 70 di salah satu = 7+4+8=19. Yang < 70 kedua = 25-19=6",
+    type: "venn",
+    venn: {
+      setLabels: ["Math ≥ 70", "English ≥ 70"],
+      regionValues: [7, 8, 4, 6],
+      universe: 25,
+    },
+    difficulty: "medium",
+  },
+
+  // Matching: Pythagoras (8-4)
+  {
+    id: "q-103-matching-pyth",
+    topicSlug: "8-4-teorema-pythagoras",
+    question: "Pasangkan tripel Pythagoras yang benar",
+    options: [],
+    correctIndex: 0,
+    explanation: "3-4-5, 5-12-13, 8-15-17, 7-24-25",
+    type: "matching",
+    matching: {
+      label: "Tripel → Status",
+      pairs: [
+        { left: "3, 4, 5", right: "Valid" },
+        { left: "5, 12, 13", right: "Valid" },
+        { left: "6, 8, 11", right: "Tidak valid" },
+        { left: "8, 15, 17", right: "Valid" },
+      ],
+    },
+    difficulty: "easy",
+  },
 ];

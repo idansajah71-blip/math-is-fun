@@ -15,6 +15,8 @@ import Mascot from "@/components/game/Mascot";
 import NumberLineDrag from "@/components/lesson/NumberLineDrag";
 import SortingQuestion from "@/components/lesson/SortingQuestion";
 import EquationBuilder from "@/components/lesson/EquationBuilder";
+import MatchingQuestion from "@/components/lesson/MatchingQuestion";
+import VennDiagramQuestion from "@/components/lesson/VennDiagramQuestion";
 import HintButton from "@/components/lesson/HintButton";
 import MistakeReview from "@/components/lesson/MistakeReview";
 import type { MistakeItem } from "@/components/lesson/MistakeReview";
@@ -34,7 +36,7 @@ import {
   ArrowLeft, ArrowRight, CheckCircle2, RotateCcw,
   Home, Star, Zap, Trophy, BookOpen, Flame, Target,
   Sparkles, Crown, Gem, Rocket, Brain, XCircle, Heart,
-  Check, Lightbulb, ThumbsUp, Dumbbell, Ruler, Hash, Edit,
+  Check, Lightbulb, ThumbsUp, Dumbbell, Ruler, Hash, Edit, Link2,
 } from "lucide-react";
 import Link from "next/link";
 import type { Topic } from "@/lib/types";
@@ -664,6 +666,8 @@ export default function LessonClient({ topic }: LessonClientProps) {
                                  : q.type === "numberline" ? (<><Ruler size={10} /> Number Line</>)
                                  : q.type === "sorting" ? (<><Hash size={10} /> Sorting</>)
                                  : q.type === "equation" ? (<><Edit size={10} /> Persamaan</>)
+                                 : q.type === "matching" ? (<><Link2 size={10} /> Pasangkan</>)
+                                 : q.type === "venn" ? (<><Target size={10} /> Diagram Venn</>)
                                  : quizType === "fill" ? (<><Edit size={10} /> Isian</>)
                                  : quizType === "truefalse" ? (<><CheckCircle2 size={10} /> Benar/Salah</>)
                                  : (<><Target size={10} /> Pilihan Ganda</>)}
@@ -740,6 +744,40 @@ export default function LessonClient({ topic }: LessonClientProps) {
                             <EquationBuilder
                               steps={q.equation.steps}
                               onComplete={(ok) => ok ? handleCorrect() : handleWrong()}
+                            />
+                            <AnimatedButton onClick={handleNextQuestion} fullWidth size="lg" className="mt-5" iconRight={<ArrowRight size={18} />}>
+                              Lanjut 
+                            </AnimatedButton>
+                          </div>
+                        ) : q.type === "matching" && q.matching ? (
+                          <div>
+                            <h3 className="text-lg md:text-xl font-black text-[var(--fg)] mb-5 text-center leading-snug">{q.question}</h3>
+                            <MatchingQuestion
+                              pairs={q.matching.pairs}
+                              label={q.matching.label}
+                              onCorrect={handleCorrect}
+                              onWrong={handleWrong}
+                            />
+                            <AnimatedButton onClick={handleNextQuestion} fullWidth size="lg" className="mt-5" iconRight={<ArrowRight size={18} />}>
+                              Lanjut 
+                            </AnimatedButton>
+                          </div>
+                        ) : q.type === "venn" && q.venn ? (
+                          <div>
+                            <h3 className="text-lg md:text-xl font-black text-[var(--fg)] mb-5 text-center leading-snug">{q.question}</h3>
+                            <VennDiagramQuestion
+                              question={q.question}
+                              regions={[
+                                { label: q.venn.setLabels[0], value: q.venn.regionValues[0], x: 25, y: 50 },
+                                { label: `${q.venn.setLabels[0]}∩${q.venn.setLabels[1]}`, value: q.venn.regionValues[1], x: 50, y: 50 },
+                                { label: q.venn.setLabels[1], value: q.venn.regionValues[2], x: 75, y: 50 },
+                                { label: "U", value: q.venn.regionValues[3] ?? (q.venn.universe ?? 0), x: 50, y: 90 },
+                              ]}
+                              correctAnswer={q.correctIndex}
+                              targetRegion={q.correctIndex}
+                              explanation={q.explanation}
+                              onCorrect={handleCorrect}
+                              onWrong={handleWrong}
                             />
                             <AnimatedButton onClick={handleNextQuestion} fullWidth size="lg" className="mt-5" iconRight={<ArrowRight size={18} />}>
                               Lanjut 

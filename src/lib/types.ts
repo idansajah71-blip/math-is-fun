@@ -53,7 +53,7 @@ export interface QuizQuestion {
   correctIndex: number;
   explanation: string;
   alternatives?: string[];
-  type?: "choice" | "fill" | "numberline" | "sorting" | "equation" | "graph" | "geometry" | "venn";
+  type?: "choice" | "fill" | "numberline" | "sorting" | "equation" | "graph" | "geometry" | "venn" | "matching" | "truefalse";
   difficulty?: "easy" | "medium" | "hard";
   hints?: string[];
   // For numberline type
@@ -68,6 +68,8 @@ export interface QuizQuestion {
   geometry?: { shapes: { type: string; points?: { x: number; y: number }[]; radius?: number; center?: { x: number; y: number }; showMeasurements?: boolean }[]; question: string };
   // For venn type
   venn?: { setLabels: [string, string]; regionValues: [number, number, number, number]; universe?: number };
+  // For matching type
+  matching?: { pairs: { left: string; right: string }[]; label?: string };
   // For approach detection (per-question custom patterns)
   approachPatterns?: ApproachPattern[];
 }

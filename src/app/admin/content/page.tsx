@@ -39,7 +39,7 @@ export default function AdminContentPage() {
   const [questionForm, setQuestionForm] = useState({
     topicSlug: "", question: "", options: ["", "", "", ""], correctIndex: 0,
     explanation: "", difficulty: "medium" as "easy" | "medium" | "hard",
-    type: "choice" as "choice" | "fill" | "numberline" | "sorting" | "equation" | "graph" | "geometry" | "venn",
+    type: "choice" as "choice" | "fill" | "numberline" | "sorting" | "equation" | "graph" | "geometry" | "venn" | "matching" | "truefalse",
     hints: "", isPublished: true,
   });
 
