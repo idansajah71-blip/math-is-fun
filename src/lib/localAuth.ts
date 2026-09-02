@@ -75,7 +75,7 @@ export function signup(email: string, password: string, name: string): { error?:
     import("@/lib/admin/registry").then(({ registerUser }) => {
       registerUser(userId, email.toLowerCase(), name || "Pelajar");
     });
-  } catch {}
+  } catch { console.debug("Failed to register user in registry"); }
 
   return {};
 }
@@ -124,17 +124,17 @@ export function login(email: string, password: string): { error?: string; user?:
                 localStorage.setItem(profileKey, JSON.stringify(profile));
               }
             }
-          } catch {}
+          } catch { console.debug("Failed to activate trial premium"); }
         }, 2000);
       });
     }
-  } catch {}
+  } catch { console.debug("Failed to check existing profile for trial premium"); }
 
   try {
     import("@/lib/admin/registry").then(({ updateUserRegistry }) => {
       updateUserRegistry(user.id, { lastActive: new Date().toISOString() });
     });
-  } catch {}
+  } catch { console.debug("Failed to update user registry on login"); }
 
   return { user: { id: user.id, email: user.email, name: user.name } };
 }
@@ -219,7 +219,7 @@ export function updateProfile(updates: { name?: string; email?: string }): { err
     import("@/lib/admin/registry").then(({ updateUserRegistry }) => {
       updateUserRegistry(session.id, { name: updates.name, email: updates.email });
     });
-  } catch {}
+  } catch { console.debug("Failed to update user registry on profile update"); }
 
   return {};
 }

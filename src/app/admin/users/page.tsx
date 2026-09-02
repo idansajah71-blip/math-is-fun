@@ -44,11 +44,11 @@ export default function AdminUsersPage() {
               if (raw) {
                 allProfileRows[userId] = { ...getDefaultProfile(), ...JSON.parse(raw) };
               }
-            } catch {}
+            } catch { console.debug("Failed to parse profile from localStorage"); }
           }
         }
       }
-    } catch {}
+    } catch { console.debug("Failed to iterate localStorage profiles"); }
 
     const localUsers: Record<string, { id: string; email: string; name: string }> = {};
     try {
@@ -61,7 +61,7 @@ export default function AdminUsersPage() {
           }
         }
       }
-    } catch {}
+    } catch { console.debug("Failed to parse matika_users from localStorage"); }
 
     const rows: UserRow[] = registry.map((reg) => ({
       ...reg,
@@ -99,7 +99,7 @@ export default function AdminUsersPage() {
             profile: profile || null,
           });
         }
-      } catch {}
+      } catch { console.debug("Failed to parse session from localStorage"); }
     }
 
     rows.sort((a, b) => (b.lastActive || "").localeCompare(a.lastActive || ""));
@@ -131,7 +131,7 @@ export default function AdminUsersPage() {
                 break;
               }
             }
-          } catch {}
+          } catch { console.debug("Failed to parse profile from localStorage"); }
         }
       }
 
@@ -170,7 +170,7 @@ export default function AdminUsersPage() {
                 localStorage.setItem(k, JSON.stringify(profile));
               }
             }
-          } catch {}
+          } catch { console.debug("Failed to parse profile from localStorage"); }
         }
       }
 
@@ -182,7 +182,7 @@ export default function AdminUsersPage() {
           if (fallbackParsed.name?.toLowerCase() === userName) {
             localStorage.setItem("matika-profile", JSON.stringify(profile));
           }
-        } catch {}
+        } catch { console.debug("Failed to parse fallback profile from localStorage"); }
       }
 
       updateUserRegistry(userId, { isPremium: true });
@@ -222,7 +222,7 @@ export default function AdminUsersPage() {
           localStorage.setItem(profileKey, JSON.stringify(profile));
           saveProfileForKey(userId, profile);
         }
-      } catch {}
+      } catch { console.debug("Failed to parse profile for premium removal"); }
 
       updateUserRegistry(userId, { isPremium: false });
       const session = getAdminSession();

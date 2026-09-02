@@ -45,7 +45,7 @@ function autoSeedAdminContent(): void {
     localStorage.setItem(TOPICS_KEY, JSON.stringify(topics));
     localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questions));
     localStorage.setItem(SEEDED_KEY, SEED_VERSION);
-  } catch {}
+  } catch { console.debug("Failed to seed admin content to localStorage"); }
 }
 
 // Auto-seed on module load (lazy — only runs once per session)

@@ -657,7 +657,7 @@ function HomeContent() {
         const claimedKey = `matika-claimed-quests-${today}`;
         const saved: number[] = JSON.parse(localStorage.getItem(claimedKey) || "[]");
         if (!cancelled) setClaimedQuests(new Set(saved));
-      } catch {}
+      } catch { console.debug("Failed to load claimed quests from localStorage"); }
 
       const onboardingDone = localStorage.getItem("matika-onboarding");
       if (!onboardingDone && isFlagEnabled("onboarding")) {
@@ -698,14 +698,14 @@ function HomeContent() {
         try {
           const p = getProfile();
           if (!cancelled) setProfile(p);
-        } catch {}
+        } catch { console.debug("Failed to refresh profile on xp update"); }
       };
       const onStorage = (e: StorageEvent) => {
         if (e.key && e.key.startsWith("matika-profile")) {
           try {
             const p = getProfile();
             if (!cancelled) setProfile(p);
-          } catch {}
+          } catch { console.debug("Failed to refresh profile on storage change"); }
         }
       };
       window.addEventListener("xp-updated", onXpUpdated);
@@ -715,8 +715,7 @@ function HomeContent() {
         window.removeEventListener("xp-updated", onXpUpdated);
         window.removeEventListener("storage", onStorage);
       });
-    } catch {
-    } finally {
+    } catch { console.debug("Failed to initialize homepage data"); } finally {
       if (!cancelled) setMounted(true);
     }
 

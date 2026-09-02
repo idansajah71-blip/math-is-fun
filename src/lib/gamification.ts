@@ -60,7 +60,7 @@ function getProfileKey(): string {
       const session = JSON.parse(raw);
       if (session.id) return `matika-profile-${session.id}`;
     }
-  } catch {}
+  } catch { console.debug("Failed to read session from localStorage"); }
   return STORAGE_KEY;
 }
 
@@ -252,7 +252,7 @@ export function getProfile(): UserProfile {
     }
   } catch {
     // Corrupt data — clear and fall through to default
-    try { localStorage.removeItem(key); } catch {}
+    try { localStorage.removeItem(key); } catch { console.debug("Failed to remove corrupt profile from localStorage"); }
   }
   // Migration: try loading from old default key
   if (key !== STORAGE_KEY) {
@@ -265,7 +265,7 @@ export function getProfile(): UserProfile {
         _profileCacheKey = key;
         return profile;
       }
-    } catch {}
+    } catch { console.debug("Failed to migrate profile from old key"); }
   }
   const profile = getDefaultProfile();
   saveProfile(profile);
@@ -677,7 +677,7 @@ export async function getLeaderboardAsync(
         weeklyXpTotal: row.weekly_xp_total as number | undefined,
       }));
     }
-  } catch {}
+  } catch { console.debug("Failed to fetch remote leaderboard"); }
   return getLeaderboard(period);
 }
 
@@ -791,7 +791,7 @@ export function getAllUserProfiles(): Record<string, UserProfile> {
         }
       }
     }
-  } catch {}
+  } catch { console.debug("Failed to read user registry from localStorage"); }
 
   // Fallback: current user from session
   const current = getProfile();
@@ -802,7 +802,7 @@ export function getAllUserProfiles(): Record<string, UserProfile> {
       const s = JSON.parse(sessionRaw);
       sessionKey = s.id || s.email || "current";
     }
-  } catch {}
+  } catch { console.debug("Failed to parse session from localStorage"); }
   if (!result[sessionKey]) {
     result[sessionKey] = current;
   }

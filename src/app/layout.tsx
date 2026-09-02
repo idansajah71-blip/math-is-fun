@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               s.setProperty("--duo-green-bg", x.bg);
               s.setProperty("--shadow-button", "0 4px 0 "+x.h);
               s.setProperty("--focus-ring", x.r);
-            } catch(e){}
+            } catch(e){ /* expected during SSR */ }
           })();
         ` }} />
       </head>

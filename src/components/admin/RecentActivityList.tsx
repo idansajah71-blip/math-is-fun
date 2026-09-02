@@ -137,7 +137,7 @@ function getActivitiesFromLocalStorage(): Activity[] {
         });
       }
     }
-  } catch {}
+  } catch { console.debug("Failed to aggregate activities from localStorage"); }
 
   // Sort by most recent, take top 10
   activities.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());

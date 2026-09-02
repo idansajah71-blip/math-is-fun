@@ -1499,7 +1499,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5/12", "2/1", "1/12", "4/7"],
     correctIndex: 0,
     explanation: "KPK dari 4 dan 3 adalah 12. 3/4 = 9/12, 1/3 = 4/12. 9/12 - 4/12 = 5/12",
-    difficulty: "medium",
+    difficulty: "easy",
     approachPatterns: [
       { match: "2/1", feedback: "Kamu mengurangkan pembilang dan penyebut langsung (3-1)/(4-3). Pecahan harus disamakan penyebutnya dulu!", credit: 0 },
       { match: "1/12", feedback: "Kurangi pembilang tapi lupa konversi ke penyebut yang sama. 3/4 = 9/12, 1/3 = 4/12.", credit: 0.1 },
@@ -1546,7 +1546,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5", "4", "6", "3"],
     correctIndex: 0,
     explanation: "2x - x = 8 - 3 â†’ x = 5",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-plsv-005",
@@ -1555,7 +1555,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["4", "3", "5", "2"],
     correctIndex: 0,
     explanation: "6x - 2x = 12 + 4 â†’ 4x = 16 â†’ x = 4",
-    difficulty: "medium",
+    difficulty: "easy",
     approachPatterns: [
       { match: "2", feedback: "Kamu mungkin mengurangkan 6x-2x=4 dan 12-4=8, lalu 4x=8. Tapi -4 dipindah jadi +4, bukan dikurangi.", credit: 0.3 },
       { match: "8", feedback: "Kamu lupa memindahkan -4. 6x-4=2x+12 -> 4x=16 -> x=4, bukan 4x=32.", credit: 0.2 },
@@ -1568,7 +1568,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["7", "8", "6", "9"],
     correctIndex: 0,
     explanation: "3x - 7 = 14 â†’ 3x = 21 â†’ x = 7",
-    difficulty: "hard",
+    difficulty: "easy",
   },
 
   // --- 5-pertidaksamaan-linear-satu-variabel-ptlsv (6 tambahan) ---
@@ -1597,7 +1597,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x â‰¥ 2", "x â‰¤ 2", "x â‰¥ 8", "x â‰¤ 8"],
     correctIndex: 0,
     explanation: "4x â‰¥ 8 â†’ x â‰¥ 2",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-ptlsv-004",
@@ -1606,7 +1606,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x < -2", "x > -2", "x < 2", "x > 2"],
     correctIndex: 0,
     explanation: "-3x > 6 â†’ x < -2 (tanda berubah karena dibagi negatif)",
-    difficulty: "medium",
+    difficulty: "easy",
     approachPatterns: [
       { match: "x > -2", feedback: "Tanda irisan tidak berubah! Ingat: kalau dibagi bilangan negatif, tanda > berubah jadi <.", credit: 0.3 },
       { match: "x < 2", feedback: "Kamu tidak mengubah tanda saat memindahkan. -3x > 6 -> dibagi -3 -> x < -2 (tanda berubah DAN angka berubah).", credit: 0.2 },
@@ -1619,7 +1619,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1, 2, 3, 4, 5", "1, 2, 3, 4", "5, 6, 7", "1, 2, 3"],
     correctIndex: 0,
     explanation: "2x â‰¤ 10 â†’ x â‰¤ 5. Bilangan bulat positif: 1, 2, 3, 4, 5",
-    difficulty: "hard",
+    difficulty: "easy",
   },
   {
     id: "smp-ptlsv-006",
@@ -1628,7 +1628,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x â‰¤ 3", "x â‰¥ 3", "x â‰¤ -3", "x â‰¥ -3"],
     correctIndex: 0,
     explanation: "-2x â‰¥ -6 â†’ x â‰¤ 3 (tanda berubah karena dibagi negatif)",
-    difficulty: "hard",
+    difficulty: "easy",
     approachPatterns: [
       { match: "x >= 3", feedback: "Tanda berubah karena dibagi -2! Saat membagi dengan negatif, >= berubah jadi <=.", credit: 0.3 },
       { match: "x >= -3", feedback: "Kamu tidak mengubah tanda. -2x >= -6, dibagi -2 -> x <= 3.", credit: 0.2 },
@@ -1661,7 +1661,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Rp530.000", "Rp560.000", "Rp520.000", "Rp540.000"],
     correctIndex: 0,
     explanation: "Bunga = Rp500.000 Ã— 6% = Rp30.000. Total = Rp500.000 + Rp30.000 = Rp530.000",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-sosial-004",
@@ -1679,7 +1679,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Rp3.610.000", "Rp3.500.000", "Rp3.700.000", "Rp3.420.000"],
     correctIndex: 0,
     explanation: "Pajak = Rp3.800.000 Ã— 5% = Rp190.000. Gaji bersih = Rp3.800.000 - Rp190.000 = Rp3.610.000",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-sosial-006",
@@ -1688,7 +1688,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Rp599.400", "Rp594.000", "Rp600.000", "Rp660.000"],
     correctIndex: 0,
     explanation: "Harga setelah diskon = Rp600.000 Ã— 90% = Rp540.000. Setelah PPN = Rp540.000 Ã— 111% = Rp599.400",
-    difficulty: "hard",
+    difficulty: "easy",
   },
 
   // --- 9-relasi-dan-fungsi (6 tambahan) ---
@@ -1717,7 +1717,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["y â‰¥ 0", "y > 0", "Semua bilangan real", "y â‰¤ 0"],
     correctIndex: 0,
     explanation: "Nilai mutlak selalu â‰¥ 0, maka range-nya adalah y â‰¥ 0",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-relasi-004",
@@ -1726,7 +1726,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["11", "13", "15", "9"],
     correctIndex: 0,
     explanation: "g(5) = 5 - 1 = 4. f(4) = 2(4) + 3 = 11",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-relasi-005",
@@ -1735,7 +1735,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["4", "3", "5", "6"],
     correctIndex: 0,
     explanation: "5x - 7 = 13 â†’ 5x = 20 â†’ x = 4",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-relasi-006",
@@ -1744,7 +1744,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "3", "4", "1"],
     correctIndex: 0,
     explanation: "x minimum = -b/(2a) = 4/2 = 2. f(2) = 4 - 8 + 3 = -1",
-    difficulty: "hard",
+    difficulty: "easy",
   },
 
   // --- 11-sistem-persamaan-linear-dua-variabel-spldv (8 tambahan) ---
@@ -1777,7 +1777,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x=3, y=4", "x=4, y=7", "x=2, y=1", "x=5, y=10"],
     correctIndex: 0,
     explanation: "Jumlahkan: 5x = 15 â†’ x = 3. Maka 3(3) - y = 5 â†’ y = 4",
-    difficulty: "medium",
+    difficulty: "easy",
     approachPatterns: [
       { match: "x=4, y=3", feedback: "x dan y-nya tertukar. Coba substitusi x=4, y=3: 3(4)-3=9 bukan 5.", credit: 0.3 },
       { match: "x=3, y=-4", feedback: "Tanda y salah. Cek: 2(3)+(-4)=2 bukan 10.", credit: 0.3 },
@@ -1790,7 +1790,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "2", "4", "5"],
     correctIndex: 0,
     explanation: "Kurangkan: (2x+y)-(x+y) = 10-7 â†’ x = 3",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-spldv-005",
@@ -1799,7 +1799,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Rp5.000", "Rp10.000", "Rp12.500", "Rp15.000"],
     correctIndex: 0,
     explanation: "3(15.000) + 2y = 55.000 â†’ 45.000 + 2y = 55.000 â†’ 2y = 10.000 â†’ y = Rp5.000",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-spldv-006",
@@ -1808,7 +1808,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x=3, y=2", "x=2, y=5", "x=4, y=-1", "x=1, y=8"],
     correctIndex: 0,
     explanation: "Jumlahkan: 4x = 12 â†’ x = 3. Maka 3 - y = 1 â†’ y = 2",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-spldv-007",
@@ -1817,7 +1817,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Tak hingga banyak solusi", "Tidak ada solusi", "Titik tunggal (3,3)", "Titik tunggal (2,4)"],
     correctIndex: 0,
     explanation: "Persamaan kedua = 2 Ã— persamaan pertama. Keduanya setara, sehingga ada tak hingga banyak solusi",
-    difficulty: "hard",
+    difficulty: "easy",
   },
   {
     id: "smp-spldv-008",
@@ -1826,7 +1826,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Garis sejajar dan berlainan", "Garis berpotongan", "Garis berhimpit", "Koefisien sama"],
     correctIndex: 0,
     explanation: "Persamaan kedua = 2 Ã— persamaan pertama untuk koefisien tapi bukan untuk konstanta (2Ã—12=24 â‰  20). Garis sejajar, tidak berpotongan.",
-    difficulty: "hard",
+    difficulty: "easy",
   },
 
   // --- 12-garis-dan-sudut (6 tambahan) ---
@@ -1864,7 +1864,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Sama besar", "Berbeda", "Saling melengkapi", "Tidak tentu"],
     correctIndex: 0,
     explanation: "Karena kedua pasang garis sejajar, sudut yang dibentuk akan sama besar",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-sudut-005",
@@ -1873,7 +1873,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["60Â°", "80Â°", "50Â°", "40Â°"],
     correctIndex: 0,
     explanation: "Jumlah sudut segitiga = 180Â°. Sudut ketiga = 180Â° - 50Â° - 70Â° = 60Â°",
-    difficulty: "medium",
+    difficulty: "easy",
   },
   {
     id: "smp-sudut-006",
@@ -1882,7 +1882,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["125Â°", "55Â°", "35Â°", "145Â°"],
     correctIndex: 0,
     explanation: "Sudut dalam bersebrangan = 55Â°. Sudut yang bersudut singgung sehadap = 180Â° - 55Â° = 125Â°",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // --- 16-bangun-ruang-sisi-datar (6 tambahan) ---
@@ -1893,7 +1893,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["125 cmÂ³", "150 cmÂ³", "100 cmÂ³", "75 cmÂ³"],
     correctIndex: 0,
     explanation: "V = rÂ³ = 5Â³ = 125 cmÂ³",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-sisidatar-002",
@@ -1902,7 +1902,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["8", "6", "12", "4"],
     correctIndex: 0,
     explanation: "Balok memiliki 8 titik sudut",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-sisidatar-003",
@@ -1938,7 +1938,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["96 cmÂ³", "192 cmÂ³", "288 cmÂ³", "48 cmÂ³"],
     correctIndex: 0,
     explanation: "V = (1/3) Ã— Luas alas Ã— tinggi = (1/3) Ã— 36 Ã— 8 = 96 cmÂ³",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // --- 17-bangun-ruang-sisi-lengkung (6 tambahan) ---
@@ -1949,7 +1949,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["785 cmÂ³", "314 cmÂ³", "157 cmÂ³", "628 cmÂ³"],
     correctIndex: 0,
     explanation: "V = Ï€rÂ²t = 3,14 Ã— 25 Ã— 10 = 785 cmÂ³",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-sisilengkung-002",
@@ -1958,7 +1958,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["616 cmÂ²", "308 cmÂ²", "154 cmÂ²", "1232 cmÂ²"],
     correctIndex: 0,
     explanation: "LP = 4Ï€rÂ² = 4 Ã— (22/7) Ã— 49 = 616 cmÂ²",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-sisilengkung-003",
@@ -1967,7 +1967,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["66 cmÂ³", "132 cmÂ³", "198 cmÂ³", "44 cmÂ³"],
     correctIndex: 0,
     explanation: "V = (1/3)Ï€rÂ²t = (1/3) Ã— (22/7) Ã— 9 Ã— 7 = 66 cmÂ³",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-sisilengkung-004",
@@ -1994,7 +1994,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3:1", "1:3", "2:1", "1:2"],
     correctIndex: 0,
     explanation: "V tabung = Ï€rÂ²t, V kerucut = (1/3)Ï€rÂ²t. Perbandingan = 1 : 1/3 = 3:1",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // ==================== KULIAH TAMBAHAN ====================
@@ -2016,7 +2016,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["arctan(x) + C", "ln(xÂ²+1) + C", "1/x + C", "-1/x + C"],
     correctIndex: 0,
     explanation: "âˆ« 1/(xÂ²+1) dx = arctan(x) + C merupakan integral tak tentu yang sudah dikenal.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-kalkulus-003",
@@ -2045,7 +2045,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Basis untuk RÂ³", "Linier dependen", "Tidak memenuhi RÂ³", "Hanya dua vektor"],
     correctIndex: 0,
     explanation: "Ketiga vektor tersebut linier independen dan membangun seluruh RÂ³, sehingga merupakan basis standar RÂ³.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-linalg-002",
@@ -2054,7 +2054,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["A tidak memiliki inverse", "A adalah matriks identitas", "A pasti simetris", "A pasti nol"],
     correctIndex: 0,
     explanation: "Matriks dengan determinan 0 disebut matriks singular dan tidak memiliki inverse.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-linalg-003",
@@ -2081,7 +2081,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1 dengan multiplicitas 3", "0", "3", "Tergantung ukuran"],
     correctIndex: 0,
     explanation: "IÂ·v = 1Â·v untuk semua v, sehingga satu-satunya nilai eigen adalah 1 dengan multiplicitas 3.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-linalg-006",
@@ -2090,7 +2090,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(A - Î»I)v = 0", "Av = Î»", "(A + Î»I)v = 0", "Av = Î»v + 1"],
     correctIndex: 0,
     explanation: "Dari Av = Î»v, diperoleh Av - Î»Iv = 0, sehingga (A - Î»I)v = 0.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-linalg-007",
@@ -2108,7 +2108,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["A memiliki n vektor eigen linier independen", "A simetris", "det(A) â‰  0", "A berukuran 2Ã—2"],
     correctIndex: 0,
     explanation: "Matriks nÃ—n bisa didiagonalisasi jika dan hanya jika memiliki n vektor eigen linier independen.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // --- c-differential-equations-persamaan-diferensial (10 tambahan) ---
@@ -2119,7 +2119,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Terpisah (separable)", "Linear orde 1", "Homogen orde 1", "Bernoulli"],
     correctIndex: 0,
     explanation: "dy/dx = y/x dapat ditulis dy/y = dx/x, sehingga merupakan persamaan terpisah.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-diffeq-002",
@@ -2164,7 +2164,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/(s-a)", "1/(s+a)", "a/(sÂ²+aÂ²)", "s/(sÂ²+aÂ²)"],
     correctIndex: 0,
     explanation: "L{e^(at)} = 1/(s-a) untuk s > a. Ini merupakan salah satu transformasi Laplace dasar.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-diffeq-007",
@@ -2182,7 +2182,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["y = 3e^(-2x)", "y = 3e^(2x)", "y = 2e^(-3x)", "y = 6e^(-x)"],
     correctIndex: 0,
     explanation: "Solusi umum: y = Ce^(-2x). Dengan syarat awal: 3 = CÂ·e^0 â†’ C = 3. Maka y = 3e^(-2x).",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-diffeq-009",
@@ -2191,7 +2191,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["v = y^(1-n)", "v = y^n", "v = ln(y)", "v = e^y"],
     correctIndex: 0,
     explanation: "Substitusi v = y^(1-n) mengubah persamaan Bernoulli menjadi persamaan linear orde 1.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
   {
     id: "kul-diffeq-010",
@@ -2200,7 +2200,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["âˆ‚M/âˆ‚y = âˆ‚N/âˆ‚x", "âˆ‚M/âˆ‚x = âˆ‚N/âˆ‚y", "M = N", "MÂ·N = 0"],
     correctIndex: 0,
     explanation: "Syarat eksak: âˆ‚M/âˆ‚y = âˆ‚N/âˆ‚x. Jika terpenuhi, ada fungsi potensial f sehingga df = Mdx + Ndy.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // --- d-real-analysis-analisis-real (4 tambahan) ---
@@ -2220,7 +2220,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Memiliki nilai maksimum dan minimum", "Selalu berbeda diferensial", "Adakah titik balik", "Gradien konstan"],
     correctIndex: 0,
     explanation: "Teorema nilai ekstrem: fungsi kontinu pada interval tertutup selalu mencapai nilai maksimum dan minimum.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-real-003",
@@ -2229,7 +2229,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "1", "3", "Tak hingga"],
     correctIndex: 0,
     explanation: "lim(nâ†’âˆž) (2n+1)/(n+3) = lim(nâ†’âˆž) (2+1/n)/(1+3/n) = 2/1 = 2",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-real-004",
@@ -2249,7 +2249,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Grup abelian tak terbatas", "Grup tak abelian", "Semigrup saja", "Monoid saja"],
     correctIndex: 0,
     explanation: "Z dengan + memenuhi semua aksioma grup (identitas: 0, invers: -a) dan komutatif (a+b = b+a).",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-abstract-002",
@@ -2258,7 +2258,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["H tutup terhadap operasi dan invers", "H hanya tutup terhadap operasi", "H berisi identitas saja", "H sama dengan G"],
     correctIndex: 0,
     explanation: "Kriteria subgrup: H non-kosong, tutup terhadap operasi grup, dan untuk setiap h âˆˆ H, hâ»Â¹ âˆˆ H.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-abstract-003",
@@ -2267,7 +2267,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6", "3", "2", "12"],
     correctIndex: 0,
     explanation: "Zâ‚† = {0,1,2,3,4,5} dengan + mod 6 memiliki 6 elemen, sehingga orde-nya 6.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-abstract-004",
@@ -2296,7 +2296,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["120", "720", "210", "30"],
     correctIndex: 0,
     explanation: "C(10,3) = 10!/(3!Â·7!) = (10Â·9Â·8)/(3Â·2Â·1) = 120",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-diskrit-003",
@@ -2305,7 +2305,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["120", "60", "24", "720"],
     correctIndex: 0,
     explanation: "5! = 5 Ã— 4 Ã— 3 Ã— 2 Ã— 1 = 120",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-diskrit-004",
@@ -2325,7 +2325,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["P(B|A)Â·P(A) / P(B)", "P(A)Â·P(B)", "P(AâˆªB) / P(B)", "P(Aâˆ©B) + P(B)"],
     correctIndex: 0,
     explanation: "P(A|B) = P(B|A)Â·P(A) / P(B) merupakan rumus Teorema Bayes.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-prob-002",
@@ -2343,7 +2343,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0", "1", "nol", "Tak hingga"],
     correctIndex: 0,
     explanation: "Distribusi normal standar N(0,1) didefinisikan dengan mean Î¼ = 0 dan varians ÏƒÂ² = 1.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-prob-004",
@@ -2372,7 +2372,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["f'(x) = 0", "f(x) = 0", "f''(x) = 0", "f'(x) = f(x)"],
     correctIndex: 0,
     explanation: "Titik stasioner terjadi saat turunan pertama f'(x) = 0, yang bisa berupa maksimum, minimum, atau titik belok.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-lanjutan-003",
@@ -2381,7 +2381,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Hanya habis dibagi 1 dan dirinya sendiri", "Hanya habis dibagi 2", "Lebih besar dari 10", "Berkelipatan 2"],
     correctIndex: 0,
     explanation: "Definisi bilangan prima: bilangan bulat positif yang lebih besar dari 1 dan hanya habis dibagi 1 dan dirinya sendiri.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-lanjutan-004",
@@ -2390,7 +2390,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["47", "43", "41", "49"],
     correctIndex: 0,
     explanation: "47 adalah bilangan prima. 49 = 7Â² bukan prima. 43 dan 41 prima tapi lebih kecil dari 47.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-lanjutan-005",
@@ -2399,7 +2399,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6", "12", "3", "9"],
     correctIndex: 0,
     explanation: "Faktorisasi: 48 = 2â´Â·3, 18 = 2Â·3Â². FPB = 2Â¹Â·3Â¹ = 6.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "kul-lanjutan-006",
@@ -2426,7 +2426,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Sebagai hasil kali prima secara unik", "Sebagai jumlah dua kuadrat", "Sebagai selisih dua kuadrat", "Sebagai jumlah tiga prima"],
     correctIndex: 0,
     explanation: "Teorema dasar aritmetika: setiap bilangan bulat > 1 punya penyebutan unik sebagai hasil kali bilangan prima.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
 
   // ==================== SMP TAMBAHAN ====================
@@ -2439,7 +2439,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["{1, 2, 3, 4, 5, 6}", "{3, 4}", "{1, 2, 5, 6}", "{1, 2, 3, 4}"],
     correctIndex: 0,
     explanation: "A âˆª B adalah gabungan semua elemen dari A dan B tanpa duplikasi, yaitu {1, 2, 3, 4, 5, 6}.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-himpunan-t002",
@@ -2448,7 +2448,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["{3, 4}", "{1, 2, 5, 6}", "{1, 2, 3, 4, 5, 6}", "{}"],
     correctIndex: 0,
     explanation: "A âˆ© B adalah elemen yang ada di kedua himpunan, yaitu {3, 4}.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-himpunan-t003",
@@ -2457,7 +2457,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["{1, 3, 5}", "{2, 4}", "{1, 2, 3, 4, 5}", "{}"],
     correctIndex: 0,
     explanation: "A' adalah elemen dalam U yang tidak ada di A, yaitu {1, 3, 5}.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-himpunan-t004",
@@ -2484,7 +2484,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["18", "14", "10", "22"],
     correctIndex: 0,
     explanation: "n(A âˆª B) = elemen A saja + elemen irisan + elemen B saja = 8 + 4 + 6 = 18.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-himpunan-t007",
@@ -2502,7 +2502,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["{1,3,5,7}", "{2,4,6,8,10}", "{1,2,3,4,5,6,7,8,9,10}", "{}"],
     correctIndex: 0,
     explanation: "P' = {1,3,5,7,9}. P' âˆ© Q = {1,3,5,7}.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // --- 3-bentuk-aljabar (8 tambahan) ---
@@ -2513,7 +2513,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6x", "10x", "8x", "4x"],
     correctIndex: 0,
     explanation: "3x + 5x âˆ’ 2x = (3 + 5 âˆ’ 2)x = 6x.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-aljabar-t002",
@@ -2522,7 +2522,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2x + 6", "2x + 3", "x + 6", "2x + 5"],
     correctIndex: 0,
     explanation: "2(x + 3) = 2Â·x + 2Â·3 = 2x + 6.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-aljabar-t003",
@@ -2540,7 +2540,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["4", "10", "16", "7"],
     correctIndex: 0,
     explanation: "xÂ² âˆ’ 2x + 1 = 3Â² âˆ’ 2(3) + 1 = 9 âˆ’ 6 + 1 = 4.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-aljabar-t005",
@@ -2576,7 +2576,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["âˆ’10", "âˆ’6", "6", "10"],
     correctIndex: 0,
     explanation: "3(4)(âˆ’1) âˆ’ 2(2)(1) + (2)(âˆ’1) = âˆ’12 âˆ’ 4 âˆ’ 2 = âˆ’10.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // --- 6-perbandingan-senilai-berbalik-nilai (9 tambahan) ---
@@ -2587,7 +2587,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["10 kg", "15 kg", "8 kg", "12 kg"],
     correctIndex: 0,
     explanation: "Senilai: 3/6 = 5/x â†’ x = 10 kg.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-perbandingan-t002",
@@ -2596,7 +2596,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["9 hari", "16 hari", "8 hari", "18 hari"],
     correctIndex: 0,
     explanation: "Berbalik nilai: 12 Ã— 6 = x Ã— 8 â†’ x = 9 hari.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-perbandingan-t003",
@@ -2605,7 +2605,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["10", "16", "20", "8"],
     correctIndex: 0,
     explanation: "4/10 = x/25 â†’ x = 10.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-perbandingan-t004",
@@ -2641,7 +2641,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["48", "24", "36", "96"],
     correctIndex: 0,
     explanation: "y = kxÂ². 12 = k(4) â†’ k = 3. y = 3(16) = 48.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
   {
     id: "smp-perbandingan-t008",
@@ -2650,7 +2650,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["19 cm", "16 cm", "13 cm", "22 cm"],
     correctIndex: 0,
     explanation: "Pemuaian: 4/6 = 6/x â†’ x = 9 cm. Total = 10 + 9 = 19 cm.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
   {
     id: "smp-perbandingan-t009",
@@ -2670,7 +2670,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["17", "14", "20", "23"],
     correctIndex: 0,
     explanation: "Bedanya 3. Suku ke-6 = 2 + 5(3) = 17.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-pola-t002",
@@ -2679,7 +2679,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["48", "36", "96", "72"],
     correctIndex: 0,
     explanation: "Rasio = 2. Uâ‚… = 3 Ã— 2â´ = 48.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-pola-t003",
@@ -2688,7 +2688,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["36", "30", "49", "35"],
     correctIndex: 0,
     explanation: "Kuadrat: 6Â² = 36.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-pola-t004",
@@ -2724,7 +2724,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["990", "970", "1000", "960"],
     correctIndex: 0,
     explanation: "Sâ‚‚â‚€ = 5(20Â·21/2) âˆ’ 3(20) = 1050 âˆ’ 60 = 990.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
   {
     id: "smp-pola-t008",
@@ -2733,7 +2733,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["54", "18", "27", "81"],
     correctIndex: 0,
     explanation: "Uâ‚„ = 2 Ã— 3Â³ = 54.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-pola-t009",
@@ -2753,7 +2753,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "3", "1", "6"],
     correctIndex: 0,
     explanation: "m = (9âˆ’3)/(4âˆ’1) = 6/3 = 2.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-garis-t002",
@@ -2762,7 +2762,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["y = 3x âˆ’ 2", "y = 3x + 2", "y = 2x âˆ’ 3", "y = âˆ’3x + 2"],
     correctIndex: 0,
     explanation: "y = mx + c â†’ y = 3x âˆ’ 2.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-garis-t003",
@@ -2817,7 +2817,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(âˆ’2, 0)", "(0, 4)", "(2, 0)", "(0, âˆ’2)"],
     correctIndex: 0,
     explanation: "y=0 â†’ 0 = 2x+4 â†’ x = âˆ’2.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-garis-t008",
@@ -2826,7 +2826,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Sejajar", "Tegak lurus", "Berpotongan", "Sama"],
     correctIndex: 0,
     explanation: "Gradien sama (m=2), konstan berbeda â†’ sejajar.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-garis-t009",
@@ -2835,7 +2835,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["y = (1/3)x", "y = 3x âˆ’ 8", "y = âˆ’(1/3)x + 2", "y = (1/3)x âˆ’ 1"],
     correctIndex: 0,
     explanation: "m = âˆ’1/(âˆ’3) = 1/3. yâˆ’1 = (1/3)(xâˆ’3) â†’ y = (1/3)x.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // --- 13-segitiga-dan-segiempat (9 tambahan) ---
@@ -2846,7 +2846,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["40 cmÂ²", "80 cmÂ²", "18 cmÂ²", "16 cmÂ²"],
     correctIndex: 0,
     explanation: "L = Â½ Ã— 10 Ã— 8 = 40 cmÂ².",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-segi-t002",
@@ -2855,7 +2855,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["28 cm", "14 cm", "49 cm", "21 cm"],
     correctIndex: 0,
     explanation: "K = 4 Ã— 7 = 28 cm.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-segi-t003",
@@ -2864,7 +2864,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["60 cmÂ²", "17 cmÂ²", "34 cmÂ²", "120 cmÂ²"],
     correctIndex: 0,
     explanation: "L = 12 Ã— 5 = 60 cmÂ².",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-segi-t004",
@@ -2873,7 +2873,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["180Â°", "360Â°", "90Â°", "270Â°"],
     correctIndex: 0,
     explanation: "Jumlah sudut segitiga = 180Â°.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-segi-t005",
@@ -2929,7 +2929,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/2", "1/3", "1/6", "2/3"],
     correctIndex: 0,
     explanation: "Genap: 2,4,6 (3 buah). Peluang = 3/6 = 1/2.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-peluang-t002",
@@ -2938,7 +2938,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3/8", "5/8", "3/5", "5/3"],
     correctIndex: 0,
     explanation: "Peluang = 3/(3+5) = 3/8.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-peluang-t003",
@@ -2956,7 +2956,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/4", "1/2", "1/8", "3/4"],
     correctIndex: 0,
     explanation: "HH dari {HH,HT,TH,TT} = 1/4.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-peluang-t005",
@@ -2974,7 +2974,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1", "0", "1/2", "Tidak tentu"],
     correctIndex: 0,
     explanation: "Kejadian pasti peluang = 1.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-peluang-t007",
@@ -2983,7 +2983,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0", "1", "1/2", "-1"],
     correctIndex: 0,
     explanation: "Kejadian mustahil peluang = 0.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-peluang-t008",
@@ -3001,7 +3001,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0,32768", "0,67232", "0,2", "0,8"],
     correctIndex: 0,
     explanation: "(0,8)âµ = 0,32768.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // --- 20-transformasi-geometri (9 tambahan) ---
@@ -3012,7 +3012,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(3, âˆ’4)", "(âˆ’3, 4)", "(4, 3)", "(âˆ’3, âˆ’4)"],
     correctIndex: 0,
     explanation: "(x,y) â†’ (x,âˆ’y). (3,4) â†’ (3,âˆ’4).",
-    difficulty: "easy",
+    difficulty: "medium",
     approachPatterns: [
       { match: "-3,4", feedback: "Kamu membalik sumbu yang salah. Refleksi terhadap sumbu-x hanya mengubah tanda y, bukan x.", credit: 0.3 },
       { match: "-3,-4", feedback: "Kamu mengubah kedua koordinat. Refleksi terhadap sumbu-x hanya membalik tanda y.", credit: 0.1 },
@@ -3027,7 +3027,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(âˆ’1, 9)", "(âˆ’1, 1)", "(5, 9)", "(âˆ’5, 1)"],
     correctIndex: 0,
     explanation: "(2+(âˆ’3), 5+4) = (âˆ’1, 9).",
-    difficulty: "easy",
+    difficulty: "medium",
     approachPatterns: [
       { match: "-1,-1", feedback: "Kamu mengurangkan y bukan menjumlahkan. v = (-3, 4) berarti y ditambah 4.", credit: 0.3 },
       { match: "-5,9", feedback: "Kamu menjumlahkan x dengan y. Translasi: x bertambah -3, y bertambah 4.", credit: 0.2 },
@@ -3054,7 +3054,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(4, 6)", "(6, 9)", "(1, 3/2)", "(4, 3)"],
     correctIndex: 0,
     explanation: "(2Ã—2, 2Ã—3) = (4, 6).",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-transformasi-t005",
@@ -3063,7 +3063,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(âˆ’5, âˆ’2)", "(5, 2)", "(âˆ’5, 2)", "(2, âˆ’5)"],
     correctIndex: 0,
     explanation: "(x,y) â†’ (âˆ’x,y). (5,âˆ’2) â†’ (âˆ’5,âˆ’2).",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-transformasi-t006",
@@ -3115,7 +3115,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x = 6, y = 4", "x = 5, y = 5", "x = 4, y = 6", "x = 8, y = 2"],
     correctIndex: 0,
     explanation: "2x = 12 â†’ x=6. 6+y=10 â†’ y=4.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-spldv-t002",
@@ -3124,7 +3124,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "2", "1", "4"],
     correctIndex: 0,
     explanation: "3x = 9 â†’ x = 3.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-spldv-t003",
@@ -3169,7 +3169,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Tak hingga banyak", "Satu", "Tidak ada", "Tentukan"],
     correctIndex: 0,
     explanation: "Persamaan kedua = 2Ã— pertama. Garis berhimpit.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
   {
     id: "smp-spldv-t008",
@@ -3189,7 +3189,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5 cm", "7 cm", "12 cm", "25 cm"],
     correctIndex: 0,
     explanation: "c = âˆš(9+16) = 5.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-pythagoras-t002",
@@ -3198,7 +3198,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["12 m", "8 m", "18 m", "13 m"],
     correctIndex: 0,
     explanation: "h = âˆš(169âˆ’25) = 12.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-pythagoras-t003",
@@ -3225,7 +3225,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["4 m", "2 m", "6 m", "8 m"],
     correctIndex: 0,
     explanation: "h = âˆš(25âˆ’9) = 4.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-pythagoras-t006",
@@ -3234,7 +3234,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["12 cm", "6 cm", "18 cm", "âˆš306 cm"],
     correctIndex: 0,
     explanation: "a = âˆš(225âˆ’81) = 12.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-pythagoras-t007",
@@ -3252,7 +3252,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6, 8, 10", "5, 12, 13", "7, 24, 25", "Semua"],
     correctIndex: 0,
     explanation: "6Â²+8Â²=100=10Â². Cocok.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // --- 15-lingkaran (8 tambahan) ---
@@ -3263,7 +3263,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["154 cmÂ²", "44 cmÂ²", "308 cmÂ²", "49 cmÂ²"],
     correctIndex: 0,
     explanation: "L = 22/7 Ã— 49 = 154.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-lingkaran-t002",
@@ -3272,7 +3272,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["44 cm", "28 cm", "154 cm", "88 cm"],
     correctIndex: 0,
     explanation: "K = 22/7 Ã— 14 = 44.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-lingkaran-t003",
@@ -3281,7 +3281,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["10 cm", "20 cm", "31,4 cm", "5 cm"],
     correctIndex: 0,
     explanation: "r = 62,8/6,28 = 10.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-lingkaran-t004",
@@ -3308,7 +3308,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["25Ï€ âˆ’ 50 cmÂ²", "25Ï€ + 50 cmÂ²", "50Ï€ âˆ’ 25 cmÂ²", "100Ï€ âˆ’ 50 cmÂ²"],
     correctIndex: 0,
     explanation: "Juring âˆ’ segitiga = 25Ï€ âˆ’ 50.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
   {
     id: "smp-lingkaran-t007",
@@ -3326,7 +3326,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3 cm", "4 cm", "2 cm", "5 cm"],
     correctIndex: 0,
     explanation: "âˆš(25âˆ’16) = 3.",
-    difficulty: "hard",
+    difficulty: "medium",
   },
 
   // --- 18-statistika-dasar (8 tambahan) ---
@@ -3337,7 +3337,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["9", "10", "8", "11"],
     correctIndex: 0,
     explanation: "45/5 = 9.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-statistika-t002",
@@ -3346,7 +3346,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["7", "5", "9", "6"],
     correctIndex: 0,
     explanation: "Nilai tengah = 7.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-statistika-t003",
@@ -3355,7 +3355,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "5", "7", "2"],
     correctIndex: 0,
     explanation: "3 muncul 3 kali, paling banyak.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-statistika-t004",
@@ -3364,7 +3364,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["18", "15", "22", "30"],
     correctIndex: 0,
     explanation: "30 âˆ’ 12 = 18.",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "smp-statistika-t005",
@@ -3411,7 +3411,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["125", "150", "75", "250"],
     correctIndex: 0,
     explanation: "25^(3/2) = (25^(1/2))^3 = 5^3 = 125",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "sma-eksponen-002",
@@ -3420,7 +3420,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["8", "10", "6", "12"],
     correctIndex: 0,
     explanation: "âˆš72 = âˆš(36Â·2) = 6âˆš2, maka a=6, b=2, a+b=8",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "sma-eksponen-003",
@@ -3447,7 +3447,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1", "5", "2âˆš6", "6"],
     correctIndex: 0,
     explanation: "(a+b)(a-b) = aÂ²-bÂ² = 3 - 2 = 1",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "sma-eksponen-006",
@@ -3456,7 +3456,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["9", "6", "3", "81"],
     correctIndex: 0,
     explanation: "x^(1/2) = 3 â†’ x = 3Â² = 9",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "sma-eksponen-007",
@@ -3474,7 +3474,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6", "9", "18", "12"],
     correctIndex: 0,
     explanation: "âˆ›8 = 2, âˆ›27 = 3. Hasil: 2Â·3 = 6",
-    difficulty: "hard",
+    difficulty: "medium",
   },
   // 2-logaritma (8 soal)
   {
@@ -3484,7 +3484,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["4", "3", "2", "5"],
     correctIndex: 0,
     explanation: "3â´ = 81, maka logâ‚ƒ 81 = 4",
-    difficulty: "easy",
+    difficulty: "medium",
   },
   {
     id: "sma-logaritma-002",
@@ -3493,7 +3493,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["4", "3", "5", "2"],
     correctIndex: 0,
     explanation: "logâ‚… 125 = 3 dan logâ‚… 5 = 1. Jadi 3+1=4",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-logaritma-003",
@@ -3502,7 +3502,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["32", "16", "64", "10"],
     correctIndex: 0,
     explanation: "logâ‚‚ x = 5 â†’ x = 2âµ = 32",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-logaritma-004",
@@ -3511,7 +3511,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "2", "4", "1"],
     correctIndex: 0,
     explanation: "log(250Â·4) = log 1000 = 3",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-logaritma-005",
@@ -3520,7 +3520,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1,699", "1,601", "2,699", "0,699"],
     correctIndex: 0,
     explanation: "log 50 = log(100/2) = 2 - 0,301 = 1,699",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-logaritma-006",
@@ -3529,7 +3529,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/2", "2", "3", "1/3"],
     correctIndex: 0,
     explanation: "9^(1/2) = 3, maka logâ‚‰ 3 = 1/2",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-logaritma-007",
@@ -3557,7 +3557,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3 dan 4", "2 dan 6", "1 dan 12", "-3 dan -4"],
     correctIndex: 0,
     explanation: "(x-3)(x-4) = 0, maka x = 3 atau x = 4",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-kuadrat-002",
@@ -3566,7 +3566,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(2, 1)", "(2, -1)", "(-2, 1)", "(4, -3)"],
     correctIndex: 0,
     explanation: "x = 2, f(2) = 1. Puncak (2,1)",
-    difficulty: "easy",
+    difficulty: "hard",
     approachPatterns: [
       { match: "2,-1", feedback: "x-nya benar, tapi f(2) = -(4)+8-3 = 1, bukan -1. Hati-hati dengan tanda negatif di depan x^2.", credit: 0.5 },
       { match: "-2,1", feedback: "Tanda x salah. x = -b/(2a) = -4/(2*(-1)) = 2, bukan -2.", credit: 0.3 },
@@ -3580,7 +3580,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1", "25", "49", "-1"],
     correctIndex: 0,
     explanation: "D = 25-24 = 1",
-    difficulty: "easy",
+    difficulty: "hard",
     approachPatterns: [
       { match: "25", feedback: "Kamu hanya menghitung b^2 = 25. Rumus diskriminan: D = b^2 - 4ac = 25 - 4(2)(3) = 1.", credit: 0.2 },
       { match: "49", feedback: "Kamu mungkin menggunakan b^2 + 4ac atau b salah. D = b^2 - 4ac = (-5)^2 - 4(2)(3) = 25-24 = 1.", credit: 0.1 },
@@ -3593,7 +3593,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["25/4", "5", "20", "10"],
     correctIndex: 0,
     explanation: "D = 0 â†’ 25-4k = 0 â†’ k = 25/4",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-kuadrat-005",
@@ -3602,7 +3602,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["20", "36", "28", "24"],
     correctIndex: 0,
     explanation: "Î±Â²+Î²Â² = (Î±+Î²)Â²-2Î±Î² = 36-16 = 20",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-kuadrat-006",
@@ -3611,7 +3611,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Rumus Vieta", "Rumus ABC", "Rumus Tak Hingga", "Rumus Newton"],
     correctIndex: 0,
     explanation: "Rumus Vieta: jumlah akar = -b/a, hasil kali = c/a",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-kuadrat-007",
@@ -3639,7 +3639,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["-10 â‰¤ x â‰¤ 4", "-4 â‰¤ x â‰¤ 10", "x â‰¤ -10 atau x â‰¥ 4", "-7 â‰¤ x â‰¤ 7"],
     correctIndex: 0,
     explanation: "-7 â‰¤ x+3 â‰¤ 7 â†’ -10 â‰¤ x â‰¤ 4",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-pertidaksamaan-002",
@@ -3648,7 +3648,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x < -2 atau x > 2", "-2 < x < 2", "x > 2", "x < -2"],
     correctIndex: 0,
     explanation: "(x-2)(x+2) > 0 â†’ x < -2 atau x > 2",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-pertidaksamaan-003",
@@ -3657,7 +3657,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x < -2 atau x > 3", "-2 < x < 3", "x > 3", "x < -2"],
     correctIndex: 0,
     explanation: "2x-1 > 5 â†’ x > 3 atau 2x-1 < -5 â†’ x < -2",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-pertidaksamaan-004",
@@ -3666,7 +3666,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["-1 â‰¤ x â‰¤ 3", "x â‰¤ -1 atau x â‰¥ 3", "-3 â‰¤ x â‰¤ 1", "x â‰¤ -3 atau x â‰¥ 1"],
     correctIndex: 0,
     explanation: "(x-3)(x+1) â‰¤ 0 â†’ -1 â‰¤ x â‰¤ 3",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-pertidaksamaan-005",
@@ -3675,7 +3675,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x < -2 atau x â‰¥ 1", "-2 < x â‰¤ 1", "x > -2", "x < 1"],
     correctIndex: 0,
     explanation: "Tabel tanda: positif saat x<-2 atau xâ‰¥1",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-pertidaksamaan-006",
@@ -3684,7 +3684,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["-10/3 < x < 2", "-2 < x < 10/3", "x < -10/3 atau x > 2", "-8 < x < 8"],
     correctIndex: 0,
     explanation: "-8 < 3x+2 < 8 â†’ -10/3 < x < 2",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-pertidaksamaan-007",
@@ -3721,7 +3721,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["x=2, y=1", "x=1, y=3", "x=3, y=-1", "x=2, y=3"],
     correctIndex: 0,
     explanation: "3x = 6 â†’ x = 2, y = 1",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-spltv-002",
@@ -3730,7 +3730,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1", "2", "3", "0"],
     correctIndex: 0,
     explanation: "Solusi: x=1, y=2, z=3",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-spltv-003",
@@ -3739,7 +3739,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Tak terhingga", "1", "0", "2"],
     correctIndex: 0,
     explanation: "Persamaan setara. Penyelesaian tak terhingga.",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-spltv-004",
@@ -3748,7 +3748,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["12", "10", "15", "8"],
     correctIndex: 0,
     explanation: "Z(0,4)=12",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-spltv-005",
@@ -3757,7 +3757,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["8", "16", "4", "12"],
     correctIndex: 0,
     explanation: "Z(0,4)=8",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-spltv-006",
@@ -3766,7 +3766,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Segitiga", "Segiempat", "Garis", "Titik"],
     correctIndex: 0,
     explanation: "Segitiga dengan titik pojok (0,0), (6,0), (0,6)",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-spltv-007",
@@ -3803,7 +3803,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["[[6,8],[10,12]]", "[[5,12],[21,32]]", "[[6,7],[10,12]]", "[[7,8],[9,10]]"],
     correctIndex: 0,
     explanation: "Penjumlahan elemen per elemen",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-matriks-002",
@@ -3812,7 +3812,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["[[2,6],[10,14]]", "[[2,3],[5,7]]", "[[3,6],[10,14]]", "[[2,5],[10,14]]"],
     correctIndex: 0,
     explanation: "Setiap elemen dikali 2",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-matriks-003",
@@ -3821,7 +3821,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["10", "14", "8", "-2"],
     correctIndex: 0,
     explanation: "12 - 2 = 10",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-matriks-004",
@@ -3830,7 +3830,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["[[3,-1],[-5,2]]", "[[-3,1],[5,-2]]", "[[3,1],[5,2]]", "[[2,-1],[-5,3]]"],
     correctIndex: 0,
     explanation: "det=1, Aâ»Â¹ = [[3,-1],[-5,2]]",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-matriks-005",
@@ -3839,7 +3839,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["[[11],[4]]", "[[11,4]]", "[[7],[4]]", "[[10],[4]]"],
     correctIndex: 0,
     explanation: "[1Â·3+2Â·4, 0Â·3+1Â·4]^T = [11, 4]^T",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-matriks-006",
@@ -3848,7 +3848,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0", "1", "-1", "450"],
     correctIndex: 0,
     explanation: "Baris bergantung â†’ det = 0",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-matriks-007",
@@ -3857,7 +3857,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3Ã—4", "2Ã—3", "4Ã—3", "2Ã—2"],
     correctIndex: 0,
     explanation: "mÃ—n Â· nÃ—p = mÃ—p",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-matriks-008",
@@ -3885,7 +3885,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(3,7)", "(3,1)", "(2,12)", "(3,4)"],
     correctIndex: 0,
     explanation: "(3,7)",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-vektor-002",
@@ -3894,7 +3894,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["13", "17", "7", "25"],
     correctIndex: 0,
     explanation: "âˆš(25+144) = 13",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-vektor-003",
@@ -3903,7 +3903,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(6,3)", "(6,1)", "(3,3)", "(5,3)"],
     correctIndex: 0,
     explanation: "(6,3)",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-vektor-004",
@@ -3912,7 +3912,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(3/5, 4/5)", "(3/4, 1)", "(1, 4/3)", "(3, 4)"],
     correctIndex: 0,
     explanation: "v/|v| = (3/5, 4/5)",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-vektor-005",
@@ -3921,7 +3921,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5", "11", "-1", "8"],
     correctIndex: 0,
     explanation: "8-3 = 5",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-vektor-006",
@@ -3930,7 +3930,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(1,3)", "(3,1)", "(6,2)", "(-2,6)"],
     correctIndex: 0,
     explanation: "(2,6) = 2Â·(1,3)",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-vektor-007",
@@ -3939,7 +3939,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["-14", "14", "50", "-50"],
     correctIndex: 0,
     explanation: "18-32 = -14",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-vektor-008",
@@ -3967,7 +3967,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["âˆš2/2", "âˆš3/2", "1/2", "1"],
     correctIndex: 0,
     explanation: "cos 45Â° = âˆš2/2",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-trigo-002",
@@ -3976,7 +3976,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["âˆš3", "1/âˆš3", "1", "âˆš2"],
     correctIndex: 0,
     explanation: "tan 60Â° = âˆš3",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-trigo-003",
@@ -3985,7 +3985,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["12/13", "5/12", "13/5", "8/13"],
     correctIndex: 0,
     explanation: "sinÂ²Î¸ = 1-25/169 = 144/169 â†’ sin Î¸ = 12/13",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-trigo-004",
@@ -3994,7 +3994,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/2", "-1/2", "âˆš3/2", "-âˆš3/2"],
     correctIndex: 0,
     explanation: "sin 150Â° = sin 30Â° = 1/2",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-trigo-005",
@@ -4003,7 +4003,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3/5", "4/5", "3/4", "5/3"],
     correctIndex: 0,
     explanation: "miring=5, sin=3/5",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-trigo-006",
@@ -4022,7 +4022,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["âˆš3/2", "1/2", "-âˆš3/2", "-1/2"],
     correctIndex: 0,
     explanation: "sin 120Â° = sin 60Â° = âˆš3/2",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-identitas-002",
@@ -4031,7 +4031,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2cosÂ²Î¸ - 1", "1 - 2sinÂ²Î¸", "2sinÂ²Î¸ + 1", "cosÂ²Î¸ + sinÂ²Î¸"],
     correctIndex: 0,
     explanation: "cos 2Î¸ = 2cosÂ²Î¸ - 1",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-identitas-003",
@@ -4040,7 +4040,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["30Â° dan 150Â°", "60Â° dan 300Â°", "30Â° dan 330Â°", "45Â° dan 135Â°"],
     correctIndex: 0,
     explanation: "sin x = 1/2 â†’ x = 30Â° atau 150Â°",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-identitas-004",
@@ -4049,7 +4049,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2+âˆš3", "2-âˆš3", "âˆš3+1", "âˆš3-1"],
     correctIndex: 0,
     explanation: "tan(45Â°+30Â°) = 2+âˆš3",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-identitas-005",
@@ -4058,7 +4058,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["24/7", "-24/7", "7/24", "3/4"],
     correctIndex: 0,
     explanation: "tan x=3/4. tan 2x = 24/7",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-identitas-006",
@@ -4067,7 +4067,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0Â°, 120Â°, 240Â°, 360Â°", "0Â°, 60Â°, 180Â°, 300Â°", "90Â°, 270Â°", "60Â°, 300Â°"],
     correctIndex: 0,
     explanation: "(2cosx+1)(cosx-1)=0",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-identitas-007",
@@ -4095,7 +4095,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6âˆš2", "6âˆš3", "3âˆš6", "3âˆš2"],
     correctIndex: 0,
     explanation: "b = 6Â·sin45Â°/sin30Â° = 6âˆš2",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-sinuscos-002",
@@ -4104,7 +4104,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["12âˆš3", "24", "48", "6âˆš3"],
     correctIndex: 0,
     explanation: "Â½Â·8Â·6Â·sin60Â° = 12âˆš3",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-sinuscos-003",
@@ -4113,7 +4113,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["âˆš39", "âˆš74", "âˆš89", "âˆš61"],
     correctIndex: 0,
     explanation: "cÂ² = 25+49-35 = 39",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-sinuscos-004",
@@ -4122,7 +4122,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["60Â°", "45Â°", "90Â°", "30Â°"],
     correctIndex: 0,
     explanation: "Semua sudut = 60Â°",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-sinuscos-005",
@@ -4131,7 +4131,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/2", "âˆš3/2", "1/4", "3/4"],
     correctIndex: 0,
     explanation: "(64+25-49)/80 = 1/2",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-sinuscos-006",
@@ -4140,7 +4140,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["48 cmÂ²", "96 cmÂ²", "24 cmÂ²", "72 cmÂ²"],
     correctIndex: 0,
     explanation: "Â½Â·12Â·8 = 48",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-sinuscos-007",
@@ -4168,7 +4168,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["26", "29", "23", "32"],
     correctIndex: 0,
     explanation: "5+7Â·3 = 26",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-arit-002",
@@ -4177,7 +4177,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["-3", "3", "-6", "6"],
     correctIndex: 0,
     explanation: "9-12 = -3",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-arit-003",
@@ -4186,7 +4186,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["136", "148", "128", "160"],
     correctIndex: 0,
     explanation: "8/2(6+28) = 136",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-arit-004",
@@ -4195,7 +4195,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3n-1", "3n+2", "2n+3", "3n-2"],
     correctIndex: 0,
     explanation: "2+(n-1)Â·3 = 3n-1",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-arit-005",
@@ -4204,7 +4204,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5", "8", "3", "10"],
     correctIndex: 0,
     explanation: "b=3, Uâ‚=17-12=5",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-arit-006",
@@ -4213,7 +4213,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["20", "19", "21", "58"],
     correctIndex: 0,
     explanation: "1+(n-1)Â·3=58 â†’ n=20",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-arit-007",
@@ -4241,7 +4241,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "4", "2", "6"],
     correctIndex: 0,
     explanation: "r = 3",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-geo-002",
@@ -4250,7 +4250,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["162", "486", "54", "18"],
     correctIndex: 0,
     explanation: "2Â·3â´ = 162",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-geo-003",
@@ -4259,7 +4259,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["45", "48", "36", "24"],
     correctIndex: 0,
     explanation: "3(2â´-1)/(2-1) = 45",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-geo-004",
@@ -4268,7 +4268,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5Â·2^(n-1)", "5Â·2^n", "10Â·2^(n-1)", "5Â·nÂ²"],
     correctIndex: 0,
     explanation: "Uâ‚™ = 5Â·2^(n-1)",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-geo-005",
@@ -4277,7 +4277,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "3", "4", "8"],
     correctIndex: 0,
     explanation: "rÂ³ = 8 â†’ r=2",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-geo-006",
@@ -4286,7 +4286,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["16", "32", "8", "Tak hingga"],
     correctIndex: 0,
     explanation: "8/(1-1/2) = 16",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-geo-007",
@@ -4314,7 +4314,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6", "0", "3", "âˆž"],
     correctIndex: 0,
     explanation: "x+3 â†’ 6",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-limit-002",
@@ -4323,7 +4323,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5", "1", "0", "âˆž"],
     correctIndex: 0,
     explanation: "lim sin(kx)/x = k = 5",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-limit-003",
@@ -4332,7 +4332,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "1", "0", "âˆž"],
     correctIndex: 0,
     explanation: "xÂ²+x+1 â†’ 3",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-limit-004",
@@ -4341,7 +4341,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "2", "âˆž", "0"],
     correctIndex: 0,
     explanation: "3/1 = 3",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-limit-005",
@@ -4350,7 +4350,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1", "0", "e", "âˆž"],
     correctIndex: 0,
     explanation: "Limit fundamental = 1",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-limit-006",
@@ -4378,7 +4378,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["15xÂ² - 2", "15xÂ² + 2", "5xÂ² - 2", "3xÂ² - 2"],
     correctIndex: 0,
     explanation: "f'(x) = 15xÂ² - 2",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-turunan-002",
@@ -4387,7 +4387,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["-sin x", "cos x", "tan x", "-cos x"],
     correctIndex: 0,
     explanation: "(cos x)' = -sin x",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-turunan-003",
@@ -4396,7 +4396,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3e^(3x)", "e^(3x)", "3xe^(3x)", "e^(3x-1)"],
     correctIndex: 0,
     explanation: "3e^(3x)",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-turunan-004",
@@ -4405,7 +4405,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2xÂ·sinx + xÂ²Â·cosx", "xÂ²Â·cosx", "2xÂ·cosx", "2xÂ·sinx - xÂ²Â·cosx"],
     correctIndex: 0,
     explanation: "Aturan perkalian",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-turunan-005",
@@ -4414,7 +4414,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2/(2x+1)", "1/(2x+1)", "2x/(2x+1)", "ln2/(2x+1)"],
     correctIndex: 0,
     explanation: "2/(2x+1)",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-turunan-006",
@@ -4423,7 +4423,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["-7/(x-2)Â²", "7/(x-2)Â²", "(3x+1)/(x-2)Â²", "-3/(x-2)Â²"],
     correctIndex: 0,
     explanation: "-7/(x-2)Â²",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-turunan-007",
@@ -4451,7 +4451,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["4", "5", "2", "6"],
     correctIndex: 0,
     explanation: "f'(2) = 4",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-apltur-002",
@@ -4460,7 +4460,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["Â±1", "0", "Â±3", "1"],
     correctIndex: 0,
     explanation: "3xÂ²-3=0 â†’ x=Â±1",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-apltur-003",
@@ -4469,7 +4469,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["y = x - 1", "y = x + 1", "y = 2x - 1", "y = x"],
     correctIndex: 0,
     explanation: "f(1)=0, f'(1)=1 â†’ y=x-1",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-apltur-004",
@@ -4478,7 +4478,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3/4", "1", "1/4", "5/4"],
     correctIndex: 0,
     explanation: "= 3/4",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-apltur-005",
@@ -4487,7 +4487,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2000/27 cmÂ³", "500 cmÂ³", "1000 cmÂ³", "4000/27 cmÂ³"],
     correctIndex: 0,
     explanation: "x=10/3, V=16000/27",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-apltur-006",
@@ -4496,7 +4496,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["l = 5 cm", "l = 10 cm", "p = 20 cm", "t = 5 cm"],
     correctIndex: 0,
     explanation: "l = 5 cm",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-apltur-007",
@@ -4524,7 +4524,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["xâµ + C", "5xâµ + C", "xâ´ + C", "20xÂ³ + C"],
     correctIndex: 0,
     explanation: "xâµ + C",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-integral-002",
@@ -4533,7 +4533,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["16", "8", "32", "4"],
     correctIndex: 0,
     explanation: "[xâ´]â‚€Â² = 16",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-integral-003",
@@ -4542,7 +4542,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["sin x + C", "-sin x + C", "cos x + C", "-cos x + C"],
     correctIndex: 0,
     explanation: "sin x + C",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-integral-004",
@@ -4551,7 +4551,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["e^(2x)/2 + C", "2e^(2x) + C", "e^(2x) + C", "e^(xÂ²) + C"],
     correctIndex: 0,
     explanation: "e^(2x)/2 + C",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-integral-005",
@@ -4560,7 +4560,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "0", "1", "-2"],
     correctIndex: 0,
     explanation: "[-cos x]â‚€^Ï€ = 2",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-integral-006",
@@ -4569,7 +4569,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["xÂ³+xÂ²+x+C", "3xÂ³+2xÂ²+x+C", "xÂ³+xÂ²+C", "6x+2+C"],
     correctIndex: 0,
     explanation: "xÂ³+xÂ²+x+C",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-integral-007",
@@ -4597,7 +4597,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["8", "16", "4", "12"],
     correctIndex: 0,
     explanation: "âˆ«â‚€â´ x dx = 8",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-aplint-002",
@@ -4606,7 +4606,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["9Ï€", "3Ï€", "27Ï€", "18Ï€"],
     correctIndex: 0,
     explanation: "Ï€âˆ«â‚€Â³ xÂ² dx = 9Ï€",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-aplint-003",
@@ -4615,7 +4615,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/6", "1/3", "1/2", "2/3"],
     correctIndex: 0,
     explanation: "âˆ«â‚€Â¹(x-xÂ²)dx = 1/6",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-aplint-004",
@@ -4624,7 +4624,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["32Ï€/3", "16Ï€/3", "8Ï€", "64Ï€/3"],
     correctIndex: 0,
     explanation: "(4/3)Ï€Â·8 = 32Ï€/3",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-aplint-005",
@@ -4633,7 +4633,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["14/3", "8", "10/3", "6"],
     correctIndex: 0,
     explanation: "âˆ«â‚€Â³âˆš(1+x)dx = 14/3",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-aplint-006",
@@ -4642,7 +4642,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "1", "Ï€", "0"],
     correctIndex: 0,
     explanation: "= 2",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-aplint-007",
@@ -4670,7 +4670,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2", "1,5", "4", "3"],
     correctIndex: 0,
     explanation: "s = 2",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-stat-002",
@@ -4679,7 +4679,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6", "7", "5", "8"],
     correctIndex: 0,
     explanation: "Qâ‚ = (5+7)/2 = 6",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-stat-003",
@@ -4688,7 +4688,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["8", "13", "3", "65"],
     correctIndex: 0,
     explanation: "Tetap 8",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-stat-004",
@@ -4697,7 +4697,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["-1", "0", "1", "2"],
     correctIndex: 0,
     explanation: "r = -1",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-stat-005",
@@ -4706,7 +4706,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["10-14", "5-9", "0-4", "15-19"],
     correctIndex: 0,
     explanation: "10-14 (frekuensi tertinggi)",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-stat-006",
@@ -4715,7 +4715,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0,64", "0,8", "0,16", "1,6"],
     correctIndex: 0,
     explanation: "0,64",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-stat-007",
@@ -4743,7 +4743,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["60", "120", "10", "15"],
     correctIndex: 0,
     explanation: "60",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-penc-002",
@@ -4752,7 +4752,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["28", "56", "64", "16"],
     correctIndex: 0,
     explanation: "28",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-penc-003",
@@ -4761,7 +4761,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["60", "10", "120", "25"],
     correctIndex: 0,
     explanation: "P(5,3)=60",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-penc-004",
@@ -4770,7 +4770,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["35", "840", "210", "28"],
     correctIndex: 0,
     explanation: "35",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-penc-005",
@@ -4779,7 +4779,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["151200", "10!", "302400", "50400"],
     correctIndex: 0,
     explanation: "10!/(3!Â·2!Â·2!) = 151200",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-penc-006",
@@ -4788,7 +4788,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["126", "252", "210", "63"],
     correctIndex: 0,
     explanation: "C(10,5)/2! = 126",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-penc-007",
@@ -4816,7 +4816,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/6", "1/12", "5/36", "7/36"],
     correctIndex: 0,
     explanation: "6/36=1/6",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-peluang-002",
@@ -4825,7 +4825,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/2", "3/8", "1/4", "7/8"],
     correctIndex: 0,
     explanation: "4/8=1/2",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-peluang-003",
@@ -4834,7 +4834,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2/5", "1/5", "3/5", "1/2"],
     correctIndex: 0,
     explanation: "2/5",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-peluang-004",
@@ -4843,7 +4843,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["0,6", "0,7", "0,8", "0,2"],
     correctIndex: 0,
     explanation: "0,6",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-peluang-005",
@@ -4852,7 +4852,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["11/36", "1/6", "5/36", "1/3"],
     correctIndex: 0,
     explanation: "11/36",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-peluang-006",
@@ -4861,7 +4861,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["1/22", "3/10", "9/144", "1/10"],
     correctIndex: 0,
     explanation: "1/22",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-peluang-007",
@@ -4898,7 +4898,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(x-1)Â²+(y+2)Â²=9", "(x+1)Â²+(y-2)Â²=9", "(x-1)Â²+(y+2)Â²=3", "(x-1)Â²+(y-2)Â²=9"],
     correctIndex: 0,
     explanation: "(x-1)Â²+(y+2)Â²=9",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-lingcir-002",
@@ -4907,7 +4907,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["(3,-2)", "(-3,2)", "(3,2)", "(-3,-2)"],
     correctIndex: 0,
     explanation: "(3,-2)",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-lingcir-003",
@@ -4916,7 +4916,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["6/5", "3", "1", "4"],
     correctIndex: 0,
     explanation: "6/5",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-lingcir-004",
@@ -4925,7 +4925,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2 titik", "1 titik", "0 titik", "Tak terhingga"],
     correctIndex: 0,
     explanation: "Dua titik",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-lingcir-005",
@@ -4953,7 +4953,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3-5i", "3+5i", "5-i", "-3+i"],
     correctIndex: 0,
     explanation: "3-5i",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-kompleks-002",
@@ -4962,7 +4962,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["5+12i", "9+4i", "5+4i", "13+12i"],
     correctIndex: 0,
     explanation: "5+12i",
-    difficulty: "easy",
+    difficulty: "hard",
   },
   {
     id: "sma-kompleks-003",
@@ -4971,7 +4971,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["i", "-i", "1", "-1"],
     correctIndex: 0,
     explanation: "i",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-kompleks-004",
@@ -4980,7 +4980,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["2(cos60Â°+i sin60Â°)", "2(cos30Â°+i sin30Â°)", "2(cos120Â°+i sin120Â°)", "4(cos60Â°+i sin60Â°)"],
     correctIndex: 0,
     explanation: "r=2, Î¸=60Â°",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-kompleks-005",
@@ -4989,7 +4989,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["i", "-1", "-i", "1"],
     correctIndex: 0,
     explanation: "i",
-    difficulty: "medium",
+    difficulty: "hard",
   },
   {
     id: "sma-kompleks-006",
@@ -5008,7 +5008,7 @@ export const quizzes: QuizQuestion[] = [
     options: ["3", "7", "2âˆš10", "10"],
     correctIndex: 0,
     explanation: "(âˆš5+âˆš2)(âˆš5-âˆš2) = 5-2 = 3",
-    difficulty: "easy",
+    difficulty: "hard",
   },
 
 ];

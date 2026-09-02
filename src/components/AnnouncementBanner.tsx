@@ -41,7 +41,7 @@ export default function AnnouncementBanner({ profile }: { profile: UserProfile |
     try {
       const d = JSON.parse(localStorage.getItem(DISMISSED_KEY) || "[]");
       setDismissed(new Set(d));
-    } catch {}
+    } catch { console.debug("Failed to parse dismissed announcements from localStorage"); }
     setAnnouncements(active);
   }, [profile]);
 
@@ -54,7 +54,7 @@ export default function AnnouncementBanner({ profile }: { profile: UserProfile |
     setDismissed(next);
     try {
       localStorage.setItem(DISMISSED_KEY, JSON.stringify([...next]));
-    } catch {}
+    } catch { console.debug("Failed to save dismissed announcements to localStorage"); }
   }
 
   return (

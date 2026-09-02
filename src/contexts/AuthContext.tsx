@@ -20,7 +20,7 @@ function getProfileUser(): { id: string; email: string; name: string } | null {
     if (profile.name && profile.name !== "Pelajar" && profile.name !== "Siswa") {
       return { id: "local", email: "", name: profile.name };
     }
-  } catch {}
+  } catch { console.debug("Failed to parse profile from localStorage"); }
   return null;
 }
 

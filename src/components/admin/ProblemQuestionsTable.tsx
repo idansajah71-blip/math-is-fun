@@ -74,7 +74,7 @@ function getProblemQuestions(): ProblemQuestion[] {
 
     // Sort by error rate descending, take top 5
     questions.sort((a, b) => b.errorRate - a.errorRate);
-  } catch {}
+  } catch { console.debug("Failed to aggregate problem questions from localStorage"); }
 
   return questions.slice(0, 5);
 }
