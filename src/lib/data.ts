@@ -7,7 +7,7 @@ import { quizzes as staticQuizzes } from "./quizzes";
 const TOPICS_KEY = "matika_admin_topics";
 const QUESTIONS_KEY = "matika_admin_questions";
 const SEEDED_KEY = "matika_content_seeded";
-const SEED_VERSION = "v4";
+const SEED_VERSION = "v5";
 
 function getAdminTopics(): { slug: string; title: string; level: Level; section: string; icon: string; content: string; description: string; isPublished: boolean }[] {
   if (typeof window === "undefined") return [];
@@ -34,16 +34,8 @@ function autoSeedAdminContent(): void {
     updatedAt: new Date().toISOString(),
   }));
 
-  const questions = staticQuizzes.map((q) => ({
-    ...q,
-    isPublished: true,
-    createdBy: "system",
-    updatedAt: new Date().toISOString(),
-  }));
-
   try {
     localStorage.setItem(TOPICS_KEY, JSON.stringify(topics));
-    localStorage.setItem(QUESTIONS_KEY, JSON.stringify(questions));
     localStorage.setItem(SEEDED_KEY, SEED_VERSION);
   } catch { console.debug("Failed to seed admin content to localStorage"); }
 }
@@ -364,6 +356,7 @@ export function getAllQuizzes(): QuizQuestion[] {
       graph: q.graph,
       geometry: q.geometry,
       venn: q.venn,
+      matching: q.matching,
     };
     result.push(merged);
   }
