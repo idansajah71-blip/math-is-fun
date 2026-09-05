@@ -8,16 +8,19 @@ import { getAllTopics, getAllQuizzes } from "@/lib/data";
 import { getProfile, saveQuizScore, addXp, UserProfile } from "@/lib/gamification";
 import { playCorrectSound, playWrongSound, playCompleteSound } from "@/lib/sounds";
 import { updateMastery } from "@/lib/mastery";
-import { AlertTriangle, CheckCircle2, XCircle, RotateCcw, ChevronRight, BookOpen, Filter, Brain, ArrowRight, PartyPopper, ThumbsUp, Dumbbell } from "lucide-react";
+import { AlertTriangle, CheckCircle2, XCircle, RotateCcw, ChevronRight, BookOpen, Filter, Brain, ArrowRight, PartyPopper, ThumbsUp, Dumbbell, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { renderIcon } from "@/lib/iconMap";
 import type { QuizQuestion } from "@/lib/types";
 import Link from "next/link";
+import SpacedRepetitionContent from "@/components/review/SpacedRepetitionContent";
 
+type MainTab = "salah" | "ulangan";
 type Tab = "wrong" | "quiz" | "result";
 
 export default function ReviewPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [mainTab, setMainTab] = useState<MainTab>("salah");
   const [tab, setTab] = useState<Tab>("wrong");
   const [filterLevel, setFilterLevel] = useState<string>("all");
   const [quizTopicSlug, setQuizTopicSlug] = useState<string>("");
@@ -124,6 +127,49 @@ export default function ReviewPage() {
   const pct = questions.length > 0 ? Math.round((score / questions.length) * 100) : 0;
   const quizTopic = topics.find((t) => t.slug === quizTopicSlug);
 
+  // ── Main Tab Switcher ──
+  const tabHeader = (
+    <div className="flex items-center gap-2 mb-4">
+      {([["salah", "Review Salah", AlertTriangle], ["ulangan", "Ulangan", Brain]] as const).map(([key, label, Icon]) => (
+        <button
+          key={key}
+          onClick={() => setMainTab(key)}
+          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            mainTab === key
+              ? "bg-[var(--primary)] text-white shadow-md"
+              : "bg-[var(--duo-card)] border border-[var(--duo-border)] text-[var(--duo-text-muted)] hover:bg-[var(--duo-bg)]"
+          }`}
+        >
+          <Icon size={14} />
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+
+  if (mainTab === "ulangan") {
+    return (
+      <div className="flex min-h-screen bg-[var(--duo-bg)]">
+        <Sidebar />
+        <main className="flex-1 lg:ml-[260px] p-8 pb-24 lg:pb-0">
+          <div className="max-w-2xl mx-auto">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-xl bg-[var(--duo-purple)]/10 flex items-center justify-center">
+                <Brain size={20} className="text-[var(--duo-purple)]" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-[var(--duo-text)]">Ulangan Bertahap</h1>
+                <p className="text-xs text-[var(--duo-text-muted)]">Review berkala topik yang sudah dipelajari</p>
+              </div>
+            </div>
+            {tabHeader}
+            <SpacedRepetitionContent />
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   // ── Wrong Answers Tab ──
   if (tab === "wrong") {
     return (
@@ -136,12 +182,13 @@ export default function ReviewPage() {
                 <AlertTriangle size={20} className="text-[var(--danger)]" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-[var(--duo-text)]">Salah Jawab Review</h1>
+                <h1 className="text-xl font-bold text-[var(--duo-text)]">Review Salah</h1>
                 <p className="text-xs text-[var(--duo-text-muted)]">
-                  Review Salah = ulang soal yang pernah salah
+                  Ulang soal yang pernah salah
                 </p>
               </div>
             </div>
+            {tabHeader}
 
             {/* Filter */}
             <div className="flex items-center gap-2 mt-4 mb-6">
@@ -203,24 +250,6 @@ export default function ReviewPage() {
                 ))}
               </div>
             )}
-
-            {/* Cross-link to Spaced Repetition */}
-            <div className="mt-6 p-4 rounded-2xl bg-[var(--duo-purple)]/10 border-2 border-[var(--duo-purple)]/20">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[var(--duo-purple)]/20 flex items-center justify-center shrink-0">
-                  <Brain size={18} className="text-[var(--duo-purple)]" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-bold text-[var(--duo-text)]">Mau perkuat ingatan topik yang sudah selesai juga?</p>
-                  <p className="text-xs text-[var(--duo-text-muted)]">Coba Ulangan Bertahap untuk review berkala.</p>
-                </div>
-                <Link href="/spaced-repetition" className="shrink-0">
-                  <div className="flex items-center gap-1 px-3 py-2 rounded-xl bg-[var(--duo-purple)] text-white text-xs font-bold hover:brightness-110 transition-all">
-                    Buka <ArrowRight size={12} />
-                  </div>
-                </Link>
-              </div>
-            </div>
           </div>
         </main>
       </div>

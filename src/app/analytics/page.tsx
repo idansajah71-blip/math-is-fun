@@ -14,9 +14,10 @@ import {
 import { getProfile } from "@/lib/gamification";
 import { motion } from "framer-motion";
 import { staggerContainer, staggerItem } from "@/lib/animations";
-import { BarChart3, Clock, Calendar, Flame, TrendingUp, Sparkles, Zap } from "lucide-react";
+import { BarChart3, Clock, Calendar, Flame, TrendingUp, Sparkles, Zap, Map, PencilLine, ArrowRight } from "lucide-react";
 import dynamic from "next/dynamic";
 import type { UserProfile } from "@/lib/gamification";
+import Link from "next/link";
 
 const ICON_MAP: Record<string, React.ReactNode> = {
   Clock: <Clock size={18} />,
@@ -27,6 +28,7 @@ const ICON_MAP: Record<string, React.ReactNode> = {
 
 export default function AnalyticsPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [mainTab, setMainTab] = useState<"analisis" | "peta" | "editor">("analisis");
 
   useEffect(() => {
     setProfile(getProfile());
@@ -65,19 +67,61 @@ export default function AnalyticsPage() {
           {/* Header */}
           <div className="bg-white dark:bg-[var(--duo-card)] border-b-2 border-[var(--duo-border)]">
             <div className="max-w-4xl mx-auto px-8 py-6">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
                   <BarChart3 size={20} className="text-blue-500" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-black text-[var(--duo-text)]">Analisis Belajar</h1>
-                  <p className="text-xs text-[var(--duo-text-muted)]">Pahami pola belajarmu dan dapatkan rekomendasi</p>
+                  <h1 className="text-xl font-black text-[var(--duo-text)]">Analisis & Tools</h1>
+                  <p className="text-xs text-[var(--duo-text-muted)]">Pahami pola belajarmu, peta belajar, dan quiz editor</p>
                 </div>
+              </div>
+              <div className="flex gap-2">
+                {([["analisis", "Analisis", BarChart3], ["peta", "Peta Belajar", Map], ["editor", "Quiz Editor", PencilLine]] as const).map(([key, label, Icon]) => (
+                  <button key={key} onClick={() => setMainTab(key)}
+                    className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      mainTab === key ? "bg-[var(--primary)] text-white shadow-md" : "bg-[var(--duo-card)] border border-[var(--duo-border)] text-[var(--duo-text-muted)] hover:bg-[var(--duo-bg)]"
+                    }`}>
+                    <Icon size={14} />
+                    {label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
 
           <div className="max-w-4xl mx-auto px-8 py-6 space-y-6">
+            {mainTab === "peta" && (
+              <div className="space-y-4">
+                <Link href="/learning-path" className="flex items-center gap-4 bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-6 hover:border-[var(--duo-green)] transition-colors group">
+                  <div className="w-14 h-14 rounded-2xl bg-[var(--duo-green)]/10 flex items-center justify-center shrink-0">
+                    <Map size={28} className="text-[var(--duo-green)]" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-base font-black text-[var(--duo-text)] group-hover:text-[var(--duo-green)] transition-colors">Peta Belajar</h3>
+                    <p className="text-xs text-[var(--duo-text-muted)]">Ikuti jalur dari SMP → SMA → Universitas dengan grafik interaktif</p>
+                  </div>
+                  <ArrowRight size={20} className="text-[var(--duo-text-muted)] group-hover:text-[var(--duo-green)] transition-colors" />
+                </Link>
+              </div>
+            )}
+
+            {mainTab === "editor" && (
+              <div className="space-y-4">
+                <Link href="/quiz-editor" className="flex items-center gap-4 bg-white dark:bg-[var(--duo-card)] rounded-2xl border-2 border-[var(--duo-border)] p-6 hover:border-[var(--duo-purple)] transition-colors group">
+                  <div className="w-14 h-14 rounded-2xl bg-[var(--duo-purple)]/10 flex items-center justify-center shrink-0">
+                    <PencilLine size={28} className="text-[var(--duo-purple)]" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-base font-black text-[var(--duo-text)] group-hover:text-[var(--duo-purple)] transition-colors">Quiz Editor</h3>
+                    <p className="text-xs text-[var(--duo-text-muted)]">Buat, bagikan, dan mainkan quiz buatan sendiri</p>
+                  </div>
+                  <ArrowRight size={20} className="text-[var(--duo-text-muted)] group-hover:text-[var(--duo-purple)] transition-colors" />
+                </Link>
+              </div>
+            )}
+
+            {mainTab === "analisis" && (<>
             {/* Stats Cards */}
             <motion.div variants={staggerContainer} initial="hidden" animate="show" className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {[
@@ -191,6 +235,7 @@ export default function AnalyticsPage() {
                 </motion.div>
               </motion.div>
             )}
+            </>)}
           </div>
         </main>
       </div>

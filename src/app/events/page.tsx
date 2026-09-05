@@ -9,9 +9,11 @@ import type { EventData } from "@/lib/events";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import FeatureGuard from "@/components/admin/FeatureGuard";
-import { Calendar, Search } from "lucide-react";
+import { Calendar, Search, Users } from "lucide-react";
 import { staggerContainer } from "@/lib/animations";
+import RoomContent from "@/components/events/RoomContent";
 
+type MainTab = "event" | "room";
 type FilterTab = "semua" | "active" | "scheduled" | "ended";
 
 const tabs: { key: FilterTab; label: string }[] = [
@@ -22,6 +24,7 @@ const tabs: { key: FilterTab; label: string }[] = [
 ];
 
 export default function EventsPage() {
+  const [mainTab, setMainTab] = useState<MainTab>("event");
   const [activeTab, setActiveTab] = useState<FilterTab>("semua");
   const [search, setSearch] = useState("");
   const { user } = useAuth();
@@ -65,46 +68,52 @@ export default function EventsPage() {
                 <Calendar size={24} className="text-[var(--duo-green)]" />
               </div>
               <div>
-                <h1 className="text-2xl font-black text-[var(--duo-text)]">Event</h1>
+                <h1 className="text-2xl font-black text-[var(--duo-text)]">Event & Room</h1>
                 <p className="text-sm text-[var(--duo-text-muted)]">
-                  Ikuti event dan raih reward!
+                  Ikuti event, buat room, adu skor!
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <div className="flex gap-2">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.key}
-                    onClick={() => setActiveTab(tab.key)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${
-                      activeTab === tab.key
-                        ? "bg-[var(--duo-green)] text-white"
-                        : "bg-[var(--duo-card)] text-[var(--duo-text-muted)] border border-[var(--duo-border)]"
-                    }`}
-                  >
-                    {tab.label}
+                {([["event", "Event", Calendar], ["room", "Room", Users]] as const).map(([key, label, Icon]) => (
+                  <button key={key} onClick={() => setMainTab(key)}
+                    className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${
+                      mainTab === key ? "bg-[var(--duo-green)] text-white" : "bg-[var(--duo-card)] text-[var(--duo-text-muted)] border border-[var(--duo-border)]"
+                    }`}>
+                    <Icon size={12} />
+                    {label}
                   </button>
                 ))}
               </div>
 
-              <div className="relative ml-auto">
-                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--duo-text-muted)]" />
-                <input
-                  type="text"
-                  placeholder="Cari event..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="pl-9 pr-4 py-1.5 rounded-xl text-xs font-medium bg-[var(--duo-card)] text-[var(--duo-text)] border border-[var(--duo-border)] focus:outline-none focus:border-[var(--duo-green)] transition-colors w-48"
-                />
-              </div>
+              {mainTab === "event" && (
+                <div className="flex gap-2 ml-auto">
+                  {tabs.map((tab) => (
+                    <button key={tab.key} onClick={() => setActiveTab(tab.key)}
+                      className={`px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${activeTab === tab.key ? "bg-[var(--duo-green)] text-white" : "bg-[var(--duo-card)] text-[var(--duo-text-muted)] border border-[var(--duo-border)]"}`}>
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {mainTab === "event" && (
+                <div className="relative ml-auto">
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--duo-text-muted)]" />
+                  <input type="text" placeholder="Cari event..." value={search} onChange={(e) => setSearch(e.target.value)}
+                    className="pl-9 pr-4 py-1.5 rounded-xl text-xs font-medium bg-[var(--duo-card)] text-[var(--duo-text)] border border-[var(--duo-border)] focus:outline-none focus:border-[var(--duo-green)] transition-colors w-48" />
+                </div>
+              )}
             </div>
           </div>
         </div>
 
         <div className="max-w-5xl mx-auto px-8 py-6">
-          {filteredEvents.length === 0 ? (
+          {mainTab === "room" ? (
+            <RoomContent />
+          ) : filteredEvents.length === 0 ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
