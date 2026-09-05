@@ -8,7 +8,7 @@ import XPBar from "@/components/ui/XPBar";
 import { getProfile, setProfileName, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel, BADGES, UserProfile, SHOP_ITEMS } from "@/lib/gamification";
 import { getAllTopics } from "@/lib/data";
 import { motion } from "framer-motion";
-import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check, Crown, Camera, Trash2 } from "lucide-react";
+import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check, Crown, Camera, Trash2, Shield, Swords, Wand2 } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
 import { isPremiumActive, saveProfile } from "@/lib/gamification";
@@ -393,6 +393,48 @@ export default function ProfilePage() {
               </div>
             </motion.div>
           )}
+
+          {/* Border Toggle */}
+          {(() => {
+            const borders = [
+              { id: undefined, name: "Default", icon: null, color: "text-[var(--duo-text-muted)]" },
+              { id: "frame-gold", name: "Emas", icon: <Award size={14} className="text-yellow-500" />, color: "text-yellow-500", owned: profile.purchasedItems.includes("frame-gold") },
+              { id: "border-ninja", name: "Ninja", icon: <Swords size={14} className="text-indigo-500" />, color: "text-indigo-500", owned: profile.purchasedItems.includes("border-ninja") },
+              { id: "border-wizard", name: "Wizard", icon: <Wand2 size={14} className="text-purple-500" />, color: "text-purple-500", owned: profile.purchasedItems.includes("border-wizard") },
+            ];
+            const ownedBorders = borders.filter(b => b.id === undefined || b.owned);
+            if (ownedBorders.length <= 1) return null;
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white dark:bg-[var(--duo-card)] rounded-[24px] border-2 border-[var(--duo-border)] p-5"
+              >
+                <h3 className="text-sm font-black text-[var(--duo-text)] mb-3">Border Avatar</h3>
+                <div className="flex gap-2">
+                  {ownedBorders.map(b => (
+                    <button
+                      key={b.id || "none"}
+                      onClick={() => {
+                        if (!profile) return;
+                        const updated = { ...profile, activeBorder: b.id };
+                        saveProfile(updated);
+                        setProfile(updated);
+                      }}
+                      className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
+                        profile.activeBorder === b.id || (!profile.activeBorder && !b.id)
+                          ? "bg-[var(--duo-green)] text-white shadow-md"
+                          : "bg-[var(--duo-bg)] text-[var(--duo-text-muted)] border border-[var(--duo-border)] hover:border-[var(--duo-green)]"
+                      }`}
+                    >
+                      {b.icon}
+                      {b.name}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })()}
 
           {/* Weekly Activity */}
           <motion.div

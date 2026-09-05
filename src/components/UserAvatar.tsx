@@ -18,49 +18,68 @@ export default function UserAvatar({
   level = 1,
 }: UserAvatarProps) {
   const items = profile?.purchasedItems || [];
-  const hasFrame = items.includes("frame-gold");
-  const hasNinja = items.includes("avatar-ninja");
-  const hasWizard = items.includes("avatar-wizard");
+  const activeBorder = profile?.activeBorder;
 
   const isRound = size <= 48;
   const radius = isRound ? "rounded-full" : "rounded-[28px]";
 
-  const textContent = hasNinja ? "🥷" : hasWizard ? "🧙" : profile?.name?.charAt(0)?.toUpperCase() || "?";
-  const isEmoji = hasNinja || hasWizard;
+  const hasGold = activeBorder === "frame-gold" && items.includes("frame-gold");
+  const hasNinja = activeBorder === "border-ninja" && items.includes("border-ninja");
+  const hasWizard = activeBorder === "border-wizard" && items.includes("border-wizard");
+
+  const hasFrame = hasGold;
+  const hasAnyBorder = hasGold || hasNinja || hasWizard;
+
+  const textContent = profile?.name?.charAt(0)?.toUpperCase() || "?";
   const fontSize = Math.round(size * 0.38);
 
-  const padding = hasFrame ? Math.round(size * 0.12) : 0;
+  const padding = hasAnyBorder ? Math.round(size * 0.12) : 0;
   const outerSize = size + padding * 2;
+
+  const uid = `${size}-${activeBorder || "none"}`;
 
   return (
     <div className={`relative shrink-0 ${className}`} style={{ width: outerSize, height: outerSize }}>
       <style>{`
-        @keyframes frame-shimmer {
+        @keyframes frame-shimmer-${uid} {
           0% { stop-color: #fcd34d; }
           50% { stop-color: #fbbf24; }
           100% { stop-color: #fcd34d; }
         }
-        @keyframes frame-pulse {
+        @keyframes frame-pulse-${uid} {
           0%, 100% { filter: drop-shadow(0 0 ${Math.round(size * 0.08)}px rgba(251,191,36,0.5)); }
           50% { filter: drop-shadow(0 0 ${Math.round(size * 0.14)}px rgba(251,191,36,0.8)); }
         }
-        @keyframes frame-sweep {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+        @keyframes ninja-pulse-${uid} {
+          0%, 100% { filter: drop-shadow(0 0 ${Math.round(size * 0.06)}px rgba(99,102,241,0.4)); }
+          50% { filter: drop-shadow(0 0 ${Math.round(size * 0.12)}px rgba(99,102,241,0.7)); }
+        }
+        @keyframes ninja-shimmer-${uid} {
+          0% { opacity: 0.3; }
+          50% { opacity: 0.7; }
+          100% { opacity: 0.3; }
+        }
+        @keyframes wizard-pulse-${uid} {
+          0%, 100% { filter: drop-shadow(0 0 ${Math.round(size * 0.06)}px rgba(168,85,247,0.4)); }
+          50% { filter: drop-shadow(0 0 ${Math.round(size * 0.12)}px rgba(168,85,247,0.7)); }
+        }
+        @keyframes wizard-sparkle-${uid} {
+          0%, 100% { opacity: 0.2; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.2); }
         }
       `}</style>
 
-      {/* Gold frame border (SVG) */}
-      {hasFrame && (
+      {/* Gold frame border */}
+      {hasGold && (
         <svg
           className="absolute inset-0 pointer-events-none z-0"
           width={outerSize}
           height={outerSize}
           viewBox={`0 0 ${outerSize} ${outerSize}`}
-          style={{ animation: "frame-pulse 3s ease-in-out infinite" }}
+          style={{ animation: `frame-pulse-${uid} 3s ease-in-out infinite` }}
         >
           <defs>
-            <linearGradient id={`gold-grad-${size}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id={`gold-grad-${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#fcd34d">
                 <animate attributeName="stop-color" values="#fcd34d;#fbbf24;#fcd34d" dur="3s" repeatCount="indefinite" />
               </stop>
@@ -73,81 +92,101 @@ export default function UserAvatar({
                 <animate attributeName="stop-color" values="#fcd34d;#fbbf24;#fcd34d" dur="3s" repeatCount="indefinite" />
               </stop>
             </linearGradient>
-            <linearGradient id={`gold-inner-${size}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id={`gold-inner-${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#fef3c7" />
               <stop offset="50%" stopColor="#fde68a" />
               <stop offset="100%" stopColor="#fef3c7" />
             </linearGradient>
-            <clipPath id={`clip-frame-${size}`}>
-              <rect x={padding - Math.round(size * 0.02)} y={padding - Math.round(size * 0.02)} width={size + Math.round(size * 0.04)} height={size + Math.round(size * 0.04)} rx={isRound ? outerSize : 32} />
-            </clipPath>
           </defs>
-
-          {/* Outer gold border */}
-          <rect
-            x="1" y="1"
-            width={outerSize - 2}
-            height={outerSize - 2}
-            rx={isRound ? outerSize / 2 : 34}
-            fill="none"
-            stroke={`url(#gold-grad-${size})`}
-            strokeWidth={Math.round(size * 0.08)}
-          />
-
-          {/* Inner highlight border */}
-          <rect
-            x={padding - Math.round(size * 0.03)}
-            y={padding - Math.round(size * 0.03)}
-            width={size + Math.round(size * 0.06)}
-            height={size + Math.round(size * 0.06)}
-            rx={isRound ? size / 2 + Math.round(size * 0.03) : 30}
-            fill="none"
-            stroke={`url(#gold-inner-${size})`}
-            strokeWidth="1.5"
-            opacity="0.6"
-          />
-
-          {/* Outer glow border */}
-          <rect
-            x={-1} y={-1}
-            width={outerSize + 2}
-            height={outerSize + 2}
-            rx={isRound ? (outerSize + 2) / 2 : 36}
-            fill="none"
-            stroke="#fbbf24"
-            strokeWidth="1"
-            opacity="0.3"
-          />
-
-          {/* Corner ornaments (square mode only) */}
+          <rect x="1" y="1" width={outerSize - 2} height={outerSize - 2} rx={isRound ? outerSize / 2 : 34} fill="none" stroke={`url(#gold-grad-${uid})`} strokeWidth={Math.round(size * 0.08)} />
+          <rect x={padding - Math.round(size * 0.03)} y={padding - Math.round(size * 0.03)} width={size + Math.round(size * 0.06)} height={size + Math.round(size * 0.06)} rx={isRound ? size / 2 + Math.round(size * 0.03) : 30} fill="none" stroke={`url(#gold-inner-${uid})`} strokeWidth="1.5" opacity="0.6" />
+          <rect x={-1} y={-1} width={outerSize + 2} height={outerSize + 2} rx={isRound ? (outerSize + 2) / 2 : 36} fill="none" stroke="#fbbf24" strokeWidth="1" opacity="0.3" />
           {!isRound && size >= 60 && (
             <>
-              {/* Top-left */}
               <path d={`M 4 ${padding + 2} L 4 4 L ${padding + 2} 4`} fill="none" stroke="#fcd34d" strokeWidth="2.5" strokeLinecap="round" />
               <circle cx="4" cy="4" r="2.5" fill="#fcd34d" />
-              {/* Top-right */}
               <path d={`M ${outerSize - padding - 2} 4 L ${outerSize - 4} 4 L ${outerSize - 4} ${padding + 2}`} fill="none" stroke="#fcd34d" strokeWidth="2.5" strokeLinecap="round" />
               <circle cx={outerSize - 4} cy="4" r="2.5" fill="#fcd34d" />
-              {/* Bottom-left */}
               <path d={`M 4 ${outerSize - padding - 2} L 4 ${outerSize - 4} L ${padding + 2} ${outerSize - 4}`} fill="none" stroke="#fcd34d" strokeWidth="2.5" strokeLinecap="round" />
               <circle cx="4" cy={outerSize - 4} r="2.5" fill="#fcd34d" />
-              {/* Bottom-right */}
               <path d={`M ${outerSize - padding - 2} ${outerSize - 4} L ${outerSize - 4} ${outerSize - 4} L ${outerSize - 4} ${outerSize - padding - 2}`} fill="none" stroke="#fcd34d" strokeWidth="2.5" strokeLinecap="round" />
               <circle cx={outerSize - 4} cy={outerSize - 4} r="2.5" fill="#fcd34d" />
-              {/* Center top diamond */}
               <path d={`M ${outerSize / 2} 0 L ${outerSize / 2 + 5} 4 L ${outerSize / 2} 8 L ${outerSize / 2 - 5} 4 Z`} fill="#fbbf24" stroke="#d97706" strokeWidth="0.5" />
-              {/* Center bottom diamond */}
               <path d={`M ${outerSize / 2} ${outerSize - 8} L ${outerSize / 2 + 5} ${outerSize - 4} L ${outerSize / 2} ${outerSize} L ${outerSize / 2 - 5} ${outerSize - 4} Z`} fill="#fbbf24" stroke="#d97706" strokeWidth="0.5" />
             </>
           )}
-
-          {/* Circle ornaments (round mode) */}
           {isRound && size >= 40 && (
             <>
               <circle cx={outerSize / 2} cy="2" r={Math.max(2, Math.round(size * 0.05))} fill="#fcd34d" stroke="#d97706" strokeWidth="0.5" />
               <circle cx={outerSize / 2} cy={outerSize - 2} r={Math.max(2, Math.round(size * 0.05))} fill="#fcd34d" stroke="#d97706" strokeWidth="0.5" />
               <circle cx="2" cy={outerSize / 2} r={Math.max(2, Math.round(size * 0.05))} fill="#fcd34d" stroke="#d97706" strokeWidth="0.5" />
               <circle cx={outerSize - 2} cy={outerSize / 2} r={Math.max(2, Math.round(size * 0.05))} fill="#fcd34d" stroke="#d97706" strokeWidth="0.5" />
+            </>
+          )}
+        </svg>
+      )}
+
+      {/* Ninja border */}
+      {hasNinja && (
+        <svg
+          className="absolute inset-0 pointer-events-none z-0"
+          width={outerSize}
+          height={outerSize}
+          viewBox={`0 0 ${outerSize} ${outerSize}`}
+          style={{ animation: `ninja-pulse-${uid} 3s ease-in-out infinite` }}
+        >
+          <defs>
+            <linearGradient id={`ninja-grad-${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#312e81" />
+              <stop offset="50%" stopColor="#4338ca" />
+              <stop offset="100%" stopColor="#312e81" />
+            </linearGradient>
+          </defs>
+          <rect x="1" y="1" width={outerSize - 2} height={outerSize - 2} rx={isRound ? outerSize / 2 : 34} fill="none" stroke={`url(#ninja-grad-${uid})`} strokeWidth={Math.round(size * 0.08)} />
+          <rect x={-1} y={-1} width={outerSize + 2} height={outerSize + 2} rx={isRound ? (outerSize + 2) / 2 : 36} fill="none" stroke="#6366f1" strokeWidth="1" opacity="0.4" />
+          {/* Shuriken accents */}
+          {isRound && size >= 40 && (
+            <>
+              <line x1={outerSize / 2 - 4} y1="3" x2={outerSize / 2 + 4} y2="3" stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+              <line x1={outerSize / 2} y1="0" x2={outerSize / 2} y2="6" stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+              <line x1={outerSize / 2 - 4} y1={outerSize - 3} x2={outerSize / 2 + 4} y2={outerSize - 3} stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+              <line x1={outerSize / 2} y1={outerSize - 6} x2={outerSize / 2} y2={outerSize} stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+              <line x1="3" y1={outerSize / 2 - 4} x2="3" y2={outerSize / 2 + 4} stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+              <line x1="0" y1={outerSize / 2} x2="6" y2={outerSize / 2} stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+              <line x1={outerSize - 3} y1={outerSize / 2 - 4} x2={outerSize - 3} y2={outerSize / 2 + 4} stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+              <line x1={outerSize - 6} y1={outerSize / 2} x2={outerSize} y2={outerSize / 2} stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+            </>
+          )}
+        </svg>
+      )}
+
+      {/* Wizard border */}
+      {hasWizard && (
+        <svg
+          className="absolute inset-0 pointer-events-none z-0"
+          width={outerSize}
+          height={outerSize}
+          viewBox={`0 0 ${outerSize} ${outerSize}`}
+          style={{ animation: `wizard-pulse-${uid} 3s ease-in-out infinite` }}
+        >
+          <defs>
+            <linearGradient id={`wiz-grad-${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#7c3aed" />
+              <stop offset="50%" stopColor="#a855f7" />
+              <stop offset="100%" stopColor="#7c3aed" />
+            </linearGradient>
+          </defs>
+          <rect x="1" y="1" width={outerSize - 2} height={outerSize - 2} rx={isRound ? outerSize / 2 : 34} fill="none" stroke={`url(#wiz-grad-${uid})`} strokeWidth={Math.round(size * 0.08)} />
+          <rect x={-1} y={-1} width={outerSize + 2} height={outerSize + 2} rx={isRound ? (outerSize + 2) / 2 : 36} fill="none" stroke="#c084fc" strokeWidth="1" opacity="0.4" />
+          {/* Sparkle dots */}
+          {isRound && size >= 40 && (
+            <>
+              <circle cx={outerSize / 2} cy="3" r="2" fill="#c084fc" style={{ animation: `wizard-sparkle-${uid} 2s ease-in-out infinite` }} />
+              <circle cx={outerSize - 3} cy={outerSize / 2} r="1.5" fill="#e9d5ff" style={{ animation: `wizard-sparkle-${uid} 2s ease-in-out 0.5s infinite` }} />
+              <circle cx={outerSize / 2} cy={outerSize - 3} r="2" fill="#c084fc" style={{ animation: `wizard-sparkle-${uid} 2s ease-in-out 1s infinite` }} />
+              <circle cx="3" cy={outerSize / 2} r="1.5" fill="#e9d5ff" style={{ animation: `wizard-sparkle-${uid} 2s ease-in-out 1.5s infinite` }} />
+              <circle cx={outerSize * 0.25} cy={outerSize * 0.25} r="1" fill="#ddd6fe" style={{ animation: `wizard-sparkle-${uid} 2.5s ease-in-out 0.3s infinite` }} />
+              <circle cx={outerSize * 0.75} cy={outerSize * 0.75} r="1" fill="#ddd6fe" style={{ animation: `wizard-sparkle-${uid} 2.5s ease-in-out 1.2s infinite` }} />
             </>
           )}
         </svg>
@@ -162,25 +201,31 @@ export default function UserAvatar({
           position: "absolute",
           left: padding,
           top: padding,
-          fontSize: isEmoji ? Math.round(size * 0.5) : fontSize,
-          background: hasFrame
+          fontSize,
+          background: hasGold
             ? "linear-gradient(145deg, #fbbf24 0%, #f59e0b 25%, #d97706 50%, #b45309 75%, #f59e0b 100%)"
+            : hasNinja
+            ? "linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)"
+            : hasWizard
+            ? "linear-gradient(135deg, #581c87 0%, #7c3aed 50%, #a855f7 100%)"
             : "linear-gradient(135deg, var(--primary), var(--primary-hover))",
-          border: `${Math.max(2, Math.round(size * 0.03))}px solid ${hasFrame ? "#fef3c7" : "white"}`,
-          boxShadow: hasFrame
-            ? "inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.15)"
+          border: `${Math.max(2, Math.round(size * 0.03))}px solid ${hasGold ? "#fef3c7" : hasNinja ? "#312e81" : hasWizard ? "#7c3aed" : "white"}`,
+          boxShadow: hasAnyBorder
+            ? hasGold
+              ? "inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.15)"
+              : "0 2px 12px rgba(0,0,0,0.25)"
             : "0 2px 8px rgba(0,0,0,0.15)",
         }}
       >
         {/* Shimmer overlay */}
-        {hasFrame && (
+        {hasGold && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ borderRadius: "inherit" }}>
             <div
               className="absolute top-0 left-0 h-full"
               style={{
                 width: "30%",
                 background: "linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%)",
-                animation: "gold-shimmer 3s ease-in-out infinite",
+                animation: `gold-shimmer-${uid} 3s ease-in-out infinite`,
               }}
             />
           </div>
@@ -195,7 +240,7 @@ export default function UserAvatar({
           />
         ) : (
           <span className="relative z-10 leading-none" style={{
-            textShadow: hasFrame ? "0 1px 3px rgba(0,0,0,0.35)" : undefined,
+            textShadow: hasAnyBorder ? "0 1px 3px rgba(0,0,0,0.35)" : undefined,
           }}>
             {textContent}
           </span>

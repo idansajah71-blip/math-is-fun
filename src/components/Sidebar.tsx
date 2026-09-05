@@ -62,7 +62,7 @@ const NAV = [
   { href: "/badges", label: "Pencapaian", icon: Award },
   { href: "/review", label: "Review", icon: AlertTriangle },
   { href: "/bookmark", label: "Bookmark", icon: Bookmark },
-  { href: "/friends", label: "Teman", icon: Swords },
+  { href: "/friends", label: "Teman", icon: Users },
   { href: "/events", label: "Event", icon: Calendar },
   { href: "/analytics", label: "Analisis", icon: BarChart3 },
   { href: "/profile", label: "Profil", icon: User },

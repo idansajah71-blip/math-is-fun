@@ -52,6 +52,7 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     dailyChallengeDate: (row.daily_challenge_date as string) ?? null,
     dailyRewardHistory: (row.daily_reward_history as Record<string, number>) ?? {},
     avatarUrl: (row.avatar_url as string) ?? undefined,
+    activeBorder: (row.active_border as string) ?? undefined,
   };
 }
 
@@ -98,6 +99,7 @@ function profileToRow(profile: UserProfile) {
     daily_challenge_date: profile.dailyChallengeDate,
     daily_reward_history: profile.dailyRewardHistory,
     avatar_url: profile.avatarUrl ?? null,
+    active_border: profile.activeBorder ?? null,
   };
 }
 

@@ -41,6 +41,7 @@ export interface UserProfile {
   dailyChallengeDate: string | null;
   dailyRewardHistory: Record<string, number>;
   avatarUrl?: string;
+  activeBorder?: string;
   _lastHeartTime?: number;
 }
 
@@ -159,8 +160,8 @@ export const SHOP_ITEMS = [
   { id: "hint-token", name: "Hint Token", icon: "Lightbulb", description: "Dapatkan 3 petunjuk gratis", price: 80, category: "powerup" as const },
   { id: "refill-hearts", name: "Refill Hearts", icon: "HeartPulse", description: "Isi ulang semua heart ke max", price: 120, category: "powerup" as const },
   { id: "xp-boost-30m", name: "XP Boost 30m", icon: "Zap", description: "+50% XP selama 30 menit", price: 250, category: "powerup" as const },
-  { id: "avatar-ninja", name: "Avatar Ninja", icon: "Ninja", description: "Avatar khusus: Ninja Matematika", price: 500, category: "avatar" as const },
-  { id: "avatar-wizard", name: "Avatar Wizard", icon: "Wizard", description: "Avatar khusus: Penyihir Angka", price: 500, category: "avatar" as const },
+  { id: "border-ninja", name: "Border Ninja", icon: "Swords", description: "Border gelap ala ninja", price: 500, category: "effect" as const },
+  { id: "border-wizard", name: "Border Wizard", icon: "Wand2", description: "Border ajaib ala penyihir", price: 500, category: "effect" as const },
   { id: "frame-gold", name: "Frame Emas", icon: "Award", description: "Border profil emas berkilau", price: 300, category: "effect" as const },
   { id: "title-myth", name: "Title: Mitos", icon: "Crown", description: "Gelar 'Mitos' — untuk yang benar-benar legenda", price: 5000, category: "effect" as const },
 ];
@@ -343,6 +344,7 @@ export function getDefaultProfile(): UserProfile {
     dailyChallengeDate: null,
     dailyRewardHistory: {},
     avatarUrl: undefined,
+    activeBorder: undefined,
   };
 }
 
