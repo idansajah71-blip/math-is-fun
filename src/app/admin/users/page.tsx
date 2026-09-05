@@ -263,53 +263,18 @@ export default function AdminUsersPage() {
   async function handleGiveDiamond(userId: string, amount: number) {
     setGivingDiamond(true);
     try {
-      let profileKey = `matika-profile-${userId}`;
-      let rawProfile = localStorage.getItem(profileKey) || "";
-
-      // Scan all keys to find the right profile
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k && k.startsWith("matika-profile-") && k !== "matika-profile") {
-          try {
-            const raw = localStorage.getItem(k);
-            if (raw) {
-              const parsed = JSON.parse(raw);
-              if (parsed.name?.toLowerCase() === users.find((u) => u.id === userId)?.name?.toLowerCase()
-                || k === `matika-profile-${userId}`) {
-                profileKey = k;
-                rawProfile = raw;
-                break;
-              }
-            }
-          } catch { console.debug("Failed to parse profile"); }
-        }
-      }
-
-      let profile: UserProfile;
-      try {
-        profile = rawProfile ? { ...getDefaultProfile(), ...JSON.parse(rawProfile) } : getDefaultProfile();
-      } catch {
-        profile = getDefaultProfile();
-      }
-
+      const profiles = getAllUserProfiles();
+      const existing = profiles[userId];
+      const profile = existing ? { ...existing } : getDefaultProfile();
+      const oldGems = profile.gems;
       profile.gems = (profile.gems || 0) + amount;
-      localStorage.setItem(profileKey, JSON.stringify(profile));
 
-      // Also save to fallback key
-      const sessionRaw = localStorage.getItem("matika_session");
-      if (sessionRaw) {
-        try {
-          const session = JSON.parse(sessionRaw);
-          if (session.id === userId) {
-            localStorage.setItem("matika-profile", JSON.stringify(profile));
-          }
-        } catch { console.debug("Failed to parse session"); }
-      }
+      saveProfileForKey(userId, profile);
 
       const session = getAdminSession();
       if (session) {
         logAudit(session.email, session.name, "give_diamonds", "user", userId,
-          { gems: profile.gems - amount }, { gems: profile.gems, amount });
+          { gems: oldGems }, { gems: profile.gems, amount });
       }
 
       setUsers((prev) =>
