@@ -186,11 +186,20 @@ export default function UserAvatar({
           </div>
         )}
 
-        <span className="relative z-10 leading-none" style={{
-          textShadow: hasFrame ? "0 1px 3px rgba(0,0,0,0.35)" : undefined,
-        }}>
-          {textContent}
-        </span>
+        {profile?.avatarUrl ? (
+          <img
+            src={profile.avatarUrl}
+            alt={profile.name}
+            className="absolute inset-0 w-full h-full object-cover"
+            draggable={false}
+          />
+        ) : (
+          <span className="relative z-10 leading-none" style={{
+            textShadow: hasFrame ? "0 1px 3px rgba(0,0,0,0.35)" : undefined,
+          }}>
+            {textContent}
+          </span>
+        )}
       </div>
 
       {/* Level badge */}

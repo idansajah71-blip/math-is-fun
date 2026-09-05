@@ -40,6 +40,7 @@ export interface UserProfile {
   pomodoroSettings: { workMin: number; breakMin: number; longBreakMin: number; sessionsBeforeLong: number };
   dailyChallengeDate: string | null;
   dailyRewardHistory: Record<string, number>;
+  avatarUrl?: string;
   _lastHeartTime?: number;
 }
 
@@ -341,6 +342,7 @@ export function getDefaultProfile(): UserProfile {
     pomodoroSettings: { workMin: 25, breakMin: 5, longBreakMin: 15, sessionsBeforeLong: 4 },
     dailyChallengeDate: null,
     dailyRewardHistory: {},
+    avatarUrl: undefined,
   };
 }
 

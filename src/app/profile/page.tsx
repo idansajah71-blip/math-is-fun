@@ -8,10 +8,10 @@ import XPBar from "@/components/ui/XPBar";
 import { getProfile, setProfileName, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel, BADGES, UserProfile, SHOP_ITEMS } from "@/lib/gamification";
 import { getAllTopics } from "@/lib/data";
 import { motion } from "framer-motion";
-import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check, Crown } from "lucide-react";
+import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check, Crown, Camera, Trash2 } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
-import { isPremiumActive } from "@/lib/gamification";
+import { isPremiumActive, saveProfile } from "@/lib/gamification";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -20,6 +20,8 @@ export default function ProfilePage() {
   const [nameError, setNameError] = useState("");
   const [copied, setCopied] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const timersRef = useRef<number[]>([]);
 
   const scheduleTimer = (fn: () => void, ms: number) => {
@@ -63,6 +65,48 @@ export default function ProfilePage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !profile) return;
+
+    if (!file.type.startsWith("image/")) return;
+
+    setUploading(true);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const TARGET = 200;
+        canvas.width = TARGET;
+        canvas.height = TARGET;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) { setUploading(false); return; }
+
+        const minDim = Math.min(img.width, img.height);
+        const sx = (img.width - minDim) / 2;
+        const sy = (img.height - minDim) / 2;
+        ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, TARGET, TARGET);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+        const updated = { ...profile, avatarUrl: dataUrl };
+        saveProfile(updated);
+        setProfile(updated);
+        setUploading(false);
+      };
+      img.src = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  };
+
+  const handleAvatarRemove = () => {
+    if (!profile) return;
+    const updated = { ...profile, avatarUrl: undefined };
+    saveProfile(updated);
+    setProfile(updated);
   };
 
   if (!profile) return null;
@@ -117,16 +161,45 @@ export default function ProfilePage() {
             className="bg-white dark:bg-[var(--duo-card)] rounded-[28px] border-2 border-[var(--duo-border)] p-6"
           >
             <div className="flex items-start gap-5">
-              <div className="relative">
+              <div className="relative group">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleAvatarUpload}
+                />
                 <ProgressRing progress={pct} size={100} strokeWidth={6}>
                   <UserAvatar profile={profile} size={80} />
                 </ProgressRing>
                 <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-[var(--duo-green)] rounded-full flex items-center justify-center text-white text-[10px] font-black border-2 border-white shadow-md">
                   {pct}%
                 </div>
+                {/* Camera overlay */}
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer disabled:opacity-50"
+                  style={{ width: 80, height: 80, margin: "10px auto 0" }}
+                >
+                  {uploading ? (
+                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <Camera size={20} className="text-white" />
+                  )}
+                </button>
               </div>
 
               <div className="flex-1">
+                {profile.avatarUrl && (
+                  <button
+                    onClick={handleAvatarRemove}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-[var(--duo-danger)] bg-red-50 dark:bg-red-950/30 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors mb-2"
+                  >
+                    <Trash2 size={12} />
+                    Hapus Foto
+                  </button>
+                )}
                 {editMode ? (
                   <div className="flex items-center gap-2">
                     <div className="flex-1">
