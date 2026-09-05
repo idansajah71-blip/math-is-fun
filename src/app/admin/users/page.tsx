@@ -27,6 +27,10 @@ export default function AdminUsersPage() {
   const [modalUser, setModalUser] = useState<UserRow | null>(null);
   const [removingPremium, setRemovingPremium] = useState<string | null>(null);
   const [upgradingUser, setUpgradingUser] = useState<string | null>(null);
+  const [diamondUser, setDiamondUser] = useState<UserRow | null>(null);
+  const [diamondAmount, setDiamondAmount] = useState("");
+  const [givingDiamond, setGivingDiamond] = useState(false);
+  const [diamondSuccess, setDiamondSuccess] = useState<string | null>(null);
   const timersRef = useRef<number[]>([]);
 
   const scheduleTimer = (fn: () => void, ms: number) => {
@@ -256,6 +260,71 @@ export default function AdminUsersPage() {
     }
   }
 
+  async function handleGiveDiamond(userId: string, amount: number) {
+    setGivingDiamond(true);
+    try {
+      let profileKey = `matika-profile-${userId}`;
+      let rawProfile = localStorage.getItem(profileKey) || "";
+
+      // Scan all keys to find the right profile
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith("matika-profile-") && k !== "matika-profile") {
+          try {
+            const raw = localStorage.getItem(k);
+            if (raw) {
+              const parsed = JSON.parse(raw);
+              if (parsed.name?.toLowerCase() === users.find((u) => u.id === userId)?.name?.toLowerCase()
+                || k === `matika-profile-${userId}`) {
+                profileKey = k;
+                rawProfile = raw;
+                break;
+              }
+            }
+          } catch { console.debug("Failed to parse profile"); }
+        }
+      }
+
+      let profile: UserProfile;
+      try {
+        profile = rawProfile ? { ...getDefaultProfile(), ...JSON.parse(rawProfile) } : getDefaultProfile();
+      } catch {
+        profile = getDefaultProfile();
+      }
+
+      profile.gems = (profile.gems || 0) + amount;
+      localStorage.setItem(profileKey, JSON.stringify(profile));
+
+      // Also save to fallback key
+      const sessionRaw = localStorage.getItem("matika_session");
+      if (sessionRaw) {
+        try {
+          const session = JSON.parse(sessionRaw);
+          if (session.id === userId) {
+            localStorage.setItem("matika-profile", JSON.stringify(profile));
+          }
+        } catch { console.debug("Failed to parse session"); }
+      }
+
+      const session = getAdminSession();
+      if (session) {
+        logAudit(session.email, session.name, "give_diamonds", "user", userId,
+          { gems: profile.gems - amount }, { gems: profile.gems, amount });
+      }
+
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.id === userId ? { ...u, profile: { ...u.profile!, gems: profile.gems } } : u
+        )
+      );
+
+      setDiamondSuccess(userId);
+      scheduleTimer(() => setDiamondSuccess(null), 3000);
+    } finally {
+      setGivingDiamond(false);
+    }
+  }
+
   const filtered = users.filter((u) => {
     const matchSearch = !search ||
       u.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -369,6 +438,17 @@ export default function AdminUsersPage() {
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
+                    {diamondSuccess === user.id ? (
+                      <span className="px-3 py-1.5 text-[10px] font-bold text-purple-500 flex items-center gap-1">
+                        <CheckCircle2 size={12} /> Diamond dikirim!
+                      </span>
+                    ) : (
+                      <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDiamondUser(user); setDiamondAmount(""); }}
+                        className="px-3 py-1.5 text-[10px] font-bold text-purple-600 bg-purple-50 dark:bg-purple-950/30 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors flex items-center gap-1 cursor-pointer">
+                        <Gem size={11} /> Diamond
+                      </button>
+                    )}
+
                     {upgraded === user.id ? (
                       <span className="px-3 py-1.5 text-[10px] font-bold text-green-500 flex items-center gap-1">
                         <CheckCircle2 size={12} /> Tersimpan!
@@ -523,6 +603,81 @@ export default function AdminUsersPage() {
 
               <button onClick={() => setModalUser(null)}
                 className="w-full mt-3 px-4 py-2.5 rounded-xl bg-[var(--surface-sunken)] border border-[var(--border)] text-[var(--fg-muted)] font-bold text-xs hover:bg-[var(--border-subtle)] transition-colors cursor-pointer">
+                Batal
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Diamond Modal */}
+      <AnimatePresence>
+        {diamondUser && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+            onClick={() => setDiamondUser(null)}>
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white dark:bg-[var(--surface)] rounded-2xl border-2 border-[var(--border)] p-6 w-full max-w-sm shadow-2xl">
+              <div className="text-center mb-5">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-pink-400 flex items-center justify-center text-white font-black text-xl mx-auto mb-3">
+                  <Gem size={24} />
+                </div>
+                <h3 className="text-lg font-black text-[var(--fg)]">Kasih Diamond</h3>
+                <p className="text-xs text-[var(--fg-muted)]">{diamondUser.name}</p>
+                <p className="text-[10px] text-[var(--fg-muted)] mt-1">Diamond sekarang: {diamondUser.profile?.gems ?? 0}</p>
+              </div>
+
+              <div className="mb-4">
+                <label className="text-xs font-bold text-[var(--fg-muted)] block mb-1.5">Jumlah Diamond</label>
+                <input
+                  type="number"
+                  value={diamondAmount}
+                  onChange={(e) => setDiamondAmount(e.target.value)}
+                  placeholder="Contoh: 1000"
+                  min="1"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-[var(--border)] bg-[var(--surface-sunken)] text-[var(--fg)] text-sm font-bold focus:outline-none focus:border-[var(--info)] transition-colors text-center text-lg"
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      const amount = parseInt(diamondAmount);
+                      if (amount > 0) {
+                        handleGiveDiamond(diamondUser.id, amount);
+                        setDiamondUser(null);
+                      }
+                    }
+                  }}
+                />
+              </div>
+
+              <div className="flex gap-2 mb-3">
+                {[100, 500, 1000, 5000].map((amt) => (
+                  <button key={amt} onClick={() => setDiamondAmount(String(amt))}
+                    className="flex-1 py-2 rounded-lg bg-[var(--surface-sunken)] border border-[var(--border)] text-[var(--fg)] text-[10px] font-bold hover:bg-[var(--border-subtle)] transition-colors cursor-pointer">
+                    +{amt}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => {
+                  const amount = parseInt(diamondAmount);
+                  if (amount > 0) {
+                    handleGiveDiamond(diamondUser.id, amount);
+                    setDiamondUser(null);
+                  }
+                }}
+                disabled={!diamondAmount || parseInt(diamondAmount) <= 0 || givingDiamond}
+                className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-black text-sm hover:brightness-110 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                {givingDiamond ? (
+                  <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <><Gem size={14} /> Kirim Diamond</>
+                )}
+              </button>
+
+              <button onClick={() => setDiamondUser(null)}
+                className="w-full mt-2 px-4 py-2.5 rounded-xl bg-[var(--surface-sunken)] border border-[var(--border)] text-[var(--fg-muted)] font-bold text-xs hover:bg-[var(--border-subtle)] transition-colors cursor-pointer">
                 Batal
               </button>
             </motion.div>
