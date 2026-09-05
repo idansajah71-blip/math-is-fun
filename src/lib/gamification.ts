@@ -163,6 +163,11 @@ export const SHOP_ITEMS = [
   { id: "border-ninja", name: "Border Ninja", icon: "Swords", description: "Border gelap ala ninja", price: 500, category: "effect" as const },
   { id: "border-wizard", name: "Border Wizard", icon: "Wand2", description: "Border ajaib ala penyihir", price: 500, category: "effect" as const },
   { id: "frame-gold", name: "Frame Emas", icon: "Award", description: "Border profil emas berkilau", price: 300, category: "effect" as const },
+  { id: "border-fire", name: "Border Api", icon: "Flame", description: "Border bernyala alam api", price: 400, category: "effect" as const },
+  { id: "border-ice", name: "Border Es", icon: "Snowflake", description: "Border beku kristal es", price: 400, category: "effect" as const },
+  { id: "border-nature", name: "Border Alam", icon: "Sprout", description: "Border hijau alam liar", price: 400, category: "effect" as const },
+  { id: "border-neon", name: "Border Neon", icon: "Zap", description: "Border cyberpunk neon", price: 600, category: "effect" as const },
+  { id: "border-royal", name: "Border Royal", icon: "Crown", description: "Border kerajaan mewah", price: 700, category: "effect" as const },
   { id: "title-myth", name: "Title: Mitos", icon: "Crown", description: "Gelar 'Mitos' — untuk yang benar-benar legenda", price: 5000, category: "effect" as const },
 ];
 

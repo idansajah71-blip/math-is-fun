@@ -8,7 +8,7 @@ import XPBar from "@/components/ui/XPBar";
 import { getProfile, setProfileName, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel, BADGES, UserProfile, SHOP_ITEMS } from "@/lib/gamification";
 import { getAllTopics } from "@/lib/data";
 import { motion } from "framer-motion";
-import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check, Crown, Camera, Trash2, Shield, Swords, Wand2, Frame, X } from "lucide-react";
+import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check, Crown, Camera, Trash2, Shield, Swords, Wand2, Frame, X, Snowflake, Sprout } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
 import { isPremiumActive, saveProfile } from "@/lib/gamification";
@@ -429,10 +429,15 @@ export default function ProfilePage() {
 
                 <div className="space-y-2">
                   {([
-                    { id: undefined, name: "Default", desc: "Tanpa border", color: "text-gray-400", owned: true },
-                    { id: "frame-gold", name: "Frame Emas", desc: "Border emas berkilau", color: "text-yellow-500", owned: profile.purchasedItems.includes("frame-gold") },
-                    { id: "border-ninja", name: "Border Ninja", desc: "Border gelap ala ninja", color: "text-indigo-500", owned: profile.purchasedItems.includes("border-ninja") || profile.purchasedItems.includes("avatar-ninja") },
-                    { id: "border-wizard", name: "Border Wizard", desc: "Border ajaib penyihir", color: "text-purple-500", owned: profile.purchasedItems.includes("border-wizard") || profile.purchasedItems.includes("avatar-wizard") },
+                    { id: undefined, name: "Default", desc: "Tanpa border", icon: null, owned: true },
+                    { id: "frame-gold", name: "Frame Emas", desc: "Border emas berkilau", icon: <Award size={14} className="text-yellow-500" />, owned: profile.purchasedItems.includes("frame-gold") },
+                    { id: "border-ninja", name: "Border Ninja", desc: "Border gelap ala ninja", icon: <Swords size={14} className="text-indigo-500" />, owned: profile.purchasedItems.includes("border-ninja") || profile.purchasedItems.includes("avatar-ninja") },
+                    { id: "border-wizard", name: "Border Wizard", desc: "Border ajaib penyihir", icon: <Wand2 size={14} className="text-purple-500" />, owned: profile.purchasedItems.includes("border-wizard") || profile.purchasedItems.includes("avatar-wizard") },
+                    { id: "border-fire", name: "Border Api", desc: "Border bernyala alam api", icon: <Flame size={14} className="text-red-500" />, owned: profile.purchasedItems.includes("border-fire") },
+                    { id: "border-ice", name: "Border Es", desc: "Border beku kristal es", icon: <Snowflake size={14} className="text-cyan-500" />, owned: profile.purchasedItems.includes("border-ice") },
+                    { id: "border-nature", name: "Border Alam", desc: "Border hijau alam liar", icon: <Sprout size={14} className="text-green-500" />, owned: profile.purchasedItems.includes("border-nature") },
+                    { id: "border-neon", name: "Border Neon", desc: "Border cyberpunk neon", icon: <Zap size={14} className="text-emerald-400" />, owned: profile.purchasedItems.includes("border-neon") },
+                    { id: "border-royal", name: "Border Royal", desc: "Border kerajaan mewah", icon: <Crown size={14} className="text-fuchsia-500" />, owned: profile.purchasedItems.includes("border-royal") },
                   ] as const).map(b => {
                     const active = b.id === profile.activeBorder || (!profile.activeBorder && !b.id);
                     return (
@@ -454,7 +459,7 @@ export default function ProfilePage() {
                         }`}
                       >
                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-[var(--duo-green)]/20" : "bg-[var(--duo-bg)]"}`}>
-                          {b.id === "frame-gold" ? <Award size={18} className="text-yellow-500" /> : b.id === "border-ninja" ? <Swords size={18} className="text-indigo-500" /> : b.id === "border-wizard" ? <Wand2 size={18} className="text-purple-500" /> : <div className="w-4 h-4 rounded-full bg-gray-300 dark:bg-gray-600" />}
+                          {b.icon || <div className="w-4 h-4 rounded-full bg-gray-300 dark:bg-gray-600" />}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-bold text-[var(--duo-text)]">{b.name}</p>

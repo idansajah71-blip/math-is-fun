@@ -59,7 +59,8 @@ export default function ShopPage() {
 
   if (!profile) return null;
 
-  const filteredItems = SHOP_ITEMS.filter(i => filter === "all" || i.category === filter || (filter === "border" && ["frame-gold", "border-ninja", "border-wizard"].includes(i.id)));
+  const BORDER_IDS = ["frame-gold", "border-ninja", "border-wizard", "border-fire", "border-ice", "border-nature", "border-neon", "border-royal"];
+  const filteredItems = SHOP_ITEMS.filter(i => filter === "all" || i.category === filter || (filter === "border" && BORDER_IDS.includes(i.id)));
 
   return (
     <FeatureGuard flag="shop">
