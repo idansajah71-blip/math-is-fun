@@ -161,7 +161,7 @@ export default function ProfilePage() {
             className="bg-white dark:bg-[var(--duo-card)] rounded-[28px] border-2 border-[var(--duo-border)] p-6"
           >
             <div className="flex items-start gap-5">
-              <div className="relative group">
+              <div>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -169,25 +169,21 @@ export default function ProfilePage() {
                   className="hidden"
                   onChange={handleAvatarUpload}
                 />
-                <ProgressRing progress={pct} size={100} strokeWidth={6}>
-                  <UserAvatar profile={profile} size={80} />
-                </ProgressRing>
-                <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-[var(--duo-green)] rounded-full flex items-center justify-center text-white text-[10px] font-black border-2 border-white shadow-md">
-                  {pct}%
+                <div className="relative cursor-pointer" onClick={() => !uploading && fileInputRef.current?.click()}>
+                  <ProgressRing progress={pct} size={100} strokeWidth={6}>
+                    <UserAvatar profile={profile} size={80} />
+                  </ProgressRing>
+                  <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-[var(--duo-green)] rounded-full flex items-center justify-center text-white text-[10px] font-black border-2 border-white shadow-md">
+                    {pct}%
+                  </div>
+                  <div className="absolute top-[10px] left-[10px] w-[80px] h-[80px] rounded-full bg-black/0 hover:bg-black/40 transition-colors duration-200 flex items-center justify-center pointer-events-none">
+                    {uploading ? (
+                      <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin pointer-events-auto" />
+                    ) : (
+                      <Camera size={20} className="text-white opacity-0 hover:opacity-100 transition-opacity" />
+                    )}
+                  </div>
                 </div>
-                {/* Camera overlay */}
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={uploading}
-                  className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer disabled:opacity-50"
-                  style={{ width: 80, height: 80, margin: "10px auto 0" }}
-                >
-                  {uploading ? (
-                    <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  ) : (
-                    <Camera size={20} className="text-white" />
-                  )}
-                </button>
               </div>
 
               <div className="flex-1">

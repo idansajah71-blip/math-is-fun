@@ -190,7 +190,7 @@ export default function UserAvatar({
           <img
             src={profile.avatarUrl}
             alt={profile.name}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover animate-in fade-in duration-300"
             draggable={false}
           />
         ) : (
