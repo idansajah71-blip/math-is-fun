@@ -4,14 +4,14 @@ import { useState, useEffect, useRef } from "react";
 import Sidebar from "@/components/Sidebar";
 import { getProfile, purchaseItem, SHOP_ITEMS } from "@/lib/gamification";
 import { motion } from "framer-motion";
-import { Gem, ShoppingBag, Zap, Star, CheckCircle2, Info, Sparkles } from "lucide-react";
+import { Gem, ShoppingBag, Zap, Star, CheckCircle2, Info, Sparkles, Frame } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 import type { UserProfile } from "@/lib/gamification";
 import FeatureGuard from "@/components/admin/FeatureGuard";
 
 export default function ShopPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [filter, setFilter] = useState<"all" | "powerup" | "avatar" | "effect">("all");
+  const [filter, setFilter] = useState<"all" | "powerup" | "avatar" | "effect" | "border">("all");
   const [buying, setBuying] = useState<string | null>(null);
   const [bought, setBought] = useState<string | null>(null);
   const [insufficient, setInsufficient] = useState<string | null>(null);
@@ -59,7 +59,7 @@ export default function ShopPage() {
 
   if (!profile) return null;
 
-  const filteredItems = SHOP_ITEMS.filter(i => filter === "all" || i.category === filter);
+  const filteredItems = SHOP_ITEMS.filter(i => filter === "all" || i.category === filter || (filter === "border" && ["frame-gold", "border-ninja", "border-wizard"].includes(i.id)));
 
   return (
     <FeatureGuard flag="shop">
@@ -73,7 +73,7 @@ export default function ShopPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-black text-[var(--duo-text)]">Toko</h1>
-                <p className="text-sm text-[var(--duo-text-muted)]">Beli item power-up dan avatar</p>
+                <p className="text-sm text-[var(--duo-text-muted)]">Beli item power-up, avatar, dan border</p>
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-purple-50 dark:bg-purple-950/30 rounded-2xl border border-[var(--duo-purple)]/30">
@@ -92,6 +92,7 @@ export default function ShopPage() {
               { key: "all", label: "Semua", icon: <ShoppingBag size={14} /> },
               { key: "powerup", label: "Power-up", icon: <Zap size={14} /> },
               { key: "avatar", label: "Avatar", icon: <Star size={14} /> },
+              { key: "border", label: "Border", icon: <Frame size={14} /> },
               { key: "effect", label: "Efek", icon: <Sparkles size={14} /> },
             ] as const).map(f => (
               <button
