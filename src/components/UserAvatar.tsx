@@ -29,239 +29,183 @@ export default function UserAvatar({
   const isEmoji = hasNinja || hasWizard;
   const fontSize = Math.round(size * 0.38);
 
-  const borderW = hasFrame ? Math.max(3, Math.round(size * 0.05)) : Math.max(1, Math.round(size * 0.03));
-  const glowSize = Math.round(size * 0.15);
+  const padding = hasFrame ? Math.round(size * 0.12) : 0;
+  const outerSize = size + padding * 2;
 
   return (
-    <div className={`relative shrink-0 ${className}`} style={{ filter: hasFrame ? `drop-shadow(0 0 ${glowSize * 0.6}px rgba(251,191,36,0.35))` : undefined }}>
+    <div className={`relative shrink-0 ${className}`} style={{ width: outerSize, height: outerSize }}>
       <style>{`
-        @keyframes gold-shimmer {
-          0% { transform: translateX(-150%) rotate(30deg); }
-          100% { transform: translateX(250%) rotate(30deg); }
+        @keyframes frame-shimmer {
+          0% { stop-color: #fcd34d; }
+          50% { stop-color: #fbbf24; }
+          100% { stop-color: #fcd34d; }
         }
-        @keyframes gold-pulse {
-          0%, 100% {
-            box-shadow:
-              0 0 ${glowSize}px rgba(251,191,36,0.5),
-              0 0 ${glowSize * 2}px rgba(245,158,11,0.25),
-              inset 0 1px 3px rgba(255,255,255,0.3);
-          }
-          50% {
-            box-shadow:
-              0 0 ${glowSize * 1.8}px rgba(251,191,36,0.75),
-              0 0 ${glowSize * 3}px rgba(245,158,11,0.4),
-              inset 0 1px 3px rgba(255,255,255,0.4);
-          }
+        @keyframes frame-pulse {
+          0%, 100% { filter: drop-shadow(0 0 ${Math.round(size * 0.08)}px rgba(251,191,36,0.5)); }
+          50% { filter: drop-shadow(0 0 ${Math.round(size * 0.14)}px rgba(251,191,36,0.8)); }
         }
-        @keyframes gold-ring-spin {
+        @keyframes frame-sweep {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
-        @keyframes sparkle-float-1 {
-          0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-          15% { opacity: 1; transform: scale(1.2) rotate(45deg); }
-          30% { opacity: 1; transform: scale(0.9) rotate(90deg); }
-          50% { opacity: 0.8; transform: scale(1) rotate(180deg); }
-          70% { opacity: 0.4; transform: scale(0.6) rotate(270deg); }
-          90% { opacity: 0; transform: scale(0) rotate(340deg); }
-        }
-        @keyframes sparkle-float-2 {
-          0%, 100% { opacity: 0; transform: scale(0) rotate(0deg) translateY(0); }
-          20% { opacity: 1; transform: scale(1) rotate(60deg) translateY(-3px); }
-          50% { opacity: 0.9; transform: scale(0.8) rotate(180deg) translateY(-6px); }
-          80% { opacity: 0; transform: scale(0) rotate(300deg) translateY(-2px); }
-        }
-        @keyframes sparkle-float-3 {
-          0%, 100% { opacity: 0; transform: scale(0); }
-          30% { opacity: 1; transform: scale(1.3); }
-          60% { opacity: 0.7; transform: scale(0.7); }
-        }
-        @keyframes halo-glow {
-          0%, 100% { opacity: 0.3; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(1.08); }
-        }
-        @keyframes orbit-particle {
-          0% { transform: rotate(0deg) translateX(${size * 0.65}px) rotate(0deg); opacity: 0.8; }
-          50% { opacity: 1; }
-          100% { transform: rotate(360deg) translateX(${size * 0.65}px) rotate(-360deg); opacity: 0.8; }
-        }
-        @keyframes crown-bob {
-          0%, 100% { transform: translateY(0) scale(1); }
-          50% { transform: translateY(-${Math.round(size * 0.04)}px) scale(1.05); }
-        }
       `}</style>
 
-      {/* Halo glow behind everything */}
+      {/* Gold frame border (SVG) */}
       {hasFrame && (
-        <div
-          className={`absolute ${radius} pointer-events-none`}
-          style={{
-            inset: -Math.round(size * 0.15),
-            background: "radial-gradient(circle, rgba(251,191,36,0.25) 0%, rgba(245,158,11,0.1) 40%, transparent 70%)",
-            animation: "halo-glow 3s ease-in-out infinite",
-          }}
-        />
-      )}
+        <svg
+          className="absolute inset-0 pointer-events-none z-0"
+          width={outerSize}
+          height={outerSize}
+          viewBox={`0 0 ${outerSize} ${outerSize}`}
+          style={{ animation: "frame-pulse 3s ease-in-out infinite" }}
+        >
+          <defs>
+            <linearGradient id={`gold-grad-${size}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#fcd34d">
+                <animate attributeName="stop-color" values="#fcd34d;#fbbf24;#fcd34d" dur="3s" repeatCount="indefinite" />
+              </stop>
+              <stop offset="25%" stopColor="#f59e0b" />
+              <stop offset="50%" stopColor="#d97706">
+                <animate attributeName="stop-color" values="#d97706;#b45309;#d97706" dur="2.5s" repeatCount="indefinite" />
+              </stop>
+              <stop offset="75%" stopColor="#f59e0b" />
+              <stop offset="100%" stopColor="#fcd34d">
+                <animate attributeName="stop-color" values="#fcd34d;#fbbf24;#fcd34d" dur="3s" repeatCount="indefinite" />
+              </stop>
+            </linearGradient>
+            <linearGradient id={`gold-inner-${size}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#fef3c7" />
+              <stop offset="50%" stopColor="#fde68a" />
+              <stop offset="100%" stopColor="#fef3c7" />
+            </linearGradient>
+            <clipPath id={`clip-frame-${size}`}>
+              <rect x={padding - Math.round(size * 0.02)} y={padding - Math.round(size * 0.02)} width={size + Math.round(size * 0.04)} height={size + Math.round(size * 0.04)} rx={isRound ? outerSize : 32} />
+            </clipPath>
+          </defs>
 
-      {/* Rotating conic border */}
-      {hasFrame && (
-        <div
-          className={`absolute pointer-events-none`}
-          style={{
-            inset: -Math.round(size * 0.06),
-            borderRadius: "inherit",
-            background: "conic-gradient(from 0deg, #fcd34d, #f59e0b, #d97706, #b45309, #fbbf24, #fcd34d, #f59e0b, #d97706, #fcd34d)",
-            animation: "gold-ring-spin 3s linear infinite",
-            filter: `blur(${Math.max(1, Math.round(size * 0.02))}px)`,
-          }}
-        />
-      )}
+          {/* Outer gold border */}
+          <rect
+            x="1" y="1"
+            width={outerSize - 2}
+            height={outerSize - 2}
+            rx={isRound ? outerSize / 2 : 34}
+            fill="none"
+            stroke={`url(#gold-grad-${size})`}
+            strokeWidth={Math.round(size * 0.08)}
+          />
 
-      {/* Orbit particles */}
-      {hasFrame && size >= 60 && (
-        <div className="absolute inset-0 pointer-events-none" style={{ borderRadius: "inherit" }}>
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              className="absolute"
-              style={{
-                top: "50%", left: "50%",
-                width: Math.round(size * 0.07),
-                height: Math.round(size * 0.07),
-                marginTop: -Math.round(size * 0.035),
-                marginLeft: -Math.round(size * 0.035),
-                background: i === 0 ? "#fcd34d" : i === 1 ? "#fbbf24" : "#f59e0b",
-                borderRadius: "50%",
-                animation: `orbit-particle ${2.5 + i * 0.8}s linear infinite ${i * 0.8}s`,
-                boxShadow: `0 0 ${Math.round(size * 0.06)}px ${i === 0 ? "#fcd34d" : "#fbbf24"}`,
-              }}
-            />
-          ))}
-        </div>
+          {/* Inner highlight border */}
+          <rect
+            x={padding - Math.round(size * 0.03)}
+            y={padding - Math.round(size * 0.03)}
+            width={size + Math.round(size * 0.06)}
+            height={size + Math.round(size * 0.06)}
+            rx={isRound ? size / 2 + Math.round(size * 0.03) : 30}
+            fill="none"
+            stroke={`url(#gold-inner-${size})`}
+            strokeWidth="1.5"
+            opacity="0.6"
+          />
+
+          {/* Outer glow border */}
+          <rect
+            x={-1} y={-1}
+            width={outerSize + 2}
+            height={outerSize + 2}
+            rx={isRound ? (outerSize + 2) / 2 : 36}
+            fill="none"
+            stroke="#fbbf24"
+            strokeWidth="1"
+            opacity="0.3"
+          />
+
+          {/* Corner ornaments (square mode only) */}
+          {!isRound && size >= 60 && (
+            <>
+              {/* Top-left */}
+              <path d={`M 4 ${padding + 2} L 4 4 L ${padding + 2} 4`} fill="none" stroke="#fcd34d" strokeWidth="2.5" strokeLinecap="round" />
+              <circle cx="4" cy="4" r="2.5" fill="#fcd34d" />
+              {/* Top-right */}
+              <path d={`M ${outerSize - padding - 2} 4 L ${outerSize - 4} 4 L ${outerSize - 4} ${padding + 2}`} fill="none" stroke="#fcd34d" strokeWidth="2.5" strokeLinecap="round" />
+              <circle cx={outerSize - 4} cy="4" r="2.5" fill="#fcd34d" />
+              {/* Bottom-left */}
+              <path d={`M 4 ${outerSize - padding - 2} L 4 ${outerSize - 4} L ${padding + 2} ${outerSize - 4}`} fill="none" stroke="#fcd34d" strokeWidth="2.5" strokeLinecap="round" />
+              <circle cx="4" cy={outerSize - 4} r="2.5" fill="#fcd34d" />
+              {/* Bottom-right */}
+              <path d={`M ${outerSize - padding - 2} ${outerSize - 4} L ${outerSize - 4} ${outerSize - 4} L ${outerSize - 4} ${outerSize - padding - 2}`} fill="none" stroke="#fcd34d" strokeWidth="2.5" strokeLinecap="round" />
+              <circle cx={outerSize - 4} cy={outerSize - 4} r="2.5" fill="#fcd34d" />
+              {/* Center top diamond */}
+              <path d={`M ${outerSize / 2} 0 L ${outerSize / 2 + 5} 4 L ${outerSize / 2} 8 L ${outerSize / 2 - 5} 4 Z`} fill="#fbbf24" stroke="#d97706" strokeWidth="0.5" />
+              {/* Center bottom diamond */}
+              <path d={`M ${outerSize / 2} ${outerSize - 8} L ${outerSize / 2 + 5} ${outerSize - 4} L ${outerSize / 2} ${outerSize} L ${outerSize / 2 - 5} ${outerSize - 4} Z`} fill="#fbbf24" stroke="#d97706" strokeWidth="0.5" />
+            </>
+          )}
+
+          {/* Circle ornaments (round mode) */}
+          {isRound && size >= 40 && (
+            <>
+              <circle cx={outerSize / 2} cy="2" r={Math.max(2, Math.round(size * 0.05))} fill="#fcd34d" stroke="#d97706" strokeWidth="0.5" />
+              <circle cx={outerSize / 2} cy={outerSize - 2} r={Math.max(2, Math.round(size * 0.05))} fill="#fcd34d" stroke="#d97706" strokeWidth="0.5" />
+              <circle cx="2" cy={outerSize / 2} r={Math.max(2, Math.round(size * 0.05))} fill="#fcd34d" stroke="#d97706" strokeWidth="0.5" />
+              <circle cx={outerSize - 2} cy={outerSize / 2} r={Math.max(2, Math.round(size * 0.05))} fill="#fcd34d" stroke="#d97706" strokeWidth="0.5" />
+            </>
+          )}
+        </svg>
       )}
 
       {/* Main avatar */}
       <div
-        className={`${radius} flex items-center justify-center text-white font-black transition-transform duration-150 hover:scale-105 active:scale-95 overflow-hidden relative z-10`}
+        className={`${radius} flex items-center justify-center text-white font-black transition-transform duration-150 hover:scale-105 active:scale-95 overflow-hidden relative`}
         style={{
           width: size,
           height: size,
+          position: "absolute",
+          left: padding,
+          top: padding,
           fontSize: isEmoji ? Math.round(size * 0.5) : fontSize,
           background: hasFrame
-            ? "linear-gradient(145deg, #fcd34d 0%, #f59e0b 20%, #d97706 45%, #b45309 65%, #d97706 80%, #f59e0b 100%)"
+            ? "linear-gradient(145deg, #fbbf24 0%, #f59e0b 25%, #d97706 50%, #b45309 75%, #f59e0b 100%)"
             : "linear-gradient(135deg, var(--primary), var(--primary-hover))",
-          border: `${borderW}px solid ${hasFrame ? "#fef3c7" : "white"}`,
-          animation: hasFrame ? "gold-pulse 2.5s ease-in-out infinite" : undefined,
+          border: `${Math.max(2, Math.round(size * 0.03))}px solid ${hasFrame ? "#fef3c7" : "white"}`,
+          boxShadow: hasFrame
+            ? "inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.15)"
+            : "0 2px 8px rgba(0,0,0,0.15)",
         }}
       >
-        {/* Depth layer */}
-        {hasFrame && (
-          <div className="absolute inset-0 pointer-events-none" style={{
-            background: "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.2) 100%)",
-          }} />
-        )}
-
-        {/* Holographic shimmer */}
+        {/* Shimmer overlay */}
         {hasFrame && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ borderRadius: "inherit" }}>
             <div
               className="absolute top-0 left-0 h-full"
               style={{
-                width: "35%",
-                background: "linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.15) 25%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.15) 75%, transparent 100%)",
-                animation: "gold-shimmer 2.8s ease-in-out infinite",
+                width: "30%",
+                background: "linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%)",
+                animation: "gold-shimmer 3s ease-in-out infinite",
               }}
             />
           </div>
         )}
 
-        {/* Subtle inner ring */}
-        {hasFrame && (
-          <div className="absolute pointer-events-none" style={{
-            inset: Math.round(size * 0.06),
-            borderRadius: "inherit",
-            border: `1px solid rgba(255,255,255,0.25)`,
-          }} />
-        )}
-
         <span className="relative z-10 leading-none" style={{
-          textShadow: hasFrame ? "0 1px 4px rgba(0,0,0,0.4), 0 0 8px rgba(251,191,36,0.3)" : undefined,
-          filter: hasFrame ? "drop-shadow(0 1px 2px rgba(180,83,9,0.5))" : undefined,
+          textShadow: hasFrame ? "0 1px 3px rgba(0,0,0,0.35)" : undefined,
         }}>
           {textContent}
         </span>
       </div>
 
-      {/* Crown for gold frame */}
-      {hasFrame && size >= 50 && (
-        <div
-          className="absolute pointer-events-none z-20"
-          style={{
-            top: -Math.round(size * 0.18),
-            left: "50%",
-            transform: "translateX(-50%)",
-            animation: "crown-bob 2s ease-in-out infinite",
-            filter: `drop-shadow(0 2px 4px rgba(217,119,6,0.5))`,
-          }}
-        >
-          <svg width={Math.round(size * 0.35)} height={Math.round(size * 0.28)} viewBox="0 0 24 20" fill="none">
-            <path
-              d="M2 18L4 7L8 12L12 2L16 12L20 7L22 18H2Z"
-              fill="url(#crownGrad)"
-              stroke="#b45309"
-              strokeWidth="0.8"
-            />
-            <circle cx="4" cy="6.5" r="1.2" fill="#fcd34d" />
-            <circle cx="12" cy="1.5" r="1.5" fill="#fef3c7" />
-            <circle cx="20" cy="6.5" r="1.2" fill="#fcd34d" />
-            <defs>
-              <linearGradient id="crownGrad" x1="2" y1="2" x2="22" y2="18">
-                <stop offset="0%" stopColor="#fcd34d" />
-                <stop offset="40%" stopColor="#f59e0b" />
-                <stop offset="100%" stopColor="#d97706" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-      )}
-
-      {/* Sparkle stars */}
-      {hasFrame && size >= 50 && (
-        <>
-          <div className="absolute pointer-events-none z-20" style={{ top: -1, right: Math.round(size * 0.05), animation: "sparkle-float-1 2.2s ease-in-out infinite 0s" }}>
-            <svg width={Math.round(size * 0.17)} height={Math.round(size * 0.17)} viewBox="0 0 24 24">
-              <path d="M12 0L14.59 8.41L23 11L14.59 13.59L12 22L9.41 13.59L1 11L9.41 8.41Z" fill="#fef3c7" />
-            </svg>
-          </div>
-          <div className="absolute pointer-events-none z-20" style={{ bottom: Math.round(size * 0.1), left: -2, animation: "sparkle-float-2 2.8s ease-in-out infinite 0.6s" }}>
-            <svg width={Math.round(size * 0.12)} height={Math.round(size * 0.12)} viewBox="0 0 24 24">
-              <path d="M12 0L14.59 8.41L23 11L14.59 13.59L12 22L9.41 13.59L1 11L9.41 8.41Z" fill="#fbbf24" />
-            </svg>
-          </div>
-          <div className="absolute pointer-events-none z-20" style={{ top: Math.round(size * 0.25), left: -4, animation: "sparkle-float-3 3s ease-in-out infinite 1.2s" }}>
-            <svg width={Math.round(size * 0.09)} height={Math.round(size * 0.09)} viewBox="0 0 24 24">
-              <path d="M12 0L14.59 8.41L23 11L14.59 13.59L12 22L9.41 13.59L1 11L9.41 8.41Z" fill="#fde68a" />
-            </svg>
-          </div>
-          <div className="absolute pointer-events-none z-20" style={{ top: Math.round(size * 0.05), left: Math.round(size * 0.02), animation: "sparkle-float-1 2.5s ease-in-out infinite 1.8s" }}>
-            <svg width={Math.round(size * 0.07)} height={Math.round(size * 0.07)} viewBox="0 0 24 24">
-              <path d="M12 0L14.59 8.41L23 11L14.59 13.59L12 22L9.41 13.59L1 11L9.41 8.41Z" fill="#fffbeb" />
-            </svg>
-          </div>
-        </>
-      )}
-
       {/* Level badge */}
       {showLevel && (
         <div
-          className="absolute -bottom-1 -right-1 flex items-center justify-center text-[#78350f] font-black border-2 border-white dark:border-[var(--surface)] shadow-lg z-20"
+          className="absolute flex items-center justify-center text-[#78350f] font-black border-2 border-white dark:border-[var(--surface)] shadow-lg z-20"
           style={{
-            width: Math.round(size * 0.4),
-            height: Math.round(size * 0.4),
-            borderRadius: Math.round(size * 0.12),
-            fontSize: Math.round(size * 0.18),
+            width: Math.round(outerSize * 0.32),
+            height: Math.round(outerSize * 0.32),
+            borderRadius: Math.round(outerSize * 0.1),
+            fontSize: Math.round(outerSize * 0.14),
+            bottom: -Math.round(outerSize * 0.02),
+            right: -Math.round(outerSize * 0.02),
             background: "linear-gradient(145deg, #fcd34d 0%, #f59e0b 40%, #d97706 100%)",
-            boxShadow: "0 2px 8px rgba(217,119,6,0.4), inset 0 1px 2px rgba(255,255,255,0.3)",
+            boxShadow: "0 2px 6px rgba(217,119,6,0.4), inset 0 1px 2px rgba(255,255,255,0.3)",
           }}
         >
           {level}
