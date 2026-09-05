@@ -245,6 +245,13 @@ export function getProfile(): UserProfile {
         profile.weeklyXp = [0, 0, 0, 0, 0, 0, 0];
         (profile as Record<string, unknown>).weeklyXpVersion = 2;
       }
+      // Migration: avatar-ninja/wizard → border-ninja/wizard
+      if (profile.purchasedItems.includes("avatar-ninja") && !profile.purchasedItems.includes("border-ninja")) {
+        profile.purchasedItems.push("border-ninja");
+      }
+      if (profile.purchasedItems.includes("avatar-wizard") && !profile.purchasedItems.includes("border-wizard")) {
+        profile.purchasedItems.push("border-wizard");
+      }
       updateStreak(profile);
       regenerateHearts(profile);
       saveProfile(profile);
@@ -550,7 +557,7 @@ export function getWeakTopics(limit = 5): string[] {
 export function purchaseItem(itemId: string): UserProfile {
   const profile = getProfile();
   const item = SHOP_ITEMS.find(i => i.id === itemId);
-  if (!item || profile.gems < item.price || profile.purchasedItems.includes(itemId)) {
+  if (!item || profile.gems < item.price || profile.purchasedItems.includes(itemId) || (itemId === "border-ninja" && profile.purchasedItems.includes("avatar-ninja")) || (itemId === "border-wizard" && profile.purchasedItems.includes("avatar-wizard"))) {
     return profile;
   }
 

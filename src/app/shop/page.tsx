@@ -39,7 +39,7 @@ export default function ShopPage() {
     const item = SHOP_ITEMS.find(i => i.id === itemId);
     if (!item) return;
 
-    if (profile.purchasedItems.includes(itemId)) return;
+    if (profile.purchasedItems.includes(itemId) || (itemId === "border-ninja" && profile.purchasedItems.includes("avatar-ninja")) || (itemId === "border-wizard" && profile.purchasedItems.includes("avatar-wizard"))) return;
 
     if (profile.gems < item.price) {
       setInsufficient(itemId);
@@ -113,7 +113,7 @@ export default function ShopPage() {
           {/* Items Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {filteredItems.map((item, i) => {
-              const owned = profile.purchasedItems.includes(item.id);
+              const owned = profile.purchasedItems.includes(item.id) || (item.id === "border-ninja" && profile.purchasedItems.includes("avatar-ninja")) || (item.id === "border-wizard" && profile.purchasedItems.includes("avatar-wizard"));
               const canAfford = profile.gems >= item.price;
               const isBuying = buying === item.id;
               const isBought = bought === item.id;

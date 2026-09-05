@@ -24,8 +24,8 @@ export default function UserAvatar({
   const radius = isRound ? "rounded-full" : "rounded-[28px]";
 
   const hasGold = activeBorder === "frame-gold" && items.includes("frame-gold");
-  const hasNinja = activeBorder === "border-ninja" && items.includes("border-ninja");
-  const hasWizard = activeBorder === "border-wizard" && items.includes("border-wizard");
+  const hasNinja = activeBorder === "border-ninja" && (items.includes("border-ninja") || items.includes("avatar-ninja"));
+  const hasWizard = activeBorder === "border-wizard" && (items.includes("border-wizard") || items.includes("avatar-wizard"));
 
   const hasFrame = hasGold;
   const hasAnyBorder = hasGold || hasNinja || hasWizard;
