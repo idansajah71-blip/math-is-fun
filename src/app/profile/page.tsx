@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Sidebar from "@/components/Sidebar";
+import UserAvatar from "@/components/UserAvatar";
 import ProgressRing from "@/components/ui/ProgressRing";
 import XPBar from "@/components/ui/XPBar";
 import { getProfile, setProfileName, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel, BADGES, UserProfile, SHOP_ITEMS } from "@/lib/gamification";
@@ -118,15 +119,7 @@ export default function ProfilePage() {
             <div className="flex items-start gap-5">
               <div className="relative">
                 <ProgressRing progress={pct} size={100} strokeWidth={6}>
-                  <div className={`w-[80px] h-[80px] rounded-full flex items-center justify-center text-white font-black text-2xl shadow-lg ${
-                    profile.purchasedItems.includes("frame-gold")
-                      ? "bg-gradient-to-br from-yellow-400 to-amber-600 ring-4 ring-yellow-400/50"
-                      : "bg-gradient-to-br from-[var(--duo-green)] to-[var(--duo-green-dark)]"
-                  }`}>
-                    {profile.purchasedItems.includes("avatar-ninja") ? "🥷" :
-                     profile.purchasedItems.includes("avatar-wizard") ? "🧙" :
-                     profile.name.charAt(0)}
-                  </div>
+                  <UserAvatar profile={profile} size={80} />
                 </ProgressRing>
                 <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-[var(--duo-green)] rounded-full flex items-center justify-center text-white text-[10px] font-black border-2 border-white shadow-md">
                   {pct}%

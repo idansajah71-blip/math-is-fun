@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
+import UserAvatar from "@/components/UserAvatar";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   getProfile,
@@ -135,9 +136,7 @@ function SidebarInner({
       <div className="px-4 py-3 border-b border-[var(--border)] shrink-0">
         <div className="flex items-center gap-3 mb-2.5">
           <Link href="/profile" className="shrink-0">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--primary-hover)] flex items-center justify-center text-white font-black text-base border-2 border-white dark:border-[var(--surface)] shadow-md transition-transform duration-150 hover:scale-110 active:scale-95">
-              {profile?.name?.charAt(0)?.toUpperCase() || <div className="w-4 h-4 rounded-full bg-white/40 animate-pulse" />}
-            </div>
+            <UserAvatar profile={profile} size={40} />
           </Link>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-black text-[var(--fg)] truncate leading-tight flex items-center gap-1.5">

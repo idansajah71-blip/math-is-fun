@@ -160,7 +160,7 @@ export const SHOP_ITEMS = [
   { id: "xp-boost-30m", name: "XP Boost 30m", icon: "Zap", description: "+50% XP selama 30 menit", price: 250, category: "powerup" as const },
   { id: "avatar-ninja", name: "Avatar Ninja", icon: "Ninja", description: "Avatar khusus: Ninja Matematika", price: 500, category: "avatar" as const },
   { id: "avatar-wizard", name: "Avatar Wizard", icon: "Wizard", description: "Avatar khusus: Penyihir Angka", price: 500, category: "avatar" as const },
-  { id: "frame-gold", name: "Frame Emas", icon: "Frame", description: "Border profil emas berkilau", price: 300, category: "effect" as const },
+  { id: "frame-gold", name: "Frame Emas", icon: "Award", description: "Border profil emas berkilau", price: 300, category: "effect" as const },
   { id: "title-myth", name: "Title: Mitos", icon: "Crown", description: "Gelar 'Mitos' — untuk yang benar-benar legenda", price: 5000, category: "effect" as const },
 ];
 

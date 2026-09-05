@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
+import UserAvatar from "@/components/UserAvatar";
 import dynamic from "next/dynamic";
 const WorldMap = dynamic(() => import("@/components/game/WorldMap"), { ssr: false });
 const Mascot = dynamic(() => import("@/components/game/Mascot"), { ssr: false });
@@ -934,13 +935,7 @@ function HomeContent() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <div className="w-24 h-24 rounded-[28px] bg-gradient-to-br from-[var(--primary)] to-[var(--duo-green-dark)] flex items-center justify-center text-white text-3xl font-black border-4 border-white dark:border-[var(--surface)] shadow-xl relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" />
-                    <span className="relative z-10">{profile.name?.charAt(0) || "P"}</span>
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 w-9 h-9 rounded-2xl bg-gradient-to-br from-[var(--duo-xp)] to-[var(--duo-orange)] flex items-center justify-center text-xs font-black text-[#8B6914] border-2 border-white dark:border-[var(--surface)] shadow-lg">
-                    {level}
-                  </div>
+                  <UserAvatar profile={profile} size={96} showLevel level={level} />
                 </motion.div>
 
                 <div className="flex-1 min-w-0">
