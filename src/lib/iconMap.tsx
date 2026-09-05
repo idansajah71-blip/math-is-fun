@@ -27,6 +27,7 @@ import {
   // Misc
   Box, Package, Layers, Grid, Map, Navigation, Route, Footprints,
   MousePointerClick, Equal, PencilRuler,
+  HeartPulse, Frame, Swords, Wand2,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import React from "react";
@@ -47,6 +48,11 @@ const NAME_TO_ICON: Record<string, LucideIcon> = {
   User, UserCheck, Bot, Rabbit, Sprout, Dumbbell, Wind,
   Box, Package, Layers, Grid, Map, Navigation, Route, Footprints,
   MousePointerClick,
+
+  // ── Shop item icons ──────────────────────────────────────────────────────────
+  HeartPulse, Frame,
+  Ninja:       Swords,
+  Wizard:      Wand2,
 
   // ── Phosphor Icons → Lucide equivalents (used in topics.json) ────────────
   // Exact matches
