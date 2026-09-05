@@ -53,6 +53,7 @@ function rowToProfile(row: Record<string, unknown>): UserProfile {
     dailyRewardHistory: (row.daily_reward_history as Record<string, number>) ?? {},
     avatarUrl: (row.avatar_url as string) ?? undefined,
     activeBorder: (row.active_border as string) ?? undefined,
+    activeAccessory: (row.active_accessory as string) ?? undefined,
   };
 }
 
@@ -100,6 +101,7 @@ function profileToRow(profile: UserProfile) {
     daily_reward_history: profile.dailyRewardHistory,
     avatar_url: profile.avatarUrl ?? null,
     active_border: profile.activeBorder ?? null,
+    active_accessory: profile.activeAccessory ?? null,
   };
 }
 

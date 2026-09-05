@@ -11,7 +11,7 @@ import FeatureGuard from "@/components/admin/FeatureGuard";
 
 export default function ShopPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [filter, setFilter] = useState<"all" | "powerup" | "avatar" | "effect" | "border">("all");
+  const [filter, setFilter] = useState<"all" | "powerup" | "avatar" | "effect" | "border" | "accessory">("all");
   const [buying, setBuying] = useState<string | null>(null);
   const [bought, setBought] = useState<string | null>(null);
   const [insufficient, setInsufficient] = useState<string | null>(null);
@@ -60,7 +60,8 @@ export default function ShopPage() {
   if (!profile) return null;
 
   const BORDER_IDS = ["frame-gold", "border-ninja", "border-wizard", "border-fire", "border-ice", "border-nature", "border-neon", "border-royal"];
-  const filteredItems = SHOP_ITEMS.filter(i => filter === "all" || i.category === filter || (filter === "border" && BORDER_IDS.includes(i.id)));
+  const ACC_IDS = ["acc-crown", "acc-stars", "acc-gems", "acc-wings", "acc-heart", "acc-fire"];
+  const filteredItems = SHOP_ITEMS.filter(i => filter === "all" || i.category === filter || (filter === "border" && BORDER_IDS.includes(i.id)) || (filter === "accessory" && ACC_IDS.includes(i.id)));
 
   return (
     <FeatureGuard flag="shop">
@@ -94,6 +95,7 @@ export default function ShopPage() {
               { key: "powerup", label: "Power-up", icon: <Zap size={14} /> },
               { key: "avatar", label: "Avatar", icon: <Star size={14} /> },
               { key: "border", label: "Border", icon: <Frame size={14} /> },
+              { key: "accessory", label: "Aksesoris", icon: <Star size={14} /> },
               { key: "effect", label: "Efek", icon: <Sparkles size={14} /> },
             ] as const).map(f => (
               <button

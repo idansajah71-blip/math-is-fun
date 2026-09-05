@@ -8,7 +8,7 @@ import XPBar from "@/components/ui/XPBar";
 import { getProfile, setProfileName, LEVEL_NAMES, getXpForCurrentLevel, getXpForNextLevel, BADGES, UserProfile, SHOP_ITEMS } from "@/lib/gamification";
 import { getAllTopics } from "@/lib/data";
 import { motion } from "framer-motion";
-import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check, Crown, Camera, Trash2, Shield, Swords, Wand2, Frame, X, Snowflake, Sprout } from "lucide-react";
+import { Zap, BookOpen, Flame, Award, Edit3, Gem, Heart, Target, Clock, Share2, Check, Crown, Camera, Trash2, Shield, Swords, Wand2, Frame, X, Snowflake, Sprout, Star, Sparkles } from "lucide-react";
 import { renderIcon } from "@/lib/iconMap";
 import ActivityHeatmap from "@/components/ui/ActivityHeatmap";
 import { isPremiumActive, saveProfile } from "@/lib/gamification";
@@ -17,6 +17,7 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [borderEditor, setBorderEditor] = useState(false);
+  const [borderTab, setBorderTab] = useState<"border" | "accessory">("border");
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [copied, setCopied] = useState(false);
@@ -416,18 +417,31 @@ export default function ProfilePage() {
                 className="bg-white dark:bg-[var(--duo-card)] rounded-3xl border-2 border-[var(--duo-border)] p-6 w-full max-w-sm"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="flex items-center justify-between mb-5">
-                  <h3 className="text-base font-black text-[var(--duo-text)]">Edit Border Avatar</h3>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-base font-black text-[var(--duo-text)]">Edit Avatar</h3>
                   <button onClick={() => setBorderEditor(false)} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[var(--duo-text-muted)]">
                     <X size={18} />
                   </button>
                 </div>
 
-                <div className="flex justify-center mb-5">
+                <div className="flex justify-center mb-4">
                   <UserAvatar profile={profile} size={96} showLevel level={profile.level} />
                 </div>
 
-                <div className="space-y-2">
+                <div className="flex gap-2 mb-4">
+                  {([["border", "Border", Frame], ["accessory", "Aksesoris", Star]] as const).map(([key, label, Icon]) => (
+                    <button key={key} onClick={() => setBorderTab(key)}
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        borderTab === key ? "bg-[var(--duo-green)] text-white shadow-md" : "bg-[var(--duo-bg)] text-[var(--duo-text-muted)] border border-[var(--duo-border)]"
+                      }`}>
+                      <Icon size={12} />
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                {borderTab === "border" ? (
+                <div className="space-y-2 max-h-[40vh] overflow-y-auto pr-1">
                   {([
                     { id: undefined, name: "Default", desc: "Tanpa border", icon: null, owned: true },
                     { id: "frame-gold", name: "Frame Emas", desc: "Border emas berkilau", icon: <Award size={14} className="text-yellow-500" />, owned: profile.purchasedItems.includes("frame-gold") },
@@ -466,13 +480,55 @@ export default function ProfilePage() {
                           <p className="text-[10px] text-[var(--duo-text-muted)]">{b.desc}</p>
                         </div>
                         {active && <Check size={16} className="text-[var(--duo-green)] shrink-0" />}
-                        {!b.owned && (
-                          <span className="text-[9px] font-bold text-[var(--duo-text-muted)] shrink-0">Belum dimiliki</span>
-                        )}
+                        {!b.owned && <span className="text-[9px] font-bold text-[var(--duo-text-muted)] shrink-0">Belum dimiliki</span>}
                       </button>
                     );
                   })}
                 </div>
+                ) : (
+                <div className="space-y-2 max-h-[40vh] overflow-y-auto pr-1">
+                  {([
+                    { id: undefined, name: "Tanpa Aksesoris", desc: "Tidak pakai aksesoris", icon: null, owned: true },
+                    { id: "acc-crown", name: "Mahkota", desc: "Mahkota emas di atas avatar", icon: <Crown size={14} className="text-yellow-500" />, owned: profile.purchasedItems.includes("acc-crown") },
+                    { id: "acc-stars", name: "Bintang", desc: "Bintang berkedip di sudut", icon: <Star size={14} className="text-yellow-400" />, owned: profile.purchasedItems.includes("acc-stars") },
+                    { id: "acc-gems", name: "Permata", desc: "Permata berkilau di sudut", icon: <Gem size={14} className="text-red-400" />, owned: profile.purchasedItems.includes("acc-gems") },
+                    { id: "acc-wings", name: "Sayap", desc: "Sayap bersinar di belakang", icon: <Sparkles size={14} className="text-white" />, owned: profile.purchasedItems.includes("acc-wings") },
+                    { id: "acc-heart", name: "Hati", desc: "Hati melayang di sekitar", icon: <Heart size={14} className="text-red-500" />, owned: profile.purchasedItems.includes("acc-heart") },
+                    { id: "acc-fire", name: "Api", desc: "Api kecil di atas avatar", icon: <Flame size={14} className="text-orange-500" />, owned: profile.purchasedItems.includes("acc-fire") },
+                  ] as const).map(b => {
+                    const active = b.id === profile.activeAccessory || (!profile.activeAccessory && !b.id);
+                    return (
+                      <button
+                        key={b.id || "none"}
+                        disabled={!b.owned}
+                        onClick={() => {
+                          if (!b.owned) return;
+                          const updated = { ...profile, activeAccessory: b.id };
+                          saveProfile(updated);
+                          setProfile(updated);
+                        }}
+                        className={`w-full flex items-center gap-3 p-3 rounded-2xl border-2 transition-all text-left ${
+                          active
+                            ? "border-[var(--duo-green)] bg-[var(--duo-green)]/10"
+                            : !b.owned
+                            ? "border-[var(--duo-border)] opacity-40 cursor-not-allowed"
+                            : "border-[var(--duo-border)] hover:border-[var(--duo-green)]/50"
+                        }`}
+                      >
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${active ? "bg-[var(--duo-green)]/20" : "bg-[var(--duo-bg)]"}`}>
+                          {b.icon || <div className="w-4 h-4 rounded-full bg-gray-300 dark:bg-gray-600" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-bold text-[var(--duo-text)]">{b.name}</p>
+                          <p className="text-[10px] text-[var(--duo-text-muted)]">{b.desc}</p>
+                        </div>
+                        {active && <Check size={16} className="text-[var(--duo-green)] shrink-0" />}
+                        {!b.owned && <span className="text-[9px] font-bold text-[var(--duo-text-muted)] shrink-0">Belum dimiliki</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+                )}
               </motion.div>
             </motion.div>
           )}

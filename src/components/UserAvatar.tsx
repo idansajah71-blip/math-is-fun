@@ -32,6 +32,7 @@ export default function UserAvatar({
 }: UserAvatarProps) {
   const items = profile?.purchasedItems || [];
   const activeBorder = profile?.activeBorder;
+  const activeAccessory = profile?.activeAccessory;
 
   const isRound = size <= 48;
   const radius = isRound ? "rounded-full" : "rounded-[28px]";
@@ -87,6 +88,18 @@ export default function UserAvatar({
         @keyframes broyal-${uid} {
           0%, 100% { filter: drop-shadow(0 0 ${Math.round(size * 0.06)}px rgba(147,51,234,0.3)); }
           50% { filter: drop-shadow(0 0 ${Math.round(size * 0.12)}px rgba(192,132,252,0.6)); }
+        }
+        @keyframes acc-float-${uid} {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-2px); }
+        }
+        @keyframes acc-sparkle-${uid} {
+          0%, 100% { opacity: 0.3; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.1); }
+        }
+        @keyframes acc-wing-${uid} {
+          0%, 100% { transform: scaleX(1); }
+          50% { transform: scaleX(1.05); }
         }
       `}</style>
 
@@ -308,6 +321,136 @@ export default function UserAvatar({
         >
           {level}
         </div>
+      )}
+
+      {/* ─── ACCESSORIES ─── */}
+      {activeAccessory && items.includes(activeAccessory) && (
+        <svg
+          className="absolute inset-0 pointer-events-none z-10"
+          width={outerSize}
+          height={outerSize}
+          viewBox={`0 0 ${outerSize} ${outerSize}`}
+        >
+          {/* Crown - top center */}
+          {activeAccessory === "acc-crown" && (
+            <g style={{ animation: `acc-float-${uid} 2s ease-in-out infinite` }}>
+              <path
+                d={`M ${outerSize / 2 - 8} ${padding - 2} L ${outerSize / 2 - 5} ${padding - 8} L ${outerSize / 2 - 2} ${padding - 3} L ${outerSize / 2} ${padding - 10} L ${outerSize / 2 + 2} ${padding - 3} L ${outerSize / 2 + 5} ${padding - 8} L ${outerSize / 2 + 8} ${padding - 2} Z`}
+                fill="#fbbf24"
+                stroke="#d97706"
+                strokeWidth="0.8"
+              />
+              <circle cx={outerSize / 2 - 5} cy={padding - 7} r="1" fill="#ef4444" />
+              <circle cx={outerSize / 2} cy={padding - 9} r="1.2" fill="#3b82f6" />
+              <circle cx={outerSize / 2 + 5} cy={padding - 7} r="1" fill="#22c55e" />
+            </g>
+          )}
+
+          {/* Stars - 4 corners */}
+          {activeAccessory === "acc-stars" && (
+            <>
+              {[
+                { x: padding + 2, y: padding + 2, delay: "0s" },
+                { x: outerSize - padding - 2, y: padding + 2, delay: "0.5s" },
+                { x: padding + 2, y: outerSize - padding - 2, delay: "1s" },
+                { x: outerSize - padding - 2, y: outerSize - padding - 2, delay: "1.5s" },
+              ].map((s, i) => (
+                <g key={i} style={{ animation: `acc-sparkle-${uid} 2s ease-in-out ${s.delay} infinite` }}>
+                  <polygon
+                    points={`${s.x},${s.y - 3} ${s.x + 1},${s.y - 1} ${s.x + 3},${s.y - 1} ${s.x + 1.5},${s.y + 0.5} ${s.x + 2},${s.y + 2.5} ${s.x},${s.y + 1.5} ${s.x - 2},${s.y + 2.5} ${s.x - 1.5},${s.y + 0.5} ${s.x - 3},${s.y - 1} ${s.x - 1},${s.y - 1}`}
+                    fill="#fbbf24"
+                    stroke="#f59e0b"
+                    strokeWidth="0.3"
+                  />
+                </g>
+              ))}
+            </>
+          )}
+
+          {/* Gems - 4 corners diamond shape */}
+          {activeAccessory === "acc-gems" && (
+            <>
+              {[
+                { x: padding + 3, y: padding + 3, color: "#ef4444" },
+                { x: outerSize - padding - 3, y: padding + 3, color: "#3b82f6" },
+                { x: padding + 3, y: outerSize - padding - 3, color: "#22c55e" },
+                { x: outerSize - padding - 3, y: outerSize - padding - 3, color: "#a855f7" },
+              ].map((g, i) => (
+                <g key={i} style={{ animation: `acc-sparkle-${uid} 2.5s ease-in-out ${i * 0.6}s infinite` }}>
+                  <polygon
+                    points={`${g.x},${g.y - 3} ${g.x + 2.5},${g.y} ${g.x},${g.y + 3} ${g.x - 2.5},${g.y}`}
+                    fill={g.color}
+                    opacity="0.8"
+                  />
+                  <polygon
+                    points={`${g.x},${g.y - 3} ${g.x + 2.5},${g.y} ${g.x},${g.y - 1} ${g.x - 2.5},${g.y}`}
+                    fill="white"
+                    opacity="0.3"
+                  />
+                </g>
+              ))}
+            </>
+          )}
+
+          {/* Wings - left and right */}
+          {activeAccessory === "acc-wings" && (
+            <g style={{ animation: `acc-wing-${uid} 2s ease-in-out infinite` }}>
+              {/* Left wing */}
+              <path
+                d={`M ${padding - 1} ${outerSize / 2} Q ${padding - 10} ${outerSize / 2 - 12} ${padding + 2} ${outerSize / 2 - 18} Q ${padding + 6} ${outerSize / 2 - 8} ${padding + 2} ${outerSize / 2}`}
+                fill="white"
+                opacity="0.7"
+              />
+              <path
+                d={`M ${padding - 1} ${outerSize / 2} Q ${padding - 8} ${outerSize / 2 + 10} ${padding + 2} ${outerSize / 2 + 14} Q ${padding + 5} ${outerSize / 2 + 6} ${padding + 2} ${outerSize / 2}`}
+                fill="white"
+                opacity="0.5"
+              />
+              {/* Right wing */}
+              <path
+                d={`M ${outerSize - padding + 1} ${outerSize / 2} Q ${outerSize - padding + 10} ${outerSize / 2 - 12} ${outerSize - padding - 2} ${outerSize / 2 - 18} Q ${outerSize - padding - 6} ${outerSize / 2 - 8} ${outerSize - padding - 2} ${outerSize / 2}`}
+                fill="white"
+                opacity="0.7"
+              />
+              <path
+                d={`M ${outerSize - padding + 1} ${outerSize / 2} Q ${outerSize - padding + 8} ${outerSize / 2 + 10} ${outerSize - padding - 2} ${outerSize / 2 + 14} Q ${outerSize - padding - 5} ${outerSize / 2 + 6} ${outerSize - padding - 2} ${outerSize / 2}`}
+                fill="white"
+                opacity="0.5"
+              />
+            </g>
+          )}
+
+          {/* Hearts - floating around */}
+          {activeAccessory === "acc-heart" && (
+            <>
+              {[
+                { x: outerSize / 2 - 8, y: padding - 4, delay: "0s", scale: 0.8 },
+                { x: outerSize - padding + 2, y: outerSize / 2 - 4, delay: "0.7s", scale: 0.6 },
+                { x: outerSize / 2 + 6, y: outerSize - padding + 2, delay: "1.4s", scale: 0.7 },
+              ].map((h, i) => (
+                <g key={i} style={{ animation: `acc-float-${uid} 2s ease-in-out ${h.delay} infinite` }} transform={`translate(${h.x}, ${h.y}) scale(${h.scale})`}>
+                  <path d="M 0 3 Q 0 0 3 0 Q 6 0 6 3 Q 6 6 0 9 Q -6 6 -6 3 Q -6 0 -3 0 Q 0 0 0 3 Z" fill="#ef4444" opacity="0.7" />
+                </g>
+              ))}
+            </>
+          )}
+
+          {/* Fire - top flame */}
+          {activeAccessory === "acc-fire" && (
+            <g style={{ animation: `acc-sparkle-${uid} 1.5s ease-in-out infinite` }}>
+              <path
+                d={`M ${outerSize / 2} ${padding - 6} Q ${outerSize / 2 + 4} ${padding - 12} ${outerSize / 2 + 2} ${padding - 16} Q ${outerSize / 2 + 5} ${padding - 10} ${outerSize / 2 + 3} ${padding - 4} Q ${outerSize / 2 + 1} ${padding - 8} ${outerSize / 2} ${padding - 6} Q ${outerSize / 2 - 1} ${padding - 8} ${outerSize / 2 - 3} ${padding - 4} Q ${outerSize / 2 - 5} ${padding - 10} ${outerSize / 2 - 2} ${padding - 16} Q ${outerSize / 2 - 4} ${padding - 12} ${outerSize / 2} ${padding - 6} Z`}
+                fill="#f97316"
+                opacity="0.8"
+              />
+              <path
+                d={`M ${outerSize / 2} ${padding - 4} Q ${outerSize / 2 + 2} ${padding - 8} ${outerSize / 2 + 1} ${padding - 10} Q ${outerSize / 2 + 3} ${padding - 6} ${outerSize / 2 + 1} ${padding - 2} Q ${outerSize / 2} ${padding - 5} ${outerSize / 2} ${padding - 4} Q ${outerSize / 2} ${padding - 5} ${outerSize / 2 - 1} ${padding - 2} Q ${outerSize / 2 - 3} ${padding - 6} ${outerSize / 2 - 1} ${padding - 10} Q ${outerSize / 2 - 2} ${padding - 8} ${outerSize / 2} ${padding - 4} Z`}
+                fill="#fbbf24"
+                opacity="0.9"
+              />
+            </g>
+          )}
+        </svg>
       )}
     </div>
   );

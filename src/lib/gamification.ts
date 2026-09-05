@@ -42,6 +42,7 @@ export interface UserProfile {
   dailyRewardHistory: Record<string, number>;
   avatarUrl?: string;
   activeBorder?: string;
+  activeAccessory?: string;
   _lastHeartTime?: number;
 }
 
@@ -168,6 +169,12 @@ export const SHOP_ITEMS = [
   { id: "border-nature", name: "Border Alam", icon: "Sprout", description: "Border hijau alam liar", price: 400, category: "effect" as const },
   { id: "border-neon", name: "Border Neon", icon: "Zap", description: "Border cyberpunk neon", price: 600, category: "effect" as const },
   { id: "border-royal", name: "Border Royal", icon: "Crown", description: "Border kerajaan mewah", price: 700, category: "effect" as const },
+  { id: "acc-crown", name: "Aksesoris Mahkota", icon: "Crown", description: "Mahkota emas di atas avatar", price: 350, category: "effect" as const },
+  { id: "acc-stars", name: "Aksesoris Bintang", icon: "Star", description: "Bintang berkedip di sekitar avatar", price: 250, category: "effect" as const },
+  { id: "acc-gems", name: "Aksesoris Permata", icon: "Gem", description: "Permata berkilau di sudut avatar", price: 300, category: "effect" as const },
+  { id: "acc-wings", name: "Aksesoris Sayap", icon: "Sparkles", description: "Sayap bersinar di belakang avatar", price: 450, category: "effect" as const },
+  { id: "acc-heart", name: "Aksesoris Hati", icon: "Heart", description: "Hati melayang di sekitar avatar", price: 200, category: "effect" as const },
+  { id: "acc-fire", name: "Aksesoris Api", icon: "Flame", description: "Api kecil di atas avatar", price: 300, category: "effect" as const },
   { id: "title-myth", name: "Title: Mitos", icon: "Crown", description: "Gelar 'Mitos' — untuk yang benar-benar legenda", price: 5000, category: "effect" as const },
 ];
 
@@ -357,6 +364,7 @@ export function getDefaultProfile(): UserProfile {
     dailyRewardHistory: {},
     avatarUrl: undefined,
     activeBorder: undefined,
+    activeAccessory: undefined,
   };
 }
 
